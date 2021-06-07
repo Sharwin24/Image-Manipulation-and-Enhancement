@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * An image, represented by a {@link IMatrix} of pixels.
  */
-public class ImageImpl implements IImage {
+public class  ImageImpl implements IImage {
   private final IMatrix<IPixel> pixels;
 
   /**
