@@ -2,6 +2,9 @@ package CS3500.model;
 
 import CS3500.Utils;
 
+/**
+ * TODO: Finish javaDocs
+ */
 public class ChannelImpl implements IChannel {
 
   private final EChannelType color;
