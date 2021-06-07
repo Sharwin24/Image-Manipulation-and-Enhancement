@@ -5,10 +5,12 @@ import java.util.List;
 
 // TODO: might want to just have this extend AMatrix<IPixel>. Issue is that this can never return a
 // concrete IMatrix subtype without access to factory method. Constructors also become super easy
+
 /**
  * An image, represented by a {@link IMatrix} of pixels.
  */
-public class  ImageImpl implements IImage {
+public class ImageImpl implements IImage {
+
   private final IMatrix<IPixel> pixels;
 
   /**
@@ -21,18 +23,6 @@ public class  ImageImpl implements IImage {
       throws IllegalArgumentException {
     this.pixels = Utils.checkNotNull(pixels, "cannot construct an Image with a "
         + "null matrix of pixels");
-  }
-
-  /**
-   * TODO
-   *
-   * @param pixelRows
-   * @throws IllegalArgumentException
-   */
-  public ImageImpl(List<IPixel>... pixelRows)
-      throws IllegalArgumentException {
-    this.pixels = new AMatrix<>(Utils.checkNotNull(pixelRows,
-        "cannot construct an Image with null pixel rows"));
   }
 
 

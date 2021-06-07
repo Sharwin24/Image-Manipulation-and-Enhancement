@@ -55,7 +55,7 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
       }
     }
 
-    if (!this.checkAllRowsSameSize()) {
+    if (!this.checkAllRowsSameSize(listEntries)) {
       throw new IllegalArgumentException("cannot create a Matrix without all "
           + "rows having equal size to ensure dimensions exist");
     }
@@ -75,12 +75,13 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
    * <p> {1, 2, 3},</p>
    * <p>{1, 2, 3}} </p>
    *
-   * @param oneRow the row of numbers to be copied some number of times
+   * @param oneRow    the row of numbers to be copied some number of times
    * @param numCopies the number of times to copy the desired row (the number of rows)
    * @throws IllegalArgumentException if the given row is null or if the number of copies to make is
-   * negative.
+   *                                  negative.
    */
-  public AMatrix(List<X> oneRow, int numCopies) {
+  public AMatrix(List<X> oneRow, int numCopies)
+      throws IllegalArgumentException {
     Utils.checkNotNull(oneRow, "cannot copy a null row");
     Utils.checkIntBetween(numCopies, 0, Integer.MAX_VALUE);
     List<List<X>> rows = new ArrayList<>();
@@ -91,17 +92,34 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
     this.entries = rows;
   }
 
+  public AMatrix(X uniformEntry, int numRows, int numCols)
+      throws IllegalArgumentException {
+    Utils.checkIntBetween(numRows, 0, Integer.MAX_VALUE);
+    Utils.checkIntBetween(numCols, 0, Integer.MAX_VALUE);
+
+    List<List<X>> entries = new ArrayList<>();
+    for (int rowNum = 0; rowNum < numRows; rowNum++) {
+      List<X> thisRow = new ArrayList<>();
+      for (int colNum = 0; colNum < numCols; colNum++) {
+        thisRow.add(uniformEntry);
+      }
+      entries.add(thisRow);
+    }
+
+    this.entries = entries;
+  }
+
 
   /**
-   * Are all of the rows in a Matrix proposed by {@code listEntries} of the same size?
-   * In other words, are all of the subsets of a set of the same cardinality?
+   * Are all of the rows in a Matrix proposed by {@code listEntries} of the same size? In other
+   * words, are all of the subsets of a set of the same cardinality?
    * <p>Note that this is trivially true for empty matrices--they contain no rows</p>
    *
    * @param listEntries the proposed rows in a Matrix to answer the above question for.
    * @return the answer to the question posed at the beginning of this JavaDoc
    * @throws IllegalArgumentException if the supplied {@link List<List>} is null;
    */
-  protected static boolean checkAllRowsSameSize(List<List> listEntries)
+  protected boolean checkAllRowsSameSize(List<List<X>> listEntries)
       throws IllegalArgumentException {
 
     Utils.checkNotNull(listEntries, "cannot verify all rows same size for null"
@@ -189,26 +207,35 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
   @Override
   public void updateEntry(X newEntry, int row, int col)
       throws IllegalArgumentException {
-    Utils.checkIntBetween(row, 0 , this.getHeight());
+    Utils.checkIntBetween(row, 0, this.getHeight());
     Utils.checkIntBetween(col, 0, this.getWidth());
 
-    this.entries.get(row).add(col, newEntry);
+    this.entries.get(row).set(col, newEntry);
   }
 
-  @Override // TODO: figure out typing & signature here
-  public void elementWiseOperation(BiFunction<X, X, X> binaryOperation, IMatrix<X> toCombine)
+  // TODO: figure out typing & signature here
+  public IMatrix<X> elementWiseOperation(BiFunction<X, X, X> binaryOperation,
+      IMatrix<X> toCombine)
       throws IllegalArgumentException {
-    this.checkEqualDimensions(toCombine);
+    if (this.getWidth() != toCombine.getWidth()
+        || this.getHeight() != toCombine.getHeight()) {
+      throw new IllegalArgumentException("cannot complete an elementwise operation on two matrices "
+          + "of different dimensions. Indices must line up");
+    }
 
-    for (int rowNum = 0; rowNum < this.getHeight(); rowNum++) {
-      for (int colNum = 0; colNum < this.getWidth(); colNum++) {
-        this.updateEntry(
+    IMatrix<X> copy = this.copy();
+
+    for (int rowNum = 0; rowNum < copy.getHeight(); rowNum++) {
+      for (int colNum = 0; colNum < copy.getWidth(); colNum++) {
+        copy.updateEntry(
             binaryOperation.apply(
-                this.getElement(rowNum, colNum), toCombine.getElement(rowNum, colNum)),
+                copy.getElement(rowNum, colNum), toCombine.getElement(rowNum, colNum)),
             rowNum,
             colNum);
       }
     }
+
+    return copy;
 
   }
 
@@ -229,11 +256,12 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
 
   /**
    * Factory method to return a new {@link IMatrix} object based on the supplied rows
+   *
    * @param rows the rows to create this new matrix with
-   * @param <Y> the type of entry in the new Matrix
+   * @param <Y>  the type of entry in the new Matrix
    * @return the new Matrix as described above
    * @throws IllegalArgumentException if the given list is null or contains null in its sublists or
-   *         their elements
+   *                                  their elements
    */
   protected abstract <Y> IMatrix<Y> factoryMatrix(List<List<Y>> rows)
       throws IllegalArgumentException;
@@ -251,11 +279,12 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
 
   /**
    * Checks that this matrix is a square matrix, and throws an exception if it isn't
+   *
    * @throws IllegalArgumentException if this matrix is not square--if this matrix does not have
-   * equal height and width.
+   *                                  equal height and width.
    */
-   private void checkEqualDimensions()
-   throws IllegalArgumentException {
+  private void checkEqualDimensions()
+      throws IllegalArgumentException {
     if (this.getWidth() != this.getWidth()
         || this.getHeight() != this.getHeight()) {
       throw new IllegalArgumentException("cannot operate on two matrices with different dimensions,"
@@ -264,7 +293,7 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
   }
 
   @Override
-  public X sumAll(BiFunction<X, X, X> operation, X base) {
+  public X reduceToVal(BiFunction<X, X, X> operation, X base) {
     X summed = base;
 
     for (int rowNum = 0; rowNum < this.getHeight(); rowNum++) {

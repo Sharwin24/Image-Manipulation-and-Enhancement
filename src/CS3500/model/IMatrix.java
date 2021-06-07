@@ -96,7 +96,7 @@ public interface IMatrix<X> { // TODO: JavaDocs
    * @param binaryOperation the operation to apply to two elements of the same index in both
    *                        matrices.
    * @param toCombine the matrix to "combine" with {@code this} one under the supplied binary
-   *                  operation
+   *                  operation.
    * @throws IllegalArgumentException if the two matrices are not of the same dimensions.
    */
   IMatrix<X> elementWiseOperation(BiFunction<X, X, X> binaryOperation, IMatrix<X> toCombine)
@@ -131,10 +131,9 @@ public interface IMatrix<X> { // TODO: JavaDocs
    *                  each pair of values with (recursively)
    * @param base the first, base case, element to start the process of combining (as defined above)
    *             with.
-   * @param <Y> the resulting type of value from combining all elements.
    * @return the combined value as defined thoroughly and verbosely above.
    */
-  <Y> Y reduceToVal(BiFunction<X, X, Y> operation, X base);
+  X reduceToVal(BiFunction<X, X, X> operation, X base);
 
   /**
    * Is {@code this} matrix equal to the object {@code o}? I.e. if {@code o} is a matrix, does it
