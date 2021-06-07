@@ -8,6 +8,7 @@ import java.util.Stack;
  * TODO: JavaDoc comments
  */
 public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage> {
+
   private final IImage image;
   private final Stack<IImage> history;
 
@@ -17,19 +18,22 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
     this.history = new Stack<>();
 
   }
+
   @Override
   public void filter(Kernel kernel, IImage image, IChannel channel, int imageRow, int imageCol) {
 
   }
 
   @Override
-  public IStateTrackingIMEModel undo() {
-    return null;
+  public void undo()
+      throws IllegalArgumentException {
+
   }
 
   @Override
-  public IStateTrackingIMEModel redo() {
-    return null;
+  public void redo()
+      throws IllegalArgumentException {
+
   }
 
   @Override

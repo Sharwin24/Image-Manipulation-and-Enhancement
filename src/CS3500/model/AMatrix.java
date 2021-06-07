@@ -195,8 +195,8 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
     this.entries.get(row).add(col, newEntry);
   }
 
-  @Override
-  public void rowWiseOperation(BiFunction<X, X, X> binaryOperation, IMatrix<X> toCombine)
+  @Override // TODO: figure out typing & signature here
+  public void elementWiseOperation(BiFunction<X, X, X> binaryOperation, IMatrix<X> toCombine)
       throws IllegalArgumentException {
     this.checkEqualDimensions(toCombine);
 
@@ -249,11 +249,15 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
     return this.factoryMatrix(rows);
   }
 
-
-   private void checkEqualDimensions(IMatrix<X> toCheck)
+  /**
+   * Checks that this matrix is a square matrix, and throws an exception if it isn't
+   * @throws IllegalArgumentException if this matrix is not square--if this matrix does not have
+   * equal height and width.
+   */
+   private void checkEqualDimensions()
    throws IllegalArgumentException {
-    if (this.getWidth() != toCheck.getWidth()
-        || this.getHeight() != toCheck.getHeight()) {
+    if (this.getWidth() != this.getWidth()
+        || this.getHeight() != this.getHeight()) {
       throw new IllegalArgumentException("cannot operate on two matrices with different dimensions,"
           + " however the IAlignableMatrix interface supports this!");
     }
