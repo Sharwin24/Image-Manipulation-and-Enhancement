@@ -1,7 +1,8 @@
-package CS3500.model;
+package CS3500.model.matrix;
 
+import CS3500.model.matrix.AMatrix;
+import CS3500.model.matrix.IMatrix;
 import java.util.List;
-import java.util.function.BiFunction;
 
 // INVARIANT: has odd dimensions
 public class Kernel extends AMatrix<Integer> {

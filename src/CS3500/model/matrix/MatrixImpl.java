@@ -1,9 +1,8 @@
-package CS3500.model;
+package CS3500.model.matrix;
 
 import java.util.List;
-import java.util.function.BiFunction;
 
-public class MatrixImpl<X> extends AMatrix<X>{
+public class MatrixImpl<X> extends AMatrix<X> {
 
   public MatrixImpl() {
     super();

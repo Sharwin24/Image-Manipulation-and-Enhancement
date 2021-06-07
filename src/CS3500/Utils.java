@@ -1,8 +1,5 @@
 package CS3500;
 
-import CS3500.model.IMatrix;
-import CS3500.model.IPixel;
-
 /**
  * Static utility methods to be used liberally in all parts of the IME project. Supports general,
  * frequently used functions, such as:

@@ -1,4 +1,4 @@
-package CS3500.model;
+package CS3500.model.matrix;
 
 import CS3500.Utils;
 import java.util.ArrayList;

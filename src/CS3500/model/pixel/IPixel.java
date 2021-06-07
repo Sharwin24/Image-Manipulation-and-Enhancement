@@ -1,4 +1,6 @@
-package CS3500.model;
+package CS3500.model.pixel;
+
+import CS3500.model.channel.EChannelType;
 
 /**
  * To represent a pixel in an image. Supports the operations to...

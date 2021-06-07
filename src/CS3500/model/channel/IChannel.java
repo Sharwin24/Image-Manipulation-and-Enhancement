@@ -1,4 +1,6 @@
-package CS3500.model;
+package CS3500.model.channel;
+
+import CS3500.model.pixel.IPixel;
 
 /**
  * <p>A {@link IChannel} of a {@link IPixel} represents the value, between 0 and 255 (inclusive)

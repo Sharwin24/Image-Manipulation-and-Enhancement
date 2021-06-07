@@ -1,7 +1,7 @@
-package CS3500.model;
+package CS3500.model.matrix;
 
+import CS3500.model.matrix.IMatrix;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * TODO: JavaDocs

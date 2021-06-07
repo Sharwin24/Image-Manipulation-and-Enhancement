@@ -1,8 +1,16 @@
 package com.company;
 
+/**
+ * Main class.
+ */
 public class Main {
 
-    public static void main(String[] args) {
-	// write your code here
-    }
+  /**
+   * Main method.
+   *
+   * @param args optional args.
+   */
+  public static void main(String[] args) {
+    // write your code here
+  }
 }

@@ -1,4 +1,4 @@
-package CS3500.model;
+package CS3500.model.matrix;
 
 // TODO: add new methods
 

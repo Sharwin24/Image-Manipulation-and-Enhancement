@@ -1,4 +1,7 @@
-package CS3500.model;
+package CS3500.model.image;
+
+import CS3500.model.channel.EChannelType;
+import CS3500.model.matrix.IMatrix;
 
 /**
  * An image to be manipulated or edited. Supports the operations to...

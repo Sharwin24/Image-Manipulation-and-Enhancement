@@ -1,4 +1,4 @@
-package CS3500.model;
+package CS3500.model.channel;
 
 /**
  * Represents one of three different channels in a pixel that uses red, green, and blue light to

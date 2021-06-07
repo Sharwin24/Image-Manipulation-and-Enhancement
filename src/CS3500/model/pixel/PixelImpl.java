@@ -1,6 +1,8 @@
-package CS3500.model;
+package CS3500.model.pixel;
 
 import CS3500.Utils;
+import CS3500.model.channel.EChannelType;
+import CS3500.model.channel.IChannel;
 
 public class PixelImpl implements IPixel {
   private IChannel red;
