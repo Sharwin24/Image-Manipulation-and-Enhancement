@@ -21,8 +21,21 @@ public interface IImage {
    * @return a {@link IMatrix} consisting of the intensity values of each pixel's specified channel.
    * @throws IllegalArgumentException if the supplied channel is {@code null}.
    */
-  IMatrix<Integer> extractChannel(EChannelType channel)
+  IMatrix<Double> extractChannel(EChannelType channel)
       throws IllegalArgumentException;
+
+  /**
+   * Todo
+   * @return
+   * @throws IllegalArgumentException
+   */
+  IMatrix<Double> getPixelArray() throws IllegalArgumentException;
+
+  /**
+   * Todo
+   * @return
+   */
+  IImage copy();
 
 
 }

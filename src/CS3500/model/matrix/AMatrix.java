@@ -267,7 +267,7 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
       throws IllegalArgumentException;
 
   @Override
-  public IMatrix copy() {
+  public IMatrix<X> copy() {
     List<List<X>> rows = new ArrayList<>();
 
     for (List<X> row : this.entries) {
