@@ -3,7 +3,8 @@
 <li>
 <b>In general,</b> <code>ctrl+shift+r</code> for <i>TODO</i></li>
 <li>
-Many JavaDocs in the Model package
+<strike>Many JavaDocs in the Model package</strike>, most JavaDocs done, still missing some in lower
+alphabetical classes.
 </li>
 <li>
 Determine which classes should be marked final
