@@ -27,7 +27,7 @@ public class ChannelImpl implements IChannel {
 
 
   @Override
-  public int getIntensity() {
+  public int getIntensity() { // Right here
     return this.intensity;
   }
 }
