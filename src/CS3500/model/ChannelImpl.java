@@ -3,7 +3,7 @@ package CS3500.model;
 import CS3500.Utils;
 
 /**
- * TODO: Finish javaDocs
+ * TODO: Finish Javaddocs, foo foo foo
  */
 public class ChannelImpl implements IChannel {
 
