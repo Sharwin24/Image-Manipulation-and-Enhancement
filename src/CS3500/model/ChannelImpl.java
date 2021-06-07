@@ -20,7 +20,7 @@ public class ChannelImpl implements IChannel {
    */
   public ChannelImpl(EChannelType color, int intensity)
       throws IllegalArgumentException {
-    this.color = Utils.checkNotNull(color, "cannot construt a ChannelImpl with a null "
+    this.color = Utils.checkNotNull(color, "cannot construct a ChannelImpl with a null "
         + "color");
     this.intensity = Utils.checkIntBetween(intensity, 0, 255);
   }

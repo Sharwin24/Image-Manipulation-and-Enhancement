@@ -7,24 +7,46 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class AMatrix<X> implements IAlignableMatrix<X> {
+/**
+ * <p>An abstract implementation of an {@link IMatrix} containing elements of some type {@code X}.
+ * Supports the operations listed in the {@link IMatrix} interface from the perspective of an
+ * abstract, computable algebra on the set {@code M(X)}, where M is the set of all matrices of any
+ * dimensions and {@code X} is the set membership of an entry</p><p> </p>
+ * <header><u>INVARIANT</u></header>
+ * <sub><div>Assumes an <b><i>invariant</i></b> that the nested {@link List} structures that store
+ * the entries in this {@link AMatrix} have identical dimensions to the 'physical' matrix they
+ * represent. For this reason there are no 'empty'--{@link java.util.Optional}, {@code null}, ...
+ * etc-- entries</p>
+ * </div></sub>
+ *
+ * @param <X> the type of entry in this Matrix
+ */
+public abstract class AMatrix<X> implements IAlignableMatrix<X> {
 
   protected final List<List<X>> entries;
 
-  // INVARIANT: the dimensions of the Lists used to store the matrix entries
-  //            are always identical to the dimensions of the physical matrix itself
-  //            being represented by this object. Therefore a AMatrix cannot contain
-  //            null/Optional entries
+  /**
+   * Creates a new {@link AMatrix} with no contents, nullary constructor.
+   */
   public AMatrix() {
     this.entries = new ArrayList<>();
   }
 
   /**
-   * TODO: JavaDoc and maybe add support for a constructor that takes in a List<List<X>>, not sure
-   *       if that's the same as List<X>... varargs
-   * @param listEntries
+   * <p>Creates a new {@link AMatrix} given a variable number of {@link List}s of values to add
+   * to the matrix, representing its rows.</p>
+   * <p>Due to the <b><i>invariant</i></b> outlined in the header JavaDoc of {@link AMatrix},
+   * each supplied row must be of the same size to preserve the dimensions of the matrix, and each
+   * entry must be a non-empty value (not null, Optional, etc).
+   * </p>
+   *
+   * @param listEntries the row(s) to make up the new matrix, which all have the same length.
+   * @throws IllegalArgumentException if the given list(s) are {@null}, if any of the given lists
+   *                                  contain {@code null}, or if any of the lists are not of the
+   *                                  same size
    */
-  public AMatrix(List<X>... listEntries) {
+  public AMatrix(List<List<X>> listEntries)
+      throws IllegalArgumentException {
     // check that each row and entry are not null
     for (List<X> rowOfEntries : listEntries) {
       Utils.checkNotNull(listEntries, "cannot construct a Matrix with a null row");
@@ -46,29 +68,54 @@ public class AMatrix<X> implements IAlignableMatrix<X> {
     }
   }
 
+  /**
+   * Creates a new {@link AMatrix} by copying a given row of entries {@code oneRow} {@code
+   * numCopies} times. For example, {@code AMatrix({1, 2, 3,}, 3} would generate the matrix
+   * <p>{{1, 2, 3}, </p>
+   * <p> {1, 2, 3},</p>
+   * <p>{1, 2, 3}} </p>
+   *
+   * @param oneRow the row of numbers to be copied some number of times
+   * @param numCopies the number of times to copy the desired row (the number of rows)
+   * @throws IllegalArgumentException if the given row is null or if the number of copies to make is
+   * negative.
+   */
+  public AMatrix(List<X> oneRow, int numCopies) {
+    Utils.checkNotNull(oneRow, "cannot copy a null row");
+    Utils.checkIntBetween(numCopies, 0, Integer.MAX_VALUE);
+    List<List<X>> rows = new ArrayList<>();
+    for (int i = 0; i < numCopies; i++) {
+      rows.add(oneRow);
+    }
+
+    this.entries = rows;
+  }
+
 
   /**
-   * TODO
+   * Are all of the rows in a Matrix proposed by {@code listEntries} of the same size?
+   * In other words, are all of the subsets of a set of the same cardinality?
+   * <p>Note that this is trivially true for empty matrices--they contain no rows</p>
    *
-   * @param listEntries
-   * @return
-   * @throws IllegalArgumentException
+   * @param listEntries the proposed rows in a Matrix to answer the above question for.
+   * @return the answer to the question posed at the beginning of this JavaDoc
+   * @throws IllegalArgumentException if the supplied {@link List<List>} is null;
    */
-  protected static boolean checkAllRowsSameSize(List... listEntries)
+  protected static boolean checkAllRowsSameSize(List<List> listEntries)
       throws IllegalArgumentException {
 
     Utils.checkNotNull(listEntries, "cannot verify all rows same size for null"
         + " list entries");
 
     // fast check
-    if (listEntries.length == 0) {
+    if (listEntries.size() == 0) {
       return true; // trivially all rows are same size when there are none
     }
 
     boolean allRowsSameSize = true;
 
-    for (int row = 0; row < listEntries.length - 1; row++) {
-      allRowsSameSize &= listEntries[row].equals(listEntries[row + 1]);
+    for (int row = 0; row < listEntries.size() - 1; row++) {
+      allRowsSameSize &= listEntries.get(row).size() == listEntries.get(row + 1).size();
     }
 
     return allRowsSameSize;
@@ -91,7 +138,7 @@ public class AMatrix<X> implements IAlignableMatrix<X> {
    * @throws IllegalArgumentException
    */
   private void checkIndicesInBounds(int row, int col)
-    throws IllegalArgumentException {
+      throws IllegalArgumentException {
     if (row > this.getWidth() || row < 0) {
       throw new IllegalArgumentException("row " + row + " out of bounds for width " +
           this.getWidth() + " in " + this.getWidth() + "x" + this.getHeight() + " matrix");
@@ -142,7 +189,8 @@ public class AMatrix<X> implements IAlignableMatrix<X> {
   @Override
   public void updateEntry(X newEntry, int row, int col)
       throws IllegalArgumentException {
-    this.checkIndicesInBounds(row, col);
+    Utils.checkIntBetween(row, 0 , this.getHeight());
+    Utils.checkIntBetween(col, 0, this.getWidth());
 
     this.entries.get(row).add(col, newEntry);
   }
@@ -176,8 +224,19 @@ public class AMatrix<X> implements IAlignableMatrix<X> {
       newRows.add(newRow);
     }
 
-    return new AMatrix<>((List<Y>) newRows); // TODO check this cast
+    return this.factoryMatrix(newRows);
   }
+
+  /**
+   * Factory method to return a new {@link IMatrix} object based on the supplied rows
+   * @param rows the rows to create this new matrix with
+   * @param <Y> the type of entry in the new Matrix
+   * @return the new Matrix as described above
+   * @throws IllegalArgumentException if the given list is null or contains null in its sublists or
+   *         their elements
+   */
+  protected abstract <Y> IMatrix<Y> factoryMatrix(List<List<Y>> rows)
+      throws IllegalArgumentException;
 
   @Override
   public IMatrix copy() {
@@ -187,17 +246,14 @@ public class AMatrix<X> implements IAlignableMatrix<X> {
       rows.add(row);
     }
 
-    return new AMatrix(rows);
+    return this.factoryMatrix(rows);
   }
 
-  /**
-   * TODO
-   *
-   * @param toCheck
-   */
-  private void checkEqualDimensions(IMatrix<X> toCheck) {
+
+   private void checkEqualDimensions(IMatrix<X> toCheck)
+   throws IllegalArgumentException {
     if (this.getWidth() != toCheck.getWidth()
-    || this.getHeight() != toCheck.getHeight()) {
+        || this.getHeight() != toCheck.getHeight()) {
       throw new IllegalArgumentException("cannot operate on two matrices with different dimensions,"
           + " however the IAlignableMatrix interface supports this!");
     }
@@ -225,7 +281,7 @@ public class AMatrix<X> implements IAlignableMatrix<X> {
     }
 
     // check for instance
-    if ( !(o instanceof IMatrix) ) {
+    if (!(o instanceof IMatrix)) {
       return false;
     }
 
