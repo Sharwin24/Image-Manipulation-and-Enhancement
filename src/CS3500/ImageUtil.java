@@ -1,5 +1,7 @@
 package CS3500;
 
+import CS3500.model.IIMEModel;
+import CS3500.model.channel.EChannelType;
 import CS3500.model.image.IImage;
 import CS3500.model.image.ImageImpl;
 import CS3500.model.matrix.IMatrix;
@@ -61,9 +63,9 @@ public class ImageUtil {
     System.out.println("Maximum value of a color in this file (usually 256): " + maxValue);
 
     List<List<IPixel>> pixels = new ArrayList<>();
-    for (int i = 0; i < height; i++) {
+    for (int i = 0; i < /*height*/5; i++) {
       List<IPixel> thisRow = new ArrayList<>();
-      for (int j = 0; j < width; j++) {
+      for (int j = 0; j < /*width*/5; j++) {
         int r = sc.nextInt();
         int g = sc.nextInt();
         int b = sc.nextInt();
@@ -79,6 +81,31 @@ public class ImageUtil {
     return imageAsMatrixOfPixels;
   }
 
+  /**
+   * TODO
+   * @param fileName
+   */
+//  public static /*void*/ String exportPPM(String fileName, IImage im) throws IllegalArgumentException {
+//    Utils.checkNotNull(fileName, "cannot export to null file name");
+//    Utils.checkNotNull(im, "cannot export a null image");
+//
+//    StringBuilder sb = new StringBuilder();
+//    sb.append(Utils.println("P3"));
+//    sb.append(Utils.println("# " + fileName));
+//
+//    for (int row = 0; row < im.getPixelArray().getHeight(); row++) {
+//      for (int col = 0; col < im.getPixelArray().getWidth(); col++) {
+//        sb.append(im.getPixelArray().getElement(row, col).getIntensity(EChannelType.RED) + " "
+//        + im.getPixelArray().getElement(row, col).getIntensity(EChannelType.GREEN) + " "
+//        + im.getPixelArray().getElement(row, col).getIntensity(EChannelType.BLUE) + "\t");
+//      }
+//      sb.append("\n");
+//    }
+//
+//    return sb.toString();
+//
+//  }
+
   //demo main
   public static void main(String[] args) {
     String filename;
@@ -91,9 +118,9 @@ public class ImageUtil {
 
 
     IImage img = ImageUtil.importPPM("src/Koala.ppm");
-    IMatrix<IPixel> pixels = img.getPixelArray();
-    String pixelsAsString = pixels.toString();
-    System.out.println(Utils.paddedPrint(pixelsAsString));
+    IMatrix<IPixel> px =  img.getPixelArray();
+//    String pixelsAsString = pixels.toString();
+//    System.out.println(Utils.paddedPrint(pixelsAsString));
 
 //    IMatrix<String> m = new MatrixImpl<>(new ArrayList<>(Arrays.asList(
 //        new ArrayList<>(Arrays.asList("a","b")),
