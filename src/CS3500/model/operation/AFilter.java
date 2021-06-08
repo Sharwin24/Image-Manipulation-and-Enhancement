@@ -3,6 +3,7 @@ package CS3500.model.operation;
 import CS3500.Utils;
 import CS3500.model.channel.EChannelType;
 import CS3500.model.image.IImage;
+import CS3500.model.image.ImageImpl;
 import CS3500.model.matrix.IMatrix;
 import CS3500.model.matrix.MatrixImpl;
 import CS3500.model.pixel.IPixel;
@@ -14,7 +15,7 @@ import java.util.List;
  * Abstract class to represent any Filter Operation to be applied to an Image. Supports the
  * extension of filters and offers methods to apply the filter to all channels or one.
  */
-public abstract class AFilter implements IOperation {
+public abstract class AFilter implements IFilter {
 
   private final IMatrix<Double> kernelToApply;
 
@@ -23,7 +24,7 @@ public abstract class AFilter implements IOperation {
    *
    * @throws IllegalArgumentException if kernel is invalid size.
    */
-  public AFilter() throws IllegalArgumentException {
+  protected AFilter() throws IllegalArgumentException {
     this.kernelToApply = this.initKernel();
     if (this.kernelToApply.getWidth() % 2 == 0 || this.kernelToApply.getHeight() % 2 == 0) {
       throw new IllegalArgumentException("Kernel cannot be evenly sized");
@@ -37,19 +38,19 @@ public abstract class AFilter implements IOperation {
    */
   protected abstract IMatrix<Double> initKernel();
 
-  /**
-   * Applies the subclass' filter to all 3 channels.
-   *
-   * @param image the Image to apply the filter to.
-   * @throws IllegalArgumentException if the given image is null.
-   */
-  public void applyFilterToAllChannels(IImage image) throws IllegalArgumentException {
+
+  @Override
+  public IImage applyFilterToAllChannels(IImage image) throws IllegalArgumentException {
     if (image == null) {
       throw new IllegalArgumentException("Image is null");
     }
-    this.applyToChannel(image, EChannelType.RED);
-    this.applyToChannel(image, EChannelType.GREEN);
-    this.applyToChannel(image, EChannelType.BLUE);
+    IImage image1;
+    image1 = this.applyToChannel(image, EChannelType.RED);
+    IImage image2;
+    image2 = this.applyToChannel(image1, EChannelType.GREEN);
+    IImage image3;
+    image3 = this.applyToChannel(image2, EChannelType.BLUE);
+    return image3;
   }
 
   /**
@@ -57,9 +58,10 @@ public abstract class AFilter implements IOperation {
    *
    * @param image       the Image to apply the filter to.
    * @param channelType the channel to apply the filter on.
+   * @return
    * @throws IllegalArgumentException if given arguments are null.
    */
-  public void applyToChannel(IImage image, EChannelType channelType)
+  protected IImage applyToChannel(IImage image, EChannelType channelType)
       throws IllegalArgumentException {
     // Will use the IImage to traverse the matrix of pixels and for each pixel,
     // collect the surrounding pixels up to the size of the kernel. The kernel is centered
@@ -71,9 +73,9 @@ public abstract class AFilter implements IOperation {
       throw new IllegalArgumentException("Image or ChannelType is null");
     }
     IMatrix<IPixel> pixelArray = image.getPixelArray();
+    IMatrix<IPixel> pixelArrayCopy = image.getPixelArray().copy();
     int kernelSize = this.kernelToApply.getHeight();
-    System.out.println("Kernel:");
-    System.out.println(this.kernelToApply);
+    // Todo: Abstract kernelSize for any odd dimension kernel
     for (int i = 0; i < pixelArray.getHeight(); i++) {
       for (int j = 0; j < pixelArray.getWidth(); j++) {
         IPixel currentPixel = pixelArray.getElement(i, j);
@@ -81,41 +83,41 @@ public abstract class AFilter implements IOperation {
             channelType);
         int newPixelValue = this.dotProductKernel(channelValues);
         IPixel newPixel = this.getNewPixel(currentPixel, channelType, newPixelValue);
-        pixelArray.updateEntry(newPixel, i, j);
+        pixelArrayCopy.updateEntry(newPixel, i, j);
       }
     }
-    System.out.println(pixelArray);
+    return new ImageImpl(pixelArrayCopy);
   }
 
   /**
    * Creates a new IPixel with the overwritten value depending on the channel.
    *
-   * @param pixel       the given pixel to overwrite.
-   * @param channelType the channel to overwrite.
-   * @param newValue    the value to write in.
+   * @param currentPixel the given pixel to overwrite.
+   * @param channelType  the channel to overwrite.
+   * @param newValue     the value to write in.
    * @return the new {@link IPixel} with the new value written in.
    * @throws IllegalArgumentException if the pixel or channelType is invalid.
    */
-  private IPixel getNewPixel(IPixel pixel, EChannelType channelType, int newValue)
+  private IPixel getNewPixel(IPixel currentPixel, EChannelType channelType, int newValue)
       throws IllegalArgumentException {
-    if (pixel == null || channelType == null) {
+    if (currentPixel == null || channelType == null) {
       throw new IllegalArgumentException("Arguments are NULL");
     }
-    IPixel newPixel = null;
+    IPixel newPixel;
     switch (channelType) {
       case RED:
         newPixel = new PixelImpl(newValue,
-            pixel.getIntensity(EChannelType.GREEN),
-            pixel.getIntensity(EChannelType.BLUE));
+            currentPixel.getIntensity(EChannelType.GREEN),
+            currentPixel.getIntensity(EChannelType.BLUE));
         break;
       case GREEN:
-        newPixel = new PixelImpl(pixel.getIntensity(EChannelType.RED),
+        newPixel = new PixelImpl(currentPixel.getIntensity(EChannelType.RED),
             newValue,
-            pixel.getIntensity(EChannelType.BLUE));
+            currentPixel.getIntensity(EChannelType.BLUE));
         break;
       case BLUE:
-        newPixel = new PixelImpl(pixel.getIntensity(EChannelType.RED),
-            pixel.getIntensity(EChannelType.GREEN),
+        newPixel = new PixelImpl(currentPixel.getIntensity(EChannelType.RED),
+            currentPixel.getIntensity(EChannelType.GREEN),
             newValue);
         break;
       default:
@@ -134,7 +136,14 @@ public abstract class AFilter implements IOperation {
   private int dotProductKernel(IMatrix<Integer> channelValues) {
     // Perform a dot product with this.kernelToApply and channelValues
     // return the calculated value
-    return 0;
+    int sum = 0;
+    for (int i = 0; i < channelValues.getHeight(); i++) {
+      for (int j = 0; j < channelValues.getWidth(); j++) {
+        sum += (this.kernelToApply.getElement(i, j) * channelValues.getElement(i, j));
+      }
+    }
+    System.out.println("Sum: " + sum); // Todo: Fix this method for dot product
+    return sum;
   }
 
   /**

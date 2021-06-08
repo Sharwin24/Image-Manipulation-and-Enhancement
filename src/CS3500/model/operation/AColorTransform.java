@@ -8,7 +8,7 @@ import CS3500.model.matrix.IMatrix;
 /**
  * Abstract class to represent a Color Transform.
  */
-public abstract class AColorTransform implements IOperation {
+public abstract class AColorTransform implements IColorTransform {
 
   /**
    * Applies the object's color transform matrix to the image.
