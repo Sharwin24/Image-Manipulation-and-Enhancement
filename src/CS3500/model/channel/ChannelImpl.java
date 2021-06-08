@@ -16,7 +16,7 @@ import CS3500.model.pixel.IPixel;
 public class ChannelImpl implements IChannel {
 
   private final EChannelType color;
-  private double intensity; // INVARIANT: should be in the range [0, 255]
+  private int intensity; // INVARIANT: should be in the range [0, 255]
 
 
   /**
@@ -42,7 +42,7 @@ public class ChannelImpl implements IChannel {
 
 
   @Override
-  public double getIntensity() { // Right here
+  public int getIntensity() { // Right here
     return this.intensity;
   }
 

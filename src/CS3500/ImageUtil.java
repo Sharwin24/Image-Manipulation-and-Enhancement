@@ -6,6 +6,8 @@ import CS3500.model.image.IImage;
 import CS3500.model.image.ImageImpl;
 import CS3500.model.matrix.IMatrix;
 import CS3500.model.matrix.MatrixImpl;
+import CS3500.model.operation.Greyscale;
+import CS3500.model.operation.ImageBlur;
 import CS3500.model.pixel.IPixel;
 import CS3500.model.pixel.PixelImpl;
 import java.util.ArrayList;
@@ -63,14 +65,13 @@ public class ImageUtil {
     System.out.println("Maximum value of a color in this file (usually 256): " + maxValue);
 
     List<List<IPixel>> pixels = new ArrayList<>();
-    for (int i = 0; i < height; i++) {
+    for (int i = 0; i < 6; i++) {
       List<IPixel> thisRow = new ArrayList<>();
-      for (int j = 0; j < width; j++) {
+      for (int j = 0; j < 6; j++) {
         int r = sc.nextInt();
         int g = sc.nextInt();
         int b = sc.nextInt();
         //System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
-        // TODO: Read into an IMatrix<IPixel> for an IImage object
         IPixel thisPixel = new PixelImpl(r, g, b);
         thisRow.add(thisPixel);
       }
@@ -82,52 +83,29 @@ public class ImageUtil {
   }
 
   /**
-   * TODO
-   * @param fileName
+   * Todo: Javadocs
    */
-//  public static /*void*/ String exportPPM(String fileName, IImage im) throws IllegalArgumentException {
-//    Utils.checkNotNull(fileName, "cannot export to null file name");
-//    Utils.checkNotNull(im, "cannot export a null image");
-//
-//    StringBuilder sb = new StringBuilder();
-//    sb.append(Utils.println("P3"));
-//    sb.append(Utils.println("# " + fileName));
-//
-//    for (int row = 0; row < im.getPixelArray().getHeight(); row++) {
-//      for (int col = 0; col < im.getPixelArray().getWidth(); col++) {
-//        sb.append(im.getPixelArray().getElement(row, col).getIntensity(EChannelType.RED) + " "
-//        + im.getPixelArray().getElement(row, col).getIntensity(EChannelType.GREEN) + " "
-//        + im.getPixelArray().getElement(row, col).getIntensity(EChannelType.BLUE) + "\t");
-//      }
-//      sb.append("\n");
-//    }
-//
-//    return sb.toString();
-//
-//  }
+  public static String exportPPM(String fileName, IImage im) throws IllegalArgumentException {
+    Utils.checkNotNull(fileName, "cannot export to null file name");
+    Utils.checkNotNull(im, "cannot export a null image");
 
-  //demo main
-  public static void main(String[] args) {
-    String filename;
+    StringBuilder sb = new StringBuilder();
+    sb.append(Utils.println("P3"));
+    sb.append(Utils.println("# " + fileName));
 
-    if (args.length > 0) {
-      filename = args[0];
-    } else {
-      filename = "sample.ppm";
+    for (int row = 0; row < im.getPixelArray().getHeight(); row++) {
+      for (int col = 0; col < im.getPixelArray().getWidth(); col++) {
+        sb.append(im.getPixelArray().getElement(row, col).getIntensity(EChannelType.RED))
+            .append(" ")
+            .append(im.getPixelArray().getElement(row, col).getIntensity(EChannelType.GREEN))
+            .append(" ")
+            .append(im.getPixelArray().getElement(row, col).getIntensity(EChannelType.BLUE))
+            .append("\t");
+      }
+      sb.append("\n");
     }
 
+    return sb.toString();
 
-    IImage img = ImageUtil.importPPM("src/Koala.ppm");
-    IMatrix<IPixel> px =  img.getPixelArray();
-//    String pixelsAsString = pixels.toString();
-//    System.out.println(Utils.paddedPrint(pixelsAsString));
-
-//    IMatrix<String> m = new MatrixImpl<>(new ArrayList<>(Arrays.asList(
-//        new ArrayList<>(Arrays.asList("a","b")),
-//        new ArrayList<>(Arrays.asList("c", "d"))
-//    )));
-//    System.out.println(m.toString());
-
-    //ImageUtil.readPPM(filename);
   }
 }

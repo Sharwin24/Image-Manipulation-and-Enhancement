@@ -7,19 +7,19 @@ import CS3500.model.pixel.IPixel;
  * of the amount of {@link EChannelType#RED}, {@link EChannelType#GREEN}, or {@link
  * EChannelType#BLUE} light that the pixel has. </p>
  */
-public interface IChannel /*extends IPair<EChannelType, Integer>*/ {
+public interface IChannel {
 
   /**
-   * Returns the intensity of the light of this Channel, as an double in the range [0,255]
+   * Returns the intensity of the light of this Channel, as an int in the range [0,255]
    * (inclusive).
    *
-   * @return the intensity of the light of this Channel, as an double in the range [0,255]
-   *         (inclusive).
+   * @return the intensity of the light of this Channel, as an int in the range [0,255] (inclusive).
    */
-  double getIntensity();
+  int getIntensity();
 
   /**
    * TODO
+   *
    * @param o
    * @return
    */
@@ -27,12 +27,14 @@ public interface IChannel /*extends IPair<EChannelType, Integer>*/ {
 
   /**
    * TODO
+   *
    * @return
    */
   int hashCode();
 
   /**
    * TODO
+   *
    * @return
    */
   String toString();

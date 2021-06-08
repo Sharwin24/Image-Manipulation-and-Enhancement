@@ -14,17 +14,19 @@ import CS3500.model.channel.EChannelType;
 public interface IPixel {
 
   /**
-   * Returns the intensity--as an double in the range [0,255]--of a channel
-   * of this {@link IPixel} based on a {@link EChannelType} representing the color of that channel.
+   * Returns the intensity--as an double in the range [0,255]--of a channel of this {@link IPixel}
+   * based on a {@link EChannelType} representing the color of that channel.
+   *
    * @param type the color of the channel to get the intensity of--one of red, green, or blue.
    * @return the intensity of the specified channel in this pixel.
    * @throws IllegalArgumentException if the given {@code type} is {@code null}.
    */
-  double getIntensity(EChannelType type)
+  int getIntensity(EChannelType type)
       throws IllegalArgumentException;
 
   /**
    * TODO
+   *
    * @param o
    * @return
    */
@@ -32,12 +34,14 @@ public interface IPixel {
 
   /**
    * TODO
+   *
    * @return
    */
   int hashCode();
 
   /**
    * TODO
+   *
    * @return
    */
   String toString();
