@@ -155,18 +155,18 @@ public abstract class AMatrix<X> implements IMatrix<X> {
    * @param col
    * @throws IllegalArgumentException
    */
-//  private void checkIndicesInBounds(int row, int col)
-//      throws IllegalArgumentException {
-//    if (row > this.getWidth() || row < 0) {
-//      throw new IllegalArgumentException("row " + row + " out of bounds for width " +
-//          this.getWidth() + " in " + this.getWidth() + "x" + this.getHeight() + " matrix");
-//    }
-//    if (col > this.getHeight() || col < 0) {
-//      throw new IllegalArgumentException("column " + col + " out of bounds for height " +
-//          this.getHeight() + " in " + this.getWidth() + "x" + this.getHeight() + " matrix");
-//    }
-//
-//  }
+  private void checkIndicesInBounds(int row, int col)
+      throws IllegalArgumentException {
+    if (row > this.getWidth() || row < 0) {
+      throw new IllegalArgumentException("row " + row + " out of bounds for width " +
+          this.getWidth() + " in " + this.getWidth() + "x" + this.getHeight() + " matrix");
+    }
+    if (col > this.getHeight() || col < 0) {
+      throw new IllegalArgumentException("column " + col + " out of bounds for height " +
+          this.getHeight() + " in " + this.getWidth() + "x" + this.getHeight() + " matrix");
+    }
+
+  }
 
   @Override
   public int getWidth() {
