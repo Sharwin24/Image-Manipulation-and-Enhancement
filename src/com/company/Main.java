@@ -31,7 +31,6 @@ public class Main {
 //    IMatrix<IPixel> px = img.getPixelArray();
 //    String pixelsAsString = px.toString();
 //    System.out.println(Utils.paddedPrint(pixelsAsString));
-    Sharpening s = new Sharpening();
     // Todo: Temporarily test here
 //    IMatrix<String> m = new MatrixImpl<>(new ArrayList<>(Arrays.asList(
 //        new ArrayList<>(Arrays.asList("a","b")),
