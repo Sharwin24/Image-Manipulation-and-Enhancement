@@ -11,7 +11,7 @@ public class PixelImpl implements IPixel {
 
 
   @Override
-  public int getIntensity(EChannelType type)
+  public double getIntensity(EChannelType type)
       throws IllegalArgumentException {
     Utils.checkNotNull(type, "cannot query an intensity value of a null channel type");
 

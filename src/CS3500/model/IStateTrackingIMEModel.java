@@ -1,5 +1,7 @@
 package CS3500.model;
 
+import CS3500.model.image.IImage;
+
 /**
  * TODO: JavaDoc comments
  *
@@ -29,5 +31,12 @@ public interface IStateTrackingIMEModel<Z> extends IIMEModel<Z> {
    * Saves the current state of the image being edited.
    */
   void save();
+
+  /**
+   * Retrieves the last saved IImage.
+   *
+   * @return the last saved IImage.
+   */
+  IImage retrieve();
 
 }

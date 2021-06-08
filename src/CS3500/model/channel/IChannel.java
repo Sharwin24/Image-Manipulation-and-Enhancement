@@ -10,11 +10,11 @@ import CS3500.model.pixel.IPixel;
 public interface IChannel /*extends IPair<EChannelType, Integer>*/ {
 
   /**
-   * Returns the intensity of the light of this Channel, as an integer in the range [0,255]
+   * Returns the intensity of the light of this Channel, as an double in the range [0,255]
    * (inclusive).
    *
-   * @return the intensity of the light of this Channel, as an integer in the range [0,255]
+   * @return the intensity of the light of this Channel, as an double in the range [0,255]
    *         (inclusive).
    */
-  int getIntensity();
+  double getIntensity();
 }

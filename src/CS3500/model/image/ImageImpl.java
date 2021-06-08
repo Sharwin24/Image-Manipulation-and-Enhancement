@@ -29,8 +29,20 @@ public class ImageImpl implements IImage {
 
 
   @Override
-  public IMatrix<Integer> extractChannel(EChannelType channel) throws IllegalArgumentException {
+  public IMatrix<Double> extractChannel(EChannelType channel) throws IllegalArgumentException {
     IMatrix<IPixel> toMap = this.pixels.copy();
     return toMap.map(x -> x.getIntensity(channel));
+  }
+
+  @Override
+  public IMatrix<Double> getPixelArray() throws IllegalArgumentException {
+    return null;
+  }
+
+  @Override
+  public IImage copy() {
+    IMatrix<IPixel> pixelMatrixCopy;
+    pixelMatrixCopy = this.pixels.copy();
+    return new ImageImpl(pixelMatrixCopy);
   }
 }
