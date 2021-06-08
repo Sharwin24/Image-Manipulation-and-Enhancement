@@ -2,6 +2,7 @@ package CS3500.model.image;
 
 import CS3500.model.channel.EChannelType;
 import CS3500.model.matrix.IMatrix;
+import CS3500.model.pixel.IPixel;
 
 /**
  * An image to be manipulated or edited. Supports the operations to...
@@ -21,6 +22,7 @@ public interface IImage {
    * @return a {@link IMatrix} consisting of the intensity values of each pixel's specified channel.
    * @throws IllegalArgumentException if the supplied channel is {@code null}.
    */
+  // IMatrix<Integer> extractChannel(EChannelType channel)
   IMatrix<Double> extractChannel(EChannelType channel)
       throws IllegalArgumentException;
 
@@ -29,13 +31,14 @@ public interface IImage {
    * @return
    * @throws IllegalArgumentException
    */
-  IMatrix<Double> getPixelArray() throws IllegalArgumentException;
+  IMatrix<IPixel> getPixelArray() throws IllegalArgumentException;
 
   /**
    * Todo
    * @return
    */
   IImage copy();
+
 
 
 }

@@ -35,8 +35,8 @@ public class ImageImpl implements IImage {
   }
 
   @Override
-  public IMatrix<Double> getPixelArray() throws IllegalArgumentException {
-    return null;
+  public IMatrix<IPixel> getPixelArray() throws IllegalArgumentException {
+    return this.pixels;
   }
 
   @Override

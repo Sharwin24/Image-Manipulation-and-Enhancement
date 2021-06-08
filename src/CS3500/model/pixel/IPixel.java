@@ -20,7 +20,26 @@ public interface IPixel {
    * @return the intensity of the specified channel in this pixel.
    * @throws IllegalArgumentException if the given {@code type} is {@code null}.
    */
-  public double getIntensity(EChannelType type)
+  double getIntensity(EChannelType type)
       throws IllegalArgumentException;
+
+  /**
+   * TODO
+   * @param o
+   * @return
+   */
+  boolean equals(Object o);
+
+  /**
+   * TODO
+   * @return
+   */
+  int hashCode();
+
+  /**
+   * TODO
+   * @return
+   */
+  String toString();
 
 }

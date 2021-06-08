@@ -6,4 +6,24 @@ package CS3500.model.channel;
  */
 public enum EChannelType {
   RED, GREEN, BLUE;
+
+  /**
+   * TODO
+   * @return
+   * @throws IllegalArgumentException
+   */
+  public String toString()
+  throws IllegalArgumentException{
+    switch (this) {
+      case RED:
+        return "R";
+      case GREEN:
+        return "G";
+      case BLUE:
+        return "B";
+      default:
+        throw new IllegalArgumentException("should not have gotten here. Congrats, you broke our "
+            + "code");
+    }
+  }
 }

@@ -17,4 +17,23 @@ public interface IChannel /*extends IPair<EChannelType, Integer>*/ {
    *         (inclusive).
    */
   double getIntensity();
+
+  /**
+   * TODO
+   * @param o
+   * @return
+   */
+  boolean equals(Object o);
+
+  /**
+   * TODO
+   * @return
+   */
+  int hashCode();
+
+  /**
+   * TODO
+   * @return
+   */
+  String toString();
 }
