@@ -8,7 +8,7 @@ import CS3500.model.matrix.Kernel;
 /**
  * Todo:
  */
-public abstract class ColorTransform implements IOperation {
+public abstract class AColorTransform implements IOperation {
 
   @Override
   public abstract void apply(IImage image, Kernel kernel, EChannelType... channelTypes)
