@@ -45,4 +45,9 @@ public class ChannelImpl implements IChannel {
   public double getIntensity() { // Right here
     return this.intensity;
   }
+
+  @Override
+  public String toString() {
+    return this.color.toString() + this.getIntensity();
+  }
 }

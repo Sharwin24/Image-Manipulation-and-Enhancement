@@ -44,5 +44,12 @@ public class PixelImpl implements IPixel {
     }
   }
 
+  @Override
+  public String toString() {
+    return "("  + this.red.toString() + ", " +
+        this.green.toString() + ", "
+        + this.blue.toString() + ")";
+  }
+
 
 }

@@ -7,6 +7,7 @@ import CS3500.model.matrix.MatrixImpl;
 import CS3500.model.pixel.IPixel;
 import CS3500.model.pixel.PixelImpl;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
@@ -60,9 +61,9 @@ public class ImageUtil {
     System.out.println("Maximum value of a color in this file (usually 256): " + maxValue);
 
     List<List<IPixel>> pixels = new ArrayList<>();
-    for (int i = 0; i < height; i++) {
+    for (int i = 0; i < 5 /*height*/; i++) {
       List<IPixel> thisRow = new ArrayList<>();
-      for (int j = 0; j < width; j++) {
+      for (int j = 0; j < /*width*/5; j++) {
         int r = sc.nextInt();
         int g = sc.nextInt();
         int b = sc.nextInt();
@@ -88,9 +89,18 @@ public class ImageUtil {
       filename = "sample.ppm";
     }
 
+
     IImage img = ImageUtil.importPPM("src/Koala.ppm");
     IMatrix<IPixel> pixels = img.getPixelArray();
-    System.out.println(Utils.paddedPrint(img.getPixelArray().toString()));
+    String pixelsAsString = pixels.toString();
+    System.out.println(Utils.paddedPrint(pixelsAsString));
+
+//    IMatrix<String> m = new MatrixImpl<>(new ArrayList<>(Arrays.asList(
+//        new ArrayList<>(Arrays.asList("a","b")),
+//        new ArrayList<>(Arrays.asList("c", "d"))
+//    )));
+//    System.out.println(m.toString());
+
     //ImageUtil.readPPM(filename);
   }
 }
