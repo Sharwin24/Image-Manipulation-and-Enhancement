@@ -3,8 +3,11 @@ package com.company;
 
 import CS3500.ImageUtil;
 import CS3500.Utils;
+import CS3500.model.channel.EChannelType;
 import CS3500.model.image.IImage;
+import CS3500.model.image.ImageImpl;
 import CS3500.model.matrix.IMatrix;
+import CS3500.model.operation.ImageBlur;
 import CS3500.model.operation.Sharpening;
 import CS3500.model.pixel.IPixel;
 
@@ -26,12 +29,18 @@ public class Main {
     } else {
       filename = "sample.ppm";
     }
-
-//    IImage img = ImageUtil.importPPM("src/Koala.ppm");
-//    IMatrix<IPixel> px = img.getPixelArray();
-//    String pixelsAsString = px.toString();
-//    System.out.println(Utils.paddedPrint(pixelsAsString));
     // Todo: Temporarily test here
+
+    IImage img = ImageUtil.importPPM("src/Koala.ppm");
+    IMatrix<IPixel> px = img.getPixelArray();
+    String pixelsAsString = px.toString();
+
+    ImageBlur imageBlur = new ImageBlur();
+    System.out.println("Before Apply");
+    System.out.println(Utils.paddedPrint(pixelsAsString));
+    imageBlur.applyToChannel(img, EChannelType.RED);
+    System.out.println("After Apply");
+
 //    IMatrix<String> m = new MatrixImpl<>(new ArrayList<>(Arrays.asList(
 //        new ArrayList<>(Arrays.asList("a","b")),
 //        new ArrayList<>(Arrays.asList("c", "d"))

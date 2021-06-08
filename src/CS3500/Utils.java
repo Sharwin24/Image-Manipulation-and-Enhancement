@@ -69,12 +69,12 @@ public class Utils {
    */
   public static String println(String toPad)
       throws IllegalArgumentException {
-    return checkNotNull(toPad, "cannot pad a null String")
-        + "\n";
+    return checkNotNull(toPad, "cannot pad a null String") + "\n";
   }
 
   /**
    * Pads the given {@link String} {@code toPad} with a newline, above and below.
+   *
    * @param toPad the {@link String} to pad with a newline, above and below
    * @return {@code toPad}, padded with a newline above and below
    * @throws IllegalArgumentException if {@code toPad} is {@code null}.

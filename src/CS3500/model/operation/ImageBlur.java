@@ -20,7 +20,7 @@ public class ImageBlur extends AFilter {
     IMatrix<Double> matrix = new MatrixImpl<>(0.0, 3, 3);
     matrix.updateEntry(0.0625, 0, 0);
     matrix.updateEntry(0.0625, 2, 0);
-    matrix.updateEntry(0.0625, 2, 0);
+    matrix.updateEntry(0.0625, 0, 2);
     matrix.updateEntry(0.0625, 2, 2);
     matrix.updateEntry(0.125, 0, 1);
     matrix.updateEntry(0.125, 1, 0);

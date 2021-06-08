@@ -12,8 +12,8 @@ public class PixelImpl implements IPixel {
   private IChannel blue;
 
   /**
-   * TODO
-   * INVARIANT**
+   * TODO INVARIANT**
+   *
    * @param r
    * @param g
    * @param b
@@ -26,9 +26,8 @@ public class PixelImpl implements IPixel {
     this.blue = new ChannelImpl(EChannelType.BLUE, Utils.checkIntBetween(b, 0, 255));
   }
 
-
   @Override
-  public double getIntensity(EChannelType type)
+  public int getIntensity(EChannelType type)
       throws IllegalArgumentException {
     Utils.checkNotNull(type, "cannot query an intensity value of a null channel type");
 
@@ -46,10 +45,9 @@ public class PixelImpl implements IPixel {
 
   @Override
   public String toString() {
-    return "("  + this.red.toString() + ", " +
+    return "(" + this.red.toString() + ", " +
         this.green.toString() + ", "
         + this.blue.toString() + ")";
   }
-
 
 }

@@ -29,7 +29,7 @@ public class ImageImpl implements IImage {
 
 
   @Override
-  public IMatrix<Double> extractChannel(EChannelType channel) throws IllegalArgumentException {
+  public IMatrix<Integer> extractChannel(EChannelType channel) throws IllegalArgumentException {
     IMatrix<IPixel> toMap = this.pixels.copy();
     return toMap.map(x -> x.getIntensity(channel));
   }
