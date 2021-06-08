@@ -2,7 +2,6 @@ package CS3500.model.operation;
 
 import CS3500.model.channel.EChannelType;
 import CS3500.model.image.IImage;
-import CS3500.model.matrix.;
 import javax.imageio.IIOImage;
 
 /**

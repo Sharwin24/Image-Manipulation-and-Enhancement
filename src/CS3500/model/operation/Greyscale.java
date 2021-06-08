@@ -21,12 +21,12 @@ public class Greyscale extends AColorTransform {
   }
 
   /**
-   * Creates an {@link IMatrix} for the Greyscale .
+   * Creates an {@link IMatrix} for the Greyscale kernel.
    *
-   * @return a 3x3 {@link IMatrix<Double>} to represent the .
+   * @return a 3x3 {@link IMatrix<Double>} to represent the kernel.
    */
   private IMatrix<Double> initGreyscaleMatrix() {
-    IMatrix<Double> matrix = new MatrixImpl<>(1.0, 3, 3);
+    IMatrix<Double> matrix = new MatrixImpl<>(0.0, 3, 3);
     for (int i = 0; i < 3; i++) {
       matrix.updateEntry(0.2126, i, 0);
       matrix.updateEntry(0.7152, i, 1);
@@ -38,6 +38,6 @@ public class Greyscale extends AColorTransform {
   @Override
   public void apply(IImage image)
       throws IllegalArgumentException {
-    this.applyColorTransform(image,this.greyscaleKernel);
+    this.applyColorTransform(image, this.greyscaleKernel);
   }
 }

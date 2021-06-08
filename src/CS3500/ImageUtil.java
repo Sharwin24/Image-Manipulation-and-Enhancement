@@ -108,30 +108,4 @@ public class ImageUtil {
     return sb.toString();
 
   }
-
-  //demo main
-  public static void main(String[] args) {
-    String filename;
-
-    if (args.length > 0) {
-      filename = args[0];
-    } else {
-      filename = "sample.ppm";
-    }
-
-    IImage img = ImageUtil.importPPM("src/Koala.ppm");
-    IMatrix<IPixel> px = img.getPixelArray();
-    String pixelsAsString = px.toString();
-    System.out.println(Utils.paddedPrint(pixelsAsString));
-    ImageBlur iB = new ImageBlur();
-    iB.apply(img);
-
-//    IMatrix<String> m = new MatrixImpl<>(new ArrayList<>(Arrays.asList(
-//        new ArrayList<>(Arrays.asList("a","b")),
-//        new ArrayList<>(Arrays.asList("c", "d"))
-//    )));
-//    System.out.println(m.toString());
-
-    //ImageUtil.readPPM(filename);
-  }
 }

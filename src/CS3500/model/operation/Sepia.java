@@ -20,12 +20,12 @@ public class Sepia extends AColorTransform {
   }
 
   /**
-   * Creates an {@link IMatrix} for the Sepia .
+   * Creates an {@link IMatrix} for the Sepia kernel.
    *
-   * @return a 3x3 {@link IMatrix<Double>} to represent the .
+   * @return a 3x3 {@link IMatrix<Double>} to represent the kernel.
    */
   private IMatrix<Double> initSepiaMatrix() {
-    IMatrix<Double> matrix = new MatrixImpl<>(1.0, 3, 3);
+    IMatrix<Double> matrix = new MatrixImpl<>(0.0, 3, 3);
     matrix.updateEntry(0.393, 0, 0);
     matrix.updateEntry(0.769, 0, 1);
     matrix.updateEntry(0.189, 0, 2);
