@@ -253,7 +253,7 @@ public abstract class AMatrix<X> implements IMatrix<X> {
     Utils.checkIntBetween(firstAlignmentCol, 0, this.getWidth());
     Utils.checkIntBetween(firstAlignmentRow, 0, this.getWidth());
 
-    
+    return null; // TODO, stub
 
   }
 

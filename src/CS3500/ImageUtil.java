@@ -1,5 +1,13 @@
 package CS3500;
 
+import CS3500.model.image.IImage;
+import CS3500.model.image.ImageImpl;
+import CS3500.model.matrix.IMatrix;
+import CS3500.model.matrix.MatrixImpl;
+import CS3500.model.pixel.IPixel;
+import CS3500.model.pixel.PixelImpl;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
@@ -16,14 +24,15 @@ public class ImageUtil {
    *
    * @param filename the path of the file.
    */
-  public static void readPPM(String filename) {
+  public static IImage importPPM(String filename) {
     Scanner sc;
 
     try {
       sc = new Scanner(new FileInputStream(filename));
     } catch (FileNotFoundException e) {
-      System.out.println("File " + filename + " not found!");
-      return;
+      //System.out.println("File " + filename + " not found!");
+      //return;
+      throw new IllegalArgumentException("File " + filename + " not found!");
     }
     StringBuilder builder = new StringBuilder();
     //read the file line by line, and populate a string. This will throw away any comment lines
@@ -50,15 +59,23 @@ public class ImageUtil {
     int maxValue = sc.nextInt();
     System.out.println("Maximum value of a color in this file (usually 256): " + maxValue);
 
+    List<List<IPixel>> pixels = new ArrayList<>();
     for (int i = 0; i < height; i++) {
+      List<IPixel> thisRow = new ArrayList<>();
       for (int j = 0; j < width; j++) {
         int r = sc.nextInt();
         int g = sc.nextInt();
         int b = sc.nextInt();
-        System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
+        //System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
         // TODO: Read into an IMatrix<IPixel> for an IImage object
+        IPixel thisPixel = new PixelImpl(r, g, b);
+        thisRow.add(thisPixel);
       }
+      pixels.add(thisRow);
     }
+
+    IImage imageAsMatrixOfPixels = new ImageImpl(new MatrixImpl<>(pixels));
+    return imageAsMatrixOfPixels;
   }
 
   //demo main
@@ -70,7 +87,10 @@ public class ImageUtil {
     } else {
       filename = "sample.ppm";
     }
-    ImageUtil.readPPM("src/Koala.ppm");
+
+    IImage img = ImageUtil.importPPM("src/Koala.ppm");
+    IMatrix<IPixel> pixels = img.getPixelArray();
+    System.out.println(Utils.paddedPrint(img.getPixelArray().toString()));
     //ImageUtil.readPPM(filename);
   }
 }
