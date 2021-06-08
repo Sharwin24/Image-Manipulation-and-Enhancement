@@ -61,9 +61,9 @@ public class ImageUtil {
     System.out.println("Maximum value of a color in this file (usually 256): " + maxValue);
 
     List<List<IPixel>> pixels = new ArrayList<>();
-    for (int i = 0; i < 5 /*height*/; i++) {
+    for (int i = 0; i < height; i++) {
       List<IPixel> thisRow = new ArrayList<>();
-      for (int j = 0; j < /*width*/5; j++) {
+      for (int j = 0; j < width; j++) {
         int r = sc.nextInt();
         int g = sc.nextInt();
         int b = sc.nextInt();
