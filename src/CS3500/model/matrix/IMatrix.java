@@ -103,6 +103,23 @@ public interface IMatrix<X> { // TODO: JavaDocs
       throws IllegalArgumentException;
 
   /**
+   * TODO
+   *
+   * @param binaryOperation
+   * @param toCombine
+   * @param firstAlignmentRow
+   * @param firstAlignmentCol
+   * @param secondAlignmentRow
+   * @param secondAlignmenetCol
+   * @return
+   * @throws IllegalArgumentException
+   */
+  IMatrix<X> alignedElementWiseOperation(BiFunction<X, X, X> binaryOperation, IMatrix<X> toCombine,
+      int firstAlignmentRow, int firstAlignmentCol, int secondAlignmentRow,
+      int secondAlignmenetCol) throws IllegalArgumentException;
+
+
+  /**
    * For all entries {@code a} in this matrix, this method applies some unary operator {@code f}
    * to produce a new matrix such that every entry is {@code f(a)}, where {@code f} is a
    * well-defined function with signature {@code F: X -> Y}.

@@ -21,7 +21,7 @@ import java.util.function.Function;
  *
  * @param <X> the type of entry in this Matrix
  */
-public abstract class AMatrix<X> implements IAlignableMatrix<X> {
+public abstract class AMatrix<X> implements IMatrix<X> {
 
   protected final List<List<X>> entries;
 
@@ -213,7 +213,7 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
     this.entries.get(row).set(col, newEntry);
   }
 
-  // TODO: figure out typing & signature here
+  @Override
   public IMatrix<X> elementWiseOperation(BiFunction<X, X, X> binaryOperation,
       IMatrix<X> toCombine)
       throws IllegalArgumentException {
@@ -236,6 +236,24 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
     }
 
     return copy;
+
+  }
+
+  @Override
+  public IMatrix<X> alignedElementWiseOperation(BiFunction<X, X, X> binaryOperation,
+      IMatrix<X> toCombine, int firstAlignmentRow, int firstAlignmentCol, int secondAlignmentRow,
+      int secondAlignmentCol)
+    throws IllegalArgumentException {
+    Utils.checkNotNull(binaryOperation, "cannot combine two matrices using a null "
+        + "elementwise binary operation");
+    Utils.checkNotNull(toCombine, "cannot perform an elementwise binary operation "
+        + "between two matrices where one of them is null");
+    Utils.checkIntBetween(firstAlignmentRow, 0, this.getHeight());
+    Utils.checkIntBetween(secondAlignmentRow, 0, this.getHeight());
+    Utils.checkIntBetween(firstAlignmentCol, 0, this.getWidth());
+    Utils.checkIntBetween(firstAlignmentRow, 0, this.getWidth());
+
+    
 
   }
 
@@ -267,7 +285,7 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
       throws IllegalArgumentException;
 
   @Override
-  public IMatrix copy() {
+  public IMatrix<X> copy() {
     List<List<X>> rows = new ArrayList<>();
 
     for (List<X> row : this.entries) {
@@ -283,14 +301,14 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
    * @throws IllegalArgumentException if this matrix is not square--if this matrix does not have
    *                                  equal height and width.
    */
-  private void checkEqualDimensions()
-      throws IllegalArgumentException {
-    if (this.getWidth() != this.getWidth()
-        || this.getHeight() != this.getHeight()) {
-      throw new IllegalArgumentException("cannot operate on two matrices with different dimensions,"
-          + " however the IAlignableMatrix interface supports this!");
-    }
-  }
+//  private void checkEqualDimensions()
+//      throws IllegalArgumentException {
+//    if (this.getWidth() != this.getWidth()
+//        || this.getHeight() != this.getHeight()) {
+//      throw new IllegalArgumentException("cannot operate on two matrices with different dimensions,"
+//          + " however the IAlignableMatrix interface supports this!");
+//    }
+//  }
 
   @Override
   public X reduceToVal(BiFunction<X, X, X> operation, X base) {
@@ -363,9 +381,4 @@ public abstract class AMatrix<X> implements IAlignableMatrix<X> {
   }
 
 
-  // TODO
-  @Override
-  public void alignedRowWiseOperation(BiFunction<X, X, X> binaryOperation, IMatrix<X> toCombine) {
-
-  }
 }

@@ -1,6 +1,7 @@
 package CS3500.model.image;
 
 import CS3500.model.channel.EChannelType;
+import CS3500.model.matrix.IAlignableMatrix;
 import CS3500.model.matrix.IMatrix;
 
 /**
@@ -21,8 +22,9 @@ public interface IImage {
    * @return a {@link IMatrix} consisting of the intensity values of each pixel's specified channel.
    * @throws IllegalArgumentException if the supplied channel is {@code null}.
    */
-  IMatrix<Integer> extractChannel(EChannelType channel)
+  IAlignableMatrix<Integer> extractChannel(EChannelType channel)
       throws IllegalArgumentException;
+
 
 
 }
