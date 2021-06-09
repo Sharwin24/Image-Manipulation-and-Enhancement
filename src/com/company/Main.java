@@ -16,9 +16,11 @@ import CS3500.model.operation.IFilter;
 import CS3500.model.operation.IOperation;
 import CS3500.model.operation.ImageBlur;
 import CS3500.model.operation.MyFilter;
+import CS3500.model.operation.Sepia;
 import CS3500.model.operation.Sharpening;
 import CS3500.model.pixel.IPixel;
 import CS3500.model.pixel.PixelImpl;
+import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -86,8 +88,9 @@ public class Main {
 
 
     IStateTrackingIMEModel m = new StateTrackingIMEModelImpl(new ImageImpl(new MatrixImpl<>()));
+   // m.importImage(new PPMFile(), "src/statue-of-liberty.ppm");
     m.importImage(new PPMFile(), "src/teletubbies-10-ft-tall.ppm");
-    // m.exportImage(new PPMFile(), "exportedTeletubbies");
+     m.exportImage(new PPMFile(), "exportedTeletubbies");
     m.applyOperations(new ImageBlur());
     m.applyOperations(new ImageBlur());
     m.applyOperations(new ImageBlur());
@@ -101,5 +104,8 @@ public class Main {
     m.applyOperations(new Sharpening());
 
     m.exportImage(new PPMFile(), "blurredTeletubbies");
+
+   // m.applyOperations(new Sharpening(), new Sepia());
+  //  m.exportImage(new PPMFile(), "new-statue");
   }
 }
