@@ -3,7 +3,7 @@ package CS3500.model.operation;
 import CS3500.model.image.IImage;
 
 /**
- * Todo: Javadocs
+ * An interface to represent a Filter {@link IOperation} that can be applied to an {@link IImage}.
  */
 public interface IFilter extends IOperation {
 

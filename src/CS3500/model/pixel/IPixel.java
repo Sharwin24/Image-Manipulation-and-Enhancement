@@ -25,24 +25,24 @@ public interface IPixel {
       throws IllegalArgumentException;
 
   /**
-   * TODO
+   * Determines if the given object is equal to this IPixel.
    *
-   * @param o
-   * @return
+   * @param o the object to check.
+   * @return a boolean whether the object is the same or not.
    */
   boolean equals(Object o);
 
   /**
-   * TODO
+   * Calculates the hashCode for this IPixel.
    *
-   * @return
+   * @return an integer representing the hashCode.
    */
   int hashCode();
 
   /**
-   * TODO
+   * Gets a string for the textual representation of an IPixel.
    *
-   * @return
+   * @return the string for this IPixel.
    */
   String toString();
 

@@ -16,8 +16,9 @@ import CS3500.model.pixel.IPixel;
 public interface IImage {
 
   /**
-   * Returns a {@link IMatrix} consisting of the intensity of some {@link EChannelType}--the
-   * channel color--of each pixel in this {@link IImage}.
+   * Returns a {@link IMatrix} consisting of the intensity of some {@link EChannelType}--the channel
+   * color--of each pixel in this {@link IImage}.
+   *
    * @param channel the type of channel whose intensity should be returned in a Matrix
    * @return a {@link IMatrix} consisting of the intensity values of each pixel's specified channel.
    * @throws IllegalArgumentException if the supplied channel is {@code null}.
@@ -26,18 +27,18 @@ public interface IImage {
       throws IllegalArgumentException;
 
   /**
-   * Todo
-   * @return
-   * @throws IllegalArgumentException
+   * Gets the Matrix of Pixels that Create this IImage.
+   *
+   * @return the {@link IMatrix} that represents the matrix of pixels.
    */
-  IMatrix<IPixel> getPixelArray() throws IllegalArgumentException;
+  IMatrix<IPixel> getPixelArray();
 
   /**
-   * Todo
-   * @return
+   * Returns a copy of this IImage.
+   *
+   * @return an {@link IImage} as a copy.
    */
   IImage copy();
-
 
 
 }
