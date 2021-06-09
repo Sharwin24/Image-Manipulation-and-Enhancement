@@ -4,10 +4,12 @@ import CS3500.model.image.IImage;
 
 /**
  * TODO: JavaDocs
+ *
+ * @param <IMAGE_REPRESENTATION>
  */
-public interface IFileFormat {
+public interface IFileFormat<IMAGE_REPRESENTATION> {
 
-  public IImage importImage(String fileName);
+  public IMAGE_REPRESENTATION importImage(String fileName);
 
-  public void exportImage(String fileName);
+  public void exportImage(String fileName, IImage image);
 }

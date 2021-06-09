@@ -64,16 +64,26 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
   }
 
   @Override
-  public void importImage(IFileFormat format, String fileName) {
-    this.setImage(format.importImage(fileName));
+  public void importImage(IFileFormat format, String fileName)
+      throws IllegalArgumentException {
+    this.setImage((IImage) format.importImage(fileName)); // safe up-cast
   }
 
   @Override
-  public void exportImage(IFileFormat format, String fileName) {
-
+  public void exportImage(IFileFormat format, String fileName)
+      throws IllegalArgumentException {
+    format.exportImage(fileName, this.image);
   }
 
-  private void setImage(IImage newImage) {
+  /**
+   * TODO
+   *
+   * @param newImage
+   * @throws IllegalArgumentException
+   */
+  private void setImage(IImage newImage)
+      throws IllegalArgumentException {
+    Utils.checkNotNull(newImage, "cannot set a new image that is null");
     this.save();
     this.image = newImage;
   }
