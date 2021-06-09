@@ -55,7 +55,7 @@ public abstract class AFilter implements IFilter {
    *
    * @param image       the Image to apply the filter to.
    * @param channelType the channel to apply the filter on.
-   * @return
+   * @return the IImage after applying the filter.
    * @throws IllegalArgumentException if given arguments are null.
    */
   private IImage applyToChannel(IImage image, EChannelType channelType)
