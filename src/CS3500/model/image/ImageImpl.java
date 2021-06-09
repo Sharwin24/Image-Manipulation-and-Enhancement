@@ -5,9 +5,6 @@ import CS3500.model.channel.EChannelType;
 import CS3500.model.matrix.IMatrix;
 import CS3500.model.pixel.IPixel;
 
-// TODO: might want to just have this extend AMatrix<IPixel>. Issue is that this can never return a
-// concrete IMatrix subtype without access to factory method. Constructors also become super easy
-
 /**
  * An image, represented by a {@link IMatrix} of pixels.
  */
@@ -35,7 +32,7 @@ public class ImageImpl implements IImage {
   }
 
   @Override
-  public IMatrix<IPixel> getPixelArray() throws IllegalArgumentException {
+  public IMatrix<IPixel> getPixelArray() {
     return this.pixels;
   }
 
