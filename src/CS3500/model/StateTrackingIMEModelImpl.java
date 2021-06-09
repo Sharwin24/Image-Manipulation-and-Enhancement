@@ -2,6 +2,7 @@ package CS3500.model;
 
 import CS3500.Utils;
 import CS3500.model.channel.IChannel;
+import CS3500.model.fileFormat.IFileFormat;
 import CS3500.model.image.IImage;
 import CS3500.model.operation.IOperation;
 import java.util.ArrayList;
@@ -63,7 +64,18 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
   }
 
   @Override
-  public void exportImage() {
-    // Todo:
+  public void importImage(IFileFormat format, String fileName) {
+    this.setImage(format.importImage(fileName));
   }
+
+  @Override
+  public void exportImage(IFileFormat format, String fileName) {
+
+  }
+
+  private void setImage(IImage newImage) {
+    this.save();
+    this.image = newImage;
+  }
+
 }

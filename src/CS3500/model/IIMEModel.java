@@ -1,6 +1,7 @@
 package CS3500.model;
 
 import CS3500.model.channel.IChannel;
+import CS3500.model.fileFormat.IFileFormat;
 import CS3500.model.image.IImage;
 import CS3500.model.operation.IOperation;
 
@@ -17,9 +18,10 @@ public interface IIMEModel<Z> {
    */
   void applyOperations(IOperation... operations) throws IllegalArgumentException;
 
-  /**
-   *
-   */
-  void exportImage();
+  void importImage(IFileFormat format, String fileName)
+      throws IllegalArgumentException;
+
+  void exportImage(IFileFormat format, String fileName)
+      throws IllegalArgumentException;
 
 }
