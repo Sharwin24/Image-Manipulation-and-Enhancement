@@ -160,7 +160,6 @@ public abstract class AFilter implements IFilter {
         }
       }
     }
-    //System.out.println(valuesMatrix); // Todo: remove debug code
     return valuesMatrix;
   }
 
