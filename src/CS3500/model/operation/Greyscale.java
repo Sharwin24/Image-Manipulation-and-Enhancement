@@ -15,6 +15,11 @@ public class Greyscale extends AColorTransform {
     super();
   }
 
+  /**
+   * Todo
+   *
+   * @return
+   */
   protected IMatrix<Double> initKernel() {
     IMatrix<Double> matrix = new MatrixImpl<>(0.0, 3, 3);
     for (int i = 0; i < 3; i++) {
@@ -23,5 +28,10 @@ public class Greyscale extends AColorTransform {
       matrix.updateEntry(0.0722, i, 2);
     }
     return matrix;
+  }
+
+  @Override
+  public String toString() {
+    return "Greyscale";
   }
 }

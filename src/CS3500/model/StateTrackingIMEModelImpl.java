@@ -4,6 +4,7 @@ import CS3500.Utils;
 import CS3500.model.channel.IChannel;
 import CS3500.model.fileFormat.IFileFormat;
 import CS3500.model.image.IImage;
+import CS3500.model.image.ImageImpl;
 import CS3500.model.operation.IOperation;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,9 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
   @Override
   public void applyOperations(IOperation... operations) throws IllegalArgumentException {
     for (IOperation op : operations) {
-      this.setImage(op.apply(this.image));
+      IImage recentImage = this.image.copy();
+      System.out.println("Applying " + op.toString() + "...");
+      this.setImage(op.apply(recentImage));
     }
   }
 
@@ -74,7 +77,9 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
   @Override
   public void exportImage(IFileFormat format, String fileName)
       throws IllegalArgumentException {
+    System.out.println("Exporting...");
     format.exportImage(fileName, this.image);
+    System.out.println("Finished Exporting!");
   }
 
   /**
@@ -87,7 +92,7 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
       throws IllegalArgumentException {
     Utils.checkNotNull(newImage, "cannot set a new image that is null");
     this.save();
-    this.image = newImage;
+    this.image = newImage.copy();
   }
 
 }

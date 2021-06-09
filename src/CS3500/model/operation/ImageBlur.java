@@ -31,4 +31,9 @@ public class ImageBlur extends AFilter {
     return matrix;
   }
 
+  @Override
+  public String toString() {
+    return "ImageBlur";
+  }
+
 }

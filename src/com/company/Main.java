@@ -83,22 +83,31 @@ public class Main {
 //    IMatrix<IPixel> pxMatrix = new MatrixImpl<>(pxs);
 //    IImage SAMPLE_IMAGE = new ImageImpl(pxMatrix);
 
-
-
     IStateTrackingIMEModel m = new StateTrackingIMEModelImpl(new ImageImpl(new MatrixImpl<>()));
     m.importImage(new PPMFile(), "src/teletubbies-10-ft-tall.ppm");
     // m.exportImage(new PPMFile(), "exportedTeletubbies");
-    m.applyOperations(new ImageBlur());
-    m.applyOperations(new ImageBlur());
-    m.applyOperations(new ImageBlur());
-    m.applyOperations(new ImageBlur());
-    m.applyOperations(new ImageBlur());
+    m.applyOperations(new ImageBlur(), new ImageBlur(), new ImageBlur(), new ImageBlur(),
+        new ImageBlur(), new ImageBlur(), new ImageBlur(), new ImageBlur());
+//    m.applyOperations(new ImageBlur());
+//    m.applyOperations(new ImageBlur());
+//    m.applyOperations(new ImageBlur());
+//    m.applyOperations(new ImageBlur());
+//    m.applyOperations(new ImageBlur());
+//    m.applyOperations(new ImageBlur());
+//    m.applyOperations(new ImageBlur());
+//    m.applyOperations(new ImageBlur());
+//    m.applyOperations(new ImageBlur());
+//    m.applyOperations(new ImageBlur());
+//    m.applyOperations(new ImageBlur());
+//    m.applyOperations(new ImageBlur());
+//    m.applyOperations(new ImageBlur());
+//    m.applyOperations(new ImageBlur());
 
-    m.applyOperations(new Sharpening());
-    m.applyOperations(new Sharpening());
-    m.applyOperations(new Sharpening());
-    m.applyOperations(new Sharpening());
-    m.applyOperations(new Sharpening());
+//    m.applyOperations(new Sharpening());
+//    m.applyOperations(new Sharpening());
+//    m.applyOperations(new Sharpening());
+//    m.applyOperations(new Sharpening());
+//    m.applyOperations(new Sharpening());
 
     m.exportImage(new PPMFile(), "blurredTeletubbies");
   }
