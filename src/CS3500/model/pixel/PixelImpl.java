@@ -26,8 +26,8 @@ public class PixelImpl implements IPixel {
 
   /**
    * <p>Creates a new {@link PixelImpl} given the intensity of its
-   * {@link EChannelType#RED}, {@link EChannelType#GREEN}, and
-   * {@link EChannelType#BLUE} channels, and enforces the following
+   * {@link EChannelType#RED}, {@link EChannelType#GREEN}, and {@link EChannelType#BLUE} channels,
+   * and enforces the following
    * <b><i>invariant:</i></b></p>
    * <title><b><i>INVARIANT</i></b></title>
    * <div><sub>A {@link PixelImpl}'s intensity of its
@@ -47,7 +47,7 @@ public class PixelImpl implements IPixel {
         Utils.setIntBetween(r, 0, 255));
     this.green = new ChannelImpl(EChannelType.GREEN,
         Utils.setIntBetween(g, 0, 255));
-    this.blue = new ChannelImpl(EChannelType.BLUE, 
+    this.blue = new ChannelImpl(EChannelType.BLUE,
         Utils.setIntBetween(b, 0, 255));
   }
 
@@ -70,9 +70,11 @@ public class PixelImpl implements IPixel {
 
   @Override
   public String toString() {
-    return "(" + this.red.toString() + ", " +
-        this.green.toString() + ", "
-        + this.blue.toString() + ")";
+    return Integer.toString(this.getIntensity(EChannelType.RED))
+        + " "
+        + Integer.toString(this.getIntensity(EChannelType.BLUE))
+        + " "
+        + Integer.toString(this.getIntensity(EChannelType.GREEN));
   }
 
 }

@@ -80,24 +80,22 @@ public class PPMFile implements IFileFormat<IImage> {
       throws IllegalArgumentException {
     Utils.checkNotNull(fileName, "cannot export image to a null file name");
     Utils.checkNotNull(image, "cannot export a null image");
-    String fileNamePPM = fileName + ".txt"/*+ ".ppm"*/;
-    StringBuilder sb = new StringBuilder("               .-.\n"
-        + "               | |\n"
-        + "               | |\n"
-        + "               | |\n"
-        + "           ..--\" \"--..\n"
-        + "         .' .-'\" \"`-. `.\n"
-        + "   .-.  / .'         `. \\  .-.\n"
-        + "   ||\\`/ /  __     __  \\ \\'/||\n"
-        + "   || `||  /()|   |()\\  ||' ||\n"
-        + "   \\\\  ||  `--'   `--'  ||  //\n"
-        + "    \\\\_\\ \\      Y      / /_//\n"
-        + "     `--`.`. \\--^--/ .'.'--'\n"
-        + "          > `-`._.'-' <\n"
-        + "        .'             `.\n"
-        + "         `-._________.-' u suck");
+    String fileNamePPM = fileName +  ".ppm";
 
-    this.dumpAppendable(sb, fileNamePPM);
+    StringBuilder fileContents = new StringBuilder();
+    fileContents.append(Utils.println("P3"));
+    fileContents.append(Utils.println(image.getPixelArray().getWidth() + " "
+        + image.getPixelArray().getHeight()));
+    fileContents.append(Utils.println("255"));
+
+    for (int pxRow = 0; pxRow < image.getPixelArray().getHeight(); pxRow++) {
+      for (int pxCol = 0; pxCol < image.getPixelArray().getWidth(); pxCol++) {
+        fileContents.append(" " + image.getPixelArray().getElement(pxRow, pxCol).toString() + "\t");
+      }
+      fileContents.append("\n");
+    }
+
+    this.dumpAppendable(fileContents, fileNamePPM);
   }
 
   /**
