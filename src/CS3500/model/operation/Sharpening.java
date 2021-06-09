@@ -33,4 +33,9 @@ public class Sharpening extends AFilter {
     }
     return matrix;
   }
+
+  @Override
+  public String toString() {
+    return "Sharpening";
+  }
 }

@@ -12,11 +12,10 @@ public interface IColorTransform extends IOperation {
   /**
    * Applies the given matrix transform to the given image.
    *
-   * @param image       the image to apply
-   * @param colorMatrix the matrix to apply to the image.
+   * @param image the image to apply
    * @return the IImage after the Color Transform.
    * @throws IllegalArgumentException if the arguments are null.
    */
-  IImage applyColorTransform(IImage image, IMatrix<Double> colorMatrix)
+  IImage apply(IImage image)
       throws IllegalArgumentException;
 }

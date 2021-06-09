@@ -29,4 +29,9 @@ public class Sepia extends AColorTransform {
     matrix.updateEntry(0.131, 2, 2);
     return matrix;
   }
+
+  @Override
+  public String toString() {
+    return "Sepia";
+  }
 }

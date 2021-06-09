@@ -30,13 +30,14 @@ public abstract class AColorTransform implements IColorTransform {
 
 
   @Override
-  public IImage applyColorTransform(IImage image, IMatrix<Double> colorMatrix)
+  public IImage apply(IImage applyTo)
       throws IllegalArgumentException {
-    if ( image == null || colorMatrix == null) {
+    if (applyTo == null) {
       throw new IllegalArgumentException("Arguments are null");
     }
-    IMatrix<IPixel> pixelArray = image.getPixelArray();
-    IMatrix<IPixel> pixelArrayCopy = image.getPixelArray().copy();
+    IMatrix<IPixel> pixelArray = applyTo.getPixelArray();
+    IMatrix<IPixel> pixelArrayCopy = applyTo.getPixelArray().copy();
+    IMatrix<Double> colorMatrix = this.kernel;
     for (int i = 0; i < pixelArray.getHeight(); i++) {
       for (int j = 0; j < pixelArray.getWidth(); j++) {
         IPixel currentPixel = pixelArray.getElement(i, j);
@@ -56,11 +57,5 @@ public abstract class AColorTransform implements IColorTransform {
       }
     }
     return new ImageImpl(pixelArrayCopy);
-  }
-
-  // TODO: stub to get program to compile for testing. Needs to be implemented
-  @Override
-  public IImage apply(IImage applyTo) {
-    return null;
   }
 }

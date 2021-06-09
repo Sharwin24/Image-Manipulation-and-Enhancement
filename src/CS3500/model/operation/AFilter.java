@@ -63,12 +63,11 @@ public abstract class AFilter implements IFilter {
     IMatrix<IPixel> pixelArray = image.getPixelArray();
     IMatrix<IPixel> pixelArrayCopy = image.getPixelArray().copy();
     int kernelHeight = this.kernelToApply.getHeight();
-    int kernelWidth = this.kernelToApply.getWidth();
     for (int i = 0; i < pixelArray.getHeight(); i++) {
       for (int j = 0; j < pixelArray.getWidth(); j++) {
         IPixel currentPixel = pixelArray.getElement(i, j);
         IMatrix<Integer> channelValues =
-            this.getNeighborsOfPixel(i, j, kernelHeight, kernelWidth, pixelArray, channelType);
+            this.getNeighborsOfPixel(i, j, kernelHeight, pixelArray, channelType);
         double newPixelValue = this.dotProductKernel(channelValues);
         IPixel newPixel = this.getNewPixel(currentPixel, channelType, (int) newPixelValue);
         pixelArrayCopy.updateEntry(newPixel, i, j);
@@ -139,35 +138,28 @@ public abstract class AFilter implements IFilter {
    *
    * @param x           The x, or column, position of the given pixel.
    * @param y           The y. or row, position of the given pixel.
-   * @param kLenH       The size of the kernel's height, which determines the size of the returned
-   *                    Matrix.
-   * @param kLenW       The size of the kernel's width, which determines the size of the returned *
-   *                    Matrix.
+   * @param kLen        The size of the kernel , which determines the size of the returned Matrix.
    * @param pixelMatrix the matrix of pixels that represent the image.
    * @param channelType the channel of pixel's values to fill the Matrix.
    * @return A {@link IMatrix<Double>} representing the neighboring pixel's values.
    */
-  private IMatrix<Integer> getNeighborsOfPixel(int x, int y, int kLenH, int kLenW,
+  private IMatrix<Integer> getNeighborsOfPixel(int x, int y, int kLen,
       IMatrix<IPixel> pixelMatrix
       , EChannelType channelType) {
-    IMatrix<Integer> valuesMatrix = new MatrixImpl<>(0, kLenH, kLenW);
-    int limH = (int) (0.5 * kLenH + 0.5);
-    limH = kLenH - limH;
-    int limW = (int) (0.5 * kLenW + 0.5);
-    limW = kLenW - limW;
-    int numPixelRows = pixelMatrix.getHeight();
-    int numPixelCols = pixelMatrix.getWidth();
-
-    for (int row = -limH; row <= limH; row++) {
-      for (int col = -limW; col <= limW; col++) {
-        if (isInMatrix(x + row, y + col, numPixelRows, numPixelCols)) {
+    IMatrix<Integer> valuesMatrix = new MatrixImpl<>(0, kLen, kLen);
+    int lim = (int) (0.5 * kLen + 0.5);
+    lim = kLen - lim;
+    for (int row = -lim; row <= lim; row++) {
+      for (int col = -lim; col <= lim; col++) {
+        try {
           int pixelChannelValue =
               pixelMatrix.getElement(x + row, y + col).getIntensity(channelType);
-          valuesMatrix.updateEntry(pixelChannelValue, (kLenH / 2) + row, (kLenW / 2) + col);
+          valuesMatrix.updateEntry(pixelChannelValue, (kLen / 2) + row, (kLen / 2) + col);
+        } catch (Exception e) { // Todo: Update to catch all exceptions
+          // Do nothing
         }
       }
     }
-
     return valuesMatrix;
   }
 
@@ -182,7 +174,7 @@ public abstract class AFilter implements IFilter {
    * @return a boolean representing whether the given (x,y) is within the indexes of the rows and
    * columns.
    */
-  private boolean isInMatrix(int x, int y, int rows, int cols) {
+  public boolean isInMatrix(int x, int y, int rows, int cols) {
     return x >= 0 && y >= 0 && x < cols && y < rows;
   }
 
