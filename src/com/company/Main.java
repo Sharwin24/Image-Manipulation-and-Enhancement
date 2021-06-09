@@ -61,6 +61,6 @@ public class Main {
     //ImageUtil.readPPM(filename);
 
     IStateTrackingIMEModel m = new StateTrackingIMEModelImpl(new ImageImpl(new MatrixImpl<>()));
-    m.exportImage(new PPMFile(), "amogus");
+    m.exportImage(new PPMFile(), "teletubby");
   }
 }
