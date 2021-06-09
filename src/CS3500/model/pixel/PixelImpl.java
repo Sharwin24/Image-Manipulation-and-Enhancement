@@ -72,9 +72,9 @@ public class PixelImpl implements IPixel {
   public String toString() {
     return Integer.toString(this.getIntensity(EChannelType.RED))
         + " "
-        + Integer.toString(this.getIntensity(EChannelType.BLUE))
+        + Integer.toString(this.getIntensity(EChannelType.GREEN))
         + " "
-        + Integer.toString(this.getIntensity(EChannelType.GREEN));
+        + Integer.toString(this.getIntensity(EChannelType.BLUE));
   }
 
 }

@@ -86,7 +86,20 @@ public class Main {
 
 
     IStateTrackingIMEModel m = new StateTrackingIMEModelImpl(new ImageImpl(new MatrixImpl<>()));
-    m.importImage(new PPMFile(), "src/Koala.ppm");
-    m.exportImage(new PPMFile(), "exportedKoala");
+    m.importImage(new PPMFile(), "src/teletubbies-10-ft-tall.ppm");
+    // m.exportImage(new PPMFile(), "exportedTeletubbies");
+    m.applyOperations(new ImageBlur());
+    m.applyOperations(new ImageBlur());
+    m.applyOperations(new ImageBlur());
+    m.applyOperations(new ImageBlur());
+    m.applyOperations(new ImageBlur());
+
+    m.applyOperations(new Sharpening());
+    m.applyOperations(new Sharpening());
+    m.applyOperations(new Sharpening());
+    m.applyOperations(new Sharpening());
+    m.applyOperations(new Sharpening());
+
+    m.exportImage(new PPMFile(), "blurredTeletubbies");
   }
 }

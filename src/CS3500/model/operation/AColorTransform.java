@@ -57,4 +57,10 @@ public abstract class AColorTransform implements IColorTransform {
     }
     return new ImageImpl(pixelArrayCopy);
   }
+
+  // TODO: stub to get program to compile for testing. Needs to be implemented
+  @Override
+  public IImage apply(IImage applyTo) {
+    return null;
+  }
 }

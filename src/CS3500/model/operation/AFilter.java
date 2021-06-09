@@ -185,4 +185,10 @@ public abstract class AFilter implements IFilter {
   private boolean isInMatrix(int x, int y, int rows, int cols) {
     return x >= 0 && y >= 0 && x < cols && y < rows;
   }
+
+
+  @Override
+  public IImage apply(IImage applyTo) {
+    return this.applyFilterToAllChannels(applyTo);
+  }
 }

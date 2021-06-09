@@ -27,7 +27,9 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
 
   @Override
   public void applyOperations(IOperation... operations) throws IllegalArgumentException {
-    // Todo:
+    for (IOperation op : operations) {
+      this.setImage(op.apply(this.image));
+    }
   }
 
 

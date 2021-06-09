@@ -99,7 +99,7 @@ public class PPMFile implements IFileFormat<IImage> {
   }
 
   /**
-   * TODO
+   * TODO: abstract to any appendable
    * @param sb
    * @param fileName
    * @throws IllegalArgumentException

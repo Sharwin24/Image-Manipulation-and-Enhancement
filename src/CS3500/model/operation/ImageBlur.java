@@ -1,5 +1,6 @@
 package CS3500.model.operation;
 
+import CS3500.model.image.IImage;
 import CS3500.model.matrix.IMatrix;
 import CS3500.model.matrix.MatrixImpl;
 
@@ -29,4 +30,5 @@ public class ImageBlur extends AFilter {
     matrix.updateEntry(0.25, 1, 1);
     return matrix;
   }
+
 }

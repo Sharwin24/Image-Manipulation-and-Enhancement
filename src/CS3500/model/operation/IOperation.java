@@ -9,4 +9,5 @@ import javax.imageio.IIOImage;
  */
 public interface IOperation {
 // When new Operations get added, they can extend this interface.
+  public IImage apply(IImage applyTo);
 }
