@@ -15,11 +15,7 @@ public class Greyscale extends AColorTransform {
     super();
   }
 
-  /**
-   * Todo
-   *
-   * @return
-   */
+  @Override
   protected IMatrix<Double> initKernel() {
     IMatrix<Double> matrix = new MatrixImpl<>(0.0, 3, 3);
     for (int i = 0; i < 3; i++) {

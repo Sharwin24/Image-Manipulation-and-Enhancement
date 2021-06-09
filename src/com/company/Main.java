@@ -12,10 +12,12 @@ import CS3500.model.image.IImage;
 import CS3500.model.image.ImageImpl;
 import CS3500.model.matrix.IMatrix;
 import CS3500.model.matrix.MatrixImpl;
+import CS3500.model.operation.Greyscale;
 import CS3500.model.operation.IFilter;
 import CS3500.model.operation.IOperation;
 import CS3500.model.operation.ImageBlur;
 import CS3500.model.operation.MyFilter;
+import CS3500.model.operation.Sepia;
 import CS3500.model.operation.Sharpening;
 import CS3500.model.pixel.IPixel;
 import CS3500.model.pixel.PixelImpl;
@@ -86,23 +88,9 @@ public class Main {
     IStateTrackingIMEModel m = new StateTrackingIMEModelImpl(new ImageImpl(new MatrixImpl<>()));
     m.importImage(new PPMFile(), "src/teletubbies-10-ft-tall.ppm");
     // m.exportImage(new PPMFile(), "exportedTeletubbies");
-    m.applyOperations(new ImageBlur(), new ImageBlur(), new ImageBlur(), new ImageBlur(),
-        new ImageBlur(), new ImageBlur(), new ImageBlur(), new ImageBlur());
-//    m.applyOperations(new ImageBlur());
-//    m.applyOperations(new ImageBlur());
-//    m.applyOperations(new ImageBlur());
-//    m.applyOperations(new ImageBlur());
-//    m.applyOperations(new ImageBlur());
-//    m.applyOperations(new ImageBlur());
-//    m.applyOperations(new ImageBlur());
-//    m.applyOperations(new ImageBlur());
-//    m.applyOperations(new ImageBlur());
-//    m.applyOperations(new ImageBlur());
-//    m.applyOperations(new ImageBlur());
-//    m.applyOperations(new ImageBlur());
-//    m.applyOperations(new ImageBlur());
-//    m.applyOperations(new ImageBlur());
-
+//    m.applyOperations(new ImageBlur(), new ImageBlur(), new ImageBlur(), new ImageBlur(),
+//        new ImageBlur(), new ImageBlur(), new ImageBlur(), new ImageBlur());
+    m.applyOperations(new Sepia() , new Greyscale());
 //    m.applyOperations(new Sharpening());
 //    m.applyOperations(new Sharpening());
 //    m.applyOperations(new Sharpening());

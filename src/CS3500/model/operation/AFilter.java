@@ -149,15 +149,13 @@ public abstract class AFilter implements IFilter {
     IMatrix<Integer> valuesMatrix = new MatrixImpl<>(0, kLen, kLen);
     int lim = (int) (0.5 * kLen + 0.5);
     lim = kLen - lim;
-    int numPixelRows = pixelMatrix.getHeight();
-    int numPixelCols = pixelMatrix.getWidth();
     for (int row = -lim; row <= lim; row++) {
       for (int col = -lim; col <= lim; col++) {
         try {
           int pixelChannelValue =
               pixelMatrix.getElement(x + row, y + col).getIntensity(channelType);
           valuesMatrix.updateEntry(pixelChannelValue, (kLen / 2) + row, (kLen / 2) + col);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
           // Do nothing
         }
       }
