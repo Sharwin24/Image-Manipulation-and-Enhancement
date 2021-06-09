@@ -28,15 +28,13 @@ public abstract class AColorTransform implements IColorTransform {
    */
   protected abstract IMatrix<Double> initKernel();
 
-  /**
-   * Applies the given matrix transform to the given image.
-   *
-   * @param image       the image to apply
-   * @param colorMatrix the matrix to apply to the image.
-   */
-  protected IImage applyColorTransform(IImage image, IMatrix<Double> colorMatrix) {
-    // Iterate over the pixels in the image and for each pixel,
-    // each row gets multiplied by r, g, b to create the new r', g', b'
+
+  @Override
+  public IImage applyColorTransform(IImage image, IMatrix<Double> colorMatrix)
+      throws IllegalArgumentException {
+    if ( image == null || colorMatrix == null) {
+      throw new IllegalArgumentException("Arguments are null");
+    }
     IMatrix<IPixel> pixelArray = image.getPixelArray();
     IMatrix<IPixel> pixelArrayCopy = image.getPixelArray().copy();
     for (int i = 0; i < pixelArray.getHeight(); i++) {

@@ -4,7 +4,7 @@ import CS3500.model.matrix.IMatrix;
 import CS3500.model.matrix.MatrixImpl;
 
 /**
- * Todo:
+ * Class to represent the {@link IOperation} for Blurring an Image.
  */
 public class ImageBlur extends AFilter {
 

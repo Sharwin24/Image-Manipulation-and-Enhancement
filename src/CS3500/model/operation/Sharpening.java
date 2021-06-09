@@ -4,7 +4,7 @@ import CS3500.model.matrix.IMatrix;
 import CS3500.model.matrix.MatrixImpl;
 
 /**
- * Todo:
+ * Class to represent the {@link IOperation} for Sharpening an Image.
  */
 public class Sharpening extends AFilter {
 
