@@ -57,12 +57,6 @@ public abstract class AFilter implements IFilter {
    */
   private IImage applyToChannel(IImage image, EChannelType channelType)
       throws IllegalArgumentException {
-    // Will use the IImage to traverse the matrix of pixels and for each pixel,
-    // collect the surrounding pixels up to the size of the kernel. The kernel is centered
-    // at the current pixel.
-    // Calculate what the new value for the current pixel should be by
-    // summing each surrounding pixel's channel multiplied by the corresponding kernel value
-    // If a pixel is out of bounds, use 0 as the channel value
     if (image == null || channelType == null) {
       throw new IllegalArgumentException("Image or ChannelType is null");
     }
