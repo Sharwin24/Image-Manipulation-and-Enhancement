@@ -44,12 +44,9 @@ public abstract class AFilter implements IFilter {
     if (image == null) {
       throw new IllegalArgumentException("Image is null");
     }
-    IImage image1;
-    image1 = this.applyToChannel(image, EChannelType.RED);
-    IImage image2;
-    image2 = this.applyToChannel(image1, EChannelType.GREEN);
-    IImage image3;
-    image3 = this.applyToChannel(image2, EChannelType.BLUE);
+    IImage image1 = this.applyToChannel(image, EChannelType.RED);
+    IImage image2 = this.applyToChannel(image1, EChannelType.GREEN);
+    IImage image3 = this.applyToChannel(image2, EChannelType.BLUE);
     return image3;
   }
 
@@ -61,7 +58,7 @@ public abstract class AFilter implements IFilter {
    * @return
    * @throws IllegalArgumentException if given arguments are null.
    */
-  protected IImage applyToChannel(IImage image, EChannelType channelType)
+  private IImage applyToChannel(IImage image, EChannelType channelType)
       throws IllegalArgumentException {
     // Will use the IImage to traverse the matrix of pixels and for each pixel,
     // collect the surrounding pixels up to the size of the kernel. The kernel is centered
@@ -81,8 +78,8 @@ public abstract class AFilter implements IFilter {
         IPixel currentPixel = pixelArray.getElement(i, j);
         IMatrix<Integer> channelValues = this.getNeighborsOfPixel(i, j, kernelSize, pixelArray,
             channelType);
-        int newPixelValue = this.dotProductKernel(channelValues);
-        IPixel newPixel = this.getNewPixel(currentPixel, channelType, newPixelValue);
+        double newPixelValue = this.dotProductKernel(channelValues);
+        IPixel newPixel = this.getNewPixel(currentPixel, channelType, (int) newPixelValue);
         pixelArrayCopy.updateEntry(newPixel, i, j);
       }
     }
@@ -133,16 +130,15 @@ public abstract class AFilter implements IFilter {
    * @param channelValues the values from a channel to perform a dot product on.
    * @return the result of the dot product of this instance's kernel and the channel values.
    */
-  private int dotProductKernel(IMatrix<Integer> channelValues) {
+  private double dotProductKernel(IMatrix<Integer> channelValues) {
     // Perform a dot product with this.kernelToApply and channelValues
     // return the calculated value
-    int sum = 0;
+    double sum = 0;
     for (int i = 0; i < channelValues.getHeight(); i++) {
       for (int j = 0; j < channelValues.getWidth(); j++) {
         sum += (this.kernelToApply.getElement(i, j) * channelValues.getElement(i, j));
       }
     }
-    System.out.println("Sum: " + sum); // Todo: Fix this method for dot product
     return sum;
   }
 

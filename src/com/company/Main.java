@@ -41,13 +41,13 @@ public class Main {
     String pixelsAsString = px.toString();
 
     ImageBlur imageBlur = new ImageBlur();
-    IFilter myFilter = new MyFilter();
+    MyFilter myFilter = new MyFilter();
     System.out.println("Before Apply");
     System.out.println(Utils.paddedPrint(pixelsAsString));
 //    imageBlur.applyFilterToAllChannels(img);
-    myFilter.applyFilterToAllChannels(img);
+    IImage imgCopy = myFilter.applyFilterToAllChannels(img);
     System.out.println("After Apply");
-    System.out.println(Utils.paddedPrint(img.getPixelArray().toString()));
+    System.out.println(Utils.paddedPrint(imgCopy.getPixelArray().toString()));
 
 //    IMatrix<String> m = new MatrixImpl<>(new ArrayList<>(Arrays.asList(
 //        new ArrayList<>(Arrays.asList("a","b")),

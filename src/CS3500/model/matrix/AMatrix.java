@@ -289,7 +289,7 @@ public abstract class AMatrix<X> implements IMatrix<X> {
     List<List<X>> rows = new ArrayList<>();
 
     for (List<X> row : this.entries) {
-      rows.add(row);
+      rows.add(new ArrayList<>(row));
     }
 
     return this.factoryMatrix(rows);
