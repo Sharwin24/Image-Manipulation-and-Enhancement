@@ -60,6 +60,26 @@ public class Utils {
   }
 
   /**
+   * Checks if {@code toSet} lies in the inclusive range of integers
+   * [{@code lowerBound},{@code upperBound}]. If it is, {@code toSet} is returned. Otherwise,
+   * whatever number of {{@code lowerBound}, {@code upperBound}} that {@code toSet} is closest to is
+   * returned.
+   * @param toSet the number to return in the range of [{@code lowerBound},{@code upperBound}].
+   * @param lowerBound the smallest possible {@code int} that {@code toSet} can be set to.
+   * @param upperBound the greatest possible {@code int} that {@code toSet} can be set to.
+   * @return an {@code int} in the inclusive range of [{@code lowerBound},{@code upperBound}], as
+   * described above.
+   */
+  public static int setIntBetween(int toSet, int lowerBound, int upperBound) {
+    if (toSet > upperBound) {
+      return upperBound;
+    } else if (toSet < lowerBound) {
+      return lowerBound;
+    }
+    return toSet;
+  }
+
+  /**
    * Similar to {@link System#out#println(String)}, but instead of printing to the console, this
    * method just returns the given {@link String} {@code toPad}, padded with a newline below it.
    *
