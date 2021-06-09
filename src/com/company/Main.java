@@ -90,7 +90,7 @@ public class Main {
     // m.exportImage(new PPMFile(), "exportedTeletubbies");
 //    m.applyOperations(new ImageBlur(), new ImageBlur(), new ImageBlur(), new ImageBlur(),
 //        new ImageBlur(), new ImageBlur(), new ImageBlur(), new ImageBlur());
-    m.applyOperations(new Sepia() , new Greyscale());
+    m.applyOperations(new Greyscale(), new Sharpening(), new Sharpening(), new Sharpening());
 //    m.applyOperations(new Sharpening());
 //    m.applyOperations(new Sharpening());
 //    m.applyOperations(new Sharpening());
