@@ -4,6 +4,7 @@ package com.company;
 import CS3500.model.IStateTrackingIMEModel;
 import CS3500.model.ProgramamticImages.BWNoise;
 import CS3500.model.ProgramamticImages.Noise;
+import CS3500.model.ProgramamticImages.PureNoise;
 import CS3500.model.ProgramamticImages.RainbowNoise;
 import CS3500.model.StateTrackingIMEModelImpl;
 import CS3500.model.fileFormat.PPMFile;
@@ -97,5 +98,7 @@ public class Main {
 
     //m.setProgrammaticImage(new RainbowNoise(), 699, 420, 500);
 
+    m.setProgrammaticImage(new PureNoise(), 500, 500, 1);
+    m.exportImage(new PPMFile(), "pureNoise");
   }
 }
