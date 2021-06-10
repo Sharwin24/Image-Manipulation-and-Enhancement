@@ -86,17 +86,24 @@ public class Main {
 //    IImage SAMPLE_IMAGE = new ImageImpl(pxMatrix);
 
     IStateTrackingIMEModel m = new StateTrackingIMEModelImpl(new ImageImpl(new MatrixImpl<>()));
-    m.importImage(new PPMFile(), "src/teletubbies-10-ft-tall.ppm");
+//    m.importImage(new PPMFile(), "src/statue-of-liberty.ppm");
+//    m.applyOperations(new Sepia(), new Sharpening(), new Sharpening(), new Sharpening(), new Sharpening());
+//    m.exportImage(new PPMFile(), "new-statue-of-liberty");
+//    m.importImage(new PPMFile(), "src/teletubbies-10-ft-tall.ppm");
     // m.exportImage(new PPMFile(), "exportedTeletubbies");
 //    m.applyOperations(new ImageBlur(), new ImageBlur(), new ImageBlur(), new ImageBlur(),
 //        new ImageBlur(), new ImageBlur(), new ImageBlur(), new ImageBlur());
-    m.applyOperations(new Greyscale(), new Sharpening(), new Sharpening(), new Sharpening());
+//    m.applyOperations(new Greyscale(), new Sharpening(), new Sharpening(), new Sharpening());
 //    m.applyOperations(new Sharpening());
 //    m.applyOperations(new Sharpening());
 //    m.applyOperations(new Sharpening());
 //    m.applyOperations(new Sharpening());
 //    m.applyOperations(new Sharpening());
 
-    m.exportImage(new PPMFile(), "blurredTeletubbies");
+//    m.importImage(new PPMFile(), "dachshunds.ppm");
+//    m.applyOperations(new Sharpening(), new Sharpening(), new Sharpening());
+//    m.exportImage(new PPMFile(), "edited-dachshunds");
+
+//    m.exportImage(new PPMFile(), "blurredTeletubbies");
   }
 }

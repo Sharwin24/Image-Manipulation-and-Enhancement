@@ -1,5 +1,6 @@
 package CS3500.model;
 
+import CS3500.model.ProgramamticImages.IProgramImage;
 import CS3500.model.channel.IChannel;
 import CS3500.model.fileFormat.IFileFormat;
 import CS3500.model.image.IImage;
@@ -24,4 +25,7 @@ public interface IIMEModel<Z> {
   void exportImage(IFileFormat format, String fileName)
       throws IllegalArgumentException;
 
+  void setProgrammaticImage(IProgramImage imgToSet, int widthPx, int heightPx,
+      int unitSizePx)
+  throws IllegalArgumentException;
 }

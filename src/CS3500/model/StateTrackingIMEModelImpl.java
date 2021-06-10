@@ -1,14 +1,17 @@
 package CS3500.model;
 
 import CS3500.Utils;
-import CS3500.model.channel.IChannel;
+import CS3500.model.ProgramamticImages.Checkerboard;
+import CS3500.model.ProgramamticImages.IProgramImage;
 import CS3500.model.fileFormat.IFileFormat;
 import CS3500.model.image.IImage;
 import CS3500.model.image.ImageImpl;
+import CS3500.model.matrix.MatrixImpl;
 import CS3500.model.operation.IOperation;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Stack;
+import java.util.Map;
 
 /**
  * TODO: JavaDoc comments
@@ -19,7 +22,23 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
   private final List<IImage> history; // I1 I2 I3 I4 I5 ...
   private int historyCounter;
 
-  public StateTrackingIMEModelImpl(IImage image) {
+  /**
+   * TODO
+   *
+   */
+  private StateTrackingIMEModelImpl() {
+    this.image = new ImageImpl(new MatrixImpl<>());
+    this.history = new ArrayList<>();
+    this.historyCounter = 0;
+  }
+
+  /**
+   * TODO
+   * @param image
+   * @throws IllegalArgumentException
+   */
+  public StateTrackingIMEModelImpl(IImage image)
+  throws IllegalArgumentException {
     this.image = Utils.checkNotNull(image, "cannot construct an IME model with a null "
         + "image");
     this.history = new ArrayList<>();
@@ -82,6 +101,13 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
     System.out.println("Finished Exporting!");
   }
 
+  @Override
+  public void setProgrammaticImage(IProgramImage imgToSet, int widthPx, int heightPx,
+      int unitSizePx)
+      throws IllegalArgumentException {
+    this.setImage((IImage) imgToSet.createProgramImage(widthPx, heightPx, unitSizePx)); // safe cast
+  }
+
   /**
    * TODO
    *
@@ -94,5 +120,6 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
     this.save();
     this.image = newImage.copy();
   }
+
 
 }
