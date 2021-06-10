@@ -31,18 +31,18 @@ public class Main {
     IStateTrackingIMEModel<IImage> model =
         new StateTrackingIMEModelImpl(new ImageImpl(new MatrixImpl<>()));
     model.importImage(new PPMFile(), "res/Koala.ppm");
+
     model.applyOperations(new Greyscale());
     model.exportImage(new PPMFile(), "greyscaleKoala");
-    model.getUndo();
-    model.getRedo();
+
     model.undo();
-    model.exportImage(new PPMFile(), "shouldBeOriginal");
-    model.getUndo();
-    model.getRedo();
-    System.out.println(model.retrieve());
+
+
     model.redo();
-    model.exportImage(new PPMFile(), "shouldBeGS");
-    model.getUndo();
-    model.getRedo();
+    model.undo();
+    model.redo();
+    model.exportImage(new PPMFile(), "GSkoala");
+
+
   }
 }
