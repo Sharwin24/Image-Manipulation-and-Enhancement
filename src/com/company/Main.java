@@ -96,6 +96,6 @@ public class Main {
 //    m.exportImage(new PPMFile(), "blurredTeletubbies");
 
     //m.setProgrammaticImage(new RainbowNoise(), 699, 420, 500);
-   
+
   }
 }

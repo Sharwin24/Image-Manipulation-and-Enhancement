@@ -15,3 +15,13 @@ Decide whether or not to add support for editing multiple images at once</li>
 Create tests to check for null inputs in all methods of the model package</li>
 <li>
 Tests for all Utils static methods</li></ul>
+
+<b>Adam:</b> <ul>
+<li>
+JavaDocs for matrix, pixel, programmatic image, model</li>
+<li>
+set up abstract tests</li>
+<li>
+README</li>
+<li>
+IImage wrapper class fixes</li></ul>
