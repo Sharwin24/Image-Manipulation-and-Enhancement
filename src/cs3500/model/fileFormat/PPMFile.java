@@ -87,7 +87,7 @@ public class PPMFile implements IFileFormat<IImage> {
       throws IllegalArgumentException {
     Utils.checkNotNull(relativePath, "cannot export image to a null file name");
     Utils.checkNotNull(image, "cannot export a null image");
-    String fileNamePPM = relativePath +  ".ppm";
+    String fileNamePPM = "res/" + relativePath +  ".ppm";
 
     StringBuilder fileContents = new StringBuilder();
     fileContents.append(Utils.println("P3"));
@@ -106,7 +106,7 @@ public class PPMFile implements IFileFormat<IImage> {
   }
 
   /**
-   * TODO: abstract to any appendable
+   * : abstract to any appendable
    * @param sb
    * @param fileName
    * @throws IllegalArgumentException

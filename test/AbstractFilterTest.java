@@ -1,13 +1,28 @@
+import cs3500.model.operation.IOperation;
+import cs3500.model.operation.ImageBlur;
+import cs3500.model.operation.Sharpening;
+import org.junit.Before;
+import org.junit.Test;
+
 /**
  * TODO
  */
 public abstract class AbstractFilterTest {
 
+  private IOperation op;
+
+  @Before
+  public void init() {
+    IOperation op = this.constructFilter();
+  }
+
+
   /**
    * TODO
+   *
    * @return
    */
-  protected abstract cs3500.model.operation.IOperation constructFilter();
+  protected abstract IOperation constructFilter();
 
   /**
    * TODO
@@ -15,8 +30,8 @@ public abstract class AbstractFilterTest {
   public static class SharpeningTest extends AbstractFilterTest {
 
     @Override
-    protected cs3500.model.operation.IOperation constructFilter() {
-      return (cs3500.model.operation.IOperation) new cs3500.model.operation.Sharpening();
+    protected IOperation constructFilter() {
+      return new Sharpening();
     }
   }
 
@@ -26,8 +41,8 @@ public abstract class AbstractFilterTest {
   public static class BlurTest extends AbstractFilterTest {
 
     @Override
-    protected cs3500.model.operation.IOperation constructFilter() {
-      return (cs3500.model.operation.IOperation) new cs3500.model.operation.ImageBlur();
+    protected IOperation constructFilter() {
+      return new ImageBlur();
     }
   }
 

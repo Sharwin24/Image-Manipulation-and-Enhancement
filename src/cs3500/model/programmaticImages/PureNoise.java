@@ -23,17 +23,16 @@ public class PureNoise implements IProgramImage<IImage> {
     Utils.checkIntBetween(heightPx, 0, Integer.MAX_VALUE);
 
     List<List<IPixel>> pixels = new ArrayList<>();
+    Random rand = new Random();
     for (int i = 0; i < heightPx; i++) {
       List<IPixel> thisRow = new ArrayList<>();
       for (int j = 0; j < widthPx; j++) {
-        Random rand = new Random();
         thisRow.add(
             new PixelImpl(
                 rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
       }
       pixels.add(thisRow);
     }
-
     return new ImageImpl(pixels);
   }
 

@@ -9,37 +9,60 @@ import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.operation.IOperation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
- * TODO: JavaDoc comments
+ * A class to represent a model to track the state of an Image and to apply operations to it.
  */
 public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage> {
 
   private IImage image; // The current image
-  private final List<IImage> history; // I1 I2 I3 I4 I5 ...
-  private int historyCounter;
+  private final Stack<IImage> undoHistory;
+  private final Stack<IImage> redoHistory;
 
-  /**
-   * TODO
-   *
+
+  /*
+  Set an image(change to the state) - clear the redo stack and push the state to the undo stack
+  I1,
+  UNDO: [I2,I4]
+  REDO: []
    */
-  private StateTrackingIMEModelImpl() {
-    this.image = new ImageImpl(new MatrixImpl<>());
-    this.history = new ArrayList<>();
-    this.historyCounter = 0;
+
+  // Todo: remove debug code
+  @Override
+  public Stack<IImage> getUndo() {
+    System.out.println("Undo:" + undoHistory);
+    return this.undoHistory;
+  }
+  @Override
+  public Stack<IImage> getRedo() {
+    System.out.println("Redo:" + redoHistory);
+    return this.redoHistory;
   }
 
   /**
-   * TODO
-   * @param image
-   * @throws IllegalArgumentException
+   * Constructs a Model that tracks the state of an image, enabling the user to undo/redo
+   * operations. Initializes the current Image to an empty one.
+   */
+  private StateTrackingIMEModelImpl() {
+    this.image = new ImageImpl(new MatrixImpl<>());
+    this.undoHistory = new Stack<>();
+    this.redoHistory = new Stack<>();
+  }
+
+  /**
+   * Constructs a Model with a given Image to start with.
+   *
+   * @param image the image to start the model with.
+   * @throws IllegalArgumentException if the image is null.
    */
   public StateTrackingIMEModelImpl(IImage image)
-  throws IllegalArgumentException {
+      throws IllegalArgumentException {
     this.image = Utils.checkNotNull(image, "cannot construct an IME model with a null "
         + "image");
-    this.history = new ArrayList<>();
-    this.historyCounter = 0;
+    this.undoHistory = new Stack<>();
+    this.undoHistory.push(image);
+    this.redoHistory = new Stack<>();
   }
 
   @Override
@@ -55,33 +78,29 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
   @Override
   public void undo() // moves left
       throws IllegalArgumentException {
-    if (this.historyCounter == 0 || this.history.size() == 1) {
-      throw new IllegalArgumentException("Cannot undo after no changes");
-    }
-    this.historyCounter--;
-    this.image = this.history.get(historyCounter);
+    // Undoing pops off from the undo stack, and sets the current image to it, and pushes to redo
+    this.image = this.undoHistory.pop().copy();
+    this.redoHistory.push(this.image.copy());
   }
 
   @Override
   public void redo() // moves right
       throws IllegalArgumentException {
-    if (this.history.size() == 1 || this.historyCounter == this.history.size() - 1) {
-      throw new IllegalArgumentException("Cannot redo if there is nothing to redo");
-    }
-    this.historyCounter++;
-    this.image = this.history.get(historyCounter);
+    // Redo pops from redo, and pushes to undo
+    this.image = this.redoHistory.pop().copy();
+    this.undoHistory.push(this.image.copy());
   }
 
   @Override
   public void save() {
-    IImage imageCopy;
-    imageCopy = this.image.copy();
-    this.history.add(imageCopy);
+    IImage imageCopy = this.image.copy();
+    this.undoHistory.push(imageCopy);
+    this.redoHistory.clear();
   }
 
   @Override
   public IImage retrieve() {
-    return this.history.get(history.size() - 1);
+    return this.image;
   }
 
   @Override
@@ -106,10 +125,10 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
   }
 
   /**
-   * TODO
+   * Sets the current image to the given image, using a deep copy to avoid immutability.
    *
-   * @param newImage
-   * @throws IllegalArgumentException
+   * @param newImage the image to set the current image to.
+   * @throws IllegalArgumentException if the given image is null.
    */
   private void setImage(IImage newImage)
       throws IllegalArgumentException {

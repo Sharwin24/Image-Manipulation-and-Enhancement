@@ -1,9 +1,12 @@
 package cs3500.model;
 
 import cs3500.model.image.IImage;
+import cs3500.model.matrix.IMatrix;
+import java.util.List;
+import java.util.Stack;
 
 /**
- * TODO: JavaDoc comments
+ * : JavaDoc comments
  *
  * @param <Z>
  */
@@ -38,5 +41,9 @@ public interface IStateTrackingIMEModel<Z> extends IIMEModel<Z> {
    * @return the last saved IImage.
    */
   IImage retrieve();
+
+  Stack<IImage> getUndo();
+
+  Stack<IImage> getRedo();
 
 }

@@ -1,6 +1,6 @@
 package cs3500.model.matrix;
 
-// TODO: add new methods
+// : add new methods
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -29,7 +29,7 @@ import java.util.function.Function;
  *   </li>
  * </ul>
  */
-public interface IMatrix<X> { // TODO: JavaDocs
+public interface IMatrix<X> { // : JavaDocs
 
   /**
    * Returns the matrix entry located at the specified logical coordinates, indexed at 0.

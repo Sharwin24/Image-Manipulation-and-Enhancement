@@ -3,17 +3,17 @@ import cs3500.model.operation.IOperation;
 import cs3500.model.operation.Sepia;
 
 /**
- * TODO
+ *
  */
 public abstract class AbstractColorTransformTest {
 
   /**
-   * TODO
+   *
    */
   protected abstract IOperation constructColorTransform();
 
   /**
-   * TODO
+   *
    */
   public static class GreyscaleTest extends AbstractColorTransformTest {
 
@@ -24,7 +24,7 @@ public abstract class AbstractColorTransformTest {
   }
 
   /**
-   * TODO
+   *
    */
   public static class SepiaTest extends AbstractColorTransformTest {
 
