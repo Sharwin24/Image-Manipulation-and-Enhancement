@@ -1,17 +1,14 @@
 package CS3500.model;
 
 import CS3500.Utils;
-import CS3500.model.ProgramamticImages.Checkerboard;
-import CS3500.model.ProgramamticImages.IProgramImage;
+import CS3500.model.ProgrammaticImages.IProgramImage;
 import CS3500.model.fileFormat.IFileFormat;
 import CS3500.model.image.IImage;
 import CS3500.model.image.ImageImpl;
 import CS3500.model.matrix.MatrixImpl;
 import CS3500.model.operation.IOperation;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * TODO: JavaDoc comments

@@ -2,18 +2,11 @@ package com.company;
 
 
 import CS3500.model.IStateTrackingIMEModel;
-import CS3500.model.ProgramamticImages.BWNoise;
-import CS3500.model.ProgramamticImages.Noise;
-import CS3500.model.ProgramamticImages.PureNoise;
-import CS3500.model.ProgramamticImages.RainbowNoise;
+import CS3500.model.ProgrammaticImages.PureNoise;
 import CS3500.model.StateTrackingIMEModelImpl;
 import CS3500.model.fileFormat.PPMFile;
 import CS3500.model.image.ImageImpl;
 import CS3500.model.matrix.MatrixImpl;
-import CS3500.model.operation.ImageBlur;
-import CS3500.model.operation.Sepia;
-import CS3500.model.operation.Sharpening;
-import CS3500.model.pixel.PixelImpl;
 
 /**
  * Main class.

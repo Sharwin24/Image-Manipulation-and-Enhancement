@@ -163,22 +163,6 @@ public abstract class AFilter implements IFilter {
     return valuesMatrix;
   }
 
-  /**
-   * Determines if the given x and y coordinate are in between the indexes for the number of rows
-   * and columns given.
-   *
-   * @param x    the x or column index.
-   * @param y    the y or row index.
-   * @param rows the number of rows.
-   * @param cols the number of columns.
-   * @return a boolean representing whether the given (x,y) is within the indexes of the rows and
-   * columns.
-   */
-  public boolean isInMatrix(int x, int y, int rows, int cols) {
-    return x >= 0 && y >= 0 && x < cols && y < rows;
-  }
-
-
   @Override
   public IImage apply(IImage applyTo) {
     return this.applyFilterToAllChannels(applyTo);

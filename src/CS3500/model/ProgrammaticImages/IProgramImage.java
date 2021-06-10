@@ -1,6 +1,4 @@
-package CS3500.model.ProgramamticImages;
-
-import CS3500.model.image.IImage;
+package CS3500.model.ProgrammaticImages;
 
 /**
  * Todo: JavaDocs

@@ -1,4 +1,4 @@
-package CS3500.model.ProgramamticImages;
+package CS3500.model.ProgrammaticImages;
 
 import CS3500.model.pixel.PixelImpl;
 import java.util.ArrayList;

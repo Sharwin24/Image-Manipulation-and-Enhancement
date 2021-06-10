@@ -1,4 +1,4 @@
-package CS3500.model.ProgramamticImages;
+package CS3500.model.ProgrammaticImages;
 
 import CS3500.Utils;
 import CS3500.model.image.IImage;
