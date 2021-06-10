@@ -27,8 +27,6 @@ public class ImageImpl implements IImage {
   }
 
   /**
-   * TODO
-   *
    * @param pixels
    * @throws IllegalArgumentException
    */

@@ -18,7 +18,7 @@ public interface IChannel {
   int getIntensity();
 
   /**
-   * TODO
+   *
    *
    * @param o
    * @return
@@ -26,14 +26,14 @@ public interface IChannel {
   boolean equals(Object o);
 
   /**
-   * TODO
+   *
    *
    * @return
    */
   int hashCode();
 
   /**
-   * TODO
+   *
    *
    * @return
    */

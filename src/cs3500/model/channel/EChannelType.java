@@ -8,7 +8,7 @@ public enum EChannelType {
   RED, GREEN, BLUE;
 
   /**
-   * TODO
+   *
    * @return
    * @throws IllegalArgumentException
    */

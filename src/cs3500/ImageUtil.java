@@ -77,7 +77,7 @@ public class ImageUtil {
   }
 
   /**
-   * Todo: Javadocs
+   * : Javadocs
    */
   public static String exportPPM(String fileName, IImage im) throws IllegalArgumentException {
     Utils.checkNotNull(fileName, "cannot export to null file name");
