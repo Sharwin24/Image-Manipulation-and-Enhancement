@@ -34,19 +34,11 @@ public class Main {
 
     model.applyOperations(new Greyscale());
     model.exportImage(new PPMFile(), "greyscaleKoala");
-
     model.undo();
-
     model.redo();
     model.undo();
-    model.getUndo();
-    model.getRedo();
     model.exportImage(new PPMFile(), "shouldBeOriginal");
-    model.getUndo();
-    model.getRedo();
     model.redo();
-    model.getUndo();
-    model.getRedo();
     model.exportImage(new PPMFile(), "shouldBeGS");
     model.redo();
     model.exportImage(new PPMFile(), "GSkoala");
