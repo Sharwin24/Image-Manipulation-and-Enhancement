@@ -1,7 +1,7 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import CS3500.Utils;
+import cs3500.Utils;
 import org.junit.Test;
 
 /**

@@ -25,3 +25,10 @@ set up abstract tests</li>
 README</li>
 <li>
 IImage wrapper class fixes</li></ul>
+<b>Sharwin:</b> <ul>
+<li> JavaDocs for Operations </li>
+<li> Create messages for import/export for user to read</li>
+<li> Write tests for Filtering</li>
+<li> Write tests for Color Transforms</li>
+<li> Write tests for Operation application</li>
+</ul>

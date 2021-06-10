@@ -1,7 +1,7 @@
 # Image-Manipulation-and-Enhancement
 
 <p>This program serves as an image editing tool for photographers, artists, and personal use. 
-It was developed in June 2021 as a project for CS3500: Object Oriented Design at Northeastern 
+It was developed in June 2021 as a project for cs3500: Object Oriented Design at Northeastern 
 University.</p>
 
 <p>This document serves as a tool for understanding the design of this project, from a 

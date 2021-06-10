@@ -1,14 +1,12 @@
-import CS3500.model.IIMEModel;
-import CS3500.model.matrix.AMatrix;
-import CS3500.model.matrix.IMatrix;
-import CS3500.model.matrix.MatrixImpl;
+import cs3500.model.matrix.IMatrix;
+import cs3500.model.matrix.MatrixImpl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 
 /**
- * Tests for methods in the {@link CS3500.model.matrix.AMatrix} class.
+ * Tests for methods in the {@link cs3500.model.matrix.AMatrix} class.
  */
 public abstract class AbstractMatrixTest {
 
