@@ -100,7 +100,10 @@ public class Main {
 
     //m.setProgrammaticImage(new PureNoise(), 500, 500, 1);
     //m.exportImage(new PPMFile(), "pureNoise");
-    
+    String abcd = "abcd.ppm";
+    System.out.println(abcd.substring(abcd.lastIndexOf('.')));
+
+
 
   }
 }

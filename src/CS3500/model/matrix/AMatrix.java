@@ -92,8 +92,18 @@ public abstract class AMatrix<X> implements IMatrix<X> {
     this.entries = rows;
   }
 
+  /**
+   * Creates a new {@link AMatrix} with {@code numRows} rows and {@code numCols} columns, all filled
+   * with {@code uniformEntry}.
+   * @param uniformEntry the entry to be placed at every index in the resultant matrix.
+   * @param numRows the number of rows in the resultant matrix.
+   * @param numCols the number of columns in the resultant matrix.
+   * @throws IllegalArgumentException if {@code numRows} or {@code numCols} is negative, or if
+   *         {@code uniformEntry} is {@code null}.
+   */
   public AMatrix(X uniformEntry, int numRows, int numCols)
       throws IllegalArgumentException {
+    Utils.checkNotNull(uniformEntry, "cannot fill a matrix with a null entry");
     Utils.checkIntBetween(numRows, 0, Integer.MAX_VALUE);
     Utils.checkIntBetween(numCols, 0, Integer.MAX_VALUE);
 
@@ -145,26 +155,6 @@ public abstract class AMatrix<X> implements IMatrix<X> {
 
     return entries.get(Utils.checkIntBetween(row, 0, this.getHeight())).
         get(Utils.checkIntBetween(col, 0, this.getWidth()));
-
-  }
-
-  /**
-   * TODO
-   *
-   * @param row
-   * @param col
-   * @throws IllegalArgumentException
-   */
-  private void checkIndicesInBounds(int row, int col)
-      throws IllegalArgumentException {
-    if (row > this.getWidth() || row < 0) {
-      throw new IllegalArgumentException("row " + row + " out of bounds for width " +
-          this.getWidth() + " in " + this.getWidth() + "x" + this.getHeight() + " matrix");
-    }
-    if (col > this.getHeight() || col < 0) {
-      throw new IllegalArgumentException("column " + col + " out of bounds for height " +
-          this.getHeight() + " in " + this.getWidth() + "x" + this.getHeight() + " matrix");
-    }
 
   }
 
@@ -240,24 +230,6 @@ public abstract class AMatrix<X> implements IMatrix<X> {
   }
 
   @Override
-  public IMatrix<X> alignedElementWiseOperation(BiFunction<X, X, X> binaryOperation,
-      IMatrix<X> toCombine, int firstAlignmentRow, int firstAlignmentCol, int secondAlignmentRow,
-      int secondAlignmentCol)
-    throws IllegalArgumentException {
-    Utils.checkNotNull(binaryOperation, "cannot combine two matrices using a null "
-        + "elementwise binary operation");
-    Utils.checkNotNull(toCombine, "cannot perform an elementwise binary operation "
-        + "between two matrices where one of them is null");
-    Utils.checkIntBetween(firstAlignmentRow, 0, this.getHeight());
-    Utils.checkIntBetween(secondAlignmentRow, 0, this.getHeight());
-    Utils.checkIntBetween(firstAlignmentCol, 0, this.getWidth());
-    Utils.checkIntBetween(firstAlignmentRow, 0, this.getWidth());
-
-    return null; // TODO, stub
-
-  }
-
-  @Override
   public <Y> IMatrix<Y> map(Function<X, Y> unaryOperation) {
     List<List<Y>> newRows = new ArrayList<>();
 
@@ -295,32 +267,17 @@ public abstract class AMatrix<X> implements IMatrix<X> {
     return this.factoryMatrix(rows);
   }
 
-  /**
-   * Checks that this matrix is a square matrix, and throws an exception if it isn't
-   *
-   * @throws IllegalArgumentException if this matrix is not square--if this matrix does not have
-   *                                  equal height and width.
-   */
-//  private void checkEqualDimensions()
-//      throws IllegalArgumentException {
-//    if (this.getWidth() != this.getWidth()
-//        || this.getHeight() != this.getHeight()) {
-//      throw new IllegalArgumentException("cannot operate on two matrices with different dimensions,"
-//          + " however the IAlignableMatrix interface supports this!");
-//    }
-//  }
-
   @Override
   public X reduceToVal(BiFunction<X, X, X> operation, X base) {
-    X summed = base;
+    X reduced = base;
 
     for (int rowNum = 0; rowNum < this.getHeight(); rowNum++) {
       for (int colNum = 0; colNum < this.getWidth(); colNum++) {
-        summed = operation.apply(summed, this.getElement(rowNum, colNum));
+        reduced = operation.apply(reduced, this.getElement(rowNum, colNum));
       }
     }
 
-    return summed;
+    return reduced;
   }
 
 

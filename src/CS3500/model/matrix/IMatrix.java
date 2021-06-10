@@ -79,12 +79,6 @@ public interface IMatrix<X> { // TODO: JavaDocs
    */
   void updateEntry(X newEntry, int row, int col)
       throws IllegalArgumentException;
-//
-//  void add(IMatrix<X> toAdd)
-//      throws IllegalArgumentException;;
-//
-//  void rowWiseMultiply(IMatrix<X> toMultiply)
-//      throws IllegalArgumentException;
 
   /**
    * Applies a {@link BiFunction}--a binary operation to two matrices, {@code this} matrixm and
@@ -101,22 +95,6 @@ public interface IMatrix<X> { // TODO: JavaDocs
    */
   IMatrix<X> elementWiseOperation(BiFunction<X, X, X> binaryOperation, IMatrix<X> toCombine)
       throws IllegalArgumentException;
-
-  /**
-   * TODO
-   *
-   * @param binaryOperation
-   * @param toCombine
-   * @param firstAlignmentRow
-   * @param firstAlignmentCol
-   * @param secondAlignmentRow
-   * @param secondAlignmenetCol
-   * @return
-   * @throws IllegalArgumentException
-   */
-  IMatrix<X> alignedElementWiseOperation(BiFunction<X, X, X> binaryOperation, IMatrix<X> toCombine,
-      int firstAlignmentRow, int firstAlignmentCol, int secondAlignmentRow,
-      int secondAlignmenetCol) throws IllegalArgumentException;
 
 
   /**

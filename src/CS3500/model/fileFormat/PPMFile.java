@@ -26,7 +26,11 @@ public class PPMFile implements IFileFormat<IImage> {
     if (relativePath == "") {
       throw new IllegalArgumentException("cannot determine empty path name");
     }
-    if (relativePath.substring(relativePath.lastIndexOf('.')).equals(".ppm")
+    if ( !(relativePath.substring(relativePath.lastIndexOf('.')).equals(".ppm")) ) {
+      throw new IllegalArgumentException("Not a valid ppm file. When importing a ppm, please "
+          + "make sure that the file ends in \".ppm\"");
+    }
+    
     Scanner sc;
 
     try {
