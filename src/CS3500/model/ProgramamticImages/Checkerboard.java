@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Todo: Javadocs
+ * A programmatically created checkerboard image that is black and white.
  */
 public class Checkerboard implements IProgramImage<IImage> {
 

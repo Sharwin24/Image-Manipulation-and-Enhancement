@@ -9,17 +9,24 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * TODO
+ * A programmatically created noise image, where there is some {@link List} of possible colors,
+ * represented as {@link IPixel}s that can be selected at random, filling the dimensions specified
+ * in {@link Noise#createProgramImage(int, int, int)}, and creating a new {@link IImage} as such.
+ * Note that the {@code unitPx}--the unit size of this image is ignored, since pixels are selected
+ * at random.
  */
 public class Noise implements IProgramImage<IImage> {
 
   private List<IPixel> pixelChoices;
 
   /**
-   * TODO
+   * Creates a {@link Noise} object with some list of colors that it can include when
+   * programmatically creating an image.
    *
-   * @param pixelChoices
-   * @throws IllegalArgumentException
+   * @param pixelChoices the possible colors in this {@link Noise} image, represented as {@link
+   *                     IPixel}s.
+   * @throws IllegalArgumentException if the provided list is {@code null} or if any of its contents
+   *                                  are {@code null}, or if the provided list is empty.
    */
   public Noise(List<IPixel> pixelChoices)
       throws IllegalArgumentException {
@@ -50,9 +57,6 @@ public class Noise implements IProgramImage<IImage> {
 
     this.pixelChoices = pixelList;
   }
-
-
-
 
 
   @Override

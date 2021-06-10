@@ -1,5 +1,7 @@
 package CS3500;
 
+import java.util.List;
+
 /**
  * Static utility methods to be used liberally in all parts of the IME project. Supports general,
  * frequently used functions, such as:
@@ -34,6 +36,21 @@ public class Utils {
       throw new IllegalArgumentException(errorMsg);
     }
     return toCheck;
+  }
+
+  /**
+   * Checks that each element of the provided list is not {@code null}, and throws an
+   * {@link IllegalArgumentException} if it is.
+   *
+   * @param toCheckContents the list to check for null contents.
+   * @param errorMsg the message to display if a null list element is found.
+   * @param <X> the type of element in the provided list
+   * @throws IllegalArgumentException if any of the contents of the provided list are {@code null}.
+   */
+  public static <X> void checkNotNullListContents(List<X> toCheckContents, String errorMsg) {
+    for (X x : toCheckContents) {
+      checkNotNull(x, errorMsg);
+    }
   }
 
   /**
