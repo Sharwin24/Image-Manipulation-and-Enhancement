@@ -20,17 +20,21 @@ import java.util.Scanner;
 public class PPMFile implements IFileFormat<IImage> {
 
   @Override
-  public IImage importImage(String fileName)
+  public IImage importImage(String relativePath)
       throws IllegalArgumentException {
-    Utils.checkNotNull(fileName, "cannot import an image with a null file name");
+    Utils.checkNotNull(relativePath, "cannot import an image with a null file name");
+    if (relativePath == "") {
+      throw new IllegalArgumentException("cannot determine empty path name");
+    }
+    if (relativePath.substring(relativePath.lastIndexOf('.')).equals(".ppm")
     Scanner sc;
 
     try {
-      sc = new Scanner(new FileInputStream(fileName));
+      sc = new Scanner(new FileInputStream(relativePath));
     } catch (FileNotFoundException e) {
       //System.out.println("File " + filename + " not found!");
       //return;
-      throw new IllegalArgumentException("File " + fileName + " not found!");
+      throw new IllegalArgumentException("File " + relativePath + " not found!");
     }
     StringBuilder builder = new StringBuilder();
     //read the file line by line, and populate a string. This will throw away any comment lines
@@ -76,11 +80,11 @@ public class PPMFile implements IFileFormat<IImage> {
   }
 
   @Override
-  public void exportImage(String fileName, IImage image)
+  public void exportImage(String relativePath, IImage image)
       throws IllegalArgumentException {
-    Utils.checkNotNull(fileName, "cannot export image to a null file name");
+    Utils.checkNotNull(relativePath, "cannot export image to a null file name");
     Utils.checkNotNull(image, "cannot export a null image");
-    String fileNamePPM = fileName +  ".ppm";
+    String fileNamePPM = relativePath +  ".ppm";
 
     StringBuilder fileContents = new StringBuilder();
     fileContents.append(Utils.println("P3"));

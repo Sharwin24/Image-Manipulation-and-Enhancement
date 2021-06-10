@@ -9,7 +9,7 @@ import CS3500.model.image.IImage;
  */
 public interface IFileFormat<IMAGE_REPRESENTATION> {
 
-  public IMAGE_REPRESENTATION importImage(String fileName);
+  public IMAGE_REPRESENTATION importImage(String relativePath);
 
-  public void exportImage(String fileName, IImage image);
+  public void exportImage(String relativePath, IImage image);
 }

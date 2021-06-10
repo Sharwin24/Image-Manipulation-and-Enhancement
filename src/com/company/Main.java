@@ -98,7 +98,9 @@ public class Main {
 
     //m.setProgrammaticImage(new RainbowNoise(), 699, 420, 500);
 
-    m.setProgrammaticImage(new PureNoise(), 500, 500, 1);
-    m.exportImage(new PPMFile(), "pureNoise");
+    //m.setProgrammaticImage(new PureNoise(), 500, 500, 1);
+    //m.exportImage(new PPMFile(), "pureNoise");
+    
+
   }
 }
