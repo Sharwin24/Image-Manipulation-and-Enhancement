@@ -78,7 +78,7 @@ public class ImageUtil {
       pixels.add(thisRow);
     }
 
-    IImage imageAsMatrixOfPixels = new ImageImpl(new MatrixImpl<>(pixels));
+    IImage imageAsMatrixOfPixels = new ImageImpl(pixels);
     return imageAsMatrixOfPixels;
   }
 

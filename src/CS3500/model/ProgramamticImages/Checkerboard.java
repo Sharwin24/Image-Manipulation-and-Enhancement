@@ -1,5 +1,6 @@
 package CS3500.model.ProgramamticImages;
 
+import CS3500.Utils;
 import CS3500.model.image.IImage;
 import CS3500.model.image.ImageImpl;
 import CS3500.model.matrix.IMatrix;
@@ -16,15 +17,24 @@ public class Checkerboard implements IProgramImage<IImage> {
 
   @Override
   public IImage createProgramImage(int widthPx, int heightPx, int unitSizePx) {
+    // check that arguments are non-negative
+    Utils.checkIntBetween(widthPx, 0, Integer.MAX_VALUE);
+    Utils.checkIntBetween(heightPx, 0, Integer.MAX_VALUE);
+    Utils.checkIntBetween(unitSizePx, 0, Integer.MAX_VALUE);
+
+    // to ensure the board has no incomplete squares;
+    heightPx -= heightPx % unitSizePx;
+    widthPx -= widthPx % unitSizePx;
+
     List<List<IPixel>> pxs = new ArrayList<>();
 
     for (int i = 0; i < heightPx; i++) {
       List<IPixel> thisRow = new ArrayList<>();
       for (int j = 0; j < widthPx; j++) {
         if ((i / unitSizePx % 2) == (j / unitSizePx % 2)) {
-          thisRow.add(new PixelImpl(0, 0, 0));
+          thisRow.add(PixelImpl.BLACK);
         } else {
-          thisRow.add(new PixelImpl(255, 255, 255));
+          thisRow.add(PixelImpl.WHITE);
         }
       }
       pxs.add(thisRow);

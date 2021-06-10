@@ -10,12 +10,12 @@ public interface IProgramImage<Z> {
   /**
    * TODO
    *
-   * @param widthSizePx
-   * @param heightSizePx
-   * @param unitSizePx
+   * @param widthPx
+   * @param heightPx
+   * @param unitPx
    * @return
    * @throws IllegalArgumentException
    */
-  Z createProgramImage(int widthSizePx, int heightSizePx, int unitSizePx)
+  Z createProgramImage(int widthPx, int heightPx, int unitPx)
       throws IllegalArgumentException;
 }

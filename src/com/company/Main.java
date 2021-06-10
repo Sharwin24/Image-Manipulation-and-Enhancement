@@ -1,29 +1,18 @@
 package com.company;
 
 
-import CS3500.ImageUtil;
-import CS3500.Utils;
-import CS3500.model.IIMEModel;
 import CS3500.model.IStateTrackingIMEModel;
+import CS3500.model.ProgramamticImages.BWNoise;
+import CS3500.model.ProgramamticImages.Noise;
+import CS3500.model.ProgramamticImages.RainbowNoise;
 import CS3500.model.StateTrackingIMEModelImpl;
-import CS3500.model.channel.EChannelType;
 import CS3500.model.fileFormat.PPMFile;
-import CS3500.model.image.IImage;
 import CS3500.model.image.ImageImpl;
-import CS3500.model.matrix.IMatrix;
 import CS3500.model.matrix.MatrixImpl;
-import CS3500.model.operation.Greyscale;
-import CS3500.model.operation.IFilter;
-import CS3500.model.operation.IOperation;
 import CS3500.model.operation.ImageBlur;
-import CS3500.model.operation.MyFilter;
 import CS3500.model.operation.Sepia;
 import CS3500.model.operation.Sharpening;
-import CS3500.model.pixel.IPixel;
 import CS3500.model.pixel.PixelImpl;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Main class.
@@ -105,5 +94,8 @@ public class Main {
 //    m.exportImage(new PPMFile(), "edited-dachshunds");
 
 //    m.exportImage(new PPMFile(), "blurredTeletubbies");
+
+    //m.setProgrammaticImage(new RainbowNoise(), 699, 420, 500);
+   
   }
 }

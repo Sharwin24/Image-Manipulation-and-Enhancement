@@ -3,7 +3,9 @@ package CS3500.model.image;
 import CS3500.Utils;
 import CS3500.model.channel.EChannelType;
 import CS3500.model.matrix.IMatrix;
+import CS3500.model.matrix.MatrixImpl;
 import CS3500.model.pixel.IPixel;
+import java.util.List;
 
 /**
  * An image, represented by a {@link IMatrix} of pixels.
@@ -22,6 +24,17 @@ public class ImageImpl implements IImage {
       throws IllegalArgumentException {
     this.pixels = Utils.checkNotNull(pixels, "cannot construct an Image with a "
         + "null matrix of pixels");
+  }
+
+  /**
+   * TODO
+   *
+   * @param pixels
+   * @throws IllegalArgumentException
+   */
+  public ImageImpl(List<List<IPixel>> pixels)
+      throws IllegalArgumentException {
+    this(new MatrixImpl<>(pixels));
   }
 
 

@@ -24,6 +24,19 @@ public class PixelImpl implements IPixel {
   private IChannel green;
   private IChannel blue;
 
+  // Constants representing a pixel of a given color to be used for convenience.
+  public static final PixelImpl RED = new PixelImpl(255, 0, 0);
+  public static final PixelImpl GREEN = new PixelImpl(0, 255, 0);
+  public static final PixelImpl BLUE = new PixelImpl(0, 0, 255);
+  public static final PixelImpl YELLOW = new PixelImpl(255, 255, 0);
+  public static final PixelImpl MAGENTA = new PixelImpl(255, 0, 255);
+  public static final PixelImpl CYAN = new PixelImpl(0, 255, 255);
+  public static final PixelImpl ORANGE = new PixelImpl(255, 128, 0);
+  public static final PixelImpl INDIGO = new PixelImpl(29, 0, 51);
+  public static final PixelImpl VIOLET = new PixelImpl(127, 0, 255);
+  public static final PixelImpl BLACK = new PixelImpl(0, 0, 0);
+  public static final PixelImpl WHITE = new PixelImpl(255, 255, 255);
+
   /**
    * <p>Creates a new {@link PixelImpl} given the intensity of its
    * {@link EChannelType#RED}, {@link EChannelType#GREEN}, and {@link EChannelType#BLUE} channels,

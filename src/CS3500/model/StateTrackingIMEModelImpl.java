@@ -96,9 +96,9 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
   @Override
   public void exportImage(IFileFormat format, String fileName)
       throws IllegalArgumentException {
-    System.out.println("Exporting...");
+    System.out.println("Exporting \"" + fileName + "\"...");
     format.exportImage(fileName, this.image);
-    System.out.println("Finished Exporting!");
+    System.out.println("Finished Exporting \"" + fileName + "\"!");
   }
 
   @Override
