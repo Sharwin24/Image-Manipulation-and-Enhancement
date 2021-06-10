@@ -5,6 +5,7 @@ import cs3500.model.matrix.IMatrix;
 import java.util.List;
 import java.util.Stack;
 
+import cs3500.model.IIMEModel;
 /**
  * : JavaDoc comments
  *

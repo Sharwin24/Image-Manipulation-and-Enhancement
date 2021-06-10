@@ -34,6 +34,7 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
     System.out.println("Undo:" + undoHistory);
     return this.undoHistory;
   }
+
   @Override
   public Stack<IImage> getRedo() {
     System.out.println("Redo:" + redoHistory);
@@ -79,16 +80,19 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
   public void undo() // moves left
       throws IllegalArgumentException {
     // Undoing pops off from the undo stack, and sets the current image to it, and pushes to redo
-    this.image = this.undoHistory.pop().copy();
     this.redoHistory.push(this.image.copy());
+    this.image = this.undoHistory.pop().copy();
+
   }
 
   @Override
   public void redo() // moves right
       throws IllegalArgumentException {
     // Redo pops from redo, and pushes to undo
+
     this.image = this.redoHistory.pop().copy();
     this.undoHistory.push(this.image.copy());
+
   }
 
   @Override
