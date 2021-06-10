@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Todo: JavaDocs
+ */
 public class PPMFile implements IFileFormat<IImage> {
 
   @Override
@@ -25,11 +28,11 @@ public class PPMFile implements IFileFormat<IImage> {
     if (relativePath == "") {
       throw new IllegalArgumentException("cannot determine empty path name");
     }
-    if ( !(relativePath.substring(relativePath.lastIndexOf('.')).equals(".ppm")) ) {
+    if (!(relativePath.substring(relativePath.lastIndexOf('.')).equals(".ppm"))) {
       throw new IllegalArgumentException("Not a valid ppm file. When importing a ppm, please "
           + "make sure that the file ends in \".ppm\"");
     }
-    
+
     Scanner sc;
 
     try {
@@ -87,7 +90,7 @@ public class PPMFile implements IFileFormat<IImage> {
       throws IllegalArgumentException {
     Utils.checkNotNull(relativePath, "cannot export image to a null file name");
     Utils.checkNotNull(image, "cannot export a null image");
-    String fileNamePPM = "res/" + relativePath +  ".ppm";
+    String fileNamePPM = "res/" + relativePath + ".ppm";
 
     StringBuilder fileContents = new StringBuilder();
     fileContents.append(Utils.println("P3"));
@@ -107,6 +110,7 @@ public class PPMFile implements IFileFormat<IImage> {
 
   /**
    * : abstract to any appendable
+   *
    * @param sb
    * @param fileName
    * @throws IllegalArgumentException

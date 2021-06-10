@@ -36,13 +36,16 @@ public class Main {
     model.getUndo();
     model.getRedo();
     model.undo();
+    model.getUndo();
+    model.getRedo();
     model.exportImage(new PPMFile(), "shouldBeOriginal");
     model.getUndo();
     model.getRedo();
-    System.out.println(model.retrieve());
     model.redo();
-    model.exportImage(new PPMFile(), "shouldBeGS");
+    System.out.println();
     model.getUndo();
     model.getRedo();
+    model.exportImage(new PPMFile(), "shouldBeGS");
+
   }
 }
