@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * TODO
+ * A {@link Noise} image consisting of the colors of the rainbow. Used as a convenience to
+ * create a noise image without specifying a select set of colors to use in {@link Noise}.
  */
 public class RainbowNoise extends Noise {
 
   /**
-   * TODO
+   * Initialize the colors that this {@link Noise} image can select from to the colors of the
+   * rainbow.
    */
   public RainbowNoise() {
     super(new ArrayList<>(Arrays.asList(

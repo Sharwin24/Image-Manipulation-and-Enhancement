@@ -33,15 +33,21 @@ public class Noise implements IProgramImage<IImage> {
     if (pixelChoices.isEmpty()) {
       throw new IllegalArgumentException("cannot create a noise image with no colors");
     }
+    Utils.checkNotNullListContents(pixelChoices, "cannot set a null color for a noise "
+        + "image");
     this.pixelChoices = Utils.checkNotNull(pixelChoices, "cannot create a noise image "
         + "with null colors");
+
   }
 
   /**
-   * TODO
+   * Creates a {@link Noise} object with a variable number of colors that it can include when
+   * programmatically creating an image.
    *
-   * @param pixelChoices
-   * @throws IllegalArgumentException
+   * @param pixelChoices the possible colors in this {@link Noise} image, represented as {@link
+   *                     IPixel}s.
+   * @throws IllegalArgumentException if any of the provided {@link IPixel}s are {@code null}
+   *                                  are {@code null}, or if none were provided.
    */
   public Noise(IPixel... pixelChoices)
       throws IllegalArgumentException {

@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * A programmatically created image where each pixel has a random color. Note that the provided unit
+ * size to {@link this#createProgramImage(int, int, int)} is ignored, as each pixel in this image is
+ * randomized, so the size of a subunit of this image is irrelevant.
+ */
 public class PureNoise implements IProgramImage<IImage> {
 
   @Override

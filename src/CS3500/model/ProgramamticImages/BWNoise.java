@@ -6,7 +6,8 @@ import java.util.Arrays;
 
 /**
  * A {@link Noise} image consisting of only the colors {@link PixelImpl#BLACK} and
- * {@link PixelImpl#WHITE}.
+ * {@link PixelImpl#WHITE}. Used as a convenience to create a noise image without specifying a
+ * select set of colors to use in {@link Noise}.
  */
 public class BWNoise extends Noise {
 

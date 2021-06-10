@@ -48,7 +48,7 @@ public class Utils {
    * @throws IllegalArgumentException if any of the contents of the provided list are {@code null}.
    */
   public static <X> void checkNotNullListContents(List<X> toCheckContents, String errorMsg) {
-    for (X x : toCheckContents) {
+    for (X x : checkNotNull(toCheckContents, "cannot check contents of a null list")) {
       checkNotNull(x, errorMsg);
     }
   }
