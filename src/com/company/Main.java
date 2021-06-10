@@ -1,12 +1,12 @@
 package com.company;
 
 
-import CS3500.model.IStateTrackingIMEModel;
-import CS3500.model.ProgrammaticImages.PureNoise;
-import CS3500.model.StateTrackingIMEModelImpl;
-import CS3500.model.fileFormat.PPMFile;
-import CS3500.model.image.ImageImpl;
-import CS3500.model.matrix.MatrixImpl;
+import cs3500.model.IStateTrackingIMEModel;
+import cs3500.model.programmaticImages.PureNoise;
+import cs3500.model.StateTrackingIMEModelImpl;
+import cs3500.model.fileFormat.PPMFile;
+import cs3500.model.image.ImageImpl;
+import cs3500.model.matrix.MatrixImpl;
 
 /**
  * Main class.
