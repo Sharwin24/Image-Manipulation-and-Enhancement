@@ -37,25 +37,19 @@ public class Main {
 
     model.undo();
 
-
     model.redo();
     model.undo();
-<<<<<<< HEAD
     model.getUndo();
     model.getRedo();
     model.exportImage(new PPMFile(), "shouldBeOriginal");
     model.getUndo();
     model.getRedo();
     model.redo();
-    System.out.println();
     model.getUndo();
     model.getRedo();
     model.exportImage(new PPMFile(), "shouldBeGS");
-=======
     model.redo();
     model.exportImage(new PPMFile(), "GSkoala");
-
->>>>>>> acccc3287c5a18b934261d61066cb8e95a13f35d
 
   }
 }
