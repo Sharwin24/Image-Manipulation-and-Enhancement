@@ -25,24 +25,27 @@ public interface IPixel {
       throws IllegalArgumentException;
 
   /**
-   * Determines if the given object is equal to this IPixel.
+   * Determines if the given object is equal to some {@link Object} {@code o}.
    *
-   * @param o the object to check.
-   * @return a boolean whether the object is the same or not.
+   * @param o the object to check for equality with this {@link IPixel}.
+   * @return whether the object is the same or not.
    */
   boolean equals(Object o);
 
   /**
-   * Calculates the hashCode for this IPixel.
+   * Calculates the unique hashCode for this IPixel based on its contents (see implementations).
    *
    * @return an integer representing the hashCode.
    */
   int hashCode();
 
   /**
-   * Gets a string for the textual representation of an IPixel.
+   * Returns a textual representation of this {@link IPixel} in the form {@code R G B}, where
+   * {@code R} represents the red channel value of this pixel,
+   * {@code G} represents the red channel value of this pixel,
+   * and {@code B} represents the red channel value of this pixel.
    *
-   * @return the string for this IPixel.
+   * @return the string for this IPixel as described above.
    */
   String toString();
 

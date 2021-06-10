@@ -6,7 +6,7 @@ import CS3500.model.channel.EChannelType;
 import CS3500.model.channel.IChannel;
 
 /**
- * A representation of a Pixel with...
+ * A representation of a Pixel which...
  * <ul>
  *   <li>
  *     Assumes that the pixel has three channels, representing the red, green, and blue color values
@@ -14,7 +14,11 @@ import CS3500.model.channel.IChannel;
  *   </li>
  *   <li>
  *     Assumes that the stated channels have a light intensity represented as an 8-bit integer, in
- *     this case represented as its decimal equivalent, in the range of integers 0-255.
+ *     this case represented as its decimal equivalent, in the inclusive range of integers 0-255.
+ *   </li>
+ *   <li>
+ *     Also provides some {@code public static final} constants representing predetermined pixels to
+ *     be used for convenience.
  *   </li>
  * </ul>
  */
@@ -47,7 +51,8 @@ public class PixelImpl implements IPixel {
    * {@link EChannelType#RED}, {@link EChannelType#GREEN}, and
    * {@link EChannelType#BLUE} channels is always an integer in the range [0,255].
    * Therefore this constructor sets any integer given that falls outside of that range
-   * to the closest number in that range.
+   * to the closest number in that range. This easily promotes 'clamping' when editing an image
+   * causes one of the channels' light intensity to extend out of bounds of [0, 255]
    * </sub></div>
    *
    * @param r the light intensity of this {@link PixelImpl}'s {@link EChannelType#RED} channel.
