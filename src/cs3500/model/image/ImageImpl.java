@@ -27,8 +27,10 @@ public class ImageImpl implements IImage {
   }
 
   /**
-   * @param pixels
-   * @throws IllegalArgumentException
+   * Constructs an Image object when given a List of Lists to represent a matrix.
+   *
+   * @param pixels the 2D ArrayList representing the Matrix.
+   * @throws IllegalArgumentException if the given array is null.
    */
   public ImageImpl(List<List<IPixel>> pixels)
       throws IllegalArgumentException {
