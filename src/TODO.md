@@ -26,9 +26,12 @@ README</li>
 <li>
 IImage wrapper class fixes</li></ul>
 <b>Sharwin:</b> <ul>
-<li> JavaDocs for Operations </li>
-<li> Create messages for import/export for user to read</li>
-<li> Write tests for Filtering</li>
-<li> Write tests for Color Transforms</li>
-<li> Write tests for Operation application</li>
+<li>JavaDocs for Operations </li>
+<li>Create messages for import/export for user to read</li>
+<li>AFilter Tests</li>
+<li>AColorTransform Tests</li>
+<li>Channel Tests</li>
+<li>EChannelType Tests</li>
+<li>Image Tests</li>
+<li>Pixel Tests</li>
 </ul>

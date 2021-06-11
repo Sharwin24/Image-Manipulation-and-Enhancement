@@ -7,8 +7,6 @@ import cs3500.model.image.IImage;
 import cs3500.model.image.ImageImpl;
 import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.operation.IOperation;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 /**
@@ -20,26 +18,6 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
   private final Stack<IImage> undoHistory;
   private final Stack<IImage> redoHistory;
 
-
-  /*
-  Set an image(change to the state) - clear the redo stack and push the state to the undo stack
-  I1,
-  UNDO: [I2,I4]
-  REDO: []
-   */
-
-  // Todo: remove debug code
-  @Override
-  public Stack<IImage> getUndo() {
-    System.out.println("Undo:" + undoHistory);
-    return this.undoHistory;
-  }
-
-  @Override
-  public Stack<IImage> getRedo() {
-    System.out.println("Redo:" + redoHistory);
-    return this.redoHistory;
-  }
 
   /**
    * Constructs a Model that tracks the state of an image, enabling the user to undo/redo

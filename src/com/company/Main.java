@@ -39,12 +39,11 @@ public class Main {
 
     IStateTrackingIMEModel<IImage> model =
         new StateTrackingIMEModelImpl(new ImageImpl(new MatrixImpl<>()));
+
     model.setProgrammaticImage(new Noise(PixelImpl.GREEN,
         PixelImpl.BLUE, PixelImpl.CYAN, PixelImpl.RED, PixelImpl.VIOLET, PixelImpl.YELLOW), 1500, 1500, 1);
     model.applyOperations();
     model.exportImage(new PPMFile(), "Pure-Noise");
-
-
 
 
   }
