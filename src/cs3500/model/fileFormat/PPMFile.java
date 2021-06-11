@@ -19,7 +19,10 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
+ * A PPM file format that stores images with respect to their width, height,
+ * and each pixel's RGB values, out of some maximum value, assumed here to be 255.
  *
+ * Allows the client to import and export PPM files using objects of this type as function objects.
  */
 public class PPMFile implements IFileFormat<IImage> {
 
