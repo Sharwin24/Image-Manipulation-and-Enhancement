@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -405,6 +406,11 @@ public abstract class AbstractMatrixTest {
     assertEquals(m3x3Ints.copy(), m3x3Ints);
   }
 
+  @Test
+  public void testCopyReturnsDeepCopyNotReference() {
+    assertFalse(m3x3Ints.copy() == m3x3Ints);
+  }
+
 
   /**
    * Tests for the {@link AMatrix#getElement(int, int)} method.
@@ -432,139 +438,90 @@ public abstract class AbstractMatrixTest {
   }
 
 
+  /**
+   * Tests for the {@link AMatrix#equals(Object)} method.
+   */
+
+  @Test
+  public void testEqualsReturnsFalseForNonMatrixObject() {
+    assertFalse(m3x3Ints.equals(new Object()));
+  }
+
+  @Test
+  public void testEqualsReturnsFalseForMatrixOfSameDimensionsDifferentValues() {
+    assertFalse(new MatrixImpl<Double>(2.5, 2, 2).equals(
+        new MatrixImpl<Double>(5.2, 2, 2)
+    ));
+  }
+
+  @Test
+  public void testEqualsReturnsFalseForMatrixOfSameValuesDifferentDimensions() {
+    IMatrix<String> m1x5Strings = new MatrixImpl<>(new ArrayList<>(Arrays.asList(new ArrayList<>(
+        Arrays.asList("zero", "one", "two", "three", "four")))));
+    assertFalse(m5x1Strings.equals(m1x5Strings));
+  }
+
+  @Test
+  public void testEqualsIsReflexive() {
+    assertTrue(m5x1Strings.equals(m5x1Strings));
+  }
+
+  @Test
+  public void testEqualsIsSymmetric() {
+    IMatrix<Character> copyOfM3x2Chars = m3x2chars.copy();
+    assertTrue(m3x2chars.equals(copyOfM3x2Chars)
+        && copyOfM3x2Chars.equals(m3x2chars));
+  }
+
+  @Test
+  public void testEqualsIsTransitive() {
+    IMatrix<Character> copyOfM3x2Chars = m3x2chars.copy();
+    IMatrix<Character> copyOfCopyOfM3x2Chars = m3x2chars.copy();
+    assertTrue(m3x2chars.equals(copyOfM3x2Chars)
+        && copyOfM3x2Chars.equals(copyOfCopyOfM3x2Chars)
+        && m3x2chars.equals(copyOfCopyOfM3x2Chars));
+  }
 
 
-//
-//  /**
-//   * Tests for the {@link AMatrix#getElement(int, int)} method.
-//   */
-//  @Test (expected = IllegalArgumentException.class)
-//  public void testFooThrowsWhen() {
-//
-//  }
-//
-//  @Test
-//  public void testFoo() {
-//
-//  }
-//
-//  @Test (expected = IllegalArgumentException.class)
-//  public void testFooThrowsWhen() {
-//
-//  }
-//
-//  @Test
-//  public void testFoo() {
-//
-//  }
-//
-//  @Test (expected = IllegalArgumentException.class)
-//  public void testFooThrowsWhen() {
-//
-//  }
-//
-//  @Test
-//  public void testFoo() {
-//
-//  }
-//
-//  @Test (expected = IllegalArgumentException.class)
-//  public void testFooThrowsWhen() {
-//
-//  }
-//
-//  @Test
-//  public void testFoo() {
-//
-//  }
-//
-//  /**
-//   * Tests for the {@link AMatrix#getElement(int, int)} method.
-//   */
-//  @Test (expected = IllegalArgumentException.class)
-//  public void testFooThrowsWhen() {
-//
-//  }
-//
-//  @Test
-//  public void testFoo() {
-//
-//  }
-//
-//  @Test (expected = IllegalArgumentException.class)
-//  public void testFooThrowsWhen() {
-//
-//  }
-//
-//  @Test
-//  public void testFoo() {
-//
-//  }
-//
-//  @Test (expected = IllegalArgumentException.class)
-//  public void testFooThrowsWhen() {
-//
-//  }
-//
-//  @Test
-//  public void testFoo() {
-//
-//  }
-//
-//  @Test (expected = IllegalArgumentException.class)
-//  public void testFooThrowsWhen() {
-//
-//  }
-//
-//  @Test
-//  public void testFoo() {
-//
-//  }
-//
-//  /**
-//   * Tests for the {@link AMatrix#getElement(int, int)} method.
-//   */
-//  @Test (expected = IllegalArgumentException.class)
-//  public void testFooThrowsWhen() {
-//
-//  }
-//
-//  @Test
-//  public void testFoo() {
-//
-//  }
-//
-//  @Test (expected = IllegalArgumentException.class)
-//  public void testFooThrowsWhen() {
-//
-//  }
-//
-//  @Test
-//  public void testFoo() {
-//
-//  }
-//
-//  @Test (expected = IllegalArgumentException.class)
-//  public void testFooThrowsWhen() {
-//
-//  }
-//
-//  @Test
-//  public void testFoo() {
-//
-//  }
-//
-//  @Test (expected = IllegalArgumentException.class)
-//  public void testFooThrowsWhen() {
-//
-//  }
-//
-//  @Test
-//  public void testFoo() {
-//
-//  }
+  /**
+   * Tests for the {@link AMatrix#hashCode()} method.
+   */
+  @Test
+  public void testHashCodeFollowsEquals() {
+    assertTrue(m3x2chars.equals(m3x2chars.copy())
+        && m3x2chars.hashCode() == m3x2chars.copy().hashCode());
+  }
+
+  @Test
+  public void testHashCodeNotEqualsForDifferentMatrices() {
+    assertFalse(m3x2chars.hashCode() == m5x1Strings.hashCode());
+  }
 
 
+
+  /**
+   * Tests for the {@link AMatrix#getElement(int, int)} method.
+   */
+
+  @Test
+  public void testToStringM3x2Chars() {
+    assertEquals("", m3x2chars.toString());
+  }
+
+  @Test
+  public void testToStringM3x3Ints() {
+    assertEquals("", m3x3Ints.toString());
+  }
+
+  @Test
+  public void testToStringM5x1Strings() {
+    assertEquals("", m5x1Strings);
+  }
+
+  @Test
+  public void testToStringEmptyMatrix() {
+    assertEquals("", new MatrixImpl<>().toString());
+  }
 }
 
 
