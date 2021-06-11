@@ -53,4 +53,21 @@ public class ImageImpl implements IImage {
     pixelMatrixCopy = this.pixels.copy();
     return new ImageImpl(pixelMatrixCopy);
   }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof IImage)) {
+      return false;
+    }
+    IImage otherImage = (ImageImpl) o;
+    return this.pixels.equals(otherImage.getPixelArray());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.pixels);
+  }
 }
