@@ -94,5 +94,26 @@ public class PixelImpl implements IPixel {
         + " "
         + Integer.toString(this.getIntensity(EChannelType.BLUE));
   }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof IPixel)) {
+      return false;
+    }
+
+    IPixel otherPixel = (IPixel) o;
+    boolean red = this.red.getIntensity() == otherPixel.getIntensity(EChannelType.RED);
+    boolean green = this.green.getIntensity() == otherPixel.getIntensity(EChannelType.GREEN);
+    boolean blue = this.blue.getIntensity() == otherPixel.getIntensity(EChannelType.BLUE);
+    return red && green && blue;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.red, this.green, this.blue);
+  }
 
 }
