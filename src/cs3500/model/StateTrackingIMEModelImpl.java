@@ -23,7 +23,7 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
    * Constructs a Model that tracks the state of an image, enabling the user to undo/redo
    * operations. Initializes the current Image to an empty one.
    */
-  private StateTrackingIMEModelImpl() {
+  public StateTrackingIMEModelImpl() {
     this.image = new ImageImpl(new MatrixImpl<>());
     this.undoHistory = new Stack<>();
     this.redoHistory = new Stack<>();
