@@ -13,7 +13,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -28,9 +30,13 @@ public class PPMFile implements IFileFormat<IImage> {
     if (relativePath == "") {
       throw new IllegalArgumentException("cannot determine empty path name");
     }
-    if (!(relativePath.substring(relativePath.lastIndexOf('.')).equals(".ppm"))) {
-      throw new IllegalArgumentException("Not a valid ppm file. When importing a ppm, please "
-          + "make sure that the file ends in \".ppm\"");
+    try {
+      if (!(relativePath.substring(relativePath.lastIndexOf('.')).equals(".ppm"))) {
+        throw new IllegalArgumentException("Not a valid ppm file. When importing a ppm, please "
+            + "make sure that the file ends in \".ppm\"");
+      }
+    } catch (StringIndexOutOfBoundsException e) {
+      throw new IllegalArgumentException("please specify the file extension, i.e. \".ppm\"");
     }
 
     Scanner sc;
@@ -55,41 +61,51 @@ public class PPMFile implements IFileFormat<IImage> {
     sc = new Scanner(builder.toString());
 
     String token;
-
-    token = sc.next();
-    if (!token.equals("P3")) {
-      System.out.println("Invalid PPM file: plain RAW file should begin with P3");
-    }
-    int width = sc.nextInt();
-    System.out.println("Width of image: " + width);
-    int height = sc.nextInt();
-    System.out.println("Height of image: " + height);
-    int maxValue = sc.nextInt();
-    System.out.println("Maximum value of a color in this file (usually 256): " + maxValue);
-
-    List<List<IPixel>> pixels = new ArrayList<>();
-    for (int i = 0; i < height; i++) {
-      List<IPixel> thisRow = new ArrayList<>();
-      for (int j = 0; j < width; j++) {
-        int r = sc.nextInt();
-        int g = sc.nextInt();
-        int b = sc.nextInt();
-        //System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
-        IPixel thisPixel = new PixelImpl(r, g, b);
-        thisRow.add(thisPixel);
+    try {
+      token = sc.next();
+      if (!token.equals("P3")) {
+        System.out.println("Invalid PPM file: plain RAW file should begin with P3");
       }
-      pixels.add(thisRow);
-    }
+      try {
+        int width = sc.nextInt();
+        System.out.println("Width of image: " + width);
+        int height = sc.nextInt();
+        System.out.println("Height of image: " + height);
+        int maxValue = sc.nextInt();
+        System.out.println("Maximum value of a color in this file (usually 256): " + maxValue);
+        List<List<IPixel>> pixels = new ArrayList<>();
+        for (int i = 0; i < height; i++) {
+          List<IPixel> thisRow = new ArrayList<>();
+          for (int j = 0; j < width; j++) {
+            int r = sc.nextInt();
+            int g = sc.nextInt();
+            int b = sc.nextInt();
+            //System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
+            IPixel thisPixel = new PixelImpl(r, g, b);
+            thisRow.add(thisPixel);
+          }
+          pixels.add(thisRow);
+        }
 
-    IImage imageAsMatrixOfPixels = new ImageImpl(new MatrixImpl<>(pixels));
-    return imageAsMatrixOfPixels;
+        IImage imageAsMatrixOfPixels = new ImageImpl(new MatrixImpl<>(pixels));
+        return imageAsMatrixOfPixels;
+      } catch (InputMismatchException e) {
+        throw new IllegalArgumentException("could not read from PPM file. Check to see if it is "
+            + "corrupted or not formatted correctly");
+      }
+    } catch (NoSuchElementException e) {
+      throw new IllegalArgumentException("PPM file was empty. Unable to import");
+    }
   }
 
   @Override
-  public void exportImage(String relativePath, IImage image)
+  public File exportImage(String relativePath, IImage image)
       throws IllegalArgumentException {
     Utils.checkNotNull(relativePath, "cannot export image to a null file name");
     Utils.checkNotNull(image, "cannot export a null image");
+    if (relativePath.equals("")) {
+      throw new IllegalArgumentException("cannot write to empty path name");
+    }
     String fileNamePPM = "res/" + relativePath + ".ppm";
 
     StringBuilder fileContents = new StringBuilder();
@@ -105,17 +121,24 @@ public class PPMFile implements IFileFormat<IImage> {
       fileContents.append("\n");
     }
 
-    this.dumpAppendable(fileContents, fileNamePPM);
+    return this.dumpAppendable(fileContents, fileNamePPM);
   }
 
   /**
-   * : abstract to any appendable
+   * Dumps the contents of the given {@link StringBuilder} into a file with the specified {@code
+   * fileName} and closes that file to save it to the specified path relative to the working
+   * (project) directory. Overrwrites the file at the given path
    *
-   * @param sb
-   * @param fileName
-   * @throws IllegalArgumentException
+   * @param sb       the {@link StringBuilder} to store the contents of in a file.
+   * @param fileName the relative path of the file to which {@code sb} should be stored.
+   * @return the file that was created.
+   * @throws IllegalArgumentException If <ul>
+   *                                  <li>the path is invalid</li>
+   *                                  <li>the path is {@code null}</li>
+   *                                  <li>the path is the empty String</li>
+   *                                  </ul>
    */
-  private void dumpAppendable(StringBuilder sb, String fileName)
+  private File dumpAppendable(StringBuilder sb, String fileName)
       throws IllegalArgumentException {
     File f = new File(fileName);
     BufferedWriter buf = null;
@@ -134,6 +157,8 @@ public class PPMFile implements IFileFormat<IImage> {
         }
       }
     }
+    return f;
   }
+
 
 }
