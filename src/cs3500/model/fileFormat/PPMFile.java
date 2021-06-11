@@ -19,7 +19,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * Todo: JavaDocs
+ *
  */
 public class PPMFile implements IFileFormat<IImage> {
 
