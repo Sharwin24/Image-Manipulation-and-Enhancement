@@ -18,24 +18,24 @@ public interface IChannel {
   int getIntensity();
 
   /**
+   * Determines if the given object is the same channel or not.
    *
-   *
-   * @param o
-   * @return
+   * @param o the object to check.
+   * @return a boolean whether the given object is the same channel or not.
    */
   boolean equals(Object o);
 
   /**
+   * Hashes the Channel.
    *
-   *
-   * @return
+   * @return an integer representing the hash.
    */
   int hashCode();
 
   /**
+   * Gets the textual representation of the channel.
    *
-   *
-   * @return
+   * @return a String for the textual representation.
    */
   String toString();
 }
