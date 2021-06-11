@@ -48,13 +48,11 @@ public abstract class AMatrix<X> implements IMatrix<X> {
   public AMatrix(List<List<X>> listEntries)
       throws IllegalArgumentException {
     // check that each row and entry are not null
-    for (List<X> rowOfEntries : listEntries) {
-      Utils.checkNotNull(listEntries, "cannot construct a Matrix with a null row");
-      for (X entry : rowOfEntries) {
-        Utils.checkNotNull(entry, "cannot construct a Matrix with a null entry");
-      }
+    Utils.checkNotNull(listEntries, "cannot construct matrix with null list entries");
+    Utils.checkNotNullListContents(listEntries, "cannot construct matrix with null row");
+    for (List<X> row : listEntries) {
+      Utils.checkNotNullListContents(row, "cannot construct a matrix with a null entry");
     }
-
     if (!this.checkAllRowsSameSize(listEntries)) {
       throw new IllegalArgumentException("cannot create a Matrix without all "
           + "rows having equal size to ensure dimensions exist");

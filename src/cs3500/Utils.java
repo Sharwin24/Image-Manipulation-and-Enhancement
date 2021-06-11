@@ -47,10 +47,11 @@ public class Utils {
    * @param <X> the type of element in the provided list
    * @throws IllegalArgumentException if any of the contents of the provided list are {@code null}.
    */
-  public static <X> void checkNotNullListContents(List<X> toCheckContents, String errorMsg) {
+  public static <X> List<X> checkNotNullListContents(List<X> toCheckContents, String errorMsg) {
     for (X x : checkNotNull(toCheckContents, "cannot check contents of a null list")) {
       checkNotNull(x, errorMsg);
     }
+    return toCheckContents;
   }
 
   /**
