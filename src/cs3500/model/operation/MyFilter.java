@@ -19,7 +19,7 @@ public class MyFilter extends AFilter {
 
   @Override
   protected IMatrix<Double> initKernel() {
-    return new MatrixImpl<>(1.0, 3, 3);
+    return new MatrixImpl<>(0.0, 3, 3);
   }
 
   @Override
