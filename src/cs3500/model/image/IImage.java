@@ -40,5 +40,4 @@ public interface IImage {
    */
   IImage copy();
 
-
 }
