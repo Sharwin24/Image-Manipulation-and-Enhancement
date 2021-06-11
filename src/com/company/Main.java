@@ -8,6 +8,15 @@ import cs3500.model.StateTrackingIMEModelImpl;
 import cs3500.model.fileFormat.PPMFile;
 import cs3500.model.image.ImageImpl;
 import cs3500.model.matrix.MatrixImpl;
+import cs3500.model.operation.ImageBlur;
+import cs3500.model.operation.Sepia;
+import cs3500.model.operation.Sharpening;
+import cs3500.model.pixel.PixelImpl;
+import cs3500.model.programmaticImages.BWNoise;
+import cs3500.model.programmaticImages.Checkerboard;
+import cs3500.model.programmaticImages.Noise;
+import cs3500.model.programmaticImages.PureNoise;
+import cs3500.model.programmaticImages.RainbowNoise;
 
 /**
  * Main class.
@@ -30,32 +39,13 @@ public class Main {
 
     IStateTrackingIMEModel<IImage> model =
         new StateTrackingIMEModelImpl(new ImageImpl(new MatrixImpl<>()));
-    model.importImage(new PPMFile(), "res/Koala.ppm");
-
-    model.applyOperations(new Greyscale());
-    model.exportImage(new PPMFile(), "greyscaleKoala");
-
-    model.undo();
+    model.setProgrammaticImage(new Noise(PixelImpl.GREEN,
+        PixelImpl.BLUE, PixelImpl.CYAN, PixelImpl.RED, PixelImpl.VIOLET, PixelImpl.YELLOW), 1500, 1500, 1);
+    model.applyOperations();
+    model.exportImage(new PPMFile(), "Pure-Noise");
 
 
-    model.redo();
-    model.undo();
-<<<<<<< HEAD
-    model.getUndo();
-    model.getRedo();
-    model.exportImage(new PPMFile(), "shouldBeOriginal");
-    model.getUndo();
-    model.getRedo();
-    model.redo();
-    System.out.println();
-    model.getUndo();
-    model.getRedo();
-    model.exportImage(new PPMFile(), "shouldBeGS");
-=======
-    model.redo();
-    model.exportImage(new PPMFile(), "GSkoala");
 
->>>>>>> acccc3287c5a18b934261d61066cb8e95a13f35d
 
   }
 }
