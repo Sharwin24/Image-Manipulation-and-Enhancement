@@ -6,6 +6,7 @@ import cs3500.model.IIMEModel;
 import cs3500.model.IStateTrackingIMEModel;
 import cs3500.model.StateTrackingIMEModelImpl;
 import cs3500.model.fileFormat.IFileFormat;
+import cs3500.model.fileFormat.PPMFile;
 import cs3500.model.image.IImage;
 import cs3500.model.image.ImageImpl;
 import cs3500.model.matrix.MatrixImpl;
@@ -16,6 +17,7 @@ import cs3500.model.operation.Sharpening;
 import cs3500.model.pixel.IPixel;
 import cs3500.model.pixel.PixelImpl;
 import cs3500.model.programmaticImages.Checkerboard;
+import cs3500.model.programmaticImages.IProgramImage;
 import cs3500.model.programmaticImages.RainbowNoise;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,8 +47,7 @@ public class StateTrackingIMEModelImplTest {
   }
 
   /**
-   * Tests for the
-   * {@link StateTrackingIMEModelImpl#StateTrackingIMEModelImpl(cs3500.model.image.IImage)}
+   * Tests for the {@link StateTrackingIMEModelImpl#StateTrackingIMEModelImpl(cs3500.model.image.IImage)}
    * constructor.
    */
   @Test(expected = IllegalArgumentException.class)
@@ -80,7 +81,7 @@ public class StateTrackingIMEModelImplTest {
   /**
    * Tests for the {@link StateTrackingIMEModelImpl#undo()} method.
    */
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testUndoThrowsWhenNothingToUndo() {
     IStateTrackingIMEModel m = new StateTrackingIMEModelImpl();
     m.undo();
@@ -116,7 +117,7 @@ public class StateTrackingIMEModelImplTest {
   /**
    * Tests for the {@link StateTrackingIMEModelImpl#redo()} method.
    */
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testRedoThrowsWhenNothingToRedo() {
     IStateTrackingIMEModel m = new StateTrackingIMEModelImpl();
     m.redo();
@@ -182,5 +183,148 @@ public class StateTrackingIMEModelImplTest {
   /**
    * Tests for the {@link StateTrackingIMEModelImpl#importImage(IFileFormat, String)} method.
    */
+  @Test
+  public void testDelegateImportBehavior() {
+    PPMFileTest testDelegate = new PPMFileTest();
+    testDelegate.testImportImageSuccessfulReturnsImageWithPixels();
+    testDelegate.testImportImageThrowsWhenGivenEmptyRelativePath();
+    testDelegate.testImportImageSuccessfulReturnsImageWithSameDimensions();
+    testDelegate.testImportImageThrowsWhenNotGivenPPM();
+    testDelegate.testImportImageThrowsWhenGivenNullRelativePath();
+    testDelegate.testImportImageThrowsWhenPathNotFound();
+    testDelegate.testImportImageThrowsWhenPPMEmpty();
+    testDelegate.testImportImageThrowsWhenPPMNotOfTypeP3();
+    testDelegate.testImportImageThrowsWhenRelativePathDoesntEndInPPM();
+  }
 
+  @Test
+  public void testImportSetsNewImageToImported() {
+    IStateTrackingIMEModel m = new StateTrackingIMEModelImpl();
+    m.importImage(new PPMFile(), "res/Simple8x8.ppm");
+    assertEquals(new ImageImpl(
+        new MatrixImpl<>(new ArrayList<>(Arrays.asList(
+            new ArrayList<>(
+                Arrays.asList(
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED)),
+            new ArrayList<>(
+                Arrays.asList(
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN)),
+            new ArrayList<>(
+                Arrays.asList(
+                    PixelImpl.BLUE,
+                    PixelImpl.BLUE,
+                    PixelImpl.BLUE,
+                    PixelImpl.BLUE,
+                    PixelImpl.BLUE,
+                    PixelImpl.BLUE,
+                    PixelImpl.BLUE,
+                    PixelImpl.BLUE)),
+            new ArrayList<>(
+                Arrays.asList(
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED)),
+            new ArrayList<>(
+                Arrays.asList(
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN)),
+            new ArrayList<>(
+                Arrays.asList(
+                    PixelImpl.BLUE,
+                    PixelImpl.BLUE,
+                    PixelImpl.BLUE,
+                    PixelImpl.BLUE,
+                    PixelImpl.BLUE,
+                    PixelImpl.BLUE,
+                    PixelImpl.BLUE,
+                    PixelImpl.BLUE)),
+            new ArrayList<>(
+                Arrays.asList(
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED,
+                    PixelImpl.RED)),
+            new ArrayList<>(
+                Arrays.asList(
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN,
+                    PixelImpl.GREEN)))))),
+        m.retrieve());
+  }
+
+  /**
+   * Tests for the {@link StateTrackingIMEModelImpl#exportImage(IFileFormat, String)} method.
+   */
+  @Test
+  public void testExportImageDelegateBehavior() {
+    PPMFileTest testDelegate = new PPMFileTest();
+
+    testDelegate.testExportImageCreatesFile();
+    testDelegate.testExportImageThrowsForNullImage();
+    testDelegate.testExportImageThrowsForEmptyPathName();
+    testDelegate.testExportImageThrowsForNullPathName();
+  }
+
+  /**
+   * Tests for the
+   * {@link StateTrackingIMEModelImpl#setProgrammaticImage(IProgramImage, int, int, int)} method.
+   */
+  @Test
+  public void testSetProgrammaticImageChangesImage() {
+    IStateTrackingIMEModel m = new StateTrackingIMEModelImpl();
+    m.setProgrammaticImage(new Checkerboard(), 2, 2, 1);
+    assertEquals(new ImageImpl(
+        new MatrixImpl<>(
+            new ArrayList<>(
+                Arrays.asList(
+                    new ArrayList<>(
+                        Arrays.asList(
+                            PixelImpl.BLACK,
+                            PixelImpl.WHITE)),
+                    new ArrayList<>(
+                        Arrays.asList(
+                            PixelImpl.WHITE,
+                            PixelImpl.BLACK)))))),
+        m.retrieve());
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testSetProgrammaticImageThrowsWhenGivenNullProgrammaticImage() {
+    IStateTrackingIMEModel m = new StateTrackingIMEModelImpl();
+    m.setProgrammaticImage(null, 2, 2, 2);
+  }
 }
