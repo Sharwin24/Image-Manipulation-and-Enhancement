@@ -45,7 +45,7 @@ public class PixelImpl implements IPixel {
   /**
    * <p>Creates a new {@link PixelImpl} given the intensity of its
    * {@link EChannelType#RED}, {@link EChannelType#GREEN}, and {@link EChannelType#BLUE} channels,
-   * and enforces the following
+   * and enforces the following.
    * <b><i>invariant:.</i></b></p>
    * <title><b><i>INVARIANT.</i></b></title>
    * <div><sub>A {@link PixelImpl}'s intensity of its
