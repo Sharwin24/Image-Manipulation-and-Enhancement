@@ -11,14 +11,12 @@ interactions between elements of the project from a visual standpoint.</p>
 
 # Design Philosophy
 
-<p>
-The center goal of creating an image processor with capabilities to apply operations to an image 
-was only one aspect of this project. The other aspect(arguably more important too) was to build 
-a framework and design that enabled the developers to easily make modifications to in the future 
-in addition to outside developers being able to easily extend features for their own 
-implementations. An important step was to take a highly abstract approach to designing 
+The center goal of creating an image processor with capabilities to apply operations to an image was
+only one aspect of this project. The other aspect(arguably more important too) was to build a
+framework and design that enabled the developers to easily make modifications to the project in the
+future in addition to outside developers being able to easily extend features for their own
+implementations. An important step was to take a highly abstract approach to designing
 implementations for what an image, operation, a pixel, etc. represent.
-</p>
 
 # Project Packages 📦
 
