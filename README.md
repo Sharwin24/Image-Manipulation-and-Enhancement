@@ -9,7 +9,18 @@ high level. For convenience, this document will mimic the package structure of t
 project, and at the end, we provide a UML diagram to understand the overall structure and 
 interactions between elements of the project from a visual standpoint.</p>
 
-# Our Design 📦
+# Design Philosophy
+
+<p>
+The center goal of creating an image processor with capabilities to apply operations to an image 
+was only one aspect of this project. The other aspect(arguably more important too) was to build 
+a framework and design that enabled the developers to easily make modifications to in the future 
+in addition to outside developers being able to easily extend features for their own 
+implementations. An important step was to take a highly abstract approach to designing 
+implementations for what an image, operation, a pixel, etc. represent.
+</p>
+
+# Project Packages 📦
 
 ## The <code>IIMEModel</code> interface
 
@@ -56,7 +67,9 @@ Our implementation of a Matrix with a generic type. The class offers methods to 
 multiple ways with its constructors.
 
 ## The <code>fileformat</code> package
+
 ### The <code>IFileFormat</code> interface
+
 Provides a flexible way to adapt the import/export functionalities from the model. This interface's
 implementations act as function objects with signatures
 <ul>
@@ -74,10 +87,11 @@ The advantage to this design is that if we want to import and export to new file
 we can just add a class that implements this interface.
 
 ### The <code>PPMFile</code> class
-Our implementation of the <code>IFileFormat</code> interface. Provides the ability to
-import from a PPM file and export to a PPM file. When importing, this class
-checks that the imported image is an actual PPM file ending in the  ".ppm" extension,
-and when exporting, this class always adds ".ppm" to the end of the exported file.
+
+Our implementation of the <code>IFileFormat</code> interface. Provides the ability to import from a
+PPM file and export to a PPM file. When importing, this class checks that the imported image is an
+actual PPM file ending in the  ".ppm" extension, and when exporting, this class always adds ".ppm"
+to the end of the exported file.
 
 ## The <code>Image</code> package
 
