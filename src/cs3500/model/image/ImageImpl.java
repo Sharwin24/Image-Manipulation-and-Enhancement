@@ -6,6 +6,7 @@ import cs3500.model.matrix.IMatrix;
 import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.pixel.IPixel;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * An image, represented by a {@link IMatrix} of pixels.

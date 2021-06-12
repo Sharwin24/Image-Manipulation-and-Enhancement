@@ -4,6 +4,7 @@ import cs3500.Utils;
 import cs3500.model.channel.ChannelImpl;
 import cs3500.model.channel.EChannelType;
 import cs3500.model.channel.IChannel;
+import java.util.Objects;
 
 /**
  * A representation of a Pixel which...
