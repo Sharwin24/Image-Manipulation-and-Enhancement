@@ -112,12 +112,12 @@ interface to observe the properties of the Channel. The class also enforces the 
 intensity of the channel within the constructor.
 ## The <code>ProgrammaticImages</code> package
 ### The <code>IProgamImage</code> interface
-The interface for all programmatic images. Offers methods for the class
-### The <code>Noise</code> class
-### The <code>PureNoise</code> class
-### The <code>RainbowNoise</code> class
-### The <code>BWNoise</code> class
-### The <code>Checkerboard</code> class
+The interface for all programmatic images. Offers a construct method for subclasses to build 
+their programmatic images.
+### The <code>Noise</code>,<code>PureNoise</code>, <code>RainbowNoise</code>, <code>BWNoise</code>, and the <code>Checkerboard</code> class
+The subclasses to represent a specific programmatic image. Each class constructs its 
+programmatic image with a unit size, specified in the <code>setProgrammaticImage()</code> method 
+in the model class.
 ## The <code>Utils</code> class
 <p>
 A class with helpful methods to be utilized throughout the program. Includes many methods to 
