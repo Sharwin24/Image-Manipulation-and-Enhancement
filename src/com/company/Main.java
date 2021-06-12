@@ -1,15 +1,5 @@
 package com.company;
 
-
-import cs3500.model.IStateTrackingIMEModel;
-import cs3500.model.StateTrackingIMEModelImpl;
-import cs3500.model.fileformat.PPMFile;
-import cs3500.model.image.IImage;
-import cs3500.model.image.ImageImpl;
-import cs3500.model.matrix.MatrixImpl;
-import cs3500.model.programmaticimages.Checkerboard;
-import cs3500.model.programmaticimages.PureNoise;
-
 /**
  * Main class.
  */
@@ -30,6 +20,6 @@ public class Main {
     }
 
     // add calls to methods to manipulate images here...
-    
+
   }
 }
