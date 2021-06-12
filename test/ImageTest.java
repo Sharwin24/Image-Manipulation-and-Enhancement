@@ -10,13 +10,13 @@ import cs3500.model.pixel.IPixel;
 import cs3500.model.pixel.PixelImpl;
 import org.junit.Before;
 import org.junit.Test;
+
 /**
  * Class for testing the Image implementation.
  */
 public class ImageTest {
 
   private IImage redImage;
-  private IImage blackImage;
   private IImage blankImage;
 
   /**
@@ -40,7 +40,7 @@ public class ImageTest {
   @Before
   public void init() {
     this.redImage = new ImageImpl(redSquare());
-    this.blackImage = new ImageImpl(blackSquare());
+    IImage blackImage = new ImageImpl(blackSquare());
     this.blankImage = new ImageImpl(new MatrixImpl<>());
   }
 

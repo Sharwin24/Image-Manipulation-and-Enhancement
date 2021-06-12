@@ -5,12 +5,10 @@ import cs3500.model.image.IImage;
 import cs3500.model.image.ImageImpl;
 import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.operation.Greyscale;
-import cs3500.model.operation.IColorTransform;
 import cs3500.model.operation.IOperation;
 import cs3500.model.operation.MyFilter;
 import cs3500.model.operation.Sepia;
 import cs3500.model.pixel.PixelImpl;
-import java.awt.Image;
 import org.junit.Before;
 import org.junit.Test;
 

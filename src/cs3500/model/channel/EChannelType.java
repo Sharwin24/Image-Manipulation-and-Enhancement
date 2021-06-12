@@ -8,12 +8,13 @@ public enum EChannelType {
   RED, GREEN, BLUE;
 
   /**
+   * Formats this {@link EChannelType} as a {@link String}.
    *
-   * @return
-   * @throws IllegalArgumentException
+   * @return the name of this channel type.
+   * @throws IllegalArgumentException if somehow the switch statement fails.
    */
   public String toString()
-  throws IllegalArgumentException{
+      throws IllegalArgumentException {
     switch (this) {
       case RED:
         return "R";

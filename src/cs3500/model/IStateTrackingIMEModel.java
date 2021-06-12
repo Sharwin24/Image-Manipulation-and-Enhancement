@@ -11,9 +11,9 @@ import cs3500.model.image.IImage;
 public interface IStateTrackingIMEModel<Z> extends IIMEModel<Z> {
 
   /**
-   * Restores the most recently saved state of the image that is being modified
+   * Restores the most recently saved state of the image that is being modified.
    *
-   * @throws IllegalArgumentException if there is no state to revert to--Undoing nothing is \
+   * @throws IllegalArgumentException if there is no state to revert to--Undoing nothing is
    *                                  impossible.
    */
   void undo()

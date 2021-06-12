@@ -1,7 +1,7 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import cs3500.model.fileFormat.PPMFile;
+import cs3500.model.fileformat.PPMFile;
 import cs3500.model.image.IImage;
 import cs3500.model.image.ImageImpl;
 import cs3500.model.matrix.IMatrix;
@@ -11,12 +11,12 @@ import cs3500.model.pixel.PixelImpl;
 import org.junit.Test;
 
 /**
- * Tests for methods in the {@link cs3500.model.fileFormat.PPMFile} class.
+ * Tests for methods in the {@link cs3500.model.fileformat.PPMFile} class.
  */
 public class PPMFileTest {
 
   /**
-   * Tests for the {@link cs3500.model.fileFormat.PPMFile#importImage(String)} method.
+   * Tests for the {@link cs3500.model.fileformat.PPMFile#importImage(String)} method.
    */
   @Test (expected = IllegalArgumentException.class)
   public void testImportImageThrowsWhenGivenNullRelativePath() {

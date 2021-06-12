@@ -1,7 +1,7 @@
 package cs3500.model;
 
-import cs3500.model.programmaticImages.IProgramImage;
-import cs3500.model.fileFormat.IFileFormat;
+import cs3500.model.programmaticimages.IProgramImage;
+import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.operation.IOperation;
 
 /**

@@ -1,8 +1,6 @@
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import cs3500.Utils;
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +37,7 @@ public class UtilsTest {
   }
 
   /**
-   * Tests for the {@link Utils#checkNotNullListContents(List, String)} method
+   * Tests for the {@link Utils#checkNotNullListContents(List, String)} method.
    */
   @Test (expected = IllegalArgumentException.class)
   public void testNotNullListContentsThrowsForNullList() {

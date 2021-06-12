@@ -4,6 +4,9 @@ import cs3500.model.channel.EChannelType;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests for methods in the {@link EChannelType} class.
+ */
 public class EChannelTypeTest {
 
   private EChannelType redChannel;

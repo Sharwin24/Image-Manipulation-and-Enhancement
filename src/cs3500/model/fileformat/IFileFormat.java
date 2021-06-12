@@ -1,6 +1,5 @@
-package cs3500.model.fileFormat;
+package cs3500.model.fileformat;
 
-import cs3500.model.image.IImage;
 import java.io.File;
 
 /**

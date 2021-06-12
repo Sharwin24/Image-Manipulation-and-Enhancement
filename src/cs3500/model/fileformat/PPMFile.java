@@ -1,4 +1,4 @@
-package cs3500.model.fileFormat;
+package cs3500.model.fileformat;
 
 import cs3500.Utils;
 import cs3500.model.image.IImage;
@@ -21,7 +21,6 @@ import java.util.Scanner;
 /**
  * A PPM file format that stores images with respect to their width, height,
  * and each pixel's RGB values, out of some maximum value, assumed here to be 255.
- *
  * Allows the client to import and export PPM files using objects of this type as function objects.
  */
 public class PPMFile implements IFileFormat<IImage> {
@@ -30,7 +29,7 @@ public class PPMFile implements IFileFormat<IImage> {
   public IImage importImage(String relativePath)
       throws IllegalArgumentException {
     Utils.checkNotNull(relativePath, "cannot import an image with a null file name");
-    if (relativePath == "") {
+    if (relativePath.equals("")) {
       throw new IllegalArgumentException("cannot determine empty path name");
     }
     try {
@@ -150,6 +149,7 @@ public class PPMFile implements IFileFormat<IImage> {
       buf.append(sb);
       f.createNewFile();
     } catch (IOException e) {
+      throw new IllegalArgumentException("couldn't write to file");
     } finally {
       if (buf != null) {
         try {

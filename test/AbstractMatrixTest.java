@@ -56,7 +56,7 @@ public abstract class AbstractMatrixTest {
    * @param entries the entries of this matrix.
    * @param <X>     the type of entries in this matrix.
    * @return a matrix of a concrete subtype of {@link cs3500.model.matrix.AMatrix} filled with the
-   * given entries.
+   *         given entries.
    */
   protected abstract <X> IMatrix<X> constructMatrix(List<List<X>> entries);
 
@@ -496,7 +496,6 @@ public abstract class AbstractMatrixTest {
   public void testHashCodeNotEqualsForDifferentMatrices() {
     assertFalse(m3x2chars.hashCode() == m5x1Strings.hashCode());
   }
-
 
 
   /**

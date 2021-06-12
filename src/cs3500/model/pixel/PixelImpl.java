@@ -45,14 +45,14 @@ public class PixelImpl implements IPixel {
    * <p>Creates a new {@link PixelImpl} given the intensity of its
    * {@link EChannelType#RED}, {@link EChannelType#GREEN}, and {@link EChannelType#BLUE} channels,
    * and enforces the following
-   * <b><i>invariant:</i></b></p>
-   * <title><b><i>INVARIANT</i></b></title>
+   * <b><i>invariant:.</i></b></p>
+   * <title><b><i>INVARIANT.</i></b></title>
    * <div><sub>A {@link PixelImpl}'s intensity of its
    * {@link EChannelType#RED}, {@link EChannelType#GREEN}, and
    * {@link EChannelType#BLUE} channels is always an integer in the range [0,255].
    * Therefore this constructor sets any integer given that falls outside of that range
    * to the closest number in that range. This easily promotes 'clamping' when editing an image
-   * causes one of the channels' light intensity to extend out of bounds of [0, 255]
+   * causes one of the channels' light intensity to extend out of bounds of [0, 255].
    * </sub></div>
    *
    * @param r the light intensity of this {@link PixelImpl}'s {@link EChannelType#RED} channel.

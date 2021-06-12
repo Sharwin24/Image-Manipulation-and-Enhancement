@@ -21,7 +21,7 @@ public class ChannelImpl implements IChannel {
 
   /**
    * Creates a new {@link ChannelImpl} of some {@code color} (red, green, or blue),
-   * and some intensity as an integer in the range [0, 255]
+   * and some intensity as an integer in the range [0, 255].
    * <p><b><i>INVARIANT:</i></b> to enforce the <b><i>invariant</i></b> outlined in
    * {@link ChannelImpl}'s JavaDoc, if an {@code intensity} is given that is not in the range
    * [0,255], the intensity defaults to whatever number of {0, 255} it is closest to./</p>

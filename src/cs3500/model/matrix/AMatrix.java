@@ -119,13 +119,13 @@ public abstract class AMatrix<X> implements IMatrix<X> {
 
 
   /**
-   * Are all of the rows in a Matrix proposed by {@code listEntries} of the same size? In other
+   * Are all of the rows in a Matrix proposed by {@code listEntries} of the same size?. In other
    * words, are all of the subsets of a set of the same cardinality?
    * <p>Note that this is trivially true for empty matrices--they contain no rows</p>
    *
    * @param listEntries the proposed rows in a Matrix to answer the above question for.
    * @return the answer to the question posed at the beginning of this JavaDoc
-   * @throws IllegalArgumentException if the supplied {@link List<List>} is null;
+   * @throws IllegalArgumentException if the supplied {@link List} is null;
    */
   protected boolean checkAllRowsSameSize(List<List<X>> listEntries)
       throws IllegalArgumentException {
@@ -243,7 +243,7 @@ public abstract class AMatrix<X> implements IMatrix<X> {
   }
 
   /**
-   * Factory method to return a new {@link IMatrix} object based on the supplied rows
+   * Factory method to return a new {@link IMatrix} object based on the supplied rows.
    *
    * @param rows the rows to create this new matrix with
    * @param <Y>  the type of entry in the new Matrix

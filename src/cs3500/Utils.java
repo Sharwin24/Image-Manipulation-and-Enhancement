@@ -39,12 +39,12 @@ public class Utils {
   }
 
   /**
-   * Checks that each element of the provided list is not {@code null}, and throws an
-   * {@link IllegalArgumentException} if it is.
+   * Checks that each element of the provided list is not {@code null}, and throws an {@link
+   * IllegalArgumentException} if it is.
    *
    * @param toCheckContents the list to check for null contents.
-   * @param errorMsg the message to display if a null list element is found.
-   * @param <X> the type of element in the provided list
+   * @param errorMsg        the message to display if a null list element is found.
+   * @param <X>             the type of element in the provided list
    * @throws IllegalArgumentException if any of the contents of the provided list are {@code null}.
    */
   public static <X> List<X> checkNotNullListContents(List<X> toCheckContents, String errorMsg) {
@@ -78,15 +78,16 @@ public class Utils {
   }
 
   /**
-   * Checks if {@code toSet} lies in the inclusive range of integers
-   * [{@code lowerBound},{@code upperBound}]. If it is, {@code toSet} is returned. Otherwise,
-   * whatever number of {{@code lowerBound}, {@code upperBound}} that {@code toSet} is closest to is
-   * returned.
-   * @param toSet the number to return in the range of [{@code lowerBound},{@code upperBound}].
+   * Checks if {@code toSet} lies in the inclusive range of integers [{@code lowerBound},{@code
+   * upperBound}]. If it is, {@code toSet} is returned. Otherwise, whatever number of {{@code
+   * lowerBound}, {@code upperBound}} that {@code toSet} is closest to is returned.
+   *
+   * @param toSet      the number to return in the range of [{@code lowerBound},{@code
+   *                   upperBound}].
    * @param lowerBound the smallest possible {@code int} that {@code toSet} can be set to.
    * @param upperBound the greatest possible {@code int} that {@code toSet} can be set to.
    * @return an {@code int} in the inclusive range of [{@code lowerBound},{@code upperBound}], as
-   * described above.
+   *         described above.
    */
   public static int setIntBetween(int toSet, int lowerBound, int upperBound) {
     if (toSet > upperBound) {
@@ -98,7 +99,7 @@ public class Utils {
   }
 
   /**
-   * Similar to {@link System#out#println(String)}, but instead of printing to the console, this
+   * Similar to {@code System.out.println(String)}, but instead of printing to the console, this
    * method just returns the given {@link String} {@code toPad}, padded with a newline below it.
    *
    * @param toPad the {@link String} to pad with a newline below it.

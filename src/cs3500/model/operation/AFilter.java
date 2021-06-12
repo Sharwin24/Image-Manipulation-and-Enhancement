@@ -141,7 +141,7 @@ public abstract class AFilter implements IFilter {
    * @param kLen        The size of the kernel , which determines the size of the returned Matrix.
    * @param pixelMatrix the matrix of pixels that represent the image.
    * @param channelType the channel of pixel's values to fill the Matrix.
-   * @return A {@link IMatrix<Double>} representing the neighboring pixel's values.
+   * @return A {@link IMatrix} representing the neighboring pixel's values.
    */
   private IMatrix<Integer> getNeighborsOfPixel(int x, int y, int kLen,
       IMatrix<IPixel> pixelMatrix

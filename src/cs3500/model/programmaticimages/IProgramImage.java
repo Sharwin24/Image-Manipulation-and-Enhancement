@@ -1,7 +1,8 @@
-package cs3500.model.programmaticImages;
+package cs3500.model.programmaticimages;
 
 /**
- * <p>This interface acts as a function object with signature {@code int, int, int -> Z}</p>
+ * <p>This interface acts as a function object with signature {@code int, int, int -> Z},
+ * where {@code Z} is an abstract representation of an image.</p>
  * <p>Represents an image that can be programmatically created. I.e. an image that can be created
  * in easily automatible fashion by specifying parametrs for its width, height, and the size of a
  * unit in the image, if needed.</p>
@@ -18,7 +19,7 @@ public interface IProgramImage<Z> {
    * image, the {@code unitPx} represents the size of one square in the checkerboard.</p>
    *
    * <p>If the width and height are not sufficient to represent the image, then they may be edited
-   * to "fit" the entire image better"</p>
+   * to "fit" the entire image better</p>
    *
    * @param widthPx  the width of the resultant image in pixels
    * @param heightPx the size of the resultant image in pixels.
