@@ -211,4 +211,3 @@ This is a programmatic image created by the model utilizing the <code>PureNoise<
 The class diagram for the project, depicting the extensions and class implementations in a graphical
 view. The diagram also shows the methods that each class contains.
 ![UMLDiagram](https://github.com/Sharwin24/Image-Manipulation-and-Enhancement/blob/main/res/IME-UML.png)
-<img uml="res/IME-UML.png" alt="UML">
