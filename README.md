@@ -186,11 +186,6 @@ nullness, etc.
 
 ## Submitted Images
 
-### UML Class Diagram
-
-The class diagram for the project, depicting the extensions and class implementations in a graphical
-view. The diagram also shows the methods that each class contains.
-
 ### Elmo
 
 The elmo photo was downloaded from google images at
@@ -210,3 +205,10 @@ This is a programmatic image created by the model utilizing the <code>Checkerboa
 ### PureNoise
 
 This is a programmatic image created by the model utilizing the <code>PureNoise</code> class.
+
+### UML Class Diagram
+
+The class diagram for the project, depicting the extensions and class implementations in a graphical
+view. The diagram also shows the methods that each class contains.
+
+<img uml="res/IME-UML.png" alt="UML">
