@@ -8,10 +8,10 @@ public enum EChannelType {
   RED, GREEN, BLUE;
 
   /**
-   * Formats this {@link EChannelType} as a {@link String}.
+   * Returns the textual representation of the ChannelType.
    *
-   * @return the name of this channel type.
-   * @throws IllegalArgumentException if somehow the switch statement fails.
+   * @return a String for the text representation.
+   * @throws IllegalArgumentException if the type is invalid.
    */
   public String toString()
       throws IllegalArgumentException {
