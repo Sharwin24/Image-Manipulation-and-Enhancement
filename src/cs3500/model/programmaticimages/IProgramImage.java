@@ -13,10 +13,10 @@ public interface IProgramImage<Z> {
 
   /**
    * <p>Creates a new programmatic image based on the specified width in pixels, height in pixels,
-   * and
-   * unit size in pixels, where the unit size describes the size of a smaller piece of this image
-   * that is repeated throughout the image multiple times. For example, in a {@link Checkerboard}
-   * image, the {@code unitPx} represents the size of one square in the checkerboard.</p>
+   * and unit size in pixels, where the unit size describes the size of a smaller piece of this
+   * image that is repeated throughout the image multiple times. For example, in a {@link
+   * Checkerboard} image, the {@code unitPx} represents the size of one square in the
+   * checkerboard.</p>
    *
    * <p>If the width and height are not sufficient to represent the image, then they may be edited
    * to "fit" the entire image better</p>

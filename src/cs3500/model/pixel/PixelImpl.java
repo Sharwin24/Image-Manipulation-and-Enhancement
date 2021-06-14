@@ -4,6 +4,7 @@ import cs3500.Utils;
 import cs3500.model.channel.ChannelImpl;
 import cs3500.model.channel.EChannelType;
 import cs3500.model.channel.IChannel;
+import cs3500.model.matrix.IMatrix;
 import java.util.Objects;
 
 /**
@@ -60,8 +61,7 @@ public class PixelImpl implements IPixel {
    * @param g the light intensity of this {@link PixelImpl}'s {@link EChannelType#GREEN} channel.
    * @param b the light intensity of this {@link PixelImpl}'s {@link EChannelType#BLUE} channel.
    */
-  public PixelImpl(int r, int g, int b)
-      throws IllegalArgumentException {
+  public PixelImpl(int r, int g, int b) {
     this.red = new ChannelImpl(EChannelType.RED,
         Utils.setIntBetween(r, 0, 255));
     this.green = new ChannelImpl(EChannelType.GREEN,
@@ -89,13 +89,13 @@ public class PixelImpl implements IPixel {
 
   @Override
   public String toString() {
-    return Integer.toString(this.getIntensity(EChannelType.RED))
+    return this.getIntensity(EChannelType.RED)
         + " "
-        + Integer.toString(this.getIntensity(EChannelType.GREEN))
+        + this.getIntensity(EChannelType.GREEN)
         + " "
-        + Integer.toString(this.getIntensity(EChannelType.BLUE));
+        + this.getIntensity(EChannelType.BLUE);
   }
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

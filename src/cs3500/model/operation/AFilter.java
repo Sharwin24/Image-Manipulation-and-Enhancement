@@ -155,7 +155,7 @@ public abstract class AFilter implements IFilter {
           int pixelChannelValue =
               pixelMatrix.getElement(x + row, y + col).getIntensity(channelType);
           valuesMatrix.updateEntry(pixelChannelValue, (kLen / 2) + row, (kLen / 2) + col);
-        } catch (Exception e) { // Todo: Update to catch all exceptions
+        } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
           // Do nothing
         }
       }

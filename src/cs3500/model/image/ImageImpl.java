@@ -56,7 +56,7 @@ public class ImageImpl implements IImage {
     pixelMatrixCopy = this.pixels.copy();
     return new ImageImpl(pixelMatrixCopy);
   }
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

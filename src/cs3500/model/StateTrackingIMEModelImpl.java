@@ -55,18 +55,17 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
 
 
   @Override
-  public void undo() // moves left
+  public void undo()
       throws IllegalArgumentException {
     if (this.undoHistory.empty()) {
       throw new IllegalArgumentException("Nothing to Undo");
     }
     this.redoHistory.push(this.image.copy());
     this.image = this.undoHistory.pop().copy();
-
   }
 
   @Override
-  public void redo() // moves right
+  public void redo()
       throws IllegalArgumentException {
     if (this.redoHistory.empty()) {
       throw new IllegalArgumentException("Nothing to Redo");
