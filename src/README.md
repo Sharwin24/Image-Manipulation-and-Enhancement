@@ -80,7 +80,7 @@ to import the file from</li>
 represents some representation of an image, and the given <code>String</code> represents the path
 to import the file from.
 </li>
-</ul>
+</ul>git 
 The advantage to this design is that if we want to import and export to new file types,
 we can just add a class that implements this interface.
 
