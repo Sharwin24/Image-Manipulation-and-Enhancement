@@ -4,6 +4,7 @@ public interface IIMEView {
 
   String toString();
 
-  void write(String toWrite);
+  void write(String toWrite)
+      throws IllegalStateException, IllegalArgumentException;
 
 }

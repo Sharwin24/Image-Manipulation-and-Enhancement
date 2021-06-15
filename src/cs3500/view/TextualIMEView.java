@@ -1,9 +1,9 @@
 package cs3500.view;
 
 import cs3500.Utils;
-import cs3500.controller.IMultiLayerIMEController;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
+import java.io.IOException;
 
 /**
  * TODO
@@ -53,7 +53,14 @@ public class TextualIMEView implements IIMEView {
   }
 
   @Override
-  public void write(String toWrite) {
-    // TODO
+  public void write(String toWrite)
+      throws IllegalStateException, IllegalArgumentException {
+    try {
+      ap.append(Utils.paddedPrint(Utils.checkNotNull(toWrite, "cannot write a "
+          + "null message")));
+    } catch (IOException e) {
+      throw new IllegalStateException("transmitting the message: \"" + toWrite + "\" to " +
+          ap + " failed. Check the Appendable object you're using.");
+    }
   }
 }
