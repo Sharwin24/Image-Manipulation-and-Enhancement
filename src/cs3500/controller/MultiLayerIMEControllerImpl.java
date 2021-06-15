@@ -35,7 +35,6 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IIm
     this.ap = System.out;
     this.vw = new TextualIMEView();
 
-    this.initCommands(cmds);
   }
 
   public MultiLayerIMEControllerImpl(IMultiLayerModel mdl)
@@ -46,7 +45,6 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IIm
     this.ap = System.out;
     this.vw = new TextualIMEView(mdl, ap);
 
-    this.initCommands(cmds);
 
   }
 
@@ -58,8 +56,6 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IIm
         + "null Readable");
     this.ap = System.out;
     this.vw = new TextualIMEView(mdl, ap);
-
-    this.initCommands(cmds);
 
 
   }
@@ -73,7 +69,6 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IIm
     this.ap = System.out;
     this.vw = new TextualIMEView(mdl, ap);
 
-    this.initCommands(cmds);
 
 
   }
