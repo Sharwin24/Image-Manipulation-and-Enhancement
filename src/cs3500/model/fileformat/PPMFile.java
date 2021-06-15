@@ -19,11 +19,11 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * A PPM file format that stores images with respect to their width, height,
- * and each pixel's RGB values, out of some maximum value, assumed here to be 255.
- * Allows the client to import and export PPM files using objects of this type as function objects.
+ * A PPM file format that stores images with respect to their width, height, and each pixel's RGB
+ * values, out of some maximum value, assumed here to be 255. Allows the client to import and export
+ * PPM files using objects of this type as function objects.
  */
-public class PPMFile implements IFileFormat<IImage> {
+public class PPMFile extends AFileFormat {
 
   @Override
   public IImage importImage(String relativePath)
@@ -125,43 +125,5 @@ public class PPMFile implements IFileFormat<IImage> {
 
     return this.dumpAppendable(fileContents, fileNamePPM);
   }
-
-  /**
-   * Dumps the contents of the given {@link StringBuilder} into a file with the specified {@code
-   * fileName} and closes that file to save it to the specified path relative to the working
-   * (project) directory. Overrwrites the file at the given path
-   *
-   * @param sb       the {@link StringBuilder} to store the contents of in a file.
-   * @param fileName the relative path of the file to which {@code sb} should be stored.
-   * @return the file that was created.
-   * @throws IllegalArgumentException If <ul>
-   *                                  <li>the path is invalid</li>
-   *                                  <li>the path is {@code null}</li>
-   *                                  <li>the path is the empty String</li>
-   *                                  </ul>
-   */
-  private File dumpAppendable(StringBuilder sb, String fileName)
-      throws IllegalArgumentException {
-    File f = new File(fileName);
-    BufferedWriter buf = null;
-    try {
-      buf = new BufferedWriter(new FileWriter(f));
-      buf.append(sb);
-      f.createNewFile();
-    } catch (IOException e) {
-      throw new IllegalArgumentException("couldn't write to file");
-    } finally {
-      if (buf != null) {
-        try {
-          buf.close();
-
-        } catch (IOException e) {
-          throw new IllegalArgumentException("could not close writer");
-        }
-      }
-    }
-    return f;
-  }
-
 
 }
