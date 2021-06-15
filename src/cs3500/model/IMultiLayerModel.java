@@ -47,4 +47,43 @@ public interface IMultiLayerModel<Z> extends IStateTrackingIMEModel<Z> {
    */
   void setCurrentLayer(int layerIndex) throws IllegalArgumentException;
 
+  /**
+   * Adds a new layer to the end of this {@link IMultiLayerModel}'s {@link List} of layers.
+   */
+  void addLayer();
+
+  /**
+   * Deletes the layer at the given index in this {@link IMultiLayerModel}'s {@link List} of layers,
+   * indexed from 0, left to right.
+   *
+   * @param layerIndex the layer to delete, indexed from 0, left to right.
+   * @throws IllegalArgumentException if the supplied {@code layerIndex} does not lie in the
+   *                                  inclusive range of integers {@code [0,size]}, where there are
+   *                                  {@code size + 1} layers in this {@link IMultiLayerModel}.
+   */
+  void deleteLayer(int layerIndex)
+      throws IllegalArgumentException;
+
+  /**
+   * Swaps the position of layers {@code layerIndex1} and {@code layerIndex2} in this {@link
+   * IMultiLayerModel}'s {@link List} of layers.
+   *
+   * @param layerIndex1 the index of the first of the two layers of which to swap positions, indexed
+   *                    from 0, from left to right.
+   * @param layerIndex2 the index of the second of the two layers of which to swap positions,
+   *                    indexed from 0, from left to right.
+   * @throws IllegalArgumentException if either {@code layerIndex1} or {@code layerIndex2} does not
+   *                                  lie in the inclusive range of integers {@code [0,size]}, where
+   *                                  there are {@code size + 1} layers in this {@link
+   *                                  IMultiLayerModel}.
+   */
+  void swapLayers(int layerIndex1, int layerIndex2)
+      throws IllegalArgumentException;
+
+  /**
+   * Observer method to provide client-side access to the layers that this
+   * {@link IMultiLayerModel} consists of.
+   * @return the layers in this {@link IMultiLayerModel}, as a {@link List}.
+   */
+  List<IStateTrackingIMEModel> getLayers();
 }
