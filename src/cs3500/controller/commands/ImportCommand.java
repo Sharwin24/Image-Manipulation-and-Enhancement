@@ -20,12 +20,12 @@ public class ImportCommand extends APortCommand {
   protected void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw) {
     if (lineScan.hasNext()) {
       String fileFormat = lineScan.next();
-      if(lineScan.hasNext()) {
+      if (lineScan.hasNext()) {
         String relativePath = lineScan.next();
 
         if (fileFormat.equals("layers")) {
           try {
-            mdl.importAllLayers(new ArrayList()); // TODO: rework signature
+            mdl.importAllLayers(""); // TODO: Quotes should be path to text file
           } catch (IllegalArgumentException e) {
             vw.write("could not export layers");
           }

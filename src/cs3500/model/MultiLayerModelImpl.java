@@ -58,7 +58,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
   }
 
   @Override
-  public void importAllLayers(List<IImage> layers) throws IllegalArgumentException {
+  public void importAllLayers(String layerLocations) throws IllegalArgumentException {
 
   }
 
@@ -87,6 +87,26 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
   @Override
   public void setCurrentLayer(int layerIndex) throws IllegalArgumentException {
 
+  }
+
+  @Override
+  public void addLayer() {
+
+  }
+
+  @Override
+  public void deleteLayer(int layerIndex) throws IllegalArgumentException {
+
+  }
+
+  @Override
+  public void swapLayers(int layerIndex1, int layerIndex2) throws IllegalArgumentException {
+
+  }
+
+  @Override
+  public List<IStateTrackingIMEModel> getLayers() {
+    return null;
   }
 
   @Override
