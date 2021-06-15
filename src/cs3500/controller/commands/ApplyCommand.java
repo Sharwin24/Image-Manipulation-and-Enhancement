@@ -9,27 +9,33 @@ import cs3500.model.operation.Sharpening;
 import cs3500.view.IIMEView;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class ApplyCommand implements IIMECommand {
+public class ApplyCommand extends AIMECommand {
 
   private final Map<String, IOperation> operations = this.initOperationsMap();
 
   @Override
-  public void execute(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw)
+  public void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw)
       throws IllegalArgumentException, IllegalStateException {
     ArrayList<IOperation> toApply = new ArrayList<>();
 
-    while(lineScan.hasNext()) {
+    while (lineScan.hasNext()) {
       String anOperation = lineScan.next();
       if (operations.containsKey(anOperation)) {
         toApply.add(operations.get(anOperation));
+        vw.write("got operation \"" + anOperation + "\"");
+      } else {
+        vw.write("did not recognize operation \"" + anOperation + "\"");
       }
     }
 
     try {
-      mdl.applyOperations((IOperation[]) toApply.toArray());
+      IOperation[] ops = this.operationsToArray(toApply);
+      vw.write("applying operations: " + toApply);
+      mdl.applyOperations(ops);
     } catch (IllegalArgumentException e) {
       vw.write("could not apply operations: " + e.getMessage());
     }
@@ -44,5 +50,25 @@ public class ApplyCommand implements IIMECommand {
     operations.putIfAbsent("blur", new ImageBlur());
 
     return operations;
+  }
+
+
+  /**
+   * TODO
+   *
+   * @param operations
+   * @return
+   * @throws IllegalArgumentException
+   */
+  private IOperation[] operationsToArray(List<IOperation> operations)
+      throws IllegalArgumentException {
+    int sz = operations.size();
+    IOperation[] opsAsArray = new IOperation[sz];
+
+    for (int i = 0; i < sz; i++) {
+      opsAsArray[i] = operations.get(i);
+    }
+
+    return opsAsArray;
   }
 }

@@ -2,11 +2,16 @@ package cs3500.controller;
 
 import cs3500.Utils;
 import cs3500.controller.commands.ApplyCommand;
+import cs3500.controller.commands.CreateCommand;
 import cs3500.controller.commands.ExportCommand;
 import cs3500.controller.commands.IIMECommand;
 import cs3500.controller.commands.ImportCommand;
+import cs3500.controller.commands.CurrentCommand;
+import cs3500.controller.commands.MyCommand;
 import cs3500.controller.commands.RedoCommand;
 import cs3500.controller.commands.SaveCommand;
+import cs3500.controller.commands.SetCommand;
+import cs3500.controller.commands.VisibilityCommand;
 import cs3500.controller.commands.UndoCommand;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
@@ -89,10 +94,11 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IIm
       if (lineScan.hasNext()) {
         String cmd = lineScan.next();
         if (cmds.containsKey(cmd)) {
-          vw.write("executing command " + cmd);
+          vw.write("executing command \"" + cmd + "\"");
           cmds.get(cmd).execute(lineScan, mdl, vw);
         }
       }
+
     }
     System.out.println("done");
 
@@ -107,10 +113,11 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IIm
     cmds.putIfAbsent("import", new ImportCommand());
     cmds.putIfAbsent("export", new ExportCommand());
     cmds.putIfAbsent("apply", new ApplyCommand());
-//    emptyCmds.putIfAbsent("set", new SetCommand());
-//    emptyCmds.putIfAbsent("toggle", new ToggleCommand());
-//    emptyCmds.putIfAbsent("layer", new LayerCommand());
-//    emptyCmds.putIfAbsent("create", new CreateCommand());
+    cmds.putIfAbsent("set", new SetCommand());
+    cmds.putIfAbsent("visibility", new VisibilityCommand());
+    cmds.putIfAbsent("current", new CurrentCommand());
+    cmds.putIfAbsent("create", new CreateCommand());
+    cmds.putIfAbsent("mycommand", new MyCommand());
 
     return cmds;
   }

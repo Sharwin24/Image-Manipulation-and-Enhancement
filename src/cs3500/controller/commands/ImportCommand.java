@@ -11,51 +11,42 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class ImportCommand implements IIMECommand {
-
-  private final Map<String, IFileFormat> formats = this.initFormatsMap();
+/**
+ * TODO
+ */
+public class ImportCommand extends APortCommand {
 
   @Override
-  public void execute(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw)
-      throws IllegalArgumentException, IllegalStateException {
-
+  protected void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw) {
     if (lineScan.hasNext()) {
-      String format = lineScan.next(); // "layers" or the format
-      if (format.equals("layers")) {
-        try {
-          mdl.importAllLayers(new ArrayList()); // TODO, might have to change signature
-        } catch (IllegalArgumentException e) {
-          vw.write("cannot import desired layers");
+      String fileFormat = lineScan.next();
+      if(lineScan.hasNext()) {
+        String relativePath = lineScan.next();
+
+        if (fileFormat.equals("layers")) {
+          try {
+            mdl.importAllLayers(new ArrayList()); // TODO: rework signature
+          } catch (IllegalArgumentException e) {
+            vw.write("could not export layers");
+          }
         }
-      } else if (lineScan.hasNext()) {
-        String relativePath = lineScan.next(); // the path name
-        IFileFormat destFileType = formats.get(format);
 
-        vw.write("importing current layer from " + format + " file \""
-            + relativePath + "\"");
+        IFileFormat destFileType = formatsMap.get(fileFormat);
 
-        try { // if destFileType is null, then the IllegalArgumentException is still caught
+        if (destFileType == null) {
+          vw.write("invalid file format: \"" + fileFormat + "\"");
+          return;
+        }
+
+        try {
+          vw.write("importing to " + fileFormat + " file " + relativePath);
           mdl.importImage(destFileType, relativePath);
         } catch (IllegalArgumentException e) {
-          vw.write("cannot import the given layer of file type " +
-              format + " from path " + relativePath);
+          vw.write("failed to import to " + fileFormat + " file at path "
+              + relativePath + ": " + e.getMessage());
         }
       }
     }
-  }
-
-  /**
-   * TODO
-   *
-   * @return
-   */
-  private Map<String, IFileFormat> initFormatsMap() {
-    Map<String, IFileFormat> formats = new HashMap<>();
-    formats.putIfAbsent("PPM", new PPMFile());
-    formats.putIfAbsent("JPEG", new JPEGFile());
-    formats.putIfAbsent("PNG", new PNGFile());
-
-    return formats;
   }
 
 }

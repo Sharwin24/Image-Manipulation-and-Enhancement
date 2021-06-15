@@ -7,10 +7,10 @@ import java.util.Scanner;
 /**
  * TODO
  */
-public class UndoCommand implements IIMECommand {
+public class UndoCommand extends AIMECommand {
 
   @Override
-  public void execute(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw)
+  public void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw)
       throws IllegalArgumentException, IllegalStateException {
 
     try {
