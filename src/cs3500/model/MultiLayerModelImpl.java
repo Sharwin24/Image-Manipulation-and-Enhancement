@@ -76,7 +76,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
    * @throws IllegalArgumentException if the given layer index is out of bounds.
    */
   protected boolean isLayerInvisible(int layerIndex) throws IllegalArgumentException {
-
+    return false; // TODO
   }
 
   @Override
@@ -91,12 +91,12 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
 
   @Override
   public void undo() throws IllegalArgumentException {
-
+    currentLayer.undo();
   }
 
   @Override
   public void redo() throws IllegalArgumentException {
-
+    currentLayer.redo();
   }
 
   @Override
