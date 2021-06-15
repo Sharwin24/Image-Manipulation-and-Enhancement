@@ -1,7 +1,10 @@
 package cs3500.controller;
 
 import cs3500.Utils;
+import cs3500.controller.commands.ApplyCommand;
+import cs3500.controller.commands.ExportCommand;
 import cs3500.controller.commands.IIMECommand;
+import cs3500.controller.commands.ImportCommand;
 import cs3500.controller.commands.RedoCommand;
 import cs3500.controller.commands.SaveCommand;
 import cs3500.controller.commands.UndoCommand;
@@ -21,7 +24,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IIm
   private final Readable rd;
   private final Appendable ap;
   private final IIMEView vw;
-  private final Map<String, IIMECommand> cmds = new HashMap<>();
+  private final Map<String, IIMECommand> cmds = this.initCommands();
 
   /**
    * TODO: Use builder to clean these up
@@ -88,11 +91,11 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IIm
       String line = s.nextLine();
 
       Scanner lineScan = new Scanner(line);
-      while (lineScan.hasNext()) {
-        String inp = lineScan.next();
-        if (cmds.containsKey(inp)) {
-          vw.write("executing command " + inp);
-          cmds.get(inp).execute(lineScan, mdl, vw);
+      if (lineScan.hasNext()) {
+        String cmd = lineScan.next();
+        if (cmds.containsKey(cmd)) {
+          vw.write("executing command " + cmd);
+          cmds.get(cmd).execute(lineScan, mdl, vw);
         }
       }
     }
@@ -101,16 +104,19 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IIm
 
   }
 
-  private void initCommands(Map<String, IIMECommand> emptyCmds) {
-    emptyCmds.putIfAbsent("undo", new UndoCommand());
-    emptyCmds.putIfAbsent("redo", new RedoCommand());
-    emptyCmds.putIfAbsent("save", new SaveCommand());
-    emptyCmds.putIfAbsent("import", new ImportCommand());
-//    emptyCmds.putIfAbsent("export", new ExportCommand());
-//    emptyCmds.putIfAbsent("apply", new ApplyCommand());
+  private Map<String, IIMECommand> initCommands() {
+    Map<String, IIMECommand> cmds = new HashMap<>();
+    cmds.putIfAbsent("undo", new UndoCommand());
+    cmds.putIfAbsent("redo", new RedoCommand());
+    cmds.putIfAbsent("save", new SaveCommand());
+    cmds.putIfAbsent("import", new ImportCommand());
+    cmds.putIfAbsent("export", new ExportCommand());
+    cmds.putIfAbsent("apply", new ApplyCommand());
 //    emptyCmds.putIfAbsent("set", new SetCommand());
 //    emptyCmds.putIfAbsent("toggle", new ToggleCommand());
 //    emptyCmds.putIfAbsent("layer", new LayerCommand());
 //    emptyCmds.putIfAbsent("create", new CreateCommand());
+
+    return cmds;
   }
 }

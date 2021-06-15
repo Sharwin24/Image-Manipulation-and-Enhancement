@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class RedoCommand implements IIMECommand {
 
   @Override
-  public void execute(Scanner s, IMultiLayerModel mdl, IIMEView vw)
+  public void execute(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw)
       throws IllegalArgumentException, IllegalStateException {
 
     try {

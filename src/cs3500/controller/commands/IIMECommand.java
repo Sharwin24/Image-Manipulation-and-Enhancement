@@ -12,12 +12,12 @@ public interface IIMECommand {
   /**
    * TODO
    *
-   * @param s
+   * @param lineScan
    * @param mdl
    * @param vw
    * @throws IllegalArgumentException
    * @throws IllegalStateException
-   */
-  void execute(Scanner s, IMultiLayerModel mdl, IIMEView vw)
+   */ // TODO : check for null arguments in implementations
+  void execute(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw)
       throws IllegalArgumentException, IllegalStateException;
 }
