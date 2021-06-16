@@ -58,12 +58,12 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
   }
 
   @Override
-  public void importAllLayers(String layerLocations) throws IllegalArgumentException {
+  public void importAllLayers(IFileFormat fileType, String pathName) throws IllegalArgumentException {
 
   }
 
   @Override
-  public void exportAllLayers(String layerLocations) throws IllegalArgumentException {
+  public void exportAllLayers(IFileFormat fileType, String pathName) throws IllegalArgumentException {
 
   }
 

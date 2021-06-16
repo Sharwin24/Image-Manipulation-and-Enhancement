@@ -1,5 +1,6 @@
 package cs3500.model;
 
+import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.image.IImage;
 import java.io.File;
 import java.util.List;
@@ -19,18 +20,20 @@ public interface IMultiLayerModel<Z> extends IStateTrackingIMEModel<Z> {
   /**
    * Imports a multi-layered image into this model's multiple layers.
    *
+   * @param fileType the type of image file to import the layers as.
    * @param pathName the path to the text file with the list of layers to import in a file.
    * @throws IllegalArgumentException if the path is invalid
    */
-  void importAllLayers(String pathName) throws IllegalArgumentException;
+  void importAllLayers(IFileFormat fileType, String pathName) throws IllegalArgumentException;
 
   /**
    * Export all the layers by adding all paths to a text file.
    *
+   * @param fileType the type of image file to export the layers as.
    * @param pathName the path for the output file's name.
    * @throws IllegalArgumentException if the path is invalid.
    */
-  void exportAllLayers(String pathName) throws IllegalArgumentException;
+  void exportAllLayers(IFileFormat fileType, String pathName) throws IllegalArgumentException;
 
   /**
    * Toggles the layer at the given index to be invisible. Indexing start from zero and an index of
