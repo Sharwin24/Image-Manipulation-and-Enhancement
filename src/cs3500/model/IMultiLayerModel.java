@@ -2,11 +2,13 @@ package cs3500.model;
 
 import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.image.IImage;
-import java.io.File;
 import java.util.List;
 
 /**
- * @param <Z>
+ * An interface for features a multi-layered model will implement. Offers functionality to apply
+ * operations to separate layers.
+ *
+ * @param <Z> The implementation of an image.
  */
 public interface IMultiLayerModel<Z> extends IStateTrackingIMEModel<Z> {
 
@@ -92,5 +94,5 @@ public interface IMultiLayerModel<Z> extends IStateTrackingIMEModel<Z> {
    *
    * @return the layers in this {@link IMultiLayerModel}, as a {@link List}.
    */
-  List<IStateTrackingIMEModel> getLayers();
+  List<IStateTrackingIMEModel<IImage>> getLayers();
 }
