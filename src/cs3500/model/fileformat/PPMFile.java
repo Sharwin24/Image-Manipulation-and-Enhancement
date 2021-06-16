@@ -23,7 +23,7 @@ import java.util.Scanner;
 public class PPMFile extends AFileFormat {
 
   /**
-   *
+   * Constructs a PPMFile using the super class' constructor.
    */
   public PPMFile() {
     super();
