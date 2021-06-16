@@ -70,21 +70,6 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
     // Todo
   }
 
-  /**
-   * Determines if the layer at the given layer index is invisible or not. Indexing start from zero
-   * and an index of zero represents the bottom most layer.
-   *
-   * @param layerIndex the index of the layer.
-   * @return a boolean whether the specified layer is invisible or not.
-   * @throws IllegalArgumentException if the given layer index is out of bounds.
-   */
-  protected boolean isLayerInvisible(int layerIndex) throws IllegalArgumentException {
-    if (layerIndex < 0 || layerIndex >= this.layersList.size()) {
-      throw new IllegalArgumentException("Layer Index out of bounds");
-    }
-    return this.invisibleLayers.get(layerIndex);
-  }
-
   @Override
   public void toggleInvisible(int layerIndex) throws IllegalArgumentException {
     if (layerIndex < 0 || layerIndex >= this.layersList.size()) {
