@@ -6,12 +6,9 @@ import cs3500.model.image.ImageImpl;
 import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.pixel.IPixel;
 import cs3500.model.pixel.PixelImpl;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -24,6 +21,18 @@ import java.util.Scanner;
  * PPM files using objects of this type as function objects.
  */
 public class PPMFile extends AFileFormat {
+
+  /**
+   *
+   */
+  public PPMFile() {
+    super();
+  }
+
+  @Override
+  protected String getFileExtension() {
+    return ".ppm";
+  }
 
   @Override
   public IImage importImage(String relativePath)
@@ -108,7 +117,7 @@ public class PPMFile extends AFileFormat {
     if (relativePath.equals("")) {
       throw new IllegalArgumentException("cannot write to empty path name");
     }
-    String fileNamePPM = "res/" + relativePath + ".ppm";
+    String fileNamePPM = "res/" + relativePath + this.getFileExtension();
 
     StringBuilder fileContents = new StringBuilder();
     fileContents.append(Utils.println("P3"));
