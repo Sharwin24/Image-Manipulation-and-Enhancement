@@ -6,7 +6,22 @@ import cs3500.view.IIMEView;
 import java.util.Scanner;
 
 /**
- * TODO
+ * <p>A function object used to represent the execution of a
+ * {@link IMultiLayerModel#exportImage(IFileFormat, String)}
+ * or {@link IMultiLayerModel#exportAllLayers(IFileFormat, String)}
+ * call in the {@link IMultiLayerModel}, to be used to
+ * implement the <i>command design pattern</i> in the
+ * {@link cs3500.controller.IMultiLayerIMEController}
+ * class.</p>
+ *
+ * <p>This class, in particular, allows the user to input a command in the form
+ * "<code>export [ff] (all) [p]</code>", where <code>[ff]</code> represents the
+ * {@link IFileFormat} of the exported files--the file extension,
+ * and where <code>(all)</code> represents the optional parameter that will export <code>all</code>
+ * of the layers of this image, or when <code>all</code> is omitted,
+ * only the current working layer will be exported. Finally,
+ * <code>[p]</code> represents the <code>p</code>athname that the exported
+ * layer(s) will be exported to, relative to the working (project) directory.
  */
 public class ExportCommand extends APortCommand {
 

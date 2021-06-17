@@ -13,6 +13,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * <p>A function object used to represent the execution of a
+ * {@link IMultiLayerModel#applyOperations(IOperation...)} call in the {@link IMultiLayerModel}, to
+ * be used to implement the <i>command design pattern</i> in the {@link
+ * cs3500.controller.IMultiLayerIMEController} class.</p>
+ *
+ * <p>This class, in particular, allows the user to input a command in the form
+ * "<code>apply [op1] [op2] ... [opn]</code>", where <code>[opi]</code> represents the
+ * <code>i</code>'th <code>op</code>eration to be applied to an image out of
+ * <code>n</code> total
+ * operations, where <code>i <= n</code>, and <code>i</code> and <code>n</code> are positive
+ * integers, and where an operation is defined as one of the key value entries in {@link
+ * ApplyCommand#initOperationsMap()}, a textual representation of a {@link IOperation} function
+ * object, such as "<code>sepia, sharpen, </code>, ... etc. (See {@link
+ * ApplyCommand#initOperationsMap()} for the full list of supported operations represented by
+ * single-word commands).</p>
+ */
 public class ApplyCommand extends AIMECommand {
 
   private final Map<String, IOperation> operations = this.initOperationsMap();
@@ -42,6 +59,40 @@ public class ApplyCommand extends AIMECommand {
 
   }
 
+  /**
+   * <p>Initializes a {@link Map} between single-word, lowercase textual representations of {@link
+   * IOperation} function objects, and a real object of their specific subtype, in an explicit
+   * one-to-one mapping as defined below:.</p>
+   * <p><table style="width:150%">
+   *   <tr>
+   *     <th>Textual Command  </th>
+   *     <th>{@link IOperation} Function Object  </th>
+   *     <th>Description</th>
+   *   </tr>
+   *   <tr>
+   *     <td><code>sepia</code></td>
+   *     <td>{@link Sepia}</td>
+   *     <td>Applies a sepia filter to the image</td>
+   *   </tr>
+   *   <tr>
+   *     <td><code>greyscale</code></td>
+   *     <td>{@link Greyscale}</td>
+   *     <td>applies a greyscale filter to the image</td>
+   *   </tr>
+   *   <tr>
+   *     <td><code>sharpen</code></td>
+   *     <td>{@link Sharpening}</td>
+   *     <td>applies a sharpen filter to the image</td>
+   *   </tr>
+   *   <tr>
+   *     <td><code>blur</code></td>
+   *     <td>{@link ImageBlur}</td>
+   *     <td>applies a blur filter to the image</td>
+   *   </tr>
+   * </table></p>
+   *
+   * @return a {@link Map} representing the above table.
+   */
   private Map<String, IOperation> initOperationsMap() {
     Map<String, IOperation> operations = new HashMap<>();
     operations.putIfAbsent("sepia", new Sepia());
@@ -54,11 +105,13 @@ public class ApplyCommand extends AIMECommand {
 
 
   /**
-   * TODO
+   * Utility method to convert a {@link List} to an Array,
+   * in order to more efficiently handle the Array signature of a varargs method,
+   * in particular {@link ApplyCommand#handleArgs(Scanner, IMultiLayerModel, IIMEView)}.
    *
-   * @param operations
-   * @return
-   * @throws IllegalArgumentException
+   * @param operations the {@link List} of operations to convert to an Array
+   * @return the {@link List} of operations, converted to an Array
+   * @throws IllegalArgumentException if the given List is {@code null}.
    */
   private IOperation[] operationsToArray(List<IOperation> operations)
       throws IllegalArgumentException {

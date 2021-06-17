@@ -16,6 +16,7 @@ import cs3500.controller.commands.SetCommand;
 import cs3500.controller.commands.SwapCommand;
 import cs3500.controller.commands.VisibilityCommand;
 import cs3500.controller.commands.UndoCommand;
+import cs3500.controller.commands.ProgrammaticImageCommand;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
 import cs3500.model.image.IImage;
@@ -123,6 +124,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IIm
     cmds.putIfAbsent("delete", new DeleteCommand());
     cmds.putIfAbsent("swap", new SwapCommand());
     cmds.putIfAbsent("new", new NewLayerCommand());
+    cmds.putIfAbsent("programmatic", new ProgrammaticImageCommand());
     return cmds;
   }
 }
