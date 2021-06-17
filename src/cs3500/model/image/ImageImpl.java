@@ -58,6 +58,16 @@ public class ImageImpl implements IImage {
   }
 
   @Override
+  public int getWidth() {
+    return this.pixels.getWidth();
+  }
+
+  @Override
+  public int getHeight() {
+    return this.pixels.getHeight();
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;

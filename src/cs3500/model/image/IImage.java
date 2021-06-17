@@ -40,4 +40,18 @@ public interface IImage {
    */
   IImage copy();
 
+  /**
+   * Gets the width or number of columns in the image.
+   *
+   * @return an integer representing the number of columns.
+   */
+  int getWidth();
+
+  /**
+   * Gets the height or number of rows in the image.
+   *
+   * @return an integer representing the number of rows.
+   */
+  int getHeight();
+
 }
