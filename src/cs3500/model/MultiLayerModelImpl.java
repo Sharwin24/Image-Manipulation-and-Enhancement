@@ -116,7 +116,12 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
 
   @Override
   public List<IStateTrackingIMEModel<IImage>> getLayers() {
-    return this.layersList;
+    // return a deep copy
+    List<IStateTrackingIMEModel<IImage>> copyOfLayersList = new ArrayList<>();
+    for (IStateTrackingIMEModel m : this.layersList) {
+      copyOfLayersList.add(m);
+    }
+    return copyOfLayersList;
   }
 
   @Override

@@ -8,7 +8,7 @@ public interface IIMEView {
   /**
    * @return
    */
-  String toString();
+  void renderLayers();
 
   /**
    * @param toWrite

@@ -11,7 +11,7 @@ import java.util.Scanner;
  * class.</p>
  *
  * <p>This class, in particular, allows the user to input a command in the form
- * "<code>delete [n]</code>", where <code>n</code> represents the index of the layer to be deleted,
+ * "<code>delete [n]</code>", where <code>[n]</code> represents the index of the layer to be deleted,
  * starting from 0, indexed left to right, (see {@link IMultiLayerModel#setCurrentLayer(int)}.
  */
 public class DeleteCommand extends AIMECommand {

@@ -2,6 +2,7 @@ package cs3500.view;
 
 import cs3500.Utils;
 import cs3500.model.IMultiLayerModel;
+import cs3500.model.IStateTrackingIMEModel;
 import cs3500.model.MultiLayerModelImpl;
 import java.io.IOException;
 
@@ -48,10 +49,15 @@ public class TextualIMEView implements IIMEView {
   }
 
   @Override
-  public String toString() {
-    return ""; // TODO
+  public void renderLayers() {
+    String renderedLayers = "";
+    int layerCtr = 0;
+    for (IStateTrackingIMEModel m : mdl.getLayers()) {
+      renderedLayers += "LAYER " + layerCtr + "\n";
+      layerCtr++;
+    }
+    this.write(renderedLayers);
   }
-
   @Override
   public void write(String toWrite)
       throws IllegalStateException, IllegalArgumentException {
