@@ -63,8 +63,11 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
   @Override
   public void exportAllLayers(IFileFormat fileType, String pathName)
       throws IllegalArgumentException {
-    // Creates a new folder in res/
-    // Exports each layer in the folder as the given fileType
+    int layerCtr = 0;
+    for (IStateTrackingIMEModel m : layersList) {
+      m.exportImage(fileType, pathName + "-layer-" + layerCtr);
+      layerCtr++;
+    }
   }
 
   @Override

@@ -53,6 +53,7 @@ public class ExportCommand extends APortCommand {
         try {
           vw.write("exporting to " + fileFormat + " file " + relativePath);
           mdl.exportImage(destFileType, relativePath);
+          vw.write("should've exported by now");
         } catch (IllegalArgumentException e) {
           vw.write("failed to export to " + fileFormat + " file at path "
               + relativePath + ": " + e.getMessage());

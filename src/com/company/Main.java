@@ -35,6 +35,6 @@ public class Main {
 //    }
 //    format.exportImage("exportedFacebookPNG", image);
 
-    
+
   }
 }
