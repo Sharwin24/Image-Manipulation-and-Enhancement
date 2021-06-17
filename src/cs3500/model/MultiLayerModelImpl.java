@@ -22,9 +22,6 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
   private IStateTrackingIMEModel<IImage> currentLayer; // current working layer
   private final HashMap<Integer, Boolean> invisibleLayers; // <LayerIndex, Invisibility>
 
-  private final Readable rd;
-  private final Appendable ap;
-
   /**
    * Constructs a Multi-Layer model with defaults for the class fields. Initializes lists as empty,
    * and the default appendable as {@code System.out} and default readable as {@code System.in}.
@@ -33,8 +30,6 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
     this.layersList = new ArrayList<>();
     this.layersList.add(new StateTrackingIMEModelImpl());
     this.currentLayer = this.layersList.get(0);
-    this.rd = new InputStreamReader(System.in);
-    this.ap = System.out;
     this.invisibleLayers = new HashMap<>();
   }
 

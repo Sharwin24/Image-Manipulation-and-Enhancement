@@ -97,7 +97,7 @@ public abstract class AFileFormat implements IFileFormat<IImage> {
     }
     File outputFile = new File(fileName); // Create output file
     try {
-      ImageIO.write(outputImage, this.fileExtension, outputFile);
+      ImageIO.write(outputImage, this.fileExtension.substring(1), outputFile);
     } catch (IOException e) {
       throw new IllegalArgumentException("Failed to write image to file");
     }
