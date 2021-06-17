@@ -95,4 +95,8 @@ public interface IMultiLayerModel<Z> extends IStateTrackingIMEModel<Z> {
    * @return the layers in this {@link IMultiLayerModel}, as a {@link List}.
    */
   List<IStateTrackingIMEModel<IImage>> getLayers();
+
+  class Layer {
+    private boolean isVisible;
+  }
 }
