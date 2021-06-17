@@ -30,12 +30,12 @@ public class ExportCommand extends APortCommand {
 
     if (lineScan.hasNext()) {
       String fileFormat = lineScan.next();
-      if(lineScan.hasNext()) {
+      if (lineScan.hasNext()) {
         String relativePath = lineScan.next();
 
         if (fileFormat.equals("layers")) {
           try {
-            mdl.exportAllLayers(relativePath);
+            mdl.exportAllLayers(relativePath); // Todo: Change for Signature
           } catch (IllegalArgumentException e) {
             vw.write("could not export layers");
           }
@@ -59,4 +59,4 @@ public class ExportCommand extends APortCommand {
     }
   }
 
-  }
+}

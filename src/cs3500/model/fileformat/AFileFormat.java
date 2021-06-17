@@ -1,5 +1,6 @@
 package cs3500.model.fileformat;
 
+import cs3500.model.channel.EChannelType;
 import cs3500.model.image.IImage;
 import cs3500.model.image.ImageImpl;
 import cs3500.model.matrix.IMatrix;
@@ -14,8 +15,26 @@ import java.io.FileWriter;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+/**
+ * Abstract class to represent functions that all {@link IFileFormat} classes will utilize.
+ */
 public abstract class AFileFormat implements IFileFormat<IImage> {
 
+  private final String fileExtension;
+
+  /**
+   * Constructs the AFileFormat with the subclass' file extension.
+   */
+  public AFileFormat() {
+    this.fileExtension = this.getFileExtension();
+  }
+
+  /**
+   * Abstract method for each subclass to provide their file extension.
+   *
+   * @return a String representing a file extension, eg. (.jpg,.png,.ppm).
+   */
+  protected abstract String getFileExtension();
 
   @Override
   public IImage importImage(String relativePath) throws IllegalArgumentException {
@@ -23,12 +42,7 @@ public abstract class AFileFormat implements IFileFormat<IImage> {
       throw new IllegalArgumentException("Null path provided");
     }
     // Get the file
-    File file;
-    try {
-      file = new File(relativePath);
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Failed to read file");
-    }
+    File file = new File(relativePath);
     // Read the image
     BufferedImage image;
     try {
@@ -38,26 +52,69 @@ public abstract class AFileFormat implements IFileFormat<IImage> {
     }
     int height = image.getHeight();
     int width = image.getWidth();
+    // Initialize empty matrix to fill with imported pixels
     IMatrix<IPixel> pixelMatrix = new MatrixImpl<>(new PixelImpl(0, 0, 0), height, width);
+    // Create an array of the pixels in the image as memory address to access all ARGB values.
     final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
     for (int r = 0; r < height; r++) {
       for (int c = 0; c < width; c++) {
-        int[] rgb = getRGBAtXY(image, pixels, c, r);
+        int[] rgb = getRGBAtXY(image, pixels, c, r); // Get ARGB values
+        // Update with retrieved pixel
         pixelMatrix.updateEntry(new PixelImpl(rgb[0], rgb[1], rgb[2]), r, c);
       }
     }
     return new ImageImpl(pixelMatrix);
   }
 
+  @Override
+  public File exportImage(String relativePath, IImage image) throws IllegalArgumentException {
+    if (relativePath == null || image == null) {
+      throw new IllegalArgumentException("Arguments are null");
+    }
+    if (relativePath.equals("")) {
+      throw new IllegalArgumentException("Cannot write to empty path");
+    }
+    String fileName = "res/" + relativePath + this.fileExtension;
+    int width = image.getPixelArray().getWidth();
+    int height = image.getPixelArray().getHeight();
+    BufferedImage outputImage;
+    // Create empty image to fill with pixels
+    outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    for (int r = 0; r < height; r++) {
+      for (int c = 0; c < width; c++) {
+        // Get RGB values
+        int red = image.getPixelArray().getElement(r, c).getIntensity(EChannelType.RED);
+        int green = image.getPixelArray().getElement(r, c).getIntensity(EChannelType.GREEN);
+        int blue = image.getPixelArray().getElement(r, c).getIntensity(EChannelType.BLUE);
+        // Creating rgb by shifting to next register to read next value
+        // Representation of RGB integer with blocks of 8 bits -> RRRRRRRR | GGGGGGGG | BBBBBBBB
+        // int rgb = (red << 16) | (green << 8) | blue; // Writing to entire register at once
+        int rgb = red; // first address is red
+        rgb = (rgb << 8) + green; // shift over 8 bits and add green
+        rgb = (rgb << 8) + blue; // shift over 8 bits and add blue
+        outputImage.setRGB(c, r, rgb); // Update BufferedImage with RGB value
+      }
+    }
+    File outputFile = new File(fileName); // Create output file
+    try {
+      ImageIO.write(outputImage, this.fileExtension, outputFile);
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Failed to write image to file");
+    }
+    return outputFile;
+  }
+
 
   /**
-   * Todo
+   * Gets the RGB values from a point (x,y) in an image. Offers support for the alpha channel and
+   * dynamically returns an integer array of size 3 or 4. The first three are: RED, GREEN, BLUE, and
+   * the fourth(if applicable) is the alpha channel.
    *
-   * @param image
-   * @param pixels
-   * @param x
-   * @param y
-   * @return
+   * @param image  the image to search in.
+   * @param pixels an array of the pixels in the image, provided to avoid loop inefficiency.
+   * @param x      the X coordinate of the pixel.
+   * @param y      the Y coordinate of the pixel.
+   * @return an integer array of size 3 or 4, with values for RED,GREEN,BLUE, and ALPHA.
    */
   protected int[] getRGBAtXY(BufferedImage image, byte[] pixels, int x, int y) {
     int[] rgb;
@@ -65,18 +122,18 @@ public abstract class AFileFormat implements IFileFormat<IImage> {
     int pixelLength = 3;
     if (hasAlphaChannel) {
       pixelLength = 4;
-      rgb = new int[4];
+      rgb = new int[4]; // include a spot for the alpha channel
     } else {
       rgb = new int[3];
     }
-    int pos = (y * pixelLength * image.getWidth()) + (x * pixelLength);
+    int pos = (y * pixelLength * image.getWidth()) + (x * pixelLength); // find position of (x,y)
     if (hasAlphaChannel) {
-      rgb[3] = pixels[pos++] & 0xFF; // Alpha
+      rgb[3] = pixels[pos++] & 0xFF; // Alpha channel
     }
     rgb[2] = pixels[pos++] & 0xFF; // Blue
     rgb[1] = pixels[pos++] & 0xFF; // Green
     rgb[0] = pixels[pos++] & 0xFF; // Red
-    return rgb;
+    return rgb; // We & the value with 0 to enforce the [0,255] range
   }
 
   /**

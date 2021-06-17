@@ -1,18 +1,20 @@
 package cs3500.model.fileformat;
 
-import cs3500.model.image.IImage;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-
 /**
- * Todo: JavaDocs
+ * A class to represent a PNG image. Offers the capability to import/export an image of * this
+ * type.
  */
 public class PNGFile extends AFileFormat {
 
+  /**
+   * Constructs a PNGFile using the super's constructor.
+   */
+  public PNGFile() {
+    super();
+  }
+
   @Override
-  public File exportImage(String relativePath, IImage image) throws IllegalArgumentException {
-    return null;
+  protected String getFileExtension() {
+    return ".png";
   }
 }

@@ -1,4 +1,5 @@
 *.ppm
-*.jpeg
+*.jpg
 *.png
 res
+out

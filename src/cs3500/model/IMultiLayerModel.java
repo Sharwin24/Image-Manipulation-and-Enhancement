@@ -1,10 +1,14 @@
 package cs3500.model;
 
+import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.image.IImage;
 import java.util.List;
 
 /**
- * @param <Z>
+ * An interface for features a multi-layered model will implement. Offers functionality to apply
+ * operations to separate layers.
+ *
+ * @param <Z> The implementation of an image.
  */
 public interface IMultiLayerModel<Z> extends IStateTrackingIMEModel<Z> {
 
@@ -18,16 +22,20 @@ public interface IMultiLayerModel<Z> extends IStateTrackingIMEModel<Z> {
   /**
    * Imports a multi-layered image into this model's multiple layers.
    *
-   * @param layers the list of layers to import
-   * @throws IllegalArgumentException
+   * @param fileType the type of image file to import the layers as.
+   * @param pathName the path to the text file with the list of layers to import in a file.
+   * @throws IllegalArgumentException if the path is invalid
    */
-  void importAllLayers(List<Z> layers) throws IllegalArgumentException;
+  void importAllLayers(IFileFormat fileType, String pathName) throws IllegalArgumentException;
 
   /**
-   * @param layerLocations
-   * @throws IllegalArgumentException
+   * Export all the layers by adding all paths to a text file.
+   *
+   * @param fileType the type of image file to export the layers as.
+   * @param pathName the path for the output file's name.
+   * @throws IllegalArgumentException if the path is invalid.
    */
-  void exportAllLayers(String layerLocations) throws IllegalArgumentException;
+  void exportAllLayers(IFileFormat fileType, String pathName) throws IllegalArgumentException;
 
   /**
    * Toggles the layer at the given index to be invisible. Indexing start from zero and an index of
@@ -81,9 +89,10 @@ public interface IMultiLayerModel<Z> extends IStateTrackingIMEModel<Z> {
       throws IllegalArgumentException;
 
   /**
-   * Observer method to provide client-side access to the layers of which this
-   * {@link IMultiLayerModel} consists.
+   * Observer method to provide client-side access to the layers of which this {@link
+   * IMultiLayerModel} consists.
+   *
    * @return the layers in this {@link IMultiLayerModel}, as a {@link List}.
    */
-  List<IStateTrackingIMEModel> getLayers();
+  List<IStateTrackingIMEModel<IImage>> getLayers();
 }
