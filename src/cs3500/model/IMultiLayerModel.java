@@ -8,7 +8,7 @@ import java.util.List;
  * An interface for features a multi-layered model will implement. Offers functionality to apply
  * operations to separate layers.
  *
- * @param <Z> The implementation of an image.
+ * @param <Z> The implementation of an image for the model.
  */
 public interface IMultiLayerModel<Z> extends IStateTrackingIMEModel<Z> {
 
@@ -95,8 +95,4 @@ public interface IMultiLayerModel<Z> extends IStateTrackingIMEModel<Z> {
    * @return the layers in this {@link IMultiLayerModel}, as a {@link List}.
    */
   List<IStateTrackingIMEModel<IImage>> getLayers();
-
-  class Layer {
-    private boolean isVisible;
-  }
 }

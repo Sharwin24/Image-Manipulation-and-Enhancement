@@ -31,7 +31,8 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
    */
   public MultiLayerModelImpl() {
     this.layersList = new ArrayList<>();
-    this.currentLayer = new StateTrackingIMEModelImpl();
+    this.layersList.add(new StateTrackingIMEModelImpl());
+    this.currentLayer = this.layersList.get(0);
     this.rd = new InputStreamReader(System.in);
     this.ap = System.out;
     this.invisibleLayers = new HashMap<>();
@@ -122,7 +123,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
   public List<IStateTrackingIMEModel<IImage>> getLayers() {
     // return a deep copy
     List<IStateTrackingIMEModel<IImage>> copyOfLayersList = new ArrayList<>();
-    for (IStateTrackingIMEModel m : this.layersList) {
+    for (IStateTrackingIMEModel<IImage> m : this.layersList) {
       copyOfLayersList.add(m);
     }
     return copyOfLayersList;
