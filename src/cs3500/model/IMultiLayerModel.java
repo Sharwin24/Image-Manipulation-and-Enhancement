@@ -81,8 +81,8 @@ public interface IMultiLayerModel<Z> extends IStateTrackingIMEModel<Z> {
       throws IllegalArgumentException;
 
   /**
-   * Observer method to provide client-side access to the layers that this
-   * {@link IMultiLayerModel} consists of.
+   * Observer method to provide client-side access to the layers of which this
+   * {@link IMultiLayerModel} consists.
    * @return the layers in this {@link IMultiLayerModel}, as a {@link List}.
    */
   List<IStateTrackingIMEModel> getLayers();
