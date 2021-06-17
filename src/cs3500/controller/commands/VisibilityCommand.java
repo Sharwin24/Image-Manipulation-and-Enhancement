@@ -2,11 +2,20 @@ package cs3500.controller.commands;
 
 import cs3500.model.IMultiLayerModel;
 import cs3500.view.IIMEView;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
- * TODO
+ * <p>A function object used to represent the execution of a
+ * {@link IMultiLayerModel#toggleInvisible(int)} ()} call in the {@link IMultiLayerModel},
+ * to be used to
+ * implement the <i>command design pattern</i> in the
+ * {@link cs3500.controller.IMultiLayerIMEController}
+ * class.</p>
+ *
+ * <p>This class, in particular, allows the user to input a command in the form
+ * "<code>visibility [n]</code>", in order to toggle the <code>visibility</code> of the layer at
+ * index <code>[n]</code>, indexed from 0, from left to right (see
+ * {@link IMultiLayerModel#toggleInvisible(int)}.
  */
 public class VisibilityCommand extends AIMECommand {
 

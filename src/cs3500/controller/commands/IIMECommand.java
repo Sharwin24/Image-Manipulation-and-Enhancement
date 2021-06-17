@@ -16,14 +16,16 @@ import java.util.Scanner;
 public interface IIMECommand {
 
   /**
-   * TODO
+   * Executes the command specified by the first word in the line and communicates
+   * this information to the model to actually execute the command, also provides
+   * I/O data to the view.
    *
-   * @param lineScan
-   * @param mdl
-   * @param vw
-   * @throws IllegalArgumentException
-   * @throws IllegalStateException
-   */ // TODO : check for null arguments in implementations
+   * @param lineScan a {@link Scanner} over the line containing the input to execute a command
+   *                 from.
+   * @param mdl the model that will execute the command.
+   * @param vw the view to send data to.
+   * @throws IllegalArgumentException if any of the parameters are {@code null}.
+   */
   void execute(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw)
-      throws IllegalArgumentException, IllegalStateException;
+      throws IllegalArgumentException;
 }

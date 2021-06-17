@@ -15,10 +15,11 @@ import java.util.Scanner;
  * class.</p>
  *
  * <p>This class, in particular, allows the user to input a command in the form
- * "<code>export [ff] (all) [p]</code>", where <code>[ff]</code> represents the
+ * "<code>export [ff] (layers) [p]</code>", where <code>[ff]</code> represents the
  * {@link IFileFormat} of the exported files--the file extension,
- * and where <code>(all)</code> represents the optional parameter that will export <code>all</code>
- * of the layers of this image, or when <code>all</code> is omitted,
+ * and where <code>(layers)</code> represents the optional parameter--the literal word "layers--
+ * that will export all
+ * <code>layers</code> of this image, or when <code>layers</code> is omitted,
  * only the current working layer will be exported. Finally,
  * <code>[p]</code> represents the <code>p</code>athname that the exported
  * layer(s) will be exported to, relative to the working (project) directory.
@@ -35,7 +36,8 @@ public class ExportCommand extends APortCommand {
 
         if (fileFormat.equals("layers")) {
           try {
-            mdl.exportAllLayers(relativePath); // Todo: Change for Signature
+            mdl.exportAllLayers(formatsMap.get(fileFormat),
+                relativePath);
           } catch (IllegalArgumentException e) {
             vw.write("could not export layers");
           }

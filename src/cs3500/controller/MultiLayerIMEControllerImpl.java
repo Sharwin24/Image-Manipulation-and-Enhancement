@@ -2,17 +2,14 @@ package cs3500.controller;
 
 import cs3500.Utils;
 import cs3500.controller.commands.ApplyCommand;
-import cs3500.controller.commands.CreateCommand;
 import cs3500.controller.commands.DeleteCommand;
 import cs3500.controller.commands.ExportCommand;
 import cs3500.controller.commands.IIMECommand;
 import cs3500.controller.commands.ImportCommand;
 import cs3500.controller.commands.CurrentCommand;
-import cs3500.controller.commands.MyCommand;
 import cs3500.controller.commands.NewLayerCommand;
 import cs3500.controller.commands.RedoCommand;
 import cs3500.controller.commands.SaveCommand;
-import cs3500.controller.commands.SetCommand;
 import cs3500.controller.commands.SwapCommand;
 import cs3500.controller.commands.VisibilityCommand;
 import cs3500.controller.commands.UndoCommand;
@@ -117,10 +114,8 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IIm
     cmds.putIfAbsent("import", new ImportCommand());
     cmds.putIfAbsent("export", new ExportCommand());
     cmds.putIfAbsent("apply", new ApplyCommand());
-    cmds.putIfAbsent("set", new SetCommand());
     cmds.putIfAbsent("visibility", new VisibilityCommand());
     cmds.putIfAbsent("current", new CurrentCommand());
-    cmds.putIfAbsent("create", new CreateCommand());
     cmds.putIfAbsent("delete", new DeleteCommand());
     cmds.putIfAbsent("swap", new SwapCommand());
     cmds.putIfAbsent("new", new NewLayerCommand());

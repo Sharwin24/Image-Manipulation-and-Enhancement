@@ -5,7 +5,13 @@ import cs3500.view.IIMEView;
 import java.util.Scanner;
 
 /**
- * TODO
+ * <p>A function object used to represent the execution of a
+ * {@link IMultiLayerModel#undo()} call in the {@link IMultiLayerModel}, to be used to
+ * implement the <i>command design pattern</i> in the {@link cs3500.controller.IMultiLayerIMEController}
+ * class.</p>
+ *
+ * <p>This class, in particular, allows the user to input a command in the form
+ * "<code>undo</code>", in order to <code>undo</code> the most recent change to the layer.
  */
 public class UndoCommand extends AIMECommand {
 
