@@ -74,6 +74,7 @@ public abstract class AFileFormat implements IFileFormat<IImage> {
     if (relativePath.equals("")) {
       throw new IllegalArgumentException("Cannot write to empty path");
     }
+
     String fileName = "res/" + relativePath + this.fileExtension;
     int width = image.getPixelArray().getWidth();
     int height = image.getPixelArray().getHeight();
@@ -96,8 +97,10 @@ public abstract class AFileFormat implements IFileFormat<IImage> {
       }
     }
     File outputFile = new File(fileName); // Create output file
+    String fileExtension = this.fileExtension.substring(1);
+    System.out.println("DELETEME: AFILEFORMAT 102" + fileExtension);
     try {
-      ImageIO.write(outputImage, this.fileExtension, outputFile);
+      ImageIO.write(outputImage, fileExtension, outputFile);
     } catch (IOException e) {
       throw new IllegalArgumentException("Failed to write image to file");
     }
