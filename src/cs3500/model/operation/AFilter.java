@@ -93,24 +93,57 @@ public abstract class AFilter implements IFilter {
     IPixel newPixel;
     switch (channelType) {
       case RED:
-        newPixel = new PixelImpl(newValue,
-            currentPixel.getIntensity(EChannelType.GREEN),
-            currentPixel.getIntensity(EChannelType.BLUE));
+        newPixel = createNewRed(currentPixel, newValue);
         break;
       case GREEN:
-        newPixel = new PixelImpl(currentPixel.getIntensity(EChannelType.RED),
-            newValue,
-            currentPixel.getIntensity(EChannelType.BLUE));
+        newPixel = createNewGreen(currentPixel, newValue);
         break;
       case BLUE:
-        newPixel = new PixelImpl(currentPixel.getIntensity(EChannelType.RED),
-            currentPixel.getIntensity(EChannelType.GREEN),
-            newValue);
+        newPixel = createNewBlue(currentPixel, newValue);
         break;
       default:
         throw new IllegalArgumentException("Invalid Channel Type");
     }
     return newPixel;
+  }
+
+  /**
+   * Creates a new Red pixel given the new value and the current pixel.
+   *
+   * @param currentPixel the current pixel to overrwrite.
+   * @param newValue     the new value for the channel.
+   * @return an {@link IPixel} with the new value.
+   */
+  private IPixel createNewRed(IPixel currentPixel, int newValue) {
+    return new PixelImpl(newValue,
+        currentPixel.getIntensity(EChannelType.GREEN),
+        currentPixel.getIntensity(EChannelType.BLUE));
+  }
+
+  /**
+   * Creates a new Green pixel given the new value and the current pixel.
+   *
+   * @param currentPixel the current pixel to overrwrite.
+   * @param newValue     the new value for the channel.
+   * @return an {@link IPixel} with the new value.
+   */
+  private IPixel createNewGreen(IPixel currentPixel, int newValue) {
+    return new PixelImpl(currentPixel.getIntensity(EChannelType.RED),
+        newValue,
+        currentPixel.getIntensity(EChannelType.BLUE));
+  }
+
+  /**
+   * Creates a new Blue pixel given the new value and the current pixel.
+   *
+   * @param currentPixel the current pixel to overrwrite.
+   * @param newValue     the new value for the channel.
+   * @return an {@link IPixel} with the new value.
+   */
+  private IPixel createNewBlue(IPixel currentPixel, int newValue) {
+    return new PixelImpl(currentPixel.getIntensity(EChannelType.RED),
+        currentPixel.getIntensity(EChannelType.GREEN),
+        newValue);
   }
 
   /**

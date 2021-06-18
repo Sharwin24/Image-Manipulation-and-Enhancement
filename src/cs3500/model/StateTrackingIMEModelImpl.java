@@ -10,10 +10,10 @@ import cs3500.model.operation.IOperation;
 import java.util.Stack;
 
 /**
- * A class to represent a model to track the state of an Image and to apply operations to it.
- * In this implementation, each time a change is made to an image, that change is kept track
- * of in the image history. This implementation also uses two {@link Stack}s to keep track
- * of the redone/undone states of images after/before successive operations are applied to them.
+ * A class to represent a model to track the state of an Image and to apply operations to it. In
+ * this implementation, each time a change is made to an image, that change is kept track of in the
+ * image history. This implementation also uses two {@link Stack}s to keep track of the
+ * redone/undone states of images after/before successive operations are applied to them.
  */
 public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel {
 
@@ -85,9 +85,17 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel {
   }
 
   @Override
+  public void load(IImage image) throws IllegalArgumentException {
+    if (image == null) {
+      throw new IllegalArgumentException("Image is null");
+    }
+    this.image = image.copy();
+  }
+
+  @Override
   public void importImage(IFileFormat format, String fileName)
       throws IllegalArgumentException {
-    this.setImage((IImage) format.importImage(fileName)); // safe up-cast
+    this.setImage(format.importImage(fileName)); // safe up-cast
   }
 
   @Override

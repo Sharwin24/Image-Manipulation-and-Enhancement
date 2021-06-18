@@ -53,6 +53,14 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   }
 
   @Override
+  public void load(IImage image) throws IllegalArgumentException {
+    if (image == null) {
+      throw new IllegalArgumentException("Image is null");
+    }
+    this.currentLayer.getModel().load(image);
+  }
+
+  @Override
   public void importImage(IFileFormat format, String fileName) throws IllegalArgumentException {
     this.currentLayer.importImage(format, fileName);
     if (this.layersImageWidth == -1 && this.layersImageHeight == -1) {
@@ -104,7 +112,6 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   @Override
   public void exportAllLayers(IFileFormat fileType, String pathName)
       throws IllegalArgumentException {
-    // Todo:
     // Create new folder with each image file exported in it
     // Ignore layers that are marked invisible
     // Create Text file with all exported paths

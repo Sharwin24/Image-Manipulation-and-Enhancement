@@ -16,9 +16,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * Abstract class to represent functions that all {@link IFileFormat} classes will utilize,
- * such as importing and exporting an image, as well as several helper methods
- * that aid in the process of reading/writing image data.
+ * Abstract class to represent functions that all {@link IFileFormat} classes will utilize, such as
+ * importing and exporting an image, as well as several helper methods that aid in the process of
+ * reading/writing image data.
  */
 public abstract class AFileFormat implements IFileFormat {
 
@@ -172,5 +172,15 @@ public abstract class AFileFormat implements IFileFormat {
       }
     }
     return f;
+  }
+
+  @Override
+  public void createDirectory(String directoryName, String relativePath)
+      throws IllegalArgumentException {
+    // Create an empty directory with the given name at the given relative path.
+    File directory = new File(relativePath + "/" + directoryName);
+    if (!directory.exists()) {
+      directory.mkdirs();
+    }
   }
 }

@@ -52,4 +52,13 @@ public interface IFileFormat {
    */
   File exportImage(String relativePath, IImage image)
       throws IllegalArgumentException;
+
+  /**
+   * Creates a directory with the given name at the given relative path.
+   *
+   * @param directoryName the name of the directory.
+   * @param relativePath  the path to the folder to put the directory in.
+   * @throws IllegalArgumentException if either arguments are null.
+   */
+  void createDirectory(String directoryName, String relativePath) throws IllegalArgumentException;
 }
