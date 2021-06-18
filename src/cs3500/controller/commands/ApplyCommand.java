@@ -43,7 +43,7 @@ public class ApplyCommand extends AIMECommand {
       String anOperation = lineScan.next();
       if (operations.containsKey(anOperation)) {
         toApply.add(operations.get(anOperation));
-        vw.write("got operation \"" + anOperation + "\"");
+       // vw.write("got operation \"" + anOperation + "\"");
       } else {
         vw.write("did not recognize operation \"" + anOperation + "\"");
       }

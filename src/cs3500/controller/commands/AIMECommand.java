@@ -20,10 +20,8 @@ public abstract class AIMECommand implements IIMECommand {
     Utils.checkNotNull(vw, "cannot process a command with a null view");
 
     vw.renderLayers();
-    vw.write("shouldve rendered layers");
 
     this.handleArgs(lineScan, mdl, vw);
-    vw.write("line execution complete");
   }
 
   /**

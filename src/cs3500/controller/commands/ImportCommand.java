@@ -37,7 +37,7 @@ public class ImportCommand extends APortCommand {
           try {
             mdl.importAllLayers(formatsMap.get(fileFormat), relativePath);
           } catch (IllegalArgumentException e) {
-            vw.write("could not export layers");
+            vw.write("could not import layers");
           }
         }
 
@@ -49,10 +49,11 @@ public class ImportCommand extends APortCommand {
         }
 
         try {
-          vw.write("importing to " + fileFormat + " file " + relativePath);
+          vw.write("importing from " + fileFormat + " file " + relativePath + "...");
           mdl.importImage(destFileType, relativePath);
+          vw.write("successfully imported!");
         } catch (IllegalArgumentException e) {
-          vw.write("failed to import to " + fileFormat + " file at path "
+          vw.write("failed to import from " + fileFormat + " file at path "
               + relativePath + ": " + e.getMessage());
         }
       }

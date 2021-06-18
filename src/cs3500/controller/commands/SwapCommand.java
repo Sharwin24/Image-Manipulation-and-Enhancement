@@ -33,6 +33,7 @@ public class SwapCommand extends AIMECommand {
             try {
               vw.write("swapping layers " + swapIdx1 + " and " + swapIdx2);
               mdl.swapLayers(swapIdx1, swapIdx2);
+              vw.write("swapped!");
             } catch (IllegalArgumentException e) {
               vw.write("could not swap layers at indices " + swapIdx1
               + " and " + swapIdx1 + ": " + e.getMessage());

@@ -30,6 +30,7 @@ public class VisibilityCommand extends AIMECommand {
         try {
           vw.write("toggling visibility of layer " + layerToToggle);
           mdl.toggleInvisible(layerToToggle);
+          vw.write("toggled!");
         } catch (IllegalArgumentException e) {
           vw.write("could not toggle visibility of layer " + layerToToggle +
               ": " + e.getMessage());

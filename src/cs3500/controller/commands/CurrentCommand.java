@@ -29,10 +29,11 @@ public class CurrentCommand extends AIMECommand {
           vw.write("setting the current working layer to layer #" + layerNum);
           mdl.setCurrentLayer(layerNum);
         } catch (IllegalArgumentException e) {
-          vw.write("invalid layer number: " + layerNum);
+          vw.write("invalid layer number: " + layerNum + ", out of bounds for "
+              + "layers 0-" + mdl.getLayers().size());
         }
       } catch (NumberFormatException e) {
-        vw.write("invalid layer number: " + inp);
+        vw.write("invalid layer number: " + inp + ": provide a number");
       }
     }
   }
