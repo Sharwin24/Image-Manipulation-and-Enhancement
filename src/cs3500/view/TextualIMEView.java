@@ -52,7 +52,6 @@ public class TextualIMEView implements IIMEView {
 
   @Override
   public void renderLayers() {
-<<<<<<< HEAD
 //    String renderedLayers = "";
 //    int layerCtr = 0;
 //    for (ILayer lyr : mdl.getLayers()) {
@@ -61,7 +60,6 @@ public class TextualIMEView implements IIMEView {
 //      layerCtr++;
 //    }
 //    this.write(renderedLayers);
-=======
     String renderedLayers = "";
     int layerCtr = 0;
     for (ILayer<IImage> layer : mdl.getLayers()) {
@@ -69,7 +67,6 @@ public class TextualIMEView implements IIMEView {
       layerCtr++;
     }
     this.write(renderedLayers);
->>>>>>> 7c0d86e8bcc03718cc71ece910691bfa8487b4e5
   }
 
   @Override

@@ -7,11 +7,7 @@ import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.image.IImage;
 
 /**
-<<<<<<< HEAD
- * TODO
-=======
  * A class to represent a single Layer in a Multi-layered image.
->>>>>>> 7c0d86e8bcc03718cc71ece910691bfa8487b4e5
  */
 public class Layer implements ILayer<IImage> {
 
