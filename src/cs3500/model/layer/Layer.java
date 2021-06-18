@@ -9,7 +9,7 @@ import cs3500.model.image.IImage;
 /**
  * A class to represent a single Layer in a Multi-layered image.
  */
-public class Layer implements ILayer<IImage> {
+public class Layer implements ILayer {
 
   private boolean isInvisible;
   private IStateTrackingIMEModel<IImage> model;

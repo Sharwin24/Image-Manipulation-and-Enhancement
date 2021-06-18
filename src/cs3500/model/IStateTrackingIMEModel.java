@@ -7,10 +7,8 @@ import cs3500.model.image.IImage;
  * of images and of operations applied to them. Such functionality includes the ability to
  * undo and redo changes applied to images, save the current iteration of an image to the
  * history of changes, and retrieve the most recent iteration of an image.
- *
- * @param <Z> the image implementation.
  */
-public interface IStateTrackingIMEModel<Z> extends IIMEModel<Z> {
+public interface IStateTrackingIMEModel extends IIMEModel {
 
   /**
    * Restores the most recently saved state of the image that is being modified.

@@ -15,7 +15,7 @@ import java.util.Stack;
  * of in the image history. This implementation also uses two {@link Stack}s to keep track
  * of the redone/undone states of images after/before successive operations are applied to them.
  */
-public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage> {
+public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel {
 
   private IImage image; // The current image
   private final Stack<IImage> undoHistory;
@@ -107,7 +107,7 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
   public void setProgrammaticImage(IProgramImage imgToSet, int widthPx, int heightPx,
       int unitSizePx)
       throws IllegalArgumentException {
-    this.setImage((IImage) imgToSet.createProgramImage(widthPx, heightPx, unitSizePx)); // safe cast
+    this.setImage(imgToSet.createProgramImage(widthPx, heightPx, unitSizePx));
   }
 
   @Override

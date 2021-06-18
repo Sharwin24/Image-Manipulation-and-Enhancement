@@ -15,7 +15,7 @@ import java.util.List;
  * A class to represent the Model for an Image processor with multiple layer. Offers functionality
  * to apply operations to different layers and to import/export separate layers.
  */
-public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
+public class MultiLayerModelImpl implements IMultiLayerModel {
 
   // Represent Layers
   // Layer: A stateTracking model to track and edit one image in one layer.
@@ -25,8 +25,8 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
   private final HashMap<Integer, Boolean> invisibleLayers; // <LayerIndex, Invisibility>
 
   // Layer Class implementation
-  private final List<ILayer<IImage>> listOfLayers;
-  private ILayer<IImage> currLayer;
+  private final List<ILayer> listOfLayers;
+  private ILayer currentLayer;
   private int layersImageHeight;
   private int layersImageWidth;
 
@@ -41,26 +41,26 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
     this.invisibleLayers = new HashMap<>();
     this.listOfLayers = new ArrayList<>();
     this.listOfLayers.add(new Layer());
-    this.currLayer = this.listOfLayers.get(0);
+    this.currentLayer = this.listOfLayers.get(0);
     this.layersImageHeight = -1;
     this.layersImageWidth = -1;
   }
 
   @Override
   public void applyOperations(IOperation... operations) throws IllegalArgumentException {
-    this.currLayer.getModel().applyOperations(operations);
+    this.currentLayer.getModel().applyOperations(operations);
 //    this.currentLayer.applyOperations(operations);
   }
 
   @Override
   public void importImage(IFileFormat format, String fileName) throws IllegalArgumentException {
-    this.currLayer.importImage(format, fileName);
+    this.currentLayer.importImage(format, fileName);
     if (this.layersImageWidth == -1 && this.layersImageHeight == -1) {
-      this.layersImageWidth = this.currLayer.getLayerWidth();
-      this.layersImageHeight = this.currLayer.getLayerHeight();
+      this.layersImageWidth = this.currentLayer.getLayerWidth();
+      this.layersImageHeight = this.currentLayer.getLayerHeight();
     } else {
-      if (this.currLayer.getLayerHeight() != this.layersImageHeight
-          || this.currLayer.getLayerWidth() != this.layersImageWidth) {
+      if (this.currentLayer.getLayerHeight() != this.layersImageHeight
+          || this.currentLayer.getLayerWidth() != this.layersImageWidth) {
         throw new IllegalArgumentException("All layers must have the same size.");
       }
     }
@@ -69,7 +69,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
 
   @Override
   public void exportImage(IFileFormat format, String fileName) throws IllegalArgumentException {
-    this.currLayer.getModel().exportImage(format, fileName);
+    this.currentLayer.getModel().exportImage(format, fileName);
 //    this.currentLayer.exportImage(format, fileName);
   }
 
@@ -83,20 +83,20 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
       throw new IllegalArgumentException("Invalid Size for Image, All layers must have the same "
           + "size.");
     }
-    this.currLayer.getModel().setProgrammaticImage(imgToSet, widthPx, heightPx, unitSizePx);
+    this.currentLayer.getModel().setProgrammaticImage(imgToSet, widthPx, heightPx, unitSizePx);
 //    this.currentLayer.setProgrammaticImage(imgToSet, widthPx, heightPx, unitSizePx);
   }
 
   @Override
   public IImage getImage() {
-    return currentLayer.getImage();
+    return this.currentLayer.getModel().getImage();
   }
 
   @Override
   public void importAllLayers(IFileFormat fileType, String pathName)
       throws IllegalArgumentException {
     // Import the given image at the file for all layers, regardless of current layer.
-    for (ILayer<IImage> layer : this.listOfLayers) {
+    for (ILayer layer : this.listOfLayers) {
       layer.importImage(fileType, pathName);
     }
   }
@@ -109,7 +109,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
     // Ignore layers that are marked invisible
     // Create Text file with all exported paths
     int layerCounter = 0;
-    for (ILayer<IImage> layer : this.listOfLayers) {
+    for (ILayer layer : this.listOfLayers) {
       layer.getModel().exportImage(fileType, pathName + "-layer-" + layerCounter);
       layerCounter++;
     }
@@ -125,7 +125,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
     if (layerIndex < 0 || layerIndex >= this.listOfLayers.size()) {
       throw new IllegalArgumentException("Layer Index out of bounds");
     }
-    this.currLayer.toggleInvisible();
+    this.currentLayer.toggleInvisible();
 //    if (layerIndex < 0 || layerIndex >= this.layersList.size()) {
 //      throw new IllegalArgumentException("Layer Index out of bounds");
 //    }
@@ -138,7 +138,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
     if (layerIndex < 0 || layerIndex >= this.listOfLayers.size()) {
       throw new IllegalArgumentException("Layer Index out of bounds");
     }
-    this.currLayer = this.listOfLayers.get(layerIndex);
+    this.currentLayer = this.listOfLayers.get(layerIndex);
 //    if (layerIndex < 0 || layerIndex >= this.layersList.size()) {
 //      throw new IllegalArgumentException("Layer Index out of bounds");
 //    }
@@ -171,8 +171,8 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
         || layerIndex2 < 0 || layerIndex2 >= this.listOfLayers.size()) {
       throw new IllegalArgumentException("Layer Index out of bounds");
     }
-    ILayer<IImage> first = this.listOfLayers.get(layerIndex1);
-    ILayer<IImage> second = this.listOfLayers.get(layerIndex2);
+    ILayer first = this.listOfLayers.get(layerIndex1);
+    ILayer second = this.listOfLayers.get(layerIndex2);
     this.listOfLayers.set(layerIndex1, second);
     this.listOfLayers.set(layerIndex2, first);
 //    if (layerIndex1 < 0 || layerIndex1 >= this.layersList.size()
@@ -186,9 +186,9 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
   }
 
   @Override
-  public List<ILayer<IImage>> getLayers() {
+  public List<ILayer> getLayers() {
     // return a deep copy
-    List<ILayer<IImage>> layerCopy = new ArrayList<>();
+    List<ILayer> layerCopy = new ArrayList<>();
     Collections.copy(layerCopy, this.listOfLayers);
     return layerCopy;
 //    List<IStateTrackingIMEModel<IImage>> copyOfLayersList = new ArrayList<>();
@@ -200,25 +200,25 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
 
   @Override
   public void undo() throws IllegalArgumentException {
-    this.currLayer.getModel().undo();
+    this.currentLayer.getModel().undo();
 //    this.currentLayer.undo();
   }
 
   @Override
   public void redo() throws IllegalArgumentException {
-    this.currLayer.getModel().redo();
+    this.currentLayer.getModel().redo();
 //    this.currentLayer.redo();
   }
 
   @Override
   public void save() {
-    this.currLayer.getModel().save();
+    this.currentLayer.getModel().save();
 //    this.currentLayer.save();
   }
 
   @Override
   public IImage retrieve() {
-    return this.currLayer.getModel().retrieve();
+    return this.currentLayer.getModel().retrieve();
 //    return this.currentLayer.retrieve();
   }
 }

@@ -6,10 +6,8 @@ import cs3500.model.fileformat.IFileFormat;
 
 /**
  * An interface to represent a Layer within a Multi-layered
- *
- * @param <T> the implementation of an image.
  */
-public interface ILayer<T> {
+public interface ILayer {
 
   /**
    * Determines if this layer is invisible or not.
@@ -31,14 +29,14 @@ public interface ILayer<T> {
    * @param filePath the path to the file to import.
    * @throws IllegalArgumentException if either arguments are null.
    */
-  void importImage(IFileFormat<T> format, String filePath) throws IllegalArgumentException;
+  void importImage(IFileFormat format, String filePath) throws IllegalArgumentException;
 
   /**
    * Gets the model for this layer for delegation.
    *
    * @return a {@link IStateTrackingIMEModel} that this layer utilizes to track state
    */
-  IStateTrackingIMEModel<T> getModel();
+  IStateTrackingIMEModel getModel();
 
   /**
    * Gets the height of this layer.

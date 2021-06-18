@@ -1,15 +1,15 @@
 package cs3500.model.programmaticimages;
 
+import cs3500.model.image.IImage;
+
 /**
  * <p>This interface acts as a function object with signature {@code int, int, int -> Z},
  * where {@code Z} is an abstract representation of an image.</p>
  * <p>Represents an image that can be programmatically created. I.e. an image that can be created
  * in easily automatible fashion by specifying parametrs for its width, height, and the size of a
  * unit in the image, if needed.</p>
- *
- * @param <Z> the type of image that this {@link IProgramImage} creates.
  */
-public interface IProgramImage<Z> {
+public interface IProgramImage{
 
   /**
    * <p>Creates a new programmatic image based on the specified width in pixels, height in pixels,
@@ -30,6 +30,6 @@ public interface IProgramImage<Z> {
    *                                  size is sufficiently large enough to not fit inside the
    *                                  specified dimensions of width and height.
    */
-  Z createProgramImage(int widthPx, int heightPx, int unitPx)
+  IImage createProgramImage(int widthPx, int heightPx, int unitPx)
       throws IllegalArgumentException;
 }
