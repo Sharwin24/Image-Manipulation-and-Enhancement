@@ -4,7 +4,9 @@ import cs3500.model.image.IImage;
 
 /**
  * An extension of the {@link IIMEModel} interface to include methods for keeping track of the state
- * of images and of operations applied to them.
+ * of images and of operations applied to them. Such functionality includes the ability to
+ * undo and redo changes applied to images, save the current iteration of an image to the
+ * history of changes, and retrieve the most recent iteration of an image.
  *
  * @param <Z> the image implementation.
  */

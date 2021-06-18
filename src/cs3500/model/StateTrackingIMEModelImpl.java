@@ -11,6 +11,9 @@ import java.util.Stack;
 
 /**
  * A class to represent a model to track the state of an Image and to apply operations to it.
+ * In this implementation, each time a change is made to an image, that change is kept track
+ * of in the image history. This implementation also uses two {@link Stack}s to keep track
+ * of the redone/undone states of images after/before successive operations are applied to them.
  */
 public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage> {
 
@@ -105,6 +108,11 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel<IImage>
       int unitSizePx)
       throws IllegalArgumentException {
     this.setImage((IImage) imgToSet.createProgramImage(widthPx, heightPx, unitSizePx)); // safe cast
+  }
+
+  @Override
+  public IImage getImage() {
+    return image;
   }
 
   /**
