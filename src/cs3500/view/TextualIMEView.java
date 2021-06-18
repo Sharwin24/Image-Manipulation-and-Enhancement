@@ -50,14 +50,16 @@ public class TextualIMEView implements IIMEView {
 
   @Override
   public void renderLayers() {
-    String renderedLayers = "";
-    int layerCtr = 0;
-    for (IStateTrackingIMEModel m : mdl.getLayers()) {
-      renderedLayers += "LAYER " + layerCtr + "\n";
-      layerCtr++;
-    }
-    this.write(renderedLayers);
+//    String renderedLayers = "";
+//    int layerCtr = 0;
+//    for (ILayer lyr : mdl.getLayers()) {
+//      renderedLayers += "LAYER " + layerCtr + ": " +
+//          lyr.toString() + "\n";
+//      layerCtr++;
+//    }
+//    this.write(renderedLayers);
   }
+
   @Override
   public void write(String toWrite)
       throws IllegalStateException, IllegalArgumentException {
