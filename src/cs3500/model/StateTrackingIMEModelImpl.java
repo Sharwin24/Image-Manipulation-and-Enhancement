@@ -85,11 +85,6 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel {
   }
 
   @Override
-  public IImage retrieve() {
-    return this.image;
-  }
-
-  @Override
   public void importImage(IFileFormat format, String fileName)
       throws IllegalArgumentException {
     this.setImage((IImage) format.importImage(fileName)); // safe up-cast

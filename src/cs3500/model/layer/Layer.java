@@ -12,7 +12,7 @@ import cs3500.model.image.IImage;
 public class Layer implements ILayer {
 
   private boolean isInvisible;
-  private IStateTrackingIMEModel<IImage> model;
+  private IStateTrackingIMEModel model;
   private int layerHeight;
   private int layerWidth;
   private String layerName;
@@ -39,18 +39,18 @@ public class Layer implements ILayer {
   }
 
   @Override
-  public void importImage(IFileFormat<IImage> format, String filePath) {
+  public void importImage(IFileFormat format, String filePath) {
     if (format == null || filePath == null) {
       throw new IllegalArgumentException("Arguments are null");
     }
     this.layerName = filePath;
     this.model.importImage(format, filePath);
-    this.layerHeight = this.model.retrieve().getHeight();
-    this.layerWidth = this.model.retrieve().getWidth();
+    this.layerHeight = this.model.getImage().getHeight();
+    this.layerWidth = this.model.getImage().getWidth();
   }
 
   @Override
-  public IStateTrackingIMEModel<IImage> getModel() {
+  public IStateTrackingIMEModel getModel() {
     return this.model;
   }
 

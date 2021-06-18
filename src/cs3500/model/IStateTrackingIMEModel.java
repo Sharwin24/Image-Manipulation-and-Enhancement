@@ -33,11 +33,4 @@ public interface IStateTrackingIMEModel extends IIMEModel {
    */
   void save();
 
-  /**
-   * Retrieves the last saved IImage.
-   *
-   * @return the last saved IImage.
-   */
-  IImage retrieve();
-
 }

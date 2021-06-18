@@ -215,10 +215,5 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
     this.currentLayer.getModel().save();
 //    this.currentLayer.save();
   }
-
-  @Override
-  public IImage retrieve() {
-    return this.currentLayer.getModel().retrieve();
-//    return this.currentLayer.retrieve();
-  }
+  
 }
