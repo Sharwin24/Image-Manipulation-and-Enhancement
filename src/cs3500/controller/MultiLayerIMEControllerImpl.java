@@ -24,6 +24,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * A Controller for the {@link IMultiLayerModel} that
+ * relies on I/O from a {@link Readable} such as System.in or a script file
+ * and to a given {@link Appendable}. Communicates data to a view and
+ * communicates to the model in order to provide I/O feedback to the user.
+ *
+ * In this controller, inputs are processed from the mentioned {@link Readable} with the following
+ * syntax:
+ *     Each command follows this meta-structure:
+ *     <i><code>[CMD] (opt1) (opt2) ... (optm) [req1] [req2] ... [reqn]</code></i>,
+ *     where <code>[CMD]</code> is the textual representation of a command,
+ *     and <code>(opti)</code> is the <code>i</code>th optional argument of
+ *     of a function whose optional arguments have an arity of <code>m</code>,
+ *     and where <code>[reqj]</code> is the <code>j</code>th required argument of
+ *     a function of arity <code>n</code>. Since different commands have different arities (and
+ *     some take no optional paramters), the commands take arguments as expressed in the following
+ *     table: TODO CREATE TABLE HERE
+ */
 public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IImage> {
 
   private final IMultiLayerModel mdl;
@@ -95,17 +113,20 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IIm
       if (lineScan.hasNext()) {
         String cmd = lineScan.next();
         if (cmds.containsKey(cmd)) {
-          vw.write("executing command \"" + cmd + "\"");
+          // vw.write("received command \"" + cmd + "\"");
           cmds.get(cmd).execute(lineScan, mdl, vw);
         }
       }
 
     }
     System.out.println("done");
-
-
   }
 
+  /**
+   * TODO
+   *
+   * @return
+   */
   private Map<String, IIMECommand> initCommands() {
     Map<String, IIMECommand> cmds = new HashMap<>();
     cmds.putIfAbsent("undo", new UndoCommand());

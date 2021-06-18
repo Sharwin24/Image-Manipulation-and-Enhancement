@@ -19,5 +19,6 @@ public class NewLayerCommand extends AIMECommand {
   protected void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw) {
     vw.write("adding new layer at index " + mdl.getLayers().size());
     mdl.addLayer();
+    vw.write("added!");
   }
 }

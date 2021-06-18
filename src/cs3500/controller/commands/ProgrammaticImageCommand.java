@@ -1,11 +1,6 @@
 package cs3500.controller.commands;
 
 import cs3500.model.IMultiLayerModel;
-import cs3500.model.operation.Greyscale;
-import cs3500.model.operation.IOperation;
-import cs3500.model.operation.ImageBlur;
-import cs3500.model.operation.Sepia;
-import cs3500.model.operation.Sharpening;
 import cs3500.model.programmaticimages.BWNoise;
 import cs3500.model.programmaticimages.Checkerboard;
 import cs3500.model.programmaticimages.IProgramImage;
@@ -14,6 +9,7 @@ import cs3500.model.programmaticimages.RainbowNoise;
 import cs3500.view.IIMEView;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -46,7 +42,7 @@ public class ProgrammaticImageCommand extends AIMECommand {
 
       mdl.setProgrammaticImage(imagesMap.get(type),
           width, height, unit);
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException | NoSuchElementException e) {
       vw.write("invalid arguments passed to programmatic command, try again");
     }
   }
