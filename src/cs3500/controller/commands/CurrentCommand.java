@@ -1,7 +1,6 @@
 package cs3500.controller.commands;
 
 import cs3500.model.IMultiLayerModel;
-import cs3500.model.operation.IOperation;
 import cs3500.view.IIMEView;
 import java.util.Scanner;
 
