@@ -9,6 +9,10 @@ import cs3500.model.IMultiLayerModel;
  */
 public interface ILayer<T> {
 
+  /**
+   * TODO
+   * @return
+   */
   boolean isInvisible();
 
   void importImage(T image);

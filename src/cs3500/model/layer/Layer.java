@@ -4,6 +4,9 @@ import cs3500.model.IMultiLayerModel;
 import cs3500.model.IStateTrackingIMEModel;
 import cs3500.model.image.IImage;
 
+/**
+ * TODO
+ */
 public class Layer implements ILayer<IImage> {
 
   private boolean isInvisible;
