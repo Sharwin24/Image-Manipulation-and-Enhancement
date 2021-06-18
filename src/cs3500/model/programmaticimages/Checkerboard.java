@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * A programmatically created checkerboard image that is black and white.
  */
-public class Checkerboard implements IProgramImage<IImage> {
+public class Checkerboard implements IProgramImage {
 
   @Override
   public IImage createProgramImage(int widthPx, int heightPx, int unitSizePx) {

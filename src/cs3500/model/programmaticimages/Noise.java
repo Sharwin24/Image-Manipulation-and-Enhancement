@@ -15,7 +15,7 @@ import java.util.Random;
  * Note that the {@code unitPx}--the unit size of this image is ignored, since pixels are selected
  * at random.
  */
-public class Noise implements IProgramImage<IImage> {
+public class Noise implements IProgramImage {
 
   private List<IPixel> pixelChoices;
 
