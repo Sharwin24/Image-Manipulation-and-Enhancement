@@ -5,7 +5,13 @@ package cs3500.model.channel;
  * show a color.
  */
 public enum EChannelType {
-  RED, GREEN, BLUE;
+  RED('R'), GREEN('G'), BLUE('B');
+
+  private final char symbol;
+
+  private EChannelType(char symbol) {
+    this.symbol = symbol;
+  }
 
   /**
    * Returns the textual representation of the ChannelType.
@@ -15,16 +21,6 @@ public enum EChannelType {
    */
   public String toString()
       throws IllegalArgumentException {
-    switch (this) {
-      case RED:
-        return "R";
-      case GREEN:
-        return "G";
-      case BLUE:
-        return "B";
-      default:
-        throw new IllegalArgumentException("should not have gotten here. Congrats, you broke our "
-            + "code");
-    }
+    return Character.toString(this.symbol);
   }
 }
