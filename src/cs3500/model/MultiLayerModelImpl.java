@@ -2,10 +2,12 @@ package cs3500.model;
 
 import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.image.IImage;
+import cs3500.model.layer.ILayer;
+import cs3500.model.layer.Layer;
 import cs3500.model.operation.IOperation;
 import cs3500.model.programmaticimages.IProgramImage;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,129 +20,200 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
   // Represent Layers
   // Layer: A stateTracking model to track and edit one image in one layer.
   // Current Working Layer: represents the current working layer
-  private final List<IStateTrackingIMEModel<IImage>> layersList; // layer 0 is bottom
-  private IStateTrackingIMEModel<IImage> currentLayer; // current working layer
+//  private final List<IStateTrackingIMEModel<IImage>> layersList; // layer 0 is bottom
+//  private IStateTrackingIMEModel<IImage> currentLayer; // current working layer
   private final HashMap<Integer, Boolean> invisibleLayers; // <LayerIndex, Invisibility>
+
+  // Layer Class implementation
+  private final List<ILayer<IImage>> listOfLayers;
+  private ILayer<IImage> currLayer;
+  private int layersImageHeight;
+  private int layersImageWidth;
 
   /**
    * Constructs a Multi-Layer model with defaults for the class fields. Initializes lists as empty,
    * and the default appendable as {@code System.out} and default readable as {@code System.in}.
    */
   public MultiLayerModelImpl() {
-    this.layersList = new ArrayList<>();
-    this.layersList.add(new StateTrackingIMEModelImpl());
-    this.currentLayer = this.layersList.get(0);
+//    this.layersList = new ArrayList<>();
+//    this.layersList.add(new StateTrackingIMEModelImpl());
+//    this.currentLayer = this.layersList.get(0);
     this.invisibleLayers = new HashMap<>();
+    this.listOfLayers = new ArrayList<>();
+    this.listOfLayers.add(new Layer());
+    this.currLayer = this.listOfLayers.get(0);
+    this.layersImageHeight = -1;
+    this.layersImageWidth = -1;
   }
 
   @Override
   public void applyOperations(IOperation... operations) throws IllegalArgumentException {
-    this.currentLayer.applyOperations(operations);
+    this.currLayer.getModel().applyOperations(operations);
+//    this.currentLayer.applyOperations(operations);
   }
 
   @Override
   public void importImage(IFileFormat format, String fileName) throws IllegalArgumentException {
-    this.currentLayer.importImage(format, fileName);
+    this.currLayer.importImage(format, fileName);
+    if (this.layersImageWidth == -1 && this.layersImageHeight == -1) {
+      this.layersImageWidth = this.currLayer.getLayerWidth();
+      this.layersImageHeight = this.currLayer.getLayerHeight();
+    } else {
+      if (this.currLayer.getLayerHeight() != this.layersImageHeight
+          || this.currLayer.getLayerWidth() != this.layersImageWidth) {
+        throw new IllegalArgumentException("All layers must have the same size.");
+      }
+    }
+//    this.currentLayer.importImage(format, fileName);
   }
 
   @Override
   public void exportImage(IFileFormat format, String fileName) throws IllegalArgumentException {
-    this.currentLayer.exportImage(format, fileName);
+    this.currLayer.getModel().exportImage(format, fileName);
+//    this.currentLayer.exportImage(format, fileName);
   }
 
   @Override
   public void setProgrammaticImage(IProgramImage imgToSet, int widthPx, int heightPx,
       int unitSizePx) throws IllegalArgumentException {
-    this.currentLayer.setProgrammaticImage(imgToSet, widthPx, heightPx, unitSizePx);
+    if (imgToSet == null) {
+      throw new IllegalArgumentException("Progam image is null");
+    }
+    if (widthPx != this.layersImageWidth || heightPx != this.layersImageHeight) {
+      throw new IllegalArgumentException("Invalid Size for Image, All layers must have the same "
+          + "size.");
+    }
+    this.currLayer.getModel().setProgrammaticImage(imgToSet, widthPx, heightPx, unitSizePx);
+//    this.currentLayer.setProgrammaticImage(imgToSet, widthPx, heightPx, unitSizePx);
   }
 
   @Override
   public void importAllLayers(IFileFormat fileType, String pathName)
       throws IllegalArgumentException {
-    // Todo
+    // Import the given image at the file for all layers, regardless of current layer.
+    for (ILayer<IImage> layer : this.listOfLayers) {
+      layer.importImage(fileType, pathName);
+    }
   }
 
   @Override
   public void exportAllLayers(IFileFormat fileType, String pathName)
       throws IllegalArgumentException {
-    int layerCtr = 0;
-    for (IStateTrackingIMEModel m : layersList) {
-      m.exportImage(fileType, pathName + "-layer-" + layerCtr);
-      layerCtr++;
+    // Todo:
+    // Create new folder with each image file exported in it
+    // Ignore layers that are marked invisible
+    // Create Text file with all exported paths
+    int layerCounter = 0;
+    for (ILayer<IImage> layer : this.listOfLayers) {
+      layer.getModel().exportImage(fileType, pathName + "-layer-" + layerCounter);
+      layerCounter++;
     }
+//    int layerCtr = 0;
+//    for (IStateTrackingIMEModel m : layersList) {
+//      m.exportImage(fileType, pathName + "-layer-" + layerCtr);
+//      layerCtr++;
+//    }
   }
 
   @Override
   public void toggleInvisible(int layerIndex) throws IllegalArgumentException {
-    if (layerIndex < 0 || layerIndex >= this.layersList.size()) {
+    if (layerIndex < 0 || layerIndex >= this.listOfLayers.size()) {
       throw new IllegalArgumentException("Layer Index out of bounds");
     }
-    boolean currentInvisibility = this.invisibleLayers.get(layerIndex);
-    this.invisibleLayers.put(layerIndex, !currentInvisibility);
+    this.currLayer.toggleInvisible();
+//    if (layerIndex < 0 || layerIndex >= this.layersList.size()) {
+//      throw new IllegalArgumentException("Layer Index out of bounds");
+//    }
+//    boolean currentInvisibility = this.invisibleLayers.get(layerIndex);
+//    this.invisibleLayers.put(layerIndex, !currentInvisibility);
   }
 
   @Override
   public void setCurrentLayer(int layerIndex) throws IllegalArgumentException {
-    if (layerIndex < 0 || layerIndex >= this.layersList.size()) {
+    if (layerIndex < 0 || layerIndex >= this.listOfLayers.size()) {
       throw new IllegalArgumentException("Layer Index out of bounds");
     }
-    this.currentLayer = this.layersList.get(layerIndex);
+    this.currLayer = this.listOfLayers.get(layerIndex);
+//    if (layerIndex < 0 || layerIndex >= this.layersList.size()) {
+//      throw new IllegalArgumentException("Layer Index out of bounds");
+//    }
+//    this.currentLayer = this.layersList.get(layerIndex);
   }
 
   @Override
   public void addLayer() {
-    this.layersList.add(new StateTrackingIMEModelImpl());
-    this.invisibleLayers.put(this.layersList.size() - 1, false);
+    this.listOfLayers.add(new Layer());
+//    this.layersList.add(new StateTrackingIMEModelImpl());
+//    this.invisibleLayers.put(this.layersList.size() - 1, false);
   }
 
   @Override
   public void deleteLayer(int layerIndex) throws IllegalArgumentException {
-    if (layerIndex < 0 || layerIndex >= this.layersList.size()) {
+    if (layerIndex < 0 || layerIndex >= this.listOfLayers.size()) {
       throw new IllegalArgumentException("Layer Index out of bounds");
     }
-    this.layersList.remove(layerIndex);
-    this.invisibleLayers.remove(layerIndex);
+    this.listOfLayers.remove(layerIndex);
+//    if (layerIndex < 0 || layerIndex >= this.layersList.size()) {
+//      throw new IllegalArgumentException("Layer Index out of bounds");
+//    }
+//    this.layersList.remove(layerIndex);
+//    this.invisibleLayers.remove(layerIndex);
   }
 
   @Override
   public void swapLayers(int layerIndex1, int layerIndex2) throws IllegalArgumentException {
-    if (layerIndex1 < 0 || layerIndex1 >= this.layersList.size()
-        || layerIndex2 < 0 || layerIndex2 >= this.layersList.size()) {
+    if (layerIndex1 < 0 || layerIndex1 >= this.listOfLayers.size()
+        || layerIndex2 < 0 || layerIndex2 >= this.listOfLayers.size()) {
       throw new IllegalArgumentException("Layer Index out of bounds");
     }
-    IStateTrackingIMEModel<IImage> first = this.layersList.get(layerIndex1);
-    IStateTrackingIMEModel<IImage> second = this.layersList.get(layerIndex2);
-    this.layersList.set(layerIndex2, first);
-    this.layersList.set(layerIndex1, second);
+    ILayer<IImage> first = this.listOfLayers.get(layerIndex1);
+    ILayer<IImage> second = this.listOfLayers.get(layerIndex2);
+    this.listOfLayers.set(layerIndex1, second);
+    this.listOfLayers.set(layerIndex2, first);
+//    if (layerIndex1 < 0 || layerIndex1 >= this.layersList.size()
+//        || layerIndex2 < 0 || layerIndex2 >= this.layersList.size()) {
+//      throw new IllegalArgumentException("Layer Index out of bounds");
+//    }
+//    IStateTrackingIMEModel<IImage> first = this.layersList.get(layerIndex1);
+//    IStateTrackingIMEModel<IImage> second = this.layersList.get(layerIndex2);
+//    this.layersList.set(layerIndex2, first);
+//    this.layersList.set(layerIndex1, second);
   }
 
   @Override
-  public List<IStateTrackingIMEModel<IImage>> getLayers() {
+  public List<ILayer<IImage>> getLayers() {
     // return a deep copy
-    List<IStateTrackingIMEModel<IImage>> copyOfLayersList = new ArrayList<>();
-    for (IStateTrackingIMEModel<IImage> m : this.layersList) {
-      copyOfLayersList.add(m);
-    }
-    return copyOfLayersList;
+    List<ILayer<IImage>> layerCopy = new ArrayList<>();
+    Collections.copy(layerCopy, this.listOfLayers);
+    return layerCopy;
+//    List<IStateTrackingIMEModel<IImage>> copyOfLayersList = new ArrayList<>();
+//    for (IStateTrackingIMEModel<IImage> m : this.layersList) {
+//      copyOfLayersList.add(m);
+//    }
+//    return copyOfLayersList;
   }
 
   @Override
   public void undo() throws IllegalArgumentException {
-    this.currentLayer.undo();
+    this.currLayer.getModel().undo();
+//    this.currentLayer.undo();
   }
 
   @Override
   public void redo() throws IllegalArgumentException {
-    this.currentLayer.redo();
+    this.currLayer.getModel().redo();
+//    this.currentLayer.redo();
   }
 
   @Override
   public void save() {
-    this.currentLayer.save();
+    this.currLayer.getModel().save();
+//    this.currentLayer.save();
   }
 
   @Override
   public IImage retrieve() {
-    return this.currentLayer.retrieve();
+    return this.currLayer.getModel().retrieve();
+//    return this.currentLayer.retrieve();
   }
 }
