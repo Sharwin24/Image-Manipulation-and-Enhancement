@@ -2,6 +2,7 @@ package cs3500.model;
 
 import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.image.IImage;
+import cs3500.model.layer.ILayer;
 import java.util.List;
 
 /**
@@ -94,5 +95,5 @@ public interface IMultiLayerModel<Z> extends IStateTrackingIMEModel<Z> {
    *
    * @return the layers in this {@link IMultiLayerModel}, as a {@link List}.
    */
-  List<IStateTrackingIMEModel<IImage>> getLayers();
+  List<ILayer<IImage>> getLayers();
 }

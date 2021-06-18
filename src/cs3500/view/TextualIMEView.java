@@ -4,6 +4,8 @@ import cs3500.Utils;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.IStateTrackingIMEModel;
 import cs3500.model.MultiLayerModelImpl;
+import cs3500.model.image.IImage;
+import cs3500.model.layer.ILayer;
 import java.io.IOException;
 
 /**
@@ -50,6 +52,7 @@ public class TextualIMEView implements IIMEView {
 
   @Override
   public void renderLayers() {
+<<<<<<< HEAD
 //    String renderedLayers = "";
 //    int layerCtr = 0;
 //    for (ILayer lyr : mdl.getLayers()) {
@@ -58,6 +61,15 @@ public class TextualIMEView implements IIMEView {
 //      layerCtr++;
 //    }
 //    this.write(renderedLayers);
+=======
+    String renderedLayers = "";
+    int layerCtr = 0;
+    for (ILayer<IImage> layer : mdl.getLayers()) {
+      renderedLayers += "LAYER " + layerCtr + layer.toString() + "\n";
+      layerCtr++;
+    }
+    this.write(renderedLayers);
+>>>>>>> 7c0d86e8bcc03718cc71ece910691bfa8487b4e5
   }
 
   @Override
