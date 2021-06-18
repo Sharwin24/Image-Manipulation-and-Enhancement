@@ -20,7 +20,7 @@ import javax.imageio.ImageIO;
  * such as importing and exporting an image, as well as several helper methods
  * that aid in the process of reading/writing image data.
  */
-public abstract class AFileFormat implements IFileFormat<IImage> {
+public abstract class AFileFormat implements IFileFormat {
 
   private final String fileExtension;
 
@@ -88,7 +88,7 @@ public abstract class AFileFormat implements IFileFormat<IImage> {
         int red = image.getPixelArray().getElement(r, c).getIntensity(EChannelType.RED);
         int green = image.getPixelArray().getElement(r, c).getIntensity(EChannelType.GREEN);
         int blue = image.getPixelArray().getElement(r, c).getIntensity(EChannelType.BLUE);
-        // Creating rgb by shifting to next register to read next value
+        // Creating rgb by shifting to next register to add next value
         // Representation of RGB integer with blocks of 8 bits -> RRRRRRRR | GGGGGGGG | BBBBBBBB
         // int rgb = (red << 16) | (green << 8) | blue; // Writing to entire register at once
         int rgb = red; // first address is red

@@ -1,5 +1,6 @@
 package cs3500.model;
 
+import cs3500.model.image.IImage;
 import cs3500.model.programmaticimages.IProgramImage;
 import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.operation.IOperation;
@@ -10,10 +11,8 @@ import cs3500.model.operation.IOperation;
  * passing them as function objects, and to set the working image to a programmatic image
  * parameterized by its width height and unit size in pixels
  * (see {@link IIMEModel#setProgrammaticImage(IProgramImage, int, int, int)}.
- *
- * @param <Z> the implementation of an image.
  */
-public interface IIMEModel<Z> {
+public interface IIMEModel {
 
   /**
    * Applies one or more operations to the current image, in the order given to the method.
@@ -60,5 +59,5 @@ public interface IIMEModel<Z> {
    * Observer method to return the image being worked on.
    * @return the image being worked on.
    */
-  Z getImage();
+  IImage getImage();
 }

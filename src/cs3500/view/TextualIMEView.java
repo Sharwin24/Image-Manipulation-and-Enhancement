@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public class TextualIMEView implements IIMEView {
 
-  private final IMultiLayerModel<?> mdl;
+  private final IMultiLayerModel mdl;
   private final Appendable ap;
 
   /**
@@ -29,7 +29,7 @@ public class TextualIMEView implements IIMEView {
    *
    * @param mdl
    */
-  public TextualIMEView(IMultiLayerModel<?> mdl)
+  public TextualIMEView(IMultiLayerModel mdl)
       throws IllegalArgumentException {
     this.mdl = Utils.checkNotNull(mdl, "cannot create a textual IME view from a "
         + "null model");
@@ -42,7 +42,7 @@ public class TextualIMEView implements IIMEView {
    * @param mdl
    * @param ap
    */
-  public TextualIMEView(IMultiLayerModel<?> mdl, Appendable ap)
+  public TextualIMEView(IMultiLayerModel mdl, Appendable ap)
       throws IllegalArgumentException {
     this.mdl = Utils.checkNotNull(mdl, "cannot create a textual IME view from a "
         + "null model");
@@ -52,7 +52,6 @@ public class TextualIMEView implements IIMEView {
 
   @Override
   public void renderLayers() {
-<<<<<<< HEAD
 //    String renderedLayers = "";
 //    int layerCtr = 0;
 //    for (ILayer lyr : mdl.getLayers()) {
@@ -61,15 +60,13 @@ public class TextualIMEView implements IIMEView {
 //      layerCtr++;
 //    }
 //    this.write(renderedLayers);
-=======
     String renderedLayers = "";
     int layerCtr = 0;
-    for (ILayer<IImage> layer : mdl.getLayers()) {
+    for (ILayer layer : mdl.getLayers()) {
       renderedLayers += "LAYER " + layerCtr + layer.toString() + "\n";
       layerCtr++;
     }
     this.write(renderedLayers);
->>>>>>> 7c0d86e8bcc03718cc71ece910691bfa8487b4e5
   }
 
   @Override

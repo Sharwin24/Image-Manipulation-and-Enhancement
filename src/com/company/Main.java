@@ -11,6 +11,7 @@ import cs3500.model.fileformat.PPMFile;
 import cs3500.model.image.IImage;
 import cs3500.model.image.ImageImpl;
 import cs3500.model.matrix.IMatrix;
+import cs3500.model.operation.Sharpening;
 import cs3500.model.pixel.IPixel;
 
 /**
@@ -27,7 +28,6 @@ public class Main {
 
     // add calls to methods to manipulate images here...
 
-
 //    IFileFormat format = new PNGFile();
 //    IImage image = (IImage) format.importImage("src/facebookLogo.png");
 //    for (int i = 0; i < image.getPixelArray().getHeight(); i++) {
@@ -37,6 +37,7 @@ public class Main {
 //      System.out.println();
 //    }
 //    format.exportImage("exportedFacebookPNG", image);
+
 
     IMultiLayerIMEController ctrlr =
         MultiLayerIMEControllerImpl.controllerBuilder().buildController();

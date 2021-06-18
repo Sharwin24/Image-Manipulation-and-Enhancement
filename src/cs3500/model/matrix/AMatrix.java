@@ -2,6 +2,7 @@ package cs3500.model.matrix;
 
 import cs3500.Utils;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -62,7 +63,8 @@ public abstract class AMatrix<X> implements IMatrix<X> {
     this.entries = new ArrayList<>();
 
     for (List<X> row : listEntries) {
-      this.entries.add(row);
+      List<X> copy = new ArrayList<>(row);
+      this.entries.add(copy);
     }
   }
 
@@ -93,11 +95,12 @@ public abstract class AMatrix<X> implements IMatrix<X> {
   /**
    * Creates a new {@link AMatrix} with {@code numRows} rows and {@code numCols} columns, all filled
    * with {@code uniformEntry}.
+   *
    * @param uniformEntry the entry to be placed at every index in the resultant matrix.
-   * @param numRows the number of rows in the resultant matrix.
-   * @param numCols the number of columns in the resultant matrix.
+   * @param numRows      the number of rows in the resultant matrix.
+   * @param numCols      the number of columns in the resultant matrix.
    * @throws IllegalArgumentException if {@code numRows} or {@code numCols} is negative, or if
-   *         {@code uniformEntry} is {@code null}.
+   *                                  {@code uniformEntry} is {@code null}.
    */
   public AMatrix(X uniformEntry, int numRows, int numCols)
       throws IllegalArgumentException {
