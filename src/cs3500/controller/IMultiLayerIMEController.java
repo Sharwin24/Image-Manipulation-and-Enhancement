@@ -14,11 +14,9 @@ import cs3500.model.IMultiLayerModel;
  *   </li>
  *   <li>
  *     Each command follows this meta-structure:
- *     <i><code>[CMD] (opt1) (opt2) ... (optm) [req1] [req2] ... [reqn]</code></i>,
+ *     <i><code>[CMD] [arg0] [arg1] ... [argn]</code></i>,
  *     where <code>[CMD]</code> is the textual representation of a command,
- *     and <code>(opti)</code> is the <code>i</code>th optional argument of
- *     of a function whose optional arguments have an arity of <code>m</code>,
- *     and where <code>[reqj]</code> is the <code>j</code>th required argument of
+ *     and where <code>[argi]</code> is the <code>i</code>th required argument of
  *     a function of arity <code>n</code>. Since different commands have different arities (and
  *     some take no optional paramters), the commands take arguments as expressed in the following
  *     table:

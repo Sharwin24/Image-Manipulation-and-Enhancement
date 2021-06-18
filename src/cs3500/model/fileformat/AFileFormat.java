@@ -16,7 +16,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * Abstract class to represent functions that all {@link IFileFormat} classes will utilize.
+ * Abstract class to represent functions that all {@link IFileFormat} classes will utilize,
+ * such as importing and exporting an image, as well as several helper methods
+ * that aid in the process of reading/writing image data.
  */
 public abstract class AFileFormat implements IFileFormat<IImage> {
 

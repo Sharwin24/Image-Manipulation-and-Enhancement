@@ -88,6 +88,11 @@ public class MultiLayerModelImpl implements IMultiLayerModel<IImage> {
   }
 
   @Override
+  public IImage getImage() {
+    return currentLayer.getImage();
+  }
+
+  @Override
   public void importAllLayers(IFileFormat fileType, String pathName)
       throws IllegalArgumentException {
     // Import the given image at the file for all layers, regardless of current layer.

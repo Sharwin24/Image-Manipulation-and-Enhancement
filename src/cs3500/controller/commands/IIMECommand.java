@@ -11,7 +11,8 @@ import java.util.Scanner;
  * Each function object has an {@link IIMECommand#execute(Scanner, IMultiLayerModel, IIMEView)}
  * command with the signature {@code Scanner, IMultiLayerModel, IIMEView -> void}, where the method
  * is assumed to act on the provided {@link IMultiLayerModel}, executing some action native to that
- * interface.
+ * interface, and the provided {@link Scanner} is used to read that command specifically,
+ * sending I/O feedback to the provided {@link IIMEView}.
  */
 public interface IIMECommand {
 

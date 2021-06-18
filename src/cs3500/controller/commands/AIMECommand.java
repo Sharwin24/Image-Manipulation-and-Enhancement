@@ -8,7 +8,7 @@ import java.util.Scanner;
 /**
  * An abstract implementation of a text command that can be passed to the
  * {@link cs3500.controller.IMultiLayerIMEController}. Helps to reduce duplicate code in its
- * extending concrete subclass.
+ * extending concrete subclasses.
  */
 public abstract class AIMECommand implements IIMECommand {
 

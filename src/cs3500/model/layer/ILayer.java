@@ -12,9 +12,14 @@ import cs3500.model.fileformat.IFileFormat;
 public interface ILayer<T> {
 
   /**
+<<<<<<< HEAD
+   * TODO
+   * @return
+=======
    * Determines if this layer is invisible or not.
    *
    * @return a boolean if the layer is invisible or not.
+>>>>>>> 7c0d86e8bcc03718cc71ece910691bfa8487b4e5
    */
   boolean isInvisible();
 

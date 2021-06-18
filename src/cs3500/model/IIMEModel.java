@@ -5,7 +5,11 @@ import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.operation.IOperation;
 
 /**
- * An interface for an Image Manipulation and Enhancement Model.
+ * A basic interface for an Image Manipulation and Enhancement Model. Allows the user to
+ * import and export images, apply some number of {@link IOperation}s to the image, by
+ * passing them as function objects, and to set the working image to a programmatic image
+ * parameterized by its width height and unit size in pixels
+ * (see {@link IIMEModel#setProgrammaticImage(IProgramImage, int, int, int)}.
  *
  * @param <Z> the implementation of an image.
  */
@@ -51,4 +55,10 @@ public interface IIMEModel<Z> {
   void setProgrammaticImage(IProgramImage imgToSet, int widthPx, int heightPx,
       int unitSizePx)
       throws IllegalArgumentException;
+
+  /**
+   * Observer method to return the image being worked on.
+   * @return the image being worked on.
+   */
+  Z getImage();
 }
