@@ -1,6 +1,9 @@
 package com.company;
 
 import cs3500.Utils;
+import cs3500.controller.IMultiLayerIMEController;
+import cs3500.controller.MultiLayerIMEControllerImpl;
+import cs3500.model.MultiLayerModelImpl;
 import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.fileformat.JPEGFile;
 import cs3500.model.fileformat.PNGFile;
@@ -35,6 +38,9 @@ public class Main {
 //    }
 //    format.exportImage("exportedFacebookPNG", image);
 
+    IMultiLayerIMEController ctrlr =
+        MultiLayerIMEControllerImpl.controllerBuilder().buildController();
+    ctrlr.run(new MultiLayerModelImpl());
 
   }
 }

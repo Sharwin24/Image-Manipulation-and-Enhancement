@@ -5,13 +5,9 @@ import cs3500.model.matrix.IMatrix;
 import cs3500.model.pixel.IPixel;
 
 /**
- * An image to be manipulated or edited. Supports the operations to...
- * <ul>
- *   <li>
- *     {@link IImage#extractChannel(EChannelType)}: extract all of the light intensity values
- *     of some {@link EChannelType} in the image.
- *   </li>
- * </ul>
+ * An image to be manipulated or edited. Supports the operations to
+ * extract a channel of some color, copy the image, and observer methods
+ * to return the width and height
  */
 public interface IImage {
 
