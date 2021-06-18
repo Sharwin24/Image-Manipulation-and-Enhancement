@@ -26,9 +26,8 @@ import cs3500.model.IMultiLayerModel;
  *   </li>
  *   <li>all commands and arguments are lowercase</li>
  *</ul>
- * @param <Z> TODO, maybe delete
  */
-public interface IMultiLayerIMEController<Z> {
+public interface IMultiLayerIMEController {
 
   /**
    * Allows the user to control the operations that a
@@ -36,6 +35,6 @@ public interface IMultiLayerIMEController<Z> {
    * @param mdl
    * @throws IllegalArgumentException
    */
-  void run(IMultiLayerModel<Z> mdl)
+  void run(IMultiLayerModel mdl)
       throws IllegalArgumentException;
 }

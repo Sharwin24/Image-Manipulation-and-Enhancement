@@ -1,6 +1,5 @@
 package cs3500.model.layer;
 
-import cs3500.model.IMultiLayerModel;
 import cs3500.model.IStateTrackingIMEModel;
 import cs3500.model.fileformat.IFileFormat;
 

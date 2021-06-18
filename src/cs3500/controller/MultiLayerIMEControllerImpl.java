@@ -298,7 +298,7 @@ import java.util.Scanner;
  *     </ul>
  *   </ul>
  */
-public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IImage> {
+public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
 
   private final IMultiLayerModel mdl;
   private final Readable rd;
@@ -457,7 +457,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController<IIm
 
 
   @Override
-  public void run(IMultiLayerModel<IImage> mdl)
+  public void run(IMultiLayerModel mdl)
       throws IllegalArgumentException, IllegalStateException {
     Utils.checkNotNull(mdl, "cannot run the controller on a null model");
 
