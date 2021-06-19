@@ -98,32 +98,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   public IImage getImage() {
     return this.currentLayer.getModel().getImage();
   }
-<<<<<<< HEAD
-  
-=======
 
-//  @Override
-//  public void importAllLayers(IFileFormat fileType, String pathName)
-//      throws IllegalArgumentException {
-//    // Import the given image at the file for all layers, regardless of current layer.
-//    for (ILayer layer : this.listOfLayers) {
-//      layer.importImage(fileType, pathName);
-//    }
-//  }
-
-//  @Override
-//  public void exportAllLayers(IFileFormat fileType, String pathName)
-//      throws IllegalArgumentException {
-//    // Create new folder with each image file exported in it
-//    // Ignore layers that are marked invisible
-//    // Create Text file with all exported paths
-//    int layerCounter = 0;
-//    for (ILayer layer : this.listOfLayers) {
-//      layer.getModel().exportImage(fileType, pathName + "-layer-" + layerCounter);
-//      layerCounter++;
-//    }
-//  }
->>>>>>> 3c26392a324d5d468c80ac8f8eee99388ae39168
 
   @Override
   public void toggleInvisible(int layerIndex) throws IllegalArgumentException {
