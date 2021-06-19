@@ -44,8 +44,7 @@ public class StateTrackingIMEModelImplTest {
   }
 
   /**
-   * Tests for the
-   * {@link StateTrackingIMEModelImpl#StateTrackingIMEModelImpl(cs3500.model.image.IImage)}
+   * Tests for the {@link StateTrackingIMEModelImpl#StateTrackingIMEModelImpl(cs3500.model.image.IImage)}
    * constructor.
    */
   @Test(expected = IllegalArgumentException.class)
@@ -179,26 +178,6 @@ public class StateTrackingIMEModelImplTest {
   }
 
   /**
-   * Tests for the {@link StateTrackingIMEModelImpl#importImage(IFileFormat, String)} method.
-   */
-  @Test
-  public void testDelegateImportBehavior() {
-    PPMFileTest testDelegate = new PPMFileTest();
-    testDelegate.testImportImageSuccessfulReturnsImageWithPixels();
-    testDelegate.testImportImageThrowsWhenGivenEmptyRelativePath();
-    testDelegate.testImportImageSuccessfulReturnsImageWithSameDimensions();
-    testDelegate.testImportImageThrowsWhenNotGivenPPM();
-    testDelegate.testImportImageThrowsWhenGivenNullRelativePath();
-    testDelegate.testImportImageThrowsWhenPathNotFound();
-    testDelegate.testImportImageThrowsWhenPPMEmpty();
-    testDelegate.testImportImageThrowsWhenPPMNotOfTypeP3();
-    testDelegate.testImportImageThrowsWhenRelativePathDoesntEndInPPM();
-
-    // to satisfy the almighty style checker
-    assertTrue(this.testDelegateHelp());
-  }
-
-  /**
    * Helper to appease the almighty style checker.
    *
    * @return true, to appease the almighty style checker.
@@ -206,6 +185,8 @@ public class StateTrackingIMEModelImplTest {
   private boolean testDelegateHelp() {
     return true;
   }
+
+
 /*
   @Test
   public void testImportSetsNewImageToImported() {
@@ -316,29 +297,29 @@ public class StateTrackingIMEModelImplTest {
   }
 
   /**
-   * Tests for the
-   * {@link StateTrackingIMEModelImpl#setProgrammaticImage(IProgramImage, int, int, int)} method.
+   * Tests for the {@link StateTrackingIMEModelImpl#setProgrammaticImage(IProgramImage, int, int,
+   * int)} method.
    */
   @Test
   public void testSetProgrammaticImageChangesImage() {
     IStateTrackingIMEModel m = new StateTrackingIMEModelImpl();
     m.setProgrammaticImage(new Checkerboard(), 2, 2, 1);
     assertEquals(new ImageImpl(
-        new MatrixImpl<>(
-            new ArrayList<>(
-                Arrays.asList(
-                    new ArrayList<>(
-                        Arrays.asList(
-                            PixelImpl.BLACK,
-                            PixelImpl.WHITE)),
-                    new ArrayList<>(
-                        Arrays.asList(
-                            PixelImpl.WHITE,
-                            PixelImpl.BLACK)))))),
+            new MatrixImpl<>(
+                new ArrayList<>(
+                    Arrays.asList(
+                        new ArrayList<>(
+                            Arrays.asList(
+                                PixelImpl.BLACK,
+                                PixelImpl.WHITE)),
+                        new ArrayList<>(
+                            Arrays.asList(
+                                PixelImpl.WHITE,
+                                PixelImpl.BLACK)))))),
         m.getImage());
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testSetProgrammaticImageThrowsWhenGivenNullProgrammaticImage() {
     IStateTrackingIMEModel m = new StateTrackingIMEModelImpl();
     m.setProgrammaticImage(null, 2, 2, 2);

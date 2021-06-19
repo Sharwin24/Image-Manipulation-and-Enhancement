@@ -99,10 +99,4 @@ public class PPMFileTest {
     assertTrue(new PPMFile().exportImage("res/testCreateFile",
         new ImageImpl(pxs)).exists());
   }
-
-
-
-
-
-
 }
