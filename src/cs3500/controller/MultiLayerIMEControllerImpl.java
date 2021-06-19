@@ -2,21 +2,20 @@ package cs3500.controller;
 
 import cs3500.Utils;
 import cs3500.controller.commands.ApplyCommand;
+import cs3500.controller.commands.CurrentCommand;
 import cs3500.controller.commands.DeleteCommand;
 import cs3500.controller.commands.ExportCommand;
 import cs3500.controller.commands.IIMECommand;
 import cs3500.controller.commands.ImportCommand;
-import cs3500.controller.commands.CurrentCommand;
 import cs3500.controller.commands.NewLayerCommand;
+import cs3500.controller.commands.ProgrammaticImageCommand;
 import cs3500.controller.commands.RedoCommand;
 import cs3500.controller.commands.SaveCommand;
 import cs3500.controller.commands.SwapCommand;
-import cs3500.controller.commands.VisibilityCommand;
 import cs3500.controller.commands.UndoCommand;
-import cs3500.controller.commands.ProgrammaticImageCommand;
+import cs3500.controller.commands.VisibilityCommand;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
-import cs3500.model.image.IImage;
 import cs3500.model.operation.IOperation;
 import cs3500.view.IIMEView;
 import cs3500.view.TextualIMEView;
@@ -426,13 +425,13 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
      *
      * @return a new {@link IMultiLayerIMEController} is returned with some or all fields
      * customized.
-     * @throws IllegalArgumentException if any of the fields that the
-     * {@link IMultiLayerIMEController} to be constructed with have been set to
-     * {@code null}: allows us to check for nullness here instead of from within
-     * each setter method individually.
+     * @throws IllegalArgumentException if any of the fields that the {@link IMultiLayerIMEController}
+     *                                  to be constructed with have been set to {@code null}: allows
+     *                                  us to check for nullness here instead of from within each
+     *                                  setter method individually.
      */
     public IMultiLayerIMEController buildController()
-        throws IllegalArgumentException{
+        throws IllegalArgumentException {
       return new MultiLayerIMEControllerImpl(
           Utils.checkNotNull(mdl, "cannot build a controller with a null model."),
           Utils.checkNotNull(rd, "cannot build a controller with a null readable."),
@@ -442,11 +441,12 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
   }
 
   /**
-   * Static method to return a builder object in order to construct
-   * {@link IMultiLayerIMEController}s with greater customizability using  the
+   * Static method to return a builder object in order to construct {@link
+   * IMultiLayerIMEController}s with greater customizability using  the
    * <i>builder design pattern</i>.
-   * @return a {@link ControllerBuilder} to use to build and customize a
-   * {@link IMultiLayerIMEController}.
+   *
+   * @return a {@link ControllerBuilder} to use to build and customize a {@link
+   * IMultiLayerIMEController}.
    */
   public static ControllerBuilder controllerBuilder() {
     return new ControllerBuilder(new MultiLayerModelImpl(),
