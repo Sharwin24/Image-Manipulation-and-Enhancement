@@ -265,38 +265,70 @@ syntax:
 </ul></p>
 
 
-<p><b><u>Example Scripts:</u></b>
+<p><b><u>Example Scripts:</u></b> <br>
+In the <code>/scripts</code> folder there are multiple example
+scripts that can be used to control the IME program. Here, we give a brief commentary of what they
+do. To view these scripts without comments, see the 
+<code>scripts</code> folder:
 <ul>
-<li><i>Example Script 1:</i></li>
-<code>new</code><i><small>adds a layer at index 1 (starting from 0)</small><br>
-<code>new</code><i><small>adds a layer at index 2</small><br>
-<code>current 2</code><i><small>switches the current layer to layer 2</small><br>
+<li><i><code>ExampleScript1</code>:</i></li>
+Shows several examples of valid commands that can be executed through 
+the controller and demonstrates all functionality of a multi 
+layer model 
+<code>new</code><i><small>adds a layer at index 1 (starting from 0)</small></i><br>
+<code>new</code><i><small>adds a layer at index 2</small></i><br> 
+<code>current 2</code><i><small>switches the current layer to layer 2</small></i> <br>
 <code>programmatic checkerboard 100 150 20</code><i><small>creates a checkerboard with width 100,
-height 150, and square size 20 (pixels) on layer 2</small><br>
-<code>current 1</code><i><small>sets the current layer to layer 1</small><br>
+height 150, and square size 20 (pixels) on layer 2</small></i><br>
+<code>current 1</code><i><small>sets the current layer to layer 1</small></i><br> 
 <code>import PPM res/exampleImage.ppm</code><i><small>imports a ppm image from the file path in the
-res folder</small><br>
-<code>delete 0</code><i><small>deletes layer 0</small><br>
+res folder</small></i><br>
+<code>delete 0</code><i><small>deletes layer 0</small></i><br>
 <code>apply sepia sharpen greyscale blur sharpen</code><i><small>applies the specified filters to 
-the current layer</small><br>
-<code>export JPEG layers</code><i><small>exports all layers (0 and 1, since there were
+the current layer</small></i><br>
+<code>export JPEG layers</code><small>exports all layers (0 and 1, since there were
 originally 3 but one was deleted)</small><br>
-<code>undo</code><i><small>undoes the filters applied to the current layer</small><br>
+<code>undo</code><small>undoes the filters applied to the current layer</small><br>
 <code>redo</code><i><small>redoes the filters that were just undone</small></i>
 <code>redo</code><i><small>does nothing, there is nothing to redo</small></i>
-<p>Script 1 without comments (so you can run it):</p>
-<code>
-new <br>
-new <br>
-current 2 <br>
-programmatic checkerboard 100 150 20 <br>
-current 1<br>
-import PPM res/exampleImage.ppm<br>
-delete 0<br>
-apply sepia sharpen greyscale blur sharpen<br>
-export JPEG layers<br>
-undo<br>
-redo<br>
-redo</code>
+<li>
+<i><code>ExampleScript2-bogus</code></i></li></li>
+A script to show bad calls to commands that will not be
+processed as valid commands.
+
+<code>delete 100</code><i><small>layer 100 does not exist</i></small><br>
+<code>current 12</code><i><small>layer 12 does not exist</i></small><br>
+<code>new foo</code><i><small>"foo" is an invalid parameter for the <code>new</code> command and 
+gets ignored</i></small><br>
+<code>delete anms</code><i><small>"anms" is gibberish, gets ignored</i></small><br>
+<code>apply dog cat sepia</code><i><small>"cat" and "dog" are not valid operations to apply. They 
+get ignored and a sepia filter is a"pplied</i></small><br>
+<code>apply banana</code><i><small>"banana" is an invalid operation; gets ignored
+</i></small><br>
+<code>save -2</code><i><small>-2 is not a valid parameter for the save command, gets ignored
+</i></small><br>
+<code>delete -2</code><i><small>-2 is not a valid layer to be deleted</i></small><br>
+<code>export TXT notGonnaWork.txt</code><i><small>"TXT" is not a supported file format</i></small><br>
+<code>import jpeg layers notGonnaWorkShouldveBeenCapitalized</code><i><small>according to the guide, 
+"jpeg" should be capitalized as "JPEG"</i></small><br>
+<code>export PPM directoryDoesntExist</code><i><small>
+directory is assumed not to exist and will throw an error</i></small><br>
+<code>swap 0 2</code><i><small>layer 2 does not exist and cannot be swapped</i></small><br>
+<code>visibility kkkkkkk</code><i><small>"kkkkkkk" is not a layer whose visibility can be toggled
+</i></small><br>
+<code>undo undo</code><i><small>cannot undo twice if only one operation has been applied
+</i></small><br>
+<code>redo redo redo redo</code><i><small></i>cannot redo
+four times when there is only one undone operation to redo (once)</small><br>
+<code>notACommand</code><i><small>not a valid textual command</i></small><br>
+<code>programmatic programmatic checkerboard 400 400 12</code><i>
+<small>second call to "programmatic" textual command has valid parameters, 
+but since only one command is allowed per line, the second instance of
+"programmatic" is interpreted as the <code>[Integer]</code>
+parameter and gets ignored, since "programmatic" is not an
+<code>[Integer]</code></i></small><br>
+<code>programmatic purenoise 12 12 312 213 1231 2312 123</code><i><small>
+way too many parameters passed, everything after "312" gets ignored (<code>programmatic</code>
+is a quaternary command)</i></small><br>
 
 </ul>

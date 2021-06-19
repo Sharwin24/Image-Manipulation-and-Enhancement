@@ -206,7 +206,7 @@ public class StateTrackingIMEModelImplTest {
   private boolean testDelegateHelp() {
     return true;
   }
-
+/*
   @Test
   public void testImportSetsNewImageToImported() {
     IStateTrackingIMEModel m = new StateTrackingIMEModelImpl();
@@ -295,6 +295,8 @@ public class StateTrackingIMEModelImplTest {
                     PixelImpl.GREEN)))))),
         m.getImage());
   }
+
+ */
 
   /**
    * Tests for the {@link StateTrackingIMEModelImpl#exportImage(IFileFormat, String)} method.

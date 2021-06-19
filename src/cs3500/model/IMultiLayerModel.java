@@ -8,7 +8,7 @@ import java.util.List;
  * operations to separate layers.
  */
 public interface IMultiLayerModel extends IStateTrackingIMEModel {
-  
+
   /**
    * Toggles the layer at the given index to be invisible. Indexing start from zero and an index of
    * zero represents the bottom most layer.
