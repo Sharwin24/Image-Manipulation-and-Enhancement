@@ -31,6 +31,6 @@ public class Main {
 //            new InputStreamReader(System.in), System.out, new TextualIMEView());
 //    controller.run(new MultiLayerModelImpl());
     IFileFormat format = new PNGFile();
-    format.createDirectory("test", "res/dirName");
+    format.createDirectory("res/dirName");
   }
 }
