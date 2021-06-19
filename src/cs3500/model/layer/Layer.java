@@ -85,7 +85,6 @@ public class Layer implements ILayer {
 
   @Override
   public ILayer copy() {
-    this.updateFields();
     return new Layer((IStateTrackingIMEModel) this.model.copy(), this.isInvisible,
         this.layerHeight, this.layerWidth);
   }

@@ -277,11 +277,7 @@ public class StateTrackingIMEModelImplTest {
         m.getImage());
   }
 
- */
 
-  /**
-   * Tests for the {@link StateTrackingIMEModelImpl#exportImage(IFileFormat, String)} method.
-   */
   @Test
   public void testExportImageDelegateBehavior() {
     PPMFileTest testDelegate = new PPMFileTest();
@@ -295,7 +291,7 @@ public class StateTrackingIMEModelImplTest {
     assertTrue(this.testDelegateHelp());
 
   }
-
+ */
   /**
    * Tests for the {@link StateTrackingIMEModelImpl#setProgrammaticImage(IProgramImage, int, int,
    * int)} method.
