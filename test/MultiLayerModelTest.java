@@ -1,5 +1,4 @@
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -10,12 +9,8 @@ import cs3500.model.image.ImageImpl;
 import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.operation.Greyscale;
 import cs3500.model.operation.ImageBlur;
-import cs3500.model.operation.Sepia;
 import cs3500.model.pixel.PixelImpl;
 import cs3500.model.programmaticimages.Checkerboard;
-import cs3500.view.IMEView;
-import cs3500.view.TextualIMEView;
-import java.awt.SystemColor;
 import org.junit.Before;
 import org.junit.Test;
 
