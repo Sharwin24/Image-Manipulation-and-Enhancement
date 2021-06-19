@@ -1,7 +1,5 @@
 package cs3500.model;
 
-import cs3500.model.fileformat.IFileFormat;
-import cs3500.model.image.IImage;
 import cs3500.model.layer.ILayer;
 import java.util.List;
 
@@ -10,14 +8,6 @@ import java.util.List;
  * operations to separate layers.
  */
 public interface IMultiLayerModel extends IStateTrackingIMEModel {
-
-  // Capabilities:
-  // Add a layer, and remove a specific layer.
-  // Make a layer invisible
-  // Set a layer as the current -> applies any edits to current layer only
-  // exportAllLayers -> export every layer and export each layer as an image, AND create a txt to
-  // store the locations of all the layer files
-
 
   /**
    * Toggles the layer at the given index to be invisible. Indexing start from zero and an index of

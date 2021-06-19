@@ -1,14 +1,11 @@
 package cs3500.model;
 
-import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.image.IImage;
 import cs3500.model.layer.ILayer;
 import cs3500.model.layer.Layer;
 import cs3500.model.operation.IOperation;
 import cs3500.model.programmaticimages.IProgramImage;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -126,14 +123,18 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
     if (layerIndex < 0 || layerIndex >= this.listOfLayers.size()) {
       throw new IllegalArgumentException("Layer Index out of bounds");
     }
+    if (this.listOfLayers.size() == 1) {
+      throw new IllegalArgumentException("Cannot delete last layer");
+    }
     this.listOfLayers.remove(layerIndex);
   }
 
   @Override
   public void swapLayers(int layerIndex1, int layerIndex2) throws IllegalArgumentException {
     if (layerIndex1 < 0 || layerIndex1 >= this.listOfLayers.size()
-        || layerIndex2 < 0 || layerIndex2 >= this.listOfLayers.size()) {
-      throw new IllegalArgumentException("Layer Index out of bounds");
+        || layerIndex2 < 0 || layerIndex2 >= this.listOfLayers.size()
+        || layerIndex1 == layerIndex2) {
+      throw new IllegalArgumentException("Layer Indexes invalid");
     }
     ILayer first = this.listOfLayers.get(layerIndex1);
     ILayer second = this.listOfLayers.get(layerIndex2);
