@@ -65,7 +65,7 @@ public class Layer implements ILayer {
 
   @Override
   public String toString() {
-    return this.layerName + "| Visibility: " + !this.isInvisible;
+    return this.layerName + " | Visibility: " + !this.isInvisible;
   }
 
   @Override
