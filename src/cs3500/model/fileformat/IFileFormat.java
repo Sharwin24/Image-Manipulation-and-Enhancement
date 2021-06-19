@@ -54,11 +54,17 @@ public interface IFileFormat {
       throws IllegalArgumentException;
 
   /**
-   * Creates a directory with the given name at the given relative path.
+   * Abstract method for each subclass to provide their file extension.
    *
-   * @param directoryName the name of the directory.
-   * @param relativePath  the path to the folder to put the directory in.
+   * @return a String representing a file extension, eg. (.jpg,.png,.ppm).
+   */
+  String getFileExtension();
+
+  /**
+   * Creates a directory with the given relative path.
+   *
+   * @param relativePath the path to the folder to put the directory in.
    * @throws IllegalArgumentException if either arguments are null.
    */
-  void createDirectory(String directoryName, String relativePath) throws IllegalArgumentException;
+  void createDirectory(String relativePath) throws IllegalArgumentException;
 }

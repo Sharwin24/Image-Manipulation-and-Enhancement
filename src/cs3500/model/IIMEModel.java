@@ -23,24 +23,12 @@ public interface IIMEModel {
   void applyOperations(IOperation... operations) throws IllegalArgumentException;
 
   /**
-   * Imports a file and sets the current image to the imported image.
+   * Loads in an image into the model.
    *
-   * @param format   the filetype of the image.
-   * @param fileName the name of the file for the image.
-   * @throws IllegalArgumentException if the file format is invalid or null.
+   * @param image the image to load in to the model.
+   * @throws IllegalArgumentException if the image is null.
    */
-  void importImage(IFileFormat format, String fileName)
-      throws IllegalArgumentException;
-
-  /**
-   * Exports the current image to a given destination.
-   *
-   * @param format   the filetype of the exported image.
-   * @param fileName the name of the destination path.
-   * @throws IllegalArgumentException if the file format is invalid or null.
-   */
-  void exportImage(IFileFormat format, String fileName)
-      throws IllegalArgumentException;
+  void load(IImage image) throws IllegalArgumentException;
 
   /**
    * Sets the current image to a programmatic image with the given parameters.
@@ -61,12 +49,4 @@ public interface IIMEModel {
    * @return the image being worked on.
    */
   IImage getImage();
-
-  /**
-   * Loads in an image into the model.
-   *
-   * @param image the image to load in to the model.
-   * @throws IllegalArgumentException if the image is null.
-   */
-  void load(IImage image) throws IllegalArgumentException;
 }

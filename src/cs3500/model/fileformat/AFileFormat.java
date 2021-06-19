@@ -31,13 +31,6 @@ public abstract class AFileFormat implements IFileFormat {
     this.fileExtension = this.getFileExtension();
   }
 
-  /**
-   * Abstract method for each subclass to provide their file extension.
-   *
-   * @return a String representing a file extension, eg. (.jpg,.png,.ppm).
-   */
-  protected abstract String getFileExtension();
-
   @Override
   public IImage importImage(String relativePath) throws IllegalArgumentException {
     if (relativePath == null) {
@@ -76,7 +69,7 @@ public abstract class AFileFormat implements IFileFormat {
     if (relativePath.equals("")) {
       throw new IllegalArgumentException("Cannot write to empty path");
     }
-    String fileName = "res/" + relativePath + this.fileExtension;
+    String fileName = relativePath + this.fileExtension;
     int width = image.getPixelArray().getWidth();
     int height = image.getPixelArray().getHeight();
     BufferedImage outputImage;
@@ -175,10 +168,10 @@ public abstract class AFileFormat implements IFileFormat {
   }
 
   @Override
-  public void createDirectory(String directoryName, String relativePath)
+  public void createDirectory(String relativePath)
       throws IllegalArgumentException {
     // Create an empty directory with the given name at the given relative path.
-    File directory = new File(relativePath + "/" + directoryName);
+    File directory = new File(relativePath);
     if (!directory.exists()) {
       directory.mkdirs();
     }

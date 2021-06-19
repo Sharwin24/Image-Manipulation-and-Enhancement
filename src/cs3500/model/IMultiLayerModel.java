@@ -27,14 +27,14 @@ public interface IMultiLayerModel extends IStateTrackingIMEModel {
    */
   void importAllLayers(IFileFormat fileType, String pathName) throws IllegalArgumentException;
 
-  /**
-   * Export all the layers by adding all paths to a text file.
-   *
-   * @param fileType the type of image file to export the layers as.
-   * @param pathName the path for the output file's name.
-   * @throws IllegalArgumentException if the path is invalid.
-   */
-  void exportAllLayers(IFileFormat fileType, String pathName) throws IllegalArgumentException;
+//  /**
+//   * Export all the layers by adding all paths to a text file.
+//   *
+//   * @param fileType the type of image file to export the layers as.
+//   * @param pathName the path for the output file's name.
+//   * @throws IllegalArgumentException if the path is invalid.
+//   */
+//  void exportAllLayers(IFileFormat fileType, String pathName) throws IllegalArgumentException;
 
   /**
    * Toggles the layer at the given index to be invisible. Indexing start from zero and an index of

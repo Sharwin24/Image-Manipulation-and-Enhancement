@@ -8,6 +8,7 @@ import cs3500.model.image.ImageImpl;
 import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.operation.IOperation;
 import java.util.Stack;
+import javax.swing.plaf.nimbus.State;
 
 /**
  * A class to represent a model to track the state of an Image and to apply operations to it. In
@@ -93,20 +94,6 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel {
   }
 
   @Override
-  public void importImage(IFileFormat format, String fileName)
-      throws IllegalArgumentException {
-    this.setImage(format.importImage(fileName)); // safe up-cast
-  }
-
-  @Override
-  public void exportImage(IFileFormat format, String fileName)
-      throws IllegalArgumentException {
-    System.out.println("Exporting \"" + fileName + "\"...");
-    format.exportImage(fileName, this.image);
-    System.out.println("Finished Exporting \"" + fileName + "\"!");
-  }
-
-  @Override
   public void setProgrammaticImage(IProgramImage imgToSet, int widthPx, int heightPx,
       int unitSizePx)
       throws IllegalArgumentException {
@@ -116,6 +103,11 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel {
   @Override
   public IImage getImage() {
     return image;
+  }
+
+  @Override
+  public IStateTrackingIMEModel copy() {
+    return new StateTrackingIMEModelImpl(this.image.copy());
   }
 
   /**
