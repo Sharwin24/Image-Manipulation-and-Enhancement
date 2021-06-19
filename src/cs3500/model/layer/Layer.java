@@ -20,6 +20,7 @@ public class Layer implements ILayer {
   public Layer() {
     this.model = new StateTrackingIMEModelImpl();
     this.isInvisible = false;
+    this.isInvisible = false;
     this.layerHeight = -1;
     this.layerWidth = -1;
   }

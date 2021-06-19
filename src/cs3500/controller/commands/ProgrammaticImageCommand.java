@@ -22,7 +22,8 @@ import java.util.Scanner;
  * "<code>programmatic [pi] [w] [h] [u]</code>", in order to set this layer to a
  * <code>programmatic</code> image of a
  * <code>[pi]</code>-- an {@link IProgramImage} function object, represented as text as
- * defined in the table contained in the JavaDoc for {@link ProgrammaticImageCommand#initImagesMap()}
+ * defined in the table contained in the JavaDoc for
+ * {@link ProgrammaticImageCommand#initImagesMap()}
  * below, with a width of <code>[w]</code> pixels, with a height of <code>[h]</code> pixels, with a
  * unit size of <code>[u]</code> pixels, as defined in the JavaDoc for {@link
  * IProgramImage#createProgramImage(int, int, int)}.
@@ -48,7 +49,8 @@ public class ProgrammaticImageCommand extends AIMECommand {
   }
 
   /**
-   * <p>Initializes a one-to-one mapping between textual commands that the user can supply to specify
+   * <p>Initializes a one-to-one mapping between textual commands that the user can \
+   * supply to specify
    * what type of {@link IProgramImage} they'd like to create, and the
    * actual corresponding concrete object representing that programmtic image, as specified in the
    * table below</p>

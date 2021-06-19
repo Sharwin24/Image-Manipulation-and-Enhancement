@@ -1,7 +1,5 @@
 package cs3500.model;
 
-import cs3500.model.image.IImage;
-
 /**
  * An extension of the {@link IIMEModel} interface to include methods for keeping track of the state
  * of images and of operations applied to them. Such functionality includes the ability to undo and

@@ -29,7 +29,7 @@ public class CurrentCommand extends AIMECommand {
           mdl.setCurrentLayer(layerNum);
         } catch (IllegalArgumentException e) {
           vw.write("invalid layer number: " + layerNum + ", out of bounds for "
-              + "layers 0-" + mdl.getLayers().size());
+              + "layers 0-" + (mdl.getLayers().size() - 1));
         }
       } catch (NumberFormatException e) {
         vw.write("invalid layer number: " + inp + ": provide a number");

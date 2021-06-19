@@ -146,10 +146,14 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   public List<ILayer> getLayers() {
     // return a deep copy
     List<ILayer> layersCopy = new ArrayList<>();
+
     // Collections.copy(layerCopy, this.listOfLayers);
     for (ILayer lyr : this.listOfLayers) {
       layersCopy.add(lyr);
     }
+    // System.out.println("LAYERS: " + layersCopy.toString());
+
+    // List<ILayer> LL = layersCopy;
     return layersCopy;
   }
 

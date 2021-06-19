@@ -209,7 +209,8 @@ import java.util.Scanner;
  *               <code>[{"checkerboard", "bwnoise", "rainbownoise", "purenoise"}]
  *               [Integer] [Integer] [Integer]</code>
  *             </li>
- *             <li><b>Creates a programmatic image as specified by the literal in the first argument,
+ *             <li><b>Description:</b> Creates a programmatic image as specified by the literal
+ *             in the first argument,
  *             with a width, height, and unit size in pixels specified by the second, third, and
  *             fourth arguments (resp.) on the current layer.</li>
  *           </ul>
@@ -301,7 +302,6 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
 
   private final IMultiLayerModel mdl;
   private final Readable rd;
-  private final Appendable ap;
   private final IMEView vw;
   private final Map<String, IIMECommand> cmds;
 
@@ -321,7 +321,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
     this.mdl = Utility.checkNotNull(mdl, "cannot make an IME controller with a null model");
     this.rd = Utility.checkNotNull(rd, "cannot make an IME controller with a null"
         + " readable");
-    this.ap = Utility.checkNotNull(ap, "cannot make an IME controller with a null "
+    Appendable ap1 = Utility.checkNotNull(ap, "cannot make an IME controller with a null "
         + "appendable");
     this.vw = Utility.checkNotNull(vw, "cannot make an IME controller with a null "
         + "IME view");
@@ -334,8 +334,9 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
    * customizability for constructing the controller. The 'default' controller sets the model to a
    * new model with no images, the readable to stdin, and the appendable to stdout, and the view to
    * a simple textual view.
-   * <p>
-   * The methods in this class allow the user to specify which fields they want to change from the
+   *
+   * <p>The methods in this class allow the user to specify which fields they want to change from
+   * the
    * stated default values, and only customize what they want, taking advantage of method chaining.
    * For example, a call <code> MultiLayerIMEControllerImpl.controllerBuilder().buildController()}
    * </code>
@@ -424,7 +425,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
      * IMultiLayerIMEController} is returned with some or all fields customized.
      *
      * @return a new {@link IMultiLayerIMEController} is returned with some or all fields
-     * customized.
+     *         customized.
      * @throws IllegalArgumentException if any of the fields that the {@link IMultiLayerIMEController}
      *                                  to be constructed with have been set to {@code null}: allows
      *                                  us to check for nullness here instead of from within each
@@ -457,9 +458,8 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
 
 
   @Override
-  public void run(IMultiLayerModel mdl)
-      throws IllegalArgumentException, IllegalStateException {
-    Utility.checkNotNull(mdl, "cannot run the controller on a null model");
+  public void run(/*IMultiLayerModel mdl*/) {
+    //Utility.checkNotNull(mdl, "cannot run the controller on a null model");
 
     vw.write("welcome to Image Manipulation and Enhancement! Please consult the USEME file "
         + "for information on how to specify commands");

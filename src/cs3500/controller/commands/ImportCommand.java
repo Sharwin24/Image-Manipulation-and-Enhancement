@@ -63,7 +63,7 @@ public class ImportCommand extends APortCommand {
 
 
   /**
-   * Imports all of the images contained in the text file at the given relative path
+   * Imports all of the images contained in the text file at the given relative path.
    *
    * @param fileFormat   the format of the files to be imported
    * @param relativePath the path to a text file containing the locations of the files to be

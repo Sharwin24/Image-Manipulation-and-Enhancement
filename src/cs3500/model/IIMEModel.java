@@ -1,9 +1,8 @@
 package cs3500.model;
 
 import cs3500.model.image.IImage;
-import cs3500.model.programmaticimages.IProgramImage;
-import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.operation.IOperation;
+import cs3500.model.programmaticimages.IProgramImage;
 
 /**
  * A basic interface for an Image Manipulation and Enhancement Model. Allows the user to import and

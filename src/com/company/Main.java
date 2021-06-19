@@ -2,10 +2,6 @@ package com.company;
 
 import cs3500.controller.IMultiLayerIMEController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
-import cs3500.model.MultiLayerModelImpl;
-import cs3500.model.fileformat.IFileFormat;
-import cs3500.model.fileformat.PNGFile;
-import java.io.InputStreamReader;
 
 /**
  * Main class.
@@ -23,6 +19,6 @@ public class Main {
 
     IMultiLayerIMEController controller =
         MultiLayerIMEControllerImpl.controllerBuilder().buildController();
-    controller.run(new MultiLayerModelImpl());
+    controller.run();
   }
 }

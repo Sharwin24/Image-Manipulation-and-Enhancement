@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import cs3500.model.IStateTrackingIMEModel;
 import cs3500.model.StateTrackingIMEModelImpl;
 import cs3500.model.fileformat.IFileFormat;
-import cs3500.model.fileformat.PPMFile;
 import cs3500.model.image.IImage;
 import cs3500.model.image.ImageImpl;
 import cs3500.model.matrix.MatrixImpl;
@@ -16,7 +15,6 @@ import cs3500.model.operation.Sepia;
 import cs3500.model.operation.Sharpening;
 import cs3500.model.pixel.PixelImpl;
 import cs3500.model.programmaticimages.Checkerboard;
-import cs3500.model.programmaticimages.IProgramImage;
 import cs3500.model.programmaticimages.RainbowNoise;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -187,7 +185,7 @@ public class StateTrackingIMEModelImplTest {
   }
 
 
-/*
+  /*
   @Test
   public void testImportSetsNewImageToImported() {
     IStateTrackingIMEModel m = new StateTrackingIMEModelImpl();
@@ -277,7 +275,7 @@ public class StateTrackingIMEModelImplTest {
         m.getImage());
   }
 
- */
+   */
 
   /**
    * Tests for the {@link StateTrackingIMEModelImpl#exportImage(IFileFormat, String)} method.

@@ -50,13 +50,17 @@ public class TextualIMEView implements IMEView {
 
   @Override
   public void renderLayers() {
-    StringBuilder renderedLayers = new StringBuilder();
     int layerCtr = 0;
-    for (ILayer layer : mdl.getLayers()) {
-      renderedLayers.append("LAYER ").append(layerCtr).append(layer.toString()).append("\n");
+
+    String renderedLayers = "";
+
+    for (ILayer layer : this.mdl.getLayers()) {
+      System.out.println(layerCtr);
+      renderedLayers += layer.toString();
       layerCtr++;
     }
-    this.write(renderedLayers.toString());
+
+    this.write(renderedLayers);
   }
 
   @Override

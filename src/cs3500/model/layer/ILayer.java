@@ -1,12 +1,10 @@
 package cs3500.model.layer;
 
-import cs3500.model.IIMEModel;
 import cs3500.model.IStateTrackingIMEModel;
-import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.image.IImage;
 
 /**
- * An interface to represent a Layer within a Multi-layered
+ * An interface to represent a Layer within a Multi-layered model.
  */
 public interface ILayer {
 
