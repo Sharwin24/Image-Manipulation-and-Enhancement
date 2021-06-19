@@ -7,7 +7,7 @@ import cs3500.model.layer.ILayer;
 import java.io.IOException;
 
 /**
- * TODO
+ * Class to represent A textual View for the IME.
  */
 public class TextualIMEView implements IMEView {
 
@@ -15,7 +15,7 @@ public class TextualIMEView implements IMEView {
   private final Appendable ap;
 
   /**
-   * TODO
+   * Constructs a TextualIMEView with default model and appendable.
    */
   public TextualIMEView() {
     this.mdl = new MultiLayerModelImpl();
@@ -23,9 +23,9 @@ public class TextualIMEView implements IMEView {
   }
 
   /**
-   * TODO
+   * Constructs a TextualIMEView with a given model and default appendable.
    *
-   * @param mdl
+   * @param mdl the model for the view to use.
    */
   public TextualIMEView(IMultiLayerModel mdl)
       throws IllegalArgumentException {
@@ -35,10 +35,10 @@ public class TextualIMEView implements IMEView {
   }
 
   /**
-   * TODO
+   * Constructs a TextualIMEView with a given model and given appendable.
    *
-   * @param mdl
-   * @param ap
+   * @param mdl the model for the view to use.
+   * @param ap  the appendable for the view to use.
    */
   public TextualIMEView(IMultiLayerModel mdl, Appendable ap)
       throws IllegalArgumentException {
@@ -50,21 +50,13 @@ public class TextualIMEView implements IMEView {
 
   @Override
   public void renderLayers() {
-//    String renderedLayers = "";
-//    int layerCtr = 0;
-//    for (ILayer lyr : mdl.getLayers()) {
-//      renderedLayers += "LAYER " + layerCtr + ": " +
-//          lyr.toString() + "\n";
-//      layerCtr++;
-//    }
-//    this.write(renderedLayers);
-    String renderedLayers = "";
+    StringBuilder renderedLayers = new StringBuilder();
     int layerCtr = 0;
     for (ILayer layer : mdl.getLayers()) {
-      renderedLayers += "LAYER " + layerCtr + layer.toString() + "\n";
+      renderedLayers.append("LAYER ").append(layerCtr).append(layer.toString()).append("\n");
       layerCtr++;
     }
-    this.write(renderedLayers);
+    this.write(renderedLayers.toString());
   }
 
   @Override
