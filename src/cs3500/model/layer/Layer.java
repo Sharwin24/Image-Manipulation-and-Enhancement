@@ -65,11 +65,11 @@ public class Layer implements ILayer {
 
   @Override
   public String toString() {
-    return this.layerName + "Visible: " + !this.isInvisible;
+    return this.layerName + "| Visibility: " + !this.isInvisible;
   }
 
   @Override
   public ILayer copy() {
-    return new Layer(this.model.copy());
+    return new Layer((IStateTrackingIMEModel) this.model.copy());
   }
 }

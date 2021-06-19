@@ -17,7 +17,7 @@ import cs3500.model.IMultiLayerModel;
  *     <i><code>[CMD] [arg0] [arg1] ... [argn]</code></i>,
  *     where <code>[CMD]</code> is the textual representation of a command,
  *     and where <code>[argi]</code> is the <code>i</code>th required argument of
- *     a function of arity <code>n</code>. Since different commands have different arities (and
+ *     a function of arity <code>n</code>. Since different commands have different aritiesN (and
  *     some take no optional paramters), the commands take arguments as expressed in the following
  *     table:
  *   </li>

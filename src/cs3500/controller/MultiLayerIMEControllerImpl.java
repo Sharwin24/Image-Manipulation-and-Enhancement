@@ -461,6 +461,8 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
       throws IllegalArgumentException, IllegalStateException {
     Utility.checkNotNull(mdl, "cannot run the controller on a null model");
 
+    vw.write("welcome to Image Manipulation and Enhancement! Please consult the USEME file "
+        + "for information on how to specify commands");
     Scanner s = new Scanner(rd);
 
     while (s.hasNextLine()) {
