@@ -20,7 +20,9 @@ implementations for what an image, operation, a pixel, etc. represent.
 
 # Project Packages 📦
 
-## The <code>IIMEModel</code> interface
+# The <code>Model</code> package
+
+### The <code>IIMEModel</code> interface
 
 An interface to represent functions of an Image-Manipulation-Enhancement model. The functions enable
 the developer/user to import/export images, apply operations to an image, and create Programmed
@@ -41,6 +43,19 @@ saving image states, undoing/redoing operations, and importing/exporting images.
 operations using the <code>IOperation</code> interface, and in order to implement a new operation,
 an extension of the <code>IOperation</code> is all that's needed. Thus, the model can remain
 unchanged while new operations are added.
+
+### The <code>IMultiLayerModel</code> package
+
+The <code>IMultiLayerModel</code> interface is an extension of the
+<code>IStateTrackingIMEModel</code> interface. It also offers the ability to maintain multiple
+layers for a group of images to be edited separately. The interface offers methods to edit a layer's
+image, to add/remove/swap and get layers. It also provides functionality to set the current working
+layer.
+
+### The <code>MultiLayerModelImpl</code> class
+
+The implementation of the MultiLayerModel interface. This class implements the interface's methods
+and offers its use to the user.
 
 ## The <code>Matrix</code> package
 
@@ -189,6 +204,74 @@ programmatic images.
 The subclasses to represent a specific programmatic image. Each class constructs its programmatic
 image with a unit size, specified in the <code>setProgrammaticImage()</code> method in the model
 class.
+
+# The <code>View</code> Package
+
+## The <code>IMEView</code> interface
+
+The <code>IMEView</code> interface offers the ability to render a textual view for the model in use.
+The interface offers functionality to render the layers and to write to the view with a given input
+string.
+
+## The <code>TextualIMEView</code> class
+
+The implementation of the view interface. The class implements the methods and is used for the final
+program.
+
+# The <code>Controller</code> Package
+
+## The <code>IMultiLayerIMEController</code> interface
+
+The <code>IMultiLayerIMEController</code> interface offers the functionality to run a program
+interacting with the model and the view. The implementation of this class will need to accept user
+input in order to perform actions in the model and the view.
+
+## The <code>MultiLayerIMEControllerImpl</code> class
+
+The implementation of the controller. The controller initializes commands it has access to via
+classes which contain the implementation of each command that the model offers. The controller
+executes the commands by delegating the action through the command's class.
+
+## The <code>Commands</code> package
+
+### The <code>IIMECommand</code> interface
+
+The interface for all commands for an <code>IMEModel</code> interface. This interface offers the
+functionality to execute a command given a user input. The implementations of this interface will
+handle their specific command for the model and perform it with user input.
+
+### The <code>AIMECommand</code> abstract class
+
+An abstract class for the interface to assist handling the arguments given by the user. The abstract
+class declares an abstract method <code>handleArgs</code> that each extended subclass will need to
+implement.
+
+### The <code>APortCommand</code> abstract class
+
+
+### The <code>ApplyCommand</code> class
+
+### The <code>CurrentCommand</code> class
+
+### The <code>DeleteCommand</code> class
+
+### The <code>ImportCommand</code> class
+
+### The <code>ExportCommand</code> class
+
+### The <code>NewLayerCommand</code> class
+
+### The <code>ProgrammaticImageCommand</code> class
+
+### The <code>UndoCommand</code> class
+
+### The <code>RedoCommand</code> class
+
+### The <code>SaveCommand</code> class
+
+### The <code>SwapCommand</code> class
+
+### The <code>VisibilityCommand</code> class
 
 ## The <code>Utility</code> class
 
