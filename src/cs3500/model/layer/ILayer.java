@@ -47,9 +47,9 @@ public interface ILayer {
   String toString();
 
   /**
-   * Todo
+   * Returns a deep copy of this layer.
    *
-   * @return
+   * @return an {@link ILayer} that is a copy.
    */
   ILayer copy();
 }

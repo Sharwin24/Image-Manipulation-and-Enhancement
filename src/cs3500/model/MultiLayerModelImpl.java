@@ -39,6 +39,22 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
     this.layersImageWidth = -1;
   }
 
+  /**
+   * Constructs a custom Multi-layer model with given parameters.
+   *
+   * @param layerCopy    the list of layers as a copy.
+   * @param currentLayer the current layer the model is on.
+   * @param height       the layer's height.
+   * @param width        the layer's width.
+   */
+  private MultiLayerModelImpl(List<ILayer> layerCopy, ILayer currentLayer, int height, int width) {
+    this.listOfLayers = layerCopy;
+    this.currentLayer = currentLayer;
+    this.layersImageHeight = height;
+    this.layersImageWidth = width;
+
+  }
+
   @Override
   public void applyOperations(IOperation... operations) throws IllegalArgumentException {
     this.currentLayer.getModel().applyOperations(operations);
@@ -82,28 +98,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   public IImage getImage() {
     return this.currentLayer.getModel().getImage();
   }
-
-  @Override
-  public void importAllLayers(IFileFormat fileType, String pathName)
-      throws IllegalArgumentException {
-    // Import the given image at the file for all layers, regardless of current layer.
-    for (ILayer layer : this.listOfLayers) {
-      layer.importImage(fileType, pathName);
-    }
-  }
-
-//  @Override
-//  public void exportAllLayers(IFileFormat fileType, String pathName)
-//      throws IllegalArgumentException {
-//    // Create new folder with each image file exported in it
-//    // Ignore layers that are marked invisible
-//    // Create Text file with all exported paths
-//    int layerCounter = 0;
-//    for (ILayer layer : this.listOfLayers) {
-//      layer.getModel().exportImage(fileType, pathName + "-layer-" + layerCounter);
-//      layerCounter++;
-//    }
-//  }
+  
 
   @Override
   public void toggleInvisible(int layerIndex) throws IllegalArgumentException {
@@ -167,6 +162,16 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   @Override
   public void save() {
     this.currentLayer.getModel().save();
+  }
+
+  @Override
+  public IMultiLayerModel copy() {
+    List<ILayer> layers = new ArrayList<>();
+    for (ILayer layer : this.listOfLayers) {
+      layers.add(layer.copy());
+    }
+    return new MultiLayerModelImpl(layers, this.currentLayer.copy(), this.layersImageHeight,
+        this.layersImageWidth);
   }
 
 }
