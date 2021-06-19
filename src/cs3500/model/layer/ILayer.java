@@ -23,6 +23,14 @@ public interface ILayer {
   void toggleInvisible();
 
   /**
+   * Uses the model to load an image.
+   *
+   * @param image the image to load in.
+   * @throws IllegalArgumentException if the iamge is null.
+   */
+  void modelLoad(IImage image) throws IllegalArgumentException;
+
+  /**
    * Gets the model for this layer for delegation.
    *
    * @return a {@link IStateTrackingIMEModel} that this layer utilizes to track state

@@ -117,7 +117,7 @@ public class PPMFile extends AFileFormat {
     if (relativePath.equals("")) {
       throw new IllegalArgumentException("cannot write to empty path name");
     }
-    String fileNamePPM = "res/" + relativePath + this.getFileExtension();
+    String fileNamePPM = relativePath + this.getFileExtension();
 
     StringBuilder fileContents = new StringBuilder();
     fileContents.append(Utility.println("P3"));

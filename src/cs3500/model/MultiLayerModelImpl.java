@@ -70,7 +70,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
     if (this.layersImageWidth == -1 && this.layersImageHeight == -1) {
       this.layersImageWidth = image.getWidth();
       this.layersImageHeight = image.getHeight();
-      this.currentLayer.getModel().load(image);
+      this.currentLayer.modelLoad(image);
     }
   }
 

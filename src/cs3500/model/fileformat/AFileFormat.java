@@ -45,8 +45,14 @@ public abstract class AFileFormat implements IFileFormat {
     } catch (IOException e) {
       throw new IllegalArgumentException("Failed to read Image");
     }
-    int height = image.getHeight();
-    int width = image.getWidth();
+    int height = 0;
+    int width = 0;
+    try {
+      height = image.getHeight();
+      width = image.getWidth();
+    } catch (NullPointerException e) {
+      throw new IllegalArgumentException("Image is empty");
+    }
     // Initialize empty matrix to fill with imported pixels
     IMatrix<IPixel> pixelMatrix = new MatrixImpl<>(new PixelImpl(0, 0, 0), height, width);
     // Create an array of the pixels in the image as memory address to access all ARGB values.
