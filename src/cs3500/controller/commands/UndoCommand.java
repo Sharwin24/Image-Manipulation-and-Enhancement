@@ -1,7 +1,7 @@
 package cs3500.controller.commands;
 
 import cs3500.model.IMultiLayerModel;
-import cs3500.view.IIMEView;
+import cs3500.view.IMEView;
 import java.util.Scanner;
 
 /**
@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class UndoCommand extends AIMECommand {
 
   @Override
-  public void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw)
+  public void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IMEView vw)
       throws IllegalArgumentException, IllegalStateException {
 
     try {

@@ -1,6 +1,6 @@
 package cs3500.model.fileformat;
 
-import cs3500.Utils;
+import cs3500.Utility;
 import cs3500.model.image.IImage;
 import cs3500.model.image.ImageImpl;
 import cs3500.model.matrix.MatrixImpl;
@@ -37,7 +37,7 @@ public class PPMFile extends AFileFormat {
   @Override
   public IImage importImage(String relativePath)
       throws IllegalArgumentException {
-    Utils.checkNotNull(relativePath, "cannot import an image with a null file name");
+    Utility.checkNotNull(relativePath, "cannot import an image with a null file name");
     if (relativePath.equals("")) {
       throw new IllegalArgumentException("cannot determine empty path name");
     }
@@ -112,18 +112,18 @@ public class PPMFile extends AFileFormat {
   @Override
   public File exportImage(String relativePath, IImage image)
       throws IllegalArgumentException {
-    Utils.checkNotNull(relativePath, "cannot export image to a null file name");
-    Utils.checkNotNull(image, "cannot export a null image");
+    Utility.checkNotNull(relativePath, "cannot export image to a null file name");
+    Utility.checkNotNull(image, "cannot export a null image");
     if (relativePath.equals("")) {
       throw new IllegalArgumentException("cannot write to empty path name");
     }
     String fileNamePPM = "res/" + relativePath + this.getFileExtension();
 
     StringBuilder fileContents = new StringBuilder();
-    fileContents.append(Utils.println("P3"));
-    fileContents.append(Utils.println(image.getPixelArray().getWidth() + " "
+    fileContents.append(Utility.println("P3"));
+    fileContents.append(Utility.println(image.getPixelArray().getWidth() + " "
         + image.getPixelArray().getHeight()));
-    fileContents.append(Utils.println("255"));
+    fileContents.append(Utility.println("255"));
 
     for (int pxRow = 0; pxRow < image.getPixelArray().getHeight(); pxRow++) {
       for (int pxCol = 0; pxCol < image.getPixelArray().getWidth(); pxCol++) {

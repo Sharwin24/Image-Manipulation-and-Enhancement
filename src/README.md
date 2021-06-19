@@ -31,7 +31,7 @@ images.
 The <code>IStateTrackingIMEModel</code> interface enables the Model to track the state of images
 using a history. This interface offers useful methods such as <code>undo()</code>/<code>
 redo()</code>,
-<code>save()</code>, and <code>retrieve()</code>. These methods allow the implementation to track
+<code>save()</code>, and <code>getImage()</code>. These methods allow the implementation to track
 the state of images and to save and revert changes.
 
 ### The <code>StateTrackingModelImpl</code> class

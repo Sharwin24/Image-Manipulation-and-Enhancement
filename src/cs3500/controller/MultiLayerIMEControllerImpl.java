@@ -1,6 +1,6 @@
 package cs3500.controller;
 
-import cs3500.Utils;
+import cs3500.Utility;
 import cs3500.controller.commands.ApplyCommand;
 import cs3500.controller.commands.CurrentCommand;
 import cs3500.controller.commands.DeleteCommand;
@@ -17,7 +17,7 @@ import cs3500.controller.commands.VisibilityCommand;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
 import cs3500.model.operation.IOperation;
-import cs3500.view.IIMEView;
+import cs3500.view.IMEView;
 import cs3500.view.TextualIMEView;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -302,7 +302,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
   private final IMultiLayerModel mdl;
   private final Readable rd;
   private final Appendable ap;
-  private final IIMEView vw;
+  private final IMEView vw;
   private final Map<String, IIMECommand> cmds;
 
   /**
@@ -317,13 +317,13 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
    * @throws IllegalArgumentException if any of the parameters are {@code null}.
    */
   public MultiLayerIMEControllerImpl(IMultiLayerModel mdl, Readable rd, Appendable ap,
-      IIMEView vw) throws IllegalArgumentException {
-    this.mdl = Utils.checkNotNull(mdl, "cannot make an IME controller with a null model");
-    this.rd = Utils.checkNotNull(rd, "cannot make an IME controller with a null"
+      IMEView vw) throws IllegalArgumentException {
+    this.mdl = Utility.checkNotNull(mdl, "cannot make an IME controller with a null model");
+    this.rd = Utility.checkNotNull(rd, "cannot make an IME controller with a null"
         + " readable");
-    this.ap = Utils.checkNotNull(ap, "cannot make an IME controller with a null "
+    this.ap = Utility.checkNotNull(ap, "cannot make an IME controller with a null "
         + "appendable");
-    this.vw = Utils.checkNotNull(vw, "cannot make an IME controller with a null "
+    this.vw = Utility.checkNotNull(vw, "cannot make an IME controller with a null "
         + "IME view");
     this.cmds = this.initCommands();
   }
@@ -351,20 +351,20 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
     private IMultiLayerModel mdl;
     private Readable rd;
     private Appendable ap;
-    private IIMEView vw;
+    private IMEView vw;
 
     /**
      * Private constructor to trivially initialize all fields of a {@link ControllerBuilder}. No
      * exceptions are thrown since this error-checking is handled in the {@link
      * MultiLayerIMEControllerImpl#MultiLayerIMEControllerImpl(IMultiLayerModel, Readable,
-     * Appendable, IIMEView)} constructor.
+     * Appendable, IMEView)} constructor.
      *
      * @param mdl the model to control
      * @param rd  the readable to read inputs from
      * @param ap  the appendable to write output messages to
      * @param vw  the view to display interactions messages
      */
-    private ControllerBuilder(IMultiLayerModel mdl, Readable rd, Appendable ap, IIMEView vw) {
+    private ControllerBuilder(IMultiLayerModel mdl, Readable rd, Appendable ap, IMEView vw) {
       this.mdl = mdl;
       this.rd = rd;
       this.ap = ap;
@@ -414,7 +414,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
      * @param vw the view to which interactions messages will be written.
      * @return a {@link ControllerBuilder} with the view field customized.
      */
-    public ControllerBuilder view(IIMEView vw) {
+    public ControllerBuilder view(IMEView vw) {
       this.vw = vw;
       return this;
     }
@@ -433,10 +433,10 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
     public IMultiLayerIMEController buildController()
         throws IllegalArgumentException {
       return new MultiLayerIMEControllerImpl(
-          Utils.checkNotNull(mdl, "cannot build a controller with a null model."),
-          Utils.checkNotNull(rd, "cannot build a controller with a null readable."),
-          Utils.checkNotNull(ap, "cannot build a controller with a null appendable."),
-          Utils.checkNotNull(vw, "cannot build a controller with a null view."));
+          Utility.checkNotNull(mdl, "cannot build a controller with a null model."),
+          Utility.checkNotNull(rd, "cannot build a controller with a null readable."),
+          Utility.checkNotNull(ap, "cannot build a controller with a null appendable."),
+          Utility.checkNotNull(vw, "cannot build a controller with a null view."));
     }
   }
 
@@ -459,7 +459,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
   @Override
   public void run(IMultiLayerModel mdl)
       throws IllegalArgumentException, IllegalStateException {
-    Utils.checkNotNull(mdl, "cannot run the controller on a null model");
+    Utility.checkNotNull(mdl, "cannot run the controller on a null model");
 
     Scanner s = new Scanner(rd);
 

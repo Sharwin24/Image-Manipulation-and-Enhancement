@@ -1,8 +1,7 @@
 package cs3500.model.matrix;
 
-import cs3500.Utils;
+import cs3500.Utility;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -49,10 +48,10 @@ public abstract class AMatrix<X> implements IMatrix<X> {
   public AMatrix(List<List<X>> listEntries)
       throws IllegalArgumentException {
     // check that each row and entry are not null
-    Utils.checkNotNull(listEntries, "cannot construct matrix with null list entries");
-    Utils.checkNotNullListContents(listEntries, "cannot construct matrix with null row");
+    Utility.checkNotNull(listEntries, "cannot construct matrix with null list entries");
+    Utility.checkNotNullListContents(listEntries, "cannot construct matrix with null row");
     for (List<X> row : listEntries) {
-      Utils.checkNotNullListContents(row, "cannot construct a matrix with a null entry");
+      Utility.checkNotNullListContents(row, "cannot construct a matrix with a null entry");
     }
     if (!this.checkAllRowsSameSize(listEntries)) {
       throw new IllegalArgumentException("cannot create a Matrix without all "
@@ -82,8 +81,8 @@ public abstract class AMatrix<X> implements IMatrix<X> {
    */
   public AMatrix(List<X> oneRow, int numCopies)
       throws IllegalArgumentException {
-    Utils.checkNotNull(oneRow, "cannot copy a null row");
-    Utils.checkIntBetween(numCopies, 0, Integer.MAX_VALUE);
+    Utility.checkNotNull(oneRow, "cannot copy a null row");
+    Utility.checkIntBetween(numCopies, 0, Integer.MAX_VALUE);
     List<List<X>> rows = new ArrayList<>();
     for (int i = 0; i < numCopies; i++) {
       rows.add(oneRow);
@@ -104,9 +103,9 @@ public abstract class AMatrix<X> implements IMatrix<X> {
    */
   public AMatrix(X uniformEntry, int numRows, int numCols)
       throws IllegalArgumentException {
-    Utils.checkNotNull(uniformEntry, "cannot fill a matrix with a null entry");
-    Utils.checkIntBetween(numRows, 0, Integer.MAX_VALUE);
-    Utils.checkIntBetween(numCols, 0, Integer.MAX_VALUE);
+    Utility.checkNotNull(uniformEntry, "cannot fill a matrix with a null entry");
+    Utility.checkIntBetween(numRows, 0, Integer.MAX_VALUE);
+    Utility.checkIntBetween(numCols, 0, Integer.MAX_VALUE);
 
     List<List<X>> entries = new ArrayList<>();
     for (int rowNum = 0; rowNum < numRows; rowNum++) {
@@ -133,7 +132,7 @@ public abstract class AMatrix<X> implements IMatrix<X> {
   protected boolean checkAllRowsSameSize(List<List<X>> listEntries)
       throws IllegalArgumentException {
 
-    Utils.checkNotNull(listEntries, "cannot verify all rows same size for null"
+    Utility.checkNotNull(listEntries, "cannot verify all rows same size for null"
         + " list entries");
 
     // fast check
@@ -154,8 +153,8 @@ public abstract class AMatrix<X> implements IMatrix<X> {
   public X getElement(int row, int col)
       throws IllegalArgumentException {
 
-    return entries.get(Utils.checkIntBetween(row, 0, this.getHeight())).
-        get(Utils.checkIntBetween(col, 0, this.getWidth()));
+    return entries.get(Utility.checkIntBetween(row, 0, this.getHeight())).
+        get(Utility.checkIntBetween(col, 0, this.getWidth()));
 
   }
 
@@ -182,7 +181,7 @@ public abstract class AMatrix<X> implements IMatrix<X> {
   @Override
   public void fillWith(X entry)
       throws IllegalArgumentException {
-    Utils.checkNotNull(entry, "cannot fill a matrix with a null entry");
+    Utility.checkNotNull(entry, "cannot fill a matrix with a null entry");
 
     if (entries.isEmpty()) {
       throw new IllegalArgumentException("cannot fill an empty matrix with an entry");
@@ -198,8 +197,8 @@ public abstract class AMatrix<X> implements IMatrix<X> {
   @Override
   public void updateEntry(X newEntry, int row, int col)
       throws IllegalArgumentException {
-    Utils.checkIntBetween(row, 0, this.getHeight());
-    Utils.checkIntBetween(col, 0, this.getWidth());
+    Utility.checkIntBetween(row, 0, this.getHeight());
+    Utility.checkIntBetween(col, 0, this.getWidth());
 
     this.entries.get(row).set(col, newEntry);
   }

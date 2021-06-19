@@ -1,17 +1,15 @@
 package cs3500.view;
 
-import cs3500.Utils;
+import cs3500.Utility;
 import cs3500.model.IMultiLayerModel;
-import cs3500.model.IStateTrackingIMEModel;
 import cs3500.model.MultiLayerModelImpl;
-import cs3500.model.image.IImage;
 import cs3500.model.layer.ILayer;
 import java.io.IOException;
 
 /**
  * TODO
  */
-public class TextualIMEView implements IIMEView {
+public class TextualIMEView implements IMEView {
 
   private final IMultiLayerModel mdl;
   private final Appendable ap;
@@ -31,7 +29,7 @@ public class TextualIMEView implements IIMEView {
    */
   public TextualIMEView(IMultiLayerModel mdl)
       throws IllegalArgumentException {
-    this.mdl = Utils.checkNotNull(mdl, "cannot create a textual IME view from a "
+    this.mdl = Utility.checkNotNull(mdl, "cannot create a textual IME view from a "
         + "null model");
     this.ap = System.out;
   }
@@ -44,9 +42,9 @@ public class TextualIMEView implements IIMEView {
    */
   public TextualIMEView(IMultiLayerModel mdl, Appendable ap)
       throws IllegalArgumentException {
-    this.mdl = Utils.checkNotNull(mdl, "cannot create a textual IME view from a "
+    this.mdl = Utility.checkNotNull(mdl, "cannot create a textual IME view from a "
         + "null model");
-    this.ap = Utils.checkNotNull(ap, "cannot create a textual IME view from a "
+    this.ap = Utility.checkNotNull(ap, "cannot create a textual IME view from a "
         + "null Appendable");
   }
 
@@ -73,7 +71,7 @@ public class TextualIMEView implements IIMEView {
   public void write(String toWrite)
       throws IllegalStateException, IllegalArgumentException {
     try {
-      ap.append(Utils.paddedPrint(Utils.checkNotNull(toWrite, "cannot write a "
+      ap.append(Utility.paddedPrint(Utility.checkNotNull(toWrite, "cannot write a "
           + "null message")));
     } catch (IOException e) {
       throw new IllegalStateException("transmitting the message: \"" + toWrite + "\" to " +

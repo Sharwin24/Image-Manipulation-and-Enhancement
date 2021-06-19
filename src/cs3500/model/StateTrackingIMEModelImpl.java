@@ -1,6 +1,6 @@
 package cs3500.model;
 
-import cs3500.Utils;
+import cs3500.Utility;
 import cs3500.model.programmaticimages.IProgramImage;
 import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.image.IImage;
@@ -40,7 +40,7 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel {
    */
   public StateTrackingIMEModelImpl(IImage image)
       throws IllegalArgumentException {
-    this.image = Utils.checkNotNull(image, "cannot construct an IME model with a null "
+    this.image = Utility.checkNotNull(image, "cannot construct an IME model with a null "
         + "image");
     this.undoHistory = new Stack<>();
     this.undoHistory.push(image);
@@ -126,7 +126,7 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel {
    */
   private void setImage(IImage newImage)
       throws IllegalArgumentException {
-    Utils.checkNotNull(newImage, "cannot set a new image that is null");
+    Utility.checkNotNull(newImage, "cannot set a new image that is null");
     this.save();
     this.image = newImage.copy();
   }

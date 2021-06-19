@@ -40,7 +40,7 @@ public class StateTrackingIMEModelImplTest {
   @Test
   public void testNullaryConstructorSetsEmptyImage() {
     assertEquals(new ImageImpl(new MatrixImpl<>()),
-        new StateTrackingIMEModelImpl().retrieve());
+        new StateTrackingIMEModelImpl().getImage());
   }
 
   /**
@@ -69,9 +69,9 @@ public class StateTrackingIMEModelImplTest {
   @Test
   public void testApplyOperationsActuallyChangesImage() {
     IStateTrackingIMEModel mdl = new StateTrackingIMEModelImpl(simple3x3);
-    IImage oldImage = mdl.retrieve().copy();
+    IImage oldImage = mdl.getImage().copy();
     mdl.applyOperations(new ImageBlur(), new Sepia());
-    IImage newImage = mdl.retrieve().copy();
+    IImage newImage = mdl.getImage().copy();
 
     assertNotEquals(newImage, oldImage);
   }
@@ -90,10 +90,10 @@ public class StateTrackingIMEModelImplTest {
     IStateTrackingIMEModel m =
         new StateTrackingIMEModelImpl();
     m.setProgrammaticImage(new RainbowNoise(), 10, 10, 1);
-    IImage originalImage = m.retrieve();
+    IImage originalImage = m.getImage();
     m.applyOperations(new Sepia());
     m.undo();
-    IImage undoneImage = m.retrieve();
+    IImage undoneImage = m.getImage();
 
     assertEquals(undoneImage, originalImage);
   }
@@ -103,11 +103,11 @@ public class StateTrackingIMEModelImplTest {
     IStateTrackingIMEModel m =
         new StateTrackingIMEModelImpl();
     m.setProgrammaticImage(new RainbowNoise(), 10, 10, 1);
-    IImage originalImage = m.retrieve();
+    IImage originalImage = m.getImage();
     m.applyOperations(new Sepia(), new Sharpening());
     m.undo();
     m.undo();
-    IImage undoneImage = m.retrieve();
+    IImage undoneImage = m.getImage();
 
     assertEquals(undoneImage, originalImage);
   }
@@ -127,10 +127,10 @@ public class StateTrackingIMEModelImplTest {
         new StateTrackingIMEModelImpl();
     m.setProgrammaticImage(new RainbowNoise(), 10, 10, 1);
     m.applyOperations(new Sepia());
-    IImage originalImage = m.retrieve();
+    IImage originalImage = m.getImage();
     m.undo();
     m.redo();
-    IImage redoneImage = m.retrieve();
+    IImage redoneImage = m.getImage();
 
     assertEquals(redoneImage, originalImage);
   }
@@ -140,13 +140,13 @@ public class StateTrackingIMEModelImplTest {
     IStateTrackingIMEModel m =
         new StateTrackingIMEModelImpl();
     m.setProgrammaticImage(new RainbowNoise(), 10, 10, 1);
-    IImage originalImage = m.retrieve();
+    IImage originalImage = m.getImage();
     m.applyOperations(new Sepia(), new Sharpening());
     m.undo();
     m.undo();
     m.redo();
     m.redo();
-    IImage redoneImage = m.retrieve();
+    IImage redoneImage = m.getImage();
 
     assertEquals(redoneImage, originalImage);
   }
@@ -158,24 +158,24 @@ public class StateTrackingIMEModelImplTest {
   public void testSaveSavesNewCopy() {
     IStateTrackingIMEModel m = new StateTrackingIMEModelImpl();
     m.setProgrammaticImage(new Checkerboard(), 10, 10, 2);
-    IImage oldImage = m.retrieve();
+    IImage oldImage = m.getImage();
     m.save();
-    IImage savedImage = m.retrieve();
+    IImage savedImage = m.getImage();
 
     assertEquals(oldImage, savedImage);
     assertFalse(oldImage == savedImage);
   }
 
   /**
-   * Tests for the {@link StateTrackingIMEModelImpl#retrieve()} method.
+   * Tests for the {@link StateTrackingIMEModelImpl#getImage()} method.
    */
   @Test
-  public void testRetrieveReturnsEqualCopyNotReference() {
+  public void testgetImageReturnsEqualCopyNotReference() {
     IStateTrackingIMEModel m =
         new StateTrackingIMEModelImpl();
     IImage emptyImage = new ImageImpl(new MatrixImpl<>());
-    assertEquals(emptyImage, m.retrieve());
-    assertFalse(emptyImage == m.retrieve());
+    assertEquals(emptyImage, m.getImage());
+    assertFalse(emptyImage == m.getImage());
   }
 
   /**
@@ -293,7 +293,7 @@ public class StateTrackingIMEModelImplTest {
                     PixelImpl.GREEN,
                     PixelImpl.GREEN,
                     PixelImpl.GREEN)))))),
-        m.retrieve());
+        m.getImage());
   }
 
   /**
@@ -333,7 +333,7 @@ public class StateTrackingIMEModelImplTest {
                         Arrays.asList(
                             PixelImpl.WHITE,
                             PixelImpl.BLACK)))))),
-        m.retrieve());
+        m.getImage());
   }
 
   @Test (expected = IllegalArgumentException.class)

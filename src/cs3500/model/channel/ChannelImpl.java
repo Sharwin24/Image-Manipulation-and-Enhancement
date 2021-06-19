@@ -1,6 +1,6 @@
 package cs3500.model.channel;
 
-import cs3500.Utils;
+import cs3500.Utility;
 import cs3500.model.pixel.IPixel;
 import java.util.Objects;
 
@@ -36,8 +36,8 @@ public class ChannelImpl implements IChannel {
    */
   public ChannelImpl(EChannelType color, int intensity)
       throws IllegalArgumentException {
-    this.color = Utils.checkNotNull(color, "cannot construct a ChannelImpl with a null color");
-    this.intensity = Utils.setIntBetween(intensity, 0, 255);
+    this.color = Utility.checkNotNull(color, "cannot construct a ChannelImpl with a null color");
+    this.intensity = Utility.setIntBetween(intensity, 0, 255);
   }
 
 

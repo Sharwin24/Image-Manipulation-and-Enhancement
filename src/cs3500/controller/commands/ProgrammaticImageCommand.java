@@ -6,7 +6,7 @@ import cs3500.model.programmaticimages.Checkerboard;
 import cs3500.model.programmaticimages.IProgramImage;
 import cs3500.model.programmaticimages.PureNoise;
 import cs3500.model.programmaticimages.RainbowNoise;
-import cs3500.view.IIMEView;
+import cs3500.view.IMEView;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -32,7 +32,7 @@ public class ProgrammaticImageCommand extends AIMECommand {
   private final Map<String, IProgramImage> imagesMap = this.initImagesMap();
 
   @Override
-  protected void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw) {
+  protected void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IMEView vw) {
 
     try {
       String type = lineScan.next();
