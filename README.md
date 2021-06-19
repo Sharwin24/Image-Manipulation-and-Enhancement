@@ -248,7 +248,6 @@ implement.
 
 ### The <code>APortCommand</code> abstract class
 
-
 ### The <code>ApplyCommand</code> class
 
 ### The <code>CurrentCommand</code> class
