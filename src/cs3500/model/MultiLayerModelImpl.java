@@ -6,6 +6,7 @@ import cs3500.model.layer.Layer;
 import cs3500.model.operation.IOperation;
 import cs3500.model.programmaticimages.IProgramImage;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,6 +22,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   // Layer Class implementation
   private final List<ILayer> listOfLayers;
   private ILayer currentLayer;
+  private int currentIndex;
   private int layersImageHeight;
   private int layersImageWidth;
 
@@ -32,6 +34,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
     this.listOfLayers = new ArrayList<>();
     this.listOfLayers.add(new Layer());
     this.currentLayer = this.listOfLayers.get(0);
+    this.currentIndex = 0;
     this.layersImageHeight = -1;
     this.layersImageWidth = -1;
   }
@@ -54,6 +57,9 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
 
   @Override
   public void applyOperations(IOperation... operations) throws IllegalArgumentException {
+    if (operations == null || operations.length == 0) {
+      throw new IllegalArgumentException("Invalid operations");
+    }
     this.currentLayer.getModel().applyOperations(operations);
   }
 
@@ -62,14 +68,15 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
     if (image == null) {
       throw new IllegalArgumentException("Image is null");
     }
-    if (this.layersImageWidth != -1 && this.layersImageHeight != -1
-        && (image.getWidth() != this.layersImageWidth
-        || image.getHeight() != this.layersImageHeight)) {
-      throw new IllegalArgumentException("All layers must have the same height and width");
-    }
     if (this.layersImageWidth == -1 && this.layersImageHeight == -1) {
+      this.currentLayer.modelLoad(image);
       this.layersImageWidth = image.getWidth();
       this.layersImageHeight = image.getHeight();
+    } else {
+      if (image.getHeight() != this.layersImageHeight
+          || image.getWidth() != this.layersImageWidth) {
+        throw new IllegalArgumentException("All layers must have the same height and width");
+      }
       this.currentLayer.modelLoad(image);
     }
   }
@@ -78,17 +85,19 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   public void setProgrammaticImage(IProgramImage imgToSet, int widthPx, int heightPx,
       int unitSizePx) throws IllegalArgumentException {
     if (imgToSet == null) {
-      throw new IllegalArgumentException("Progam image is null");
+      throw new IllegalArgumentException("Program image is null");
     }
-    if (this.layersImageWidth != -1 && this.layersImageHeight != -1) {
+    if (this.layersImageWidth == -1 && this.layersImageHeight == -1) {
+      this.currentLayer.getModel().setProgrammaticImage(imgToSet, widthPx, heightPx, unitSizePx);
+      this.layersImageHeight = heightPx;
+      this.layersImageWidth = widthPx;
+    } else {
       if (widthPx != this.layersImageWidth || heightPx != this.layersImageHeight) {
-        throw new IllegalArgumentException("Invalid Size for Image, All layers must have the same "
-            + "size.");
+        throw new IllegalArgumentException("Invalid given Size, All layers must have same size");
       }
+      this.currentLayer.getModel().setProgrammaticImage(imgToSet, widthPx, heightPx, unitSizePx);
     }
-    this.currentLayer.getModel().setProgrammaticImage(imgToSet, widthPx, heightPx, unitSizePx);
-    this.layersImageHeight = heightPx;
-    this.layersImageWidth = widthPx;
+
   }
 
   @Override
@@ -111,6 +120,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
       throw new IllegalArgumentException("Layer Index out of bounds");
     }
     this.currentLayer = this.listOfLayers.get(layerIndex);
+    this.currentIndex = layerIndex;
   }
 
   @Override
@@ -136,10 +146,8 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
         || layerIndex1 == layerIndex2) {
       throw new IllegalArgumentException("Layer Indexes invalid");
     }
-    ILayer first = this.listOfLayers.get(layerIndex1);
-    ILayer second = this.listOfLayers.get(layerIndex2);
-    this.listOfLayers.set(layerIndex1, second);
-    this.listOfLayers.set(layerIndex2, first);
+    Collections.swap(this.listOfLayers, layerIndex1, layerIndex2);
+    this.currentLayer = this.listOfLayers.get(this.currentIndex);
   }
 
   @Override
@@ -169,7 +177,9 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
 
   @Override
   public void save() {
-    this.currentLayer.getModel().save();
+    for (ILayer layer : this.listOfLayers) {
+      layer.getModel().save();
+    }
   }
 
   @Override
