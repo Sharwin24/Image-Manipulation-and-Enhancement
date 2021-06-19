@@ -33,11 +33,4 @@ public interface IStateTrackingIMEModel extends IIMEModel {
    */
   void save();
 
-
-  /**
-   * Returns a copy of this model.
-   *
-   * @return an {@link IStateTrackingIMEModel} that is a copy of this one.
-   */
-  IStateTrackingIMEModel copy();
 }

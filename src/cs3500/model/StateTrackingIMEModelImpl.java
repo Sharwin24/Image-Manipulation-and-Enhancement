@@ -1,14 +1,12 @@
 package cs3500.model;
 
 import cs3500.Utility;
-import cs3500.model.programmaticimages.IProgramImage;
-import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.image.IImage;
 import cs3500.model.image.ImageImpl;
 import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.operation.IOperation;
+import cs3500.model.programmaticimages.IProgramImage;
 import java.util.Stack;
-import javax.swing.plaf.nimbus.State;
 
 /**
  * A class to represent a model to track the state of an Image and to apply operations to it. In
@@ -122,6 +120,5 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel {
     this.save();
     this.image = newImage.copy();
   }
-
 
 }

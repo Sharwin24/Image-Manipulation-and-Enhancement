@@ -49,4 +49,11 @@ public interface IIMEModel {
    * @return the image being worked on.
    */
   IImage getImage();
+
+  /**
+   * Returns a copy of this model.
+   *
+   * @return an {@link IIMEModel} that is a copy of this one.
+   */
+  IIMEModel copy();
 }

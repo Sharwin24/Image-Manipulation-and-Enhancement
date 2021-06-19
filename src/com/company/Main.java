@@ -21,19 +21,8 @@ public class Main {
 
     // add calls to methods to manipulate images here...
 
-//    IFileFormat format = new PNGFile();
-//    IImage image = (IImage) format.importImage("src/facebookLogo.png");
-//    for (int i = 0; i < image.getPixelArray().getHeight(); i++) {
-//      for (int j = 0; j < image.getPixelArray().getWidth(); j++) {
-//        System.out.print("[" + image.getPixelArray().getElement(i, j) + "] ");
-//      }
-//      System.out.println();
-//    }
-//    format.exportImage("exportedFacebookPNG", image);
     IMultiLayerIMEController controller =
         MultiLayerIMEControllerImpl.controllerBuilder().buildController();
     controller.run(new MultiLayerModelImpl());
-//    IFileFormat format = new PNGFile();
-//    format.createDirectory(");
   }
 }
