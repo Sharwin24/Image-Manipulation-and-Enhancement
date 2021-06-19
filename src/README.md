@@ -31,7 +31,7 @@ images.
 The <code>IStateTrackingIMEModel</code> interface enables the Model to track the state of images
 using a history. This interface offers useful methods such as <code>undo()</code>/<code>
 redo()</code>,
-<code>save()</code>, and <code>retrieve()</code>. These methods allow the implementation to track
+<code>save()</code>, and <code>getImage()</code>. These methods allow the implementation to track
 the state of images and to save and revert changes.
 
 ### The <code>StateTrackingModelImpl</code> class
@@ -190,7 +190,7 @@ The subclasses to represent a specific programmatic image. Each class constructs
 image with a unit size, specified in the <code>setProgrammaticImage()</code> method in the model
 class.
 
-## The <code>Utils</code> class
+## The <code>Utility</code> class
 
 A class with helpful methods to be utilized throughout the program. Includes many methods to
 simplify complicated methods such as enforcing an integer to be within a range, checking for

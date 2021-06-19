@@ -1,18 +1,7 @@
 package com.company;
 
-import cs3500.Utils;
-import cs3500.controller.IMultiLayerIMEController;
-import cs3500.controller.MultiLayerIMEControllerImpl;
-import cs3500.model.MultiLayerModelImpl;
 import cs3500.model.fileformat.IFileFormat;
-import cs3500.model.fileformat.JPEGFile;
 import cs3500.model.fileformat.PNGFile;
-import cs3500.model.fileformat.PPMFile;
-import cs3500.model.image.IImage;
-import cs3500.model.image.ImageImpl;
-import cs3500.model.matrix.IMatrix;
-import cs3500.model.operation.Sharpening;
-import cs3500.model.pixel.IPixel;
 
 /**
  * Main class.
@@ -37,11 +26,11 @@ public class Main {
 //      System.out.println();
 //    }
 //    format.exportImage("exportedFacebookPNG", image);
-
-
-    IMultiLayerIMEController ctrlr =
-        MultiLayerIMEControllerImpl.controllerBuilder().buildController();
-    ctrlr.run(new MultiLayerModelImpl());
-
+//    IMultiLayerIMEController controller =
+//        new MultiLayerIMEControllerImpl(new MultiLayerModelImpl(),
+//            new InputStreamReader(System.in), System.out, new TextualIMEView());
+//    controller.run(new MultiLayerModelImpl());
+    IFileFormat format = new PNGFile();
+    format.createDirectory("test", "res/dirName");
   }
 }

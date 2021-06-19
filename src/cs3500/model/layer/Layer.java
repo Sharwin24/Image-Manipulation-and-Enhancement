@@ -12,7 +12,7 @@ import cs3500.model.image.IImage;
 public class Layer implements ILayer {
 
   private boolean isInvisible;
-  private IStateTrackingIMEModel model;
+  private final IStateTrackingIMEModel model;
   private int layerHeight;
   private int layerWidth;
   private String layerName;

@@ -1,6 +1,6 @@
 package cs3500.model.programmaticimages;
 
-import cs3500.Utils;
+import cs3500.Utility;
 import cs3500.model.image.IImage;
 import cs3500.model.image.ImageImpl;
 import cs3500.model.pixel.IPixel;
@@ -15,7 +15,7 @@ import java.util.Random;
  * Note that the {@code unitPx}--the unit size of this image is ignored, since pixels are selected
  * at random.
  */
-public class Noise implements IProgramImage<IImage> {
+public class Noise implements IProgramImage {
 
   private List<IPixel> pixelChoices;
 
@@ -33,9 +33,9 @@ public class Noise implements IProgramImage<IImage> {
     if (pixelChoices.isEmpty()) {
       throw new IllegalArgumentException("cannot create a noise image with no colors");
     }
-    Utils.checkNotNullListContents(pixelChoices, "cannot set a null color for a noise "
+    Utility.checkNotNullListContents(pixelChoices, "cannot set a null color for a noise "
         + "image");
-    this.pixelChoices = Utils.checkNotNull(pixelChoices, "cannot create a noise image "
+    this.pixelChoices = Utility.checkNotNull(pixelChoices, "cannot create a noise image "
         + "with null colors");
 
   }
@@ -58,7 +58,7 @@ public class Noise implements IProgramImage<IImage> {
     List<IPixel> pixelList = new ArrayList<>();
 
     for (IPixel px : pixelChoices) {
-      pixelList.add(Utils.checkNotNull(px, "cannot create a noise image with a null pixel"));
+      pixelList.add(Utility.checkNotNull(px, "cannot create a noise image with a null pixel"));
     }
 
     this.pixelChoices = pixelList;
@@ -68,8 +68,8 @@ public class Noise implements IProgramImage<IImage> {
   @Override
   public IImage createProgramImage(int widthPx, int heightPx, int unitPx)
       throws IllegalArgumentException {
-    Utils.checkIntBetween(widthPx, 0, Integer.MAX_VALUE);
-    Utils.checkIntBetween(heightPx, 0, Integer.MAX_VALUE);
+    Utility.checkIntBetween(widthPx, 0, Integer.MAX_VALUE);
+    Utility.checkIntBetween(heightPx, 0, Integer.MAX_VALUE);
 
     List<List<IPixel>> pixels = new ArrayList<>();
     for (int i = 0; i < heightPx; i++) {

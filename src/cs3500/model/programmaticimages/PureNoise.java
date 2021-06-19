@@ -1,6 +1,6 @@
 package cs3500.model.programmaticimages;
 
-import cs3500.Utils;
+import cs3500.Utility;
 import cs3500.model.image.IImage;
 import cs3500.model.image.ImageImpl;
 import cs3500.model.pixel.IPixel;
@@ -14,13 +14,13 @@ import java.util.Random;
  * size to {@link this#createProgramImage(int, int, int)} is ignored, as each pixel in this image is
  * randomized, so the size of a subunit of this image is irrelevant.
  */
-public class PureNoise implements IProgramImage<IImage> {
+public class PureNoise implements IProgramImage {
 
   @Override
   public IImage createProgramImage(int widthPx, int heightPx, int unitPx)
       throws IllegalArgumentException {
-    Utils.checkIntBetween(widthPx, 0, Integer.MAX_VALUE);
-    Utils.checkIntBetween(heightPx, 0, Integer.MAX_VALUE);
+    Utility.checkIntBetween(widthPx, 0, Integer.MAX_VALUE);
+    Utility.checkIntBetween(heightPx, 0, Integer.MAX_VALUE);
 
     List<List<IPixel>> pixels = new ArrayList<>();
     Random rand = new Random();

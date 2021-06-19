@@ -1,6 +1,6 @@
 package cs3500.model.image;
 
-import cs3500.Utils;
+import cs3500.Utility;
 import cs3500.model.channel.EChannelType;
 import cs3500.model.matrix.IMatrix;
 import cs3500.model.matrix.MatrixImpl;
@@ -23,7 +23,7 @@ public class ImageImpl implements IImage {
    */
   public ImageImpl(IMatrix<IPixel> pixels)
       throws IllegalArgumentException {
-    this.pixels = Utils.checkNotNull(pixels, "cannot construct an Image with a "
+    this.pixels = Utility.checkNotNull(pixels, "cannot construct an Image with a "
         + "null matrix of pixels");
   }
 

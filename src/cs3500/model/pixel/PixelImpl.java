@@ -1,10 +1,9 @@
 package cs3500.model.pixel;
 
-import cs3500.Utils;
+import cs3500.Utility;
 import cs3500.model.channel.ChannelImpl;
 import cs3500.model.channel.EChannelType;
 import cs3500.model.channel.IChannel;
-import cs3500.model.matrix.IMatrix;
 import java.util.Objects;
 
 /**
@@ -63,17 +62,17 @@ public class PixelImpl implements IPixel {
    */
   public PixelImpl(int r, int g, int b) {
     this.red = new ChannelImpl(EChannelType.RED,
-        Utils.setIntBetween(r, 0, 255));
+        Utility.setIntBetween(r, 0, 255));
     this.green = new ChannelImpl(EChannelType.GREEN,
-        Utils.setIntBetween(g, 0, 255));
+        Utility.setIntBetween(g, 0, 255));
     this.blue = new ChannelImpl(EChannelType.BLUE,
-        Utils.setIntBetween(b, 0, 255));
+        Utility.setIntBetween(b, 0, 255));
   }
 
   @Override
   public int getIntensity(EChannelType type)
       throws IllegalArgumentException {
-    Utils.checkNotNull(type, "cannot query an intensity value of a null channel type");
+    Utility.checkNotNull(type, "cannot query an intensity value of a null channel type");
 
     switch (type) {
       case RED:

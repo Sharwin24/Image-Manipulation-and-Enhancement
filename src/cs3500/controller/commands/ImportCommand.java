@@ -1,12 +1,13 @@
 package cs3500.controller.commands;
 
-import cs3500.Utils;
+import cs3500.Utility;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.fileformat.IFileFormat;
-import cs3500.view.IIMEView;
+import cs3500.view.IMEView;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+
 
 /**
  * <p>A function object used to represent the execution of a
@@ -27,7 +28,7 @@ import java.util.Scanner;
 public class ImportCommand extends APortCommand {
 
   @Override
-  protected void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw) {
+  protected void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IMEView vw) {
     if (lineScan.hasNext()) {
       String fileFormat = lineScan.next();
       if (lineScan.hasNext()) {
@@ -70,11 +71,11 @@ public class ImportCommand extends APortCommand {
    * @throws IllegalArgumentException if any of the parameters are {@code null}.
    */
   private void importAllLayers(IFileFormat fileFormat, String relativePath,
-      IMultiLayerModel mdl, IIMEView vw) {
-    Utils.checkNotNull(fileFormat, "cannot import all layers with a null file format");
-    Utils.checkNotNull(relativePath, "cannot import all layers with a null path");
-    Utils.checkNotNull(mdl, "cannot import all layers with a null file model");
-    Utils.checkNotNull(vw, "cannot import all layers with a null file view");
+      IMultiLayerModel mdl, IMEView vw) {
+    Utility.checkNotNull(fileFormat, "cannot import all layers with a null file format");
+    Utility.checkNotNull(relativePath, "cannot import all layers with a null path");
+    Utility.checkNotNull(mdl, "cannot import all layers with a null file model");
+    Utility.checkNotNull(vw, "cannot import all layers with a null file view");
     try {
       File txtFileWithPaths = new File(relativePath);
       Scanner lineScanner = new Scanner(txtFileWithPaths);
@@ -83,7 +84,7 @@ public class ImportCommand extends APortCommand {
         try {
           mdl.addLayer();
           mdl.setCurrentLayer(mdl.getLayers().size() - 1);
-          mdl.load(fileFormat, fileLocation);
+          mdl.load(fileFormat.importImage(relativePath));
         } catch (IllegalArgumentException e) {
           vw.write("failed to load image " + relativePath +
               " onto layer at index " + (mdl.getLayers().size() - 1));

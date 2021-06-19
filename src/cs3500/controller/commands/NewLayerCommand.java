@@ -1,7 +1,7 @@
 package cs3500.controller.commands;
 
 import cs3500.model.IMultiLayerModel;
-import cs3500.view.IIMEView;
+import cs3500.view.IMEView;
 import java.util.Scanner;
 
 /**
@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class NewLayerCommand extends AIMECommand {
 
   @Override
-  protected void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw) {
+  protected void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IMEView vw) {
     vw.write("adding new layer at index " + mdl.getLayers().size());
     mdl.addLayer();
     vw.write("added!");

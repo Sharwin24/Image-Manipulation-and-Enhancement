@@ -9,7 +9,7 @@ import cs3500.model.image.IImage;
  * in easily automatible fashion by specifying parametrs for its width, height, and the size of a
  * unit in the image, if needed.</p>
  */
-public interface IProgramImage{
+public interface IProgramImage {
 
   /**
    * <p>Creates a new programmatic image based on the specified width in pixels, height in pixels,

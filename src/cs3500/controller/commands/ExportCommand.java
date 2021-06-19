@@ -1,12 +1,12 @@
 package cs3500.controller.commands;
 
-import cs3500.Utils;
+import cs3500.Utility;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.layer.ILayer;
-import cs3500.view.IIMEView;
 import java.io.File;
 import java.io.IOException;
+import cs3500.view.IMEView;
 import java.util.Scanner;
 
 /**
@@ -31,7 +31,7 @@ import java.util.Scanner;
 public class ExportCommand extends APortCommand {
 
   @Override
-  protected void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IIMEView vw) {
+  protected void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IMEView vw) {
 
     if (lineScan.hasNext()) {
       String fileFormat = lineScan.next();
@@ -67,12 +67,12 @@ public class ExportCommand extends APortCommand {
   }
 
   private void exportAllLayers(IFileFormat fileFormat, String relativePath, IMultiLayerModel mdl,
-      IIMEView vw)
+      IMEView vw)
     throws  IllegalArgumentException {
-    Utils.checkNotNull(fileFormat, "cannot export all layers to a null file format");
-    Utils.checkNotNull(relativePath, "cannot export all layers to a null path");
-    Utils.checkNotNull(mdl, "cannot export all layers with a null file mdl");
-    Utils.checkNotNull(vw, "cannot export all layers with a null file vw");
+    Utility.checkNotNull(fileFormat, "cannot export all layers to a null file format");
+    Utility.checkNotNull(relativePath, "cannot export all layers to a null path");
+    Utility.checkNotNull(mdl, "cannot export all layers with a null file mdl");
+    Utility.checkNotNull(vw, "cannot export all layers with a null file vw");
 
     try {
       File fileToStorePathsToImages = new File(relativePath);
@@ -96,6 +96,8 @@ public class ExportCommand extends APortCommand {
       }
 
 
+    } catch (IllegalArgumentException e){
+      // TODO
     }
   }
 

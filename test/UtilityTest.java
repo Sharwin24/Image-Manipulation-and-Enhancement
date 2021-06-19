@@ -1,30 +1,30 @@
 import static org.junit.Assert.assertEquals;
 
-import cs3500.Utils;
+import cs3500.Utility;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 
 /**
- * Tests for methods in the {@link Utils} class.
+ * Tests for methods in the {@link Utility} class.
  */
-public class UtilsTest {
+public class UtilityTest {
 
   /**
-   * Tests for the {@link Utils#checkNotNull(Object, String)} method.
+   * Tests for the {@link Utility#checkNotNull(Object, String)} method.
    */
   @Test(expected = IllegalArgumentException.class)
   public void testCheckNotNullOnNullInputThrowsIllegalArg() {
     Object imNull = null;
-    Utils.checkNotNull(imNull, "message to be thrown");
+    Utility.checkNotNull(imNull, "message to be thrown");
   }
 
   @Test
   public void testCheckNotNullOnNullInputThrowsCorrectErrorMsg() {
     Object imNull = null;
     try {
-      Utils.checkNotNull(imNull, "sPeCiFiC mEsSaGe");
+      Utility.checkNotNull(imNull, "sPeCiFiC mEsSaGe");
     } catch (IllegalArgumentException e) {
       assertEquals("sPeCiFiC mEsSaGe", e.getMessage());
     }
@@ -33,16 +33,16 @@ public class UtilsTest {
   @Test
   public void testCheckNotNullReturnsNotNullObject() {
     Object imNotNull = new String();
-    assertEquals(new String(), Utils.checkNotNull(imNotNull, "irrelevant"));
+    assertEquals(new String(), Utility.checkNotNull(imNotNull, "irrelevant"));
   }
 
   /**
-   * Tests for the {@link Utils#checkNotNullListContents(List, String)} method.
+   * Tests for the {@link Utility#checkNotNullListContents(List, String)} method.
    */
   @Test (expected = IllegalArgumentException.class)
   public void testNotNullListContentsThrowsForNullList() {
     List imNullDabaDeeDabaDai = null;
-    Utils.checkNotNullListContents(imNullDabaDeeDabaDai,
+    Utility.checkNotNullListContents(imNullDabaDeeDabaDai,
         "Yo listen up, here's the story\n"
             + "About a little guy that lives in a null world\n"
             + "And all day and all night\n"
@@ -58,7 +58,7 @@ public class UtilsTest {
   @Test (expected = IllegalArgumentException.class)
   public void testCheckNotNullListContentsThrowsForNullListContents() {
     List iHaveOneNullElements = new ArrayList<Integer>(Arrays.asList(1, 2, null, null, 3));
-    Utils.checkNotNullListContents(iHaveOneNullElements, "whats the deal with airline "
+    Utility.checkNotNullListContents(iHaveOneNullElements, "whats the deal with airline "
         + "food?");
   }
 
@@ -67,7 +67,7 @@ public class UtilsTest {
     List imEmptyInside = new ArrayList();
 
     assertEquals(0,
-        Utils.checkNotNullListContents(imEmptyInside, "irrelevant").size());
+        Utility.checkNotNullListContents(imEmptyInside, "irrelevant").size());
 
   }
 
@@ -75,7 +75,7 @@ public class UtilsTest {
 
 
   /**
-   * Tests for the {@link Utils#checkIntBetween(int, int, int)} method.
+   * Tests for the {@link Utility#checkIntBetween(int, int, int)} method.
    */
   @Test(expected = IllegalArgumentException.class)
   public void testCheckIntBetweenThrowsWhenIntLessThanLowerBound() {
@@ -83,7 +83,7 @@ public class UtilsTest {
     int upperBound = 10;
     int toCheck = -1;
 
-    Utils.checkIntBetween(toCheck, lowerBound, upperBound);
+    Utility.checkIntBetween(toCheck, lowerBound, upperBound);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -92,7 +92,7 @@ public class UtilsTest {
     int upperBound = 10;
     int toCheck = 11;
 
-    Utils.checkIntBetween(toCheck, lowerBound, upperBound);
+    Utility.checkIntBetween(toCheck, lowerBound, upperBound);
   }
 
   @Test
@@ -102,7 +102,7 @@ public class UtilsTest {
     int toCheck = lowerBound;
 
     assertEquals(0,
-        Utils.checkIntBetween(toCheck, lowerBound, upperBound));
+        Utility.checkIntBetween(toCheck, lowerBound, upperBound));
   }
 
   @Test
@@ -112,7 +112,7 @@ public class UtilsTest {
     int toCheck = upperBound;
 
     assertEquals(10,
-        Utils.checkIntBetween(toCheck, lowerBound, upperBound));
+        Utility.checkIntBetween(toCheck, lowerBound, upperBound));
   }
 
   @Test
@@ -122,43 +122,43 @@ public class UtilsTest {
     int toCheck = 5;
 
     assertEquals(5,
-        Utils.checkIntBetween(toCheck, lowerBound, upperBound));
+        Utility.checkIntBetween(toCheck, lowerBound, upperBound));
   }
 
   /**
-   * Tests for the {@link Utils#println(String)} method.
+   * Tests for the {@link Utility#println(String)} method.
    */
   @Test(expected = IllegalArgumentException.class)
   public void testPrintlnWithNullStringThrowsIllegalArg() {
-    Utils.println(null);
+    Utility.println(null);
   }
 
   @Test
   public void testPrintlnEmptyString() {
-    assertEquals("\n", Utils.println(""));
+    assertEquals("\n", Utility.println(""));
   }
 
   @Test
   public void testPrintlnNonEmptyString() {
-    assertEquals("words...\n", Utils.println("words..."));
+    assertEquals("words...\n", Utility.println("words..."));
   }
 
   /**
-   * Tests for the {@link Utils#paddedPrint(String)} method.
+   * Tests for the {@link Utility#paddedPrint(String)} method.
    */
   @Test(expected = IllegalArgumentException.class)
   public void testpaddedPrintWithNullStringThrowsIllegalArg() {
-    Utils.paddedPrint(null);
+    Utility.paddedPrint(null);
   }
 
   @Test
   public void testpaddedPrintEmptyString() {
-    assertEquals("\n\n", Utils.paddedPrint(""));
+    assertEquals("\n\n", Utility.paddedPrint(""));
   }
 
   @Test
   public void testpaddedPrintNonEmptyString() {
-    assertEquals("\nwords...\n", Utils.paddedPrint("words..."));
+    assertEquals("\nwords...\n", Utility.paddedPrint("words..."));
   }
 
 

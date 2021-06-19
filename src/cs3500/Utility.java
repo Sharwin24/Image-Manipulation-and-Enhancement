@@ -7,18 +7,18 @@ import java.util.List;
  * frequently used functions, such as:
  * <ul>
  *   <li>
- *     {@link Utils#checkNotNull(Object, String)} to check if an object is null and throw an error
+ *     {@link Utility#checkNotNull(Object, String)} to check if an object is null and throw an error
  *     message.
  *   </li>
  *   <li>
- *     {@link Utils#println(String)} to print a String with a newline below it.
+ *     {@link Utility#println(String)} to print a String with a newline below it.
  *   </li>
  *   <li>
- *     {@link Utils#paddedPrint(String)} to print a String padded above and below with a newline.
+ *     {@link Utility#paddedPrint(String)} to print a String padded above and below with a newline.
  *   </li>
  * </ul>
  */
-public class Utils {
+public class Utility {
 
   /**
    * Checks if the argument {@code toCheck} is {@code null}. If it is, an {@link

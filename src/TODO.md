@@ -14,7 +14,7 @@ Decide whether or not to add support for editing multiple images at once</li>
 <li>
 Create tests to check for null inputs in all methods of the model package</li>
 <li>
-Tests for all Utils static methods</li></ul>
+Tests for all Utility static methods</li></ul>
 
 <b>Adam:</b> <ul>
 <li>
