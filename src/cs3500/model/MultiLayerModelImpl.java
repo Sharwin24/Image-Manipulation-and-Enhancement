@@ -102,7 +102,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
     if (layerIndex < 0 || layerIndex >= this.listOfLayers.size()) {
       throw new IllegalArgumentException("Layer Index out of bounds");
     }
-    this.currentLayer.toggleInvisible();
+    this.listOfLayers.get(layerIndex).toggleInvisible();
   }
 
   @Override
@@ -148,7 +148,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
     List<ILayer> layersCopy = new ArrayList<>();
     // Collections.copy(layerCopy, this.listOfLayers);
     for (ILayer lyr : this.listOfLayers) {
-      layersCopy.add(lyr.copy());
+      layersCopy.add(lyr);
     }
     return layersCopy;
   }

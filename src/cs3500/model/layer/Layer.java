@@ -26,16 +26,17 @@ public class Layer implements ILayer {
   }
 
   /**
-   * Constructs a Layer with the given model.
+   * Constructs a Layer with tall given arguments.
    *
    * @param model the model to build the layer with.
    */
-  public Layer(IStateTrackingIMEModel model) {
+  public Layer(IStateTrackingIMEModel model, boolean isInvisible, int layerHeight, int layerWidth
+      , String layerName) {
     this.model = model;
-    this.isInvisible = false;
-    this.layerHeight = -1;
-    this.layerWidth = -1;
-    this.layerName = "";
+    this.isInvisible = isInvisible;
+    this.layerHeight = layerHeight;
+    this.layerWidth = layerWidth;
+    this.layerName = layerName;
   }
 
   @Override
@@ -70,6 +71,7 @@ public class Layer implements ILayer {
 
   @Override
   public ILayer copy() {
-    return new Layer((IStateTrackingIMEModel) this.model.copy());
+    return new Layer((IStateTrackingIMEModel) this.model.copy(), this.isInvisible,
+        this.layerHeight, this.layerWidth, this.layerName);
   }
 }
