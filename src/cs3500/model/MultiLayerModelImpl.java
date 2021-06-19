@@ -49,26 +49,16 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
     if (image == null) {
       throw new IllegalArgumentException("Image is null");
     }
-    this.currentLayer.getModel().load(image);
-  }
-
-  @Override
-  public void importImage(IFileFormat format, String fileName) throws IllegalArgumentException {
-    this.currentLayer.importImage(format, fileName);
-    if (this.layersImageWidth == -1 && this.layersImageHeight == -1) {
-      this.layersImageWidth = this.currentLayer.getLayerWidth();
-      this.layersImageHeight = this.currentLayer.getLayerHeight();
-    } else {
-      if (this.currentLayer.getLayerHeight() != this.layersImageHeight
-          || this.currentLayer.getLayerWidth() != this.layersImageWidth) {
-        throw new IllegalArgumentException("All layers must have the same size.");
-      }
+    if (this.layersImageWidth != -1 && this.layersImageHeight != -1
+        && (image.getWidth() != this.layersImageWidth
+        || image.getHeight() != this.layersImageHeight)) {
+      throw new IllegalArgumentException("All layers must have the same height and width");
     }
-  }
-
-  @Override
-  public void exportImage(IFileFormat format, String fileName) throws IllegalArgumentException {
-    this.currentLayer.getModel().exportImage(format, fileName);
+    if (this.layersImageWidth == -1 && this.layersImageHeight == -1) {
+      this.layersImageWidth = image.getWidth();
+      this.layersImageHeight = image.getHeight();
+      this.currentLayer.getModel().load(image);
+    }
   }
 
   @Override
@@ -93,27 +83,27 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
     return this.currentLayer.getModel().getImage();
   }
 
-  @Override
-  public void importAllLayers(IFileFormat fileType, String pathName)
-      throws IllegalArgumentException {
-    // Import the given image at the file for all layers, regardless of current layer.
-    for (ILayer layer : this.listOfLayers) {
-      layer.importImage(fileType, pathName);
-    }
-  }
+//  @Override
+//  public void importAllLayers(IFileFormat fileType, String pathName)
+//      throws IllegalArgumentException {
+//    // Import the given image at the file for all layers, regardless of current layer.
+//    for (ILayer layer : this.listOfLayers) {
+//      layer.importImage(fileType, pathName);
+//    }
+//  }
 
-  @Override
-  public void exportAllLayers(IFileFormat fileType, String pathName)
-      throws IllegalArgumentException {
-    // Create new folder with each image file exported in it
-    // Ignore layers that are marked invisible
-    // Create Text file with all exported paths
-    int layerCounter = 0;
-    for (ILayer layer : this.listOfLayers) {
-      layer.getModel().exportImage(fileType, pathName + "-layer-" + layerCounter);
-      layerCounter++;
-    }
-  }
+//  @Override
+//  public void exportAllLayers(IFileFormat fileType, String pathName)
+//      throws IllegalArgumentException {
+//    // Create new folder with each image file exported in it
+//    // Ignore layers that are marked invisible
+//    // Create Text file with all exported paths
+//    int layerCounter = 0;
+//    for (ILayer layer : this.listOfLayers) {
+//      layer.getModel().exportImage(fileType, pathName + "-layer-" + layerCounter);
+//      layerCounter++;
+//    }
+//  }
 
   @Override
   public void toggleInvisible(int layerIndex) throws IllegalArgumentException {

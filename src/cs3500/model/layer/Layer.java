@@ -29,6 +29,19 @@ public class Layer implements ILayer {
     this.layerName = "";
   }
 
+  /**
+   * Constructs a Layer with the given model.
+   *
+   * @param model the model to build the layer with.
+   */
+  public Layer(IStateTrackingIMEModel model) {
+    this.model = model;
+    this.isInvisible = false;
+    this.layerHeight = -1;
+    this.layerWidth = -1;
+    this.layerName = "";
+  }
+
   @Override
   public boolean isInvisible() {
     return this.isInvisible;
@@ -37,17 +50,6 @@ public class Layer implements ILayer {
   @Override
   public void toggleInvisible() {
     this.isInvisible = !this.isInvisible;
-  }
-
-  @Override
-  public void importImage(IFileFormat format, String filePath) {
-    if (format == null || filePath == null) {
-      throw new IllegalArgumentException("Arguments are null");
-    }
-    this.layerName = filePath;
-    this.model.importImage(format, filePath);
-    this.layerHeight = this.model.getImage().getHeight();
-    this.layerWidth = this.model.getImage().getWidth();
   }
 
   @Override
@@ -68,5 +70,10 @@ public class Layer implements ILayer {
   @Override
   public String toString() {
     return this.layerName + "Visible: " + !this.isInvisible;
+  }
+
+  @Override
+  public ILayer copy() {
+    return new Layer(this.model.copy());
   }
 }

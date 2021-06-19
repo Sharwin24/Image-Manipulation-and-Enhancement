@@ -31,7 +31,6 @@ public abstract class AFileFormat implements IFileFormat {
     this.fileExtension = this.getFileExtension();
   }
 
-
   @Override
   public IImage importImage(String relativePath) throws IllegalArgumentException {
     if (relativePath == null) {
