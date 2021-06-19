@@ -1,8 +1,12 @@
 package cs3500.controller.commands;
 
+import cs3500.Utils;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.fileformat.IFileFormat;
+import cs3500.model.layer.ILayer;
 import cs3500.view.IIMEView;
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -36,8 +40,8 @@ public class ExportCommand extends APortCommand {
 
         if (fileFormat.equals("layers")) {
           try {
-            mdl.exportAllLayers(formatsMap.get(fileFormat),
-                relativePath);
+            this.exportAllLayers(formatsMap.get(fileFormat),
+                 relativePath, mdl, vw);
           } catch (IllegalArgumentException e) {
             vw.write("could not export layers");
           }
@@ -59,6 +63,39 @@ public class ExportCommand extends APortCommand {
               + relativePath + ": " + e.getMessage());
         }
       }
+    }
+  }
+
+  private void exportAllLayers(IFileFormat fileFormat, String relativePath, IMultiLayerModel mdl,
+      IIMEView vw)
+    throws  IllegalArgumentException {
+    Utils.checkNotNull(fileFormat, "cannot export all layers to a null file format");
+    Utils.checkNotNull(relativePath, "cannot export all layers to a null path");
+    Utils.checkNotNull(mdl, "cannot export all layers with a null file mdl");
+    Utils.checkNotNull(vw, "cannot export all layers with a null file vw");
+
+    try {
+      File fileToStorePathsToImages = new File(relativePath);
+      if (!fileToStorePathsToImages.exists()) {
+        fileToStorePathsToImages.mkdir();
+      }
+      Appendable sb = new StringBuilder();
+
+      for (ILayer lyr : mdl.getLayers()) {
+        int layerCtr = 0;
+        if (!lyr.isInvisible()) {
+          String layerName = relativePath + "_layer_" + layerCtr;
+          try {
+            sb.append(layerName);
+          } catch (IOException e) {
+            throw new IllegalArgumentException("writing to the appendable failed");
+          }
+          fileFormat.exportImage((relativePath + "-layer" + layerCtr), lyr.getModel().getImage());
+          layerCtr++;
+        }
+      }
+
+
     }
   }
 

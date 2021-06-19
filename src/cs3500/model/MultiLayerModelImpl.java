@@ -21,7 +21,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   // Layer: A stateTracking model to track and edit one image in one layer.
   // Current Working Layer: represents the current working layer
 //  private final List<IStateTrackingIMEModel<IImage>> layersList; // layer 0 is bottom
-  private IStateTrackingIMEModel<IImage> currentLayer; // current working layer
+//  private IStateTrackingIMEModel<IImage> currentLayer; // current working layer
   private final HashMap<Integer, Boolean> invisibleLayers; // <LayerIndex, Invisibility>
 
   // Layer Class implementation
@@ -104,7 +104,6 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   @Override
   public void exportAllLayers(IFileFormat fileType, String pathName)
       throws IllegalArgumentException {
-    // Todo:
     // Create new folder with each image file exported in it
     // Ignore layers that are marked invisible
     // Create Text file with all exported paths
