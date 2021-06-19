@@ -27,7 +27,7 @@ syntax:
         <code>(Type)</code> denotes an optional parameter of type <code>Type</code>,
         for example, for parameters <code>[Integer] (Real) [Boolean]</code>,
         a valid command combination of parameters would be <code>0 12.3 true</code>,
-        or 0 true, since the <code>(Real)</code> optional parameter is, well, optional.
+       or <code>0 true</code>, since the <code>(Real)</code> optional parameter is, well, optional.
       </li>
       <li>
         <code>("literal")</code> and <code>["literal"]</code> denote
