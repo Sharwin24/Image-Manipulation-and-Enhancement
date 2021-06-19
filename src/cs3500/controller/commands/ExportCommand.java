@@ -11,9 +11,7 @@ import cs3500.view.IMEView;
 import java.util.Scanner;
 
 /**
- * <p>A function object used to represent the execution of a
- * {@link IMultiLayerModel#exportImage(IFileFormat, String)}
- * or {@link IMultiLayerModel#exportAllLayers(IFileFormat, String)}
+ * <p>A function object used to represent the execution of an export command
  * call in the {@link IMultiLayerModel}, to be used to
  * implement the <i>command design pattern</i> in the
  * {@link cs3500.controller.IMultiLayerIMEController}
@@ -57,7 +55,7 @@ public class ExportCommand extends APortCommand {
 
         try {
           vw.write("exporting to " + fileFormat + " file " + relativePath + "...");
-          mdl.exportImage(destFileType, relativePath);
+          destFileType.exportImage(relativePath, mdl.getImage());
           vw.write("should've exported by now");
         } catch (IllegalArgumentException e) {
           vw.write("failed to export to " + fileFormat + " file at path "
