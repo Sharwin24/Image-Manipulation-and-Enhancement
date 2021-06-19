@@ -302,7 +302,8 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
 
   private final IMultiLayerModel mdl;
   private final Readable rd;
-  private final IMEView vw;
+  private final Appendable ap;
+  private IMEView vw;
   private final Map<String, IIMECommand> cmds;
 
   /**
@@ -321,7 +322,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
     this.mdl = Utility.checkNotNull(mdl, "cannot make an IME controller with a null model");
     this.rd = Utility.checkNotNull(rd, "cannot make an IME controller with a null"
         + " readable");
-    Appendable ap1 = Utility.checkNotNull(ap, "cannot make an IME controller with a null "
+    this.ap = Utility.checkNotNull(ap, "cannot make an IME controller with a null "
         + "appendable");
     this.vw = Utility.checkNotNull(vw, "cannot make an IME controller with a null "
         + "IME view");
@@ -460,8 +461,9 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
   @Override
   public void run(/*IMultiLayerModel mdl*/) {
     //Utility.checkNotNull(mdl, "cannot run the controller on a null model");
-
-    vw.write("welcome to Image Manipulation and Enhancement! Please consult the USEME file "
+    this.vw = new TextualIMEView(mdl, ap);
+    vw.write("Welcome to Image Manipulation and Enhancement! \n"
+        + "Please consult the USEME file "
         + "for information on how to specify commands");
     Scanner s = new Scanner(rd);
 

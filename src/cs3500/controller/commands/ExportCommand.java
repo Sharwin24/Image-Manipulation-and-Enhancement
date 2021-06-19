@@ -72,7 +72,10 @@ public class ExportCommand extends APortCommand {
 
     try {
       File fileToStorePathsToImages = new File(dirPath);
-      fileFormat.createDirectory(dirPath);
+      // fileFormat.createDirectory(dirPath);
+      if ( !fileToStorePathsToImages.exists() ) {
+        fileToStorePathsToImages.mkdir();
+      }
       Appendable sb = new StringBuilder();
 
       for (ILayer lyr : mdl.getLayers()) {
