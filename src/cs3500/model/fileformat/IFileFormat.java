@@ -64,6 +64,7 @@ public interface IFileFormat {
    * Creates a directory with the given relative path.
    *
    * @param relativePath the path to the folder to put the directory in.
+>>>>>>> c078fab59f2e6e03cffdf99646d69eb7a39952d3
    * @throws IllegalArgumentException if either arguments are null.
    */
   void createDirectory(String relativePath) throws IllegalArgumentException;
