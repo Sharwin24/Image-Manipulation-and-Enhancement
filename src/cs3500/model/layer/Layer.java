@@ -51,6 +51,8 @@ public class Layer implements ILayer {
 
   @Override
   public IStateTrackingIMEModel getModel() {
+    this.layerWidth = this.model.getImage().getWidth();
+    this.layerHeight = this.model.getImage().getHeight();
     return this.model;
   }
 
