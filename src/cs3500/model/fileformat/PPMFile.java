@@ -30,7 +30,7 @@ public class PPMFile extends AFileFormat {
   }
 
   @Override
-  protected String getFileExtension() {
+  public String getFileExtension() {
     return ".ppm";
   }
 

@@ -5,6 +5,7 @@ import cs3500.model.IMultiLayerModel;
 import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.layer.ILayer;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import cs3500.view.IMEView;
 import java.util.Scanner;
@@ -66,38 +67,44 @@ public class ExportCommand extends APortCommand {
     }
   }
 
-  private void exportAllLayers(IFileFormat fileFormat, String relativePath, IMultiLayerModel mdl,
+  private void exportAllLayers(IFileFormat fileFormat, String dirPath, IMultiLayerModel mdl,
       IMEView vw)
     throws  IllegalArgumentException {
     Utility.checkNotNull(fileFormat, "cannot export all layers to a null file format");
-    Utility.checkNotNull(relativePath, "cannot export all layers to a null path");
+    Utility.checkNotNull(dirPath, "cannot export all layers to a null path");
     Utility.checkNotNull(mdl, "cannot export all layers with a null file mdl");
     Utility.checkNotNull(vw, "cannot export all layers with a null file vw");
 
     try {
-      File fileToStorePathsToImages = new File(relativePath);
-      if (!fileToStorePathsToImages.exists()) {
-        fileToStorePathsToImages.mkdir();
-      }
+      File fileToStorePathsToImages = new File(dirPath);
+      fileFormat.createDirectory(dirPath);
       Appendable sb = new StringBuilder();
 
       for (ILayer lyr : mdl.getLayers()) {
         int layerCtr = 0;
         if (!lyr.isInvisible()) {
-          String layerName = relativePath + "_layer_" + layerCtr;
+          String layerName = dirPath + "/layer_" + layerCtr;
           try {
-            sb.append(layerName);
+            sb.append(layerName + fileFormat.getFileExtension() + "\n");
           } catch (IOException e) {
             throw new IllegalArgumentException("writing to the appendable failed");
           }
-          fileFormat.exportImage((relativePath + "-layer" + layerCtr), lyr.getModel().getImage());
+          fileFormat.exportImage(layerName, lyr.getModel().getImage());
           layerCtr++;
         }
       }
 
+      try {
+        FileWriter fw = new FileWriter(fileToStorePathsToImages);
+        fw.append(sb.toString());
+        fw.close();
+      } catch (IOException e) {
+        throw new IllegalArgumentException("could not write to text file");
+      }
+
 
     } catch (IllegalArgumentException e){
-      // TODO
+      vw.write("could not export all layers: " + e.getMessage());
     }
   }
 

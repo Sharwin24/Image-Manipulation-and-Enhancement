@@ -84,7 +84,7 @@ public class ImportCommand extends APortCommand {
         try {
           mdl.addLayer();
           mdl.setCurrentLayer(mdl.getLayers().size() - 1);
-          mdl.load(fileFormat.importImage(relativePath));
+          mdl.load(fileFormat.importImage(fileLocation));
         } catch (IllegalArgumentException e) {
           vw.write("failed to load image " + relativePath +
               " onto layer at index " + (mdl.getLayers().size() - 1));

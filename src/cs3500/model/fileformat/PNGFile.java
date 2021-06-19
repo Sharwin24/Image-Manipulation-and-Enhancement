@@ -15,7 +15,7 @@ public class PNGFile extends AFileFormat {
   }
 
   @Override
-  protected String getFileExtension() {
+  public String getFileExtension() {
     return ".png";
   }
 }

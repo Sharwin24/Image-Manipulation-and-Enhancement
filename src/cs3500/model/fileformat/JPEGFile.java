@@ -16,7 +16,7 @@ public class JPEGFile extends AFileFormat {
   }
 
   @Override
-  protected String getFileExtension() {
+  public String getFileExtension() {
     return ".jpg";
   }
 }

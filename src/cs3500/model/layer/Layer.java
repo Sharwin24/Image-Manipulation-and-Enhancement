@@ -3,6 +3,7 @@ package cs3500.model.layer;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.IStateTrackingIMEModel;
 import cs3500.model.MultiLayerModelImpl;
+import cs3500.model.StateTrackingIMEModelImpl;
 import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.image.IImage;
 
@@ -21,7 +22,7 @@ public class Layer implements ILayer {
    * Constructs a Layer with default parameters.
    */
   public Layer() {
-    this.model = new MultiLayerModelImpl();
+    this.model = new StateTrackingIMEModelImpl();
     this.isInvisible = false;
     this.layerHeight = -1;
     this.layerWidth = -1;

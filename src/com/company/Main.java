@@ -1,7 +1,11 @@
 package com.company;
 
+import cs3500.controller.IMultiLayerIMEController;
+import cs3500.controller.MultiLayerIMEControllerImpl;
+import cs3500.model.MultiLayerModelImpl;
 import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.fileformat.PNGFile;
+import java.io.InputStreamReader;
 
 /**
  * Main class.
@@ -26,11 +30,10 @@ public class Main {
 //      System.out.println();
 //    }
 //    format.exportImage("exportedFacebookPNG", image);
-//    IMultiLayerIMEController controller =
-//        new MultiLayerIMEControllerImpl(new MultiLayerModelImpl(),
-//            new InputStreamReader(System.in), System.out, new TextualIMEView());
-//    controller.run(new MultiLayerModelImpl());
-    IFileFormat format = new PNGFile();
-    format.createDirectory("test", "res/dirName");
+    IMultiLayerIMEController controller =
+        MultiLayerIMEControllerImpl.controllerBuilder().buildController();
+    controller.run(new MultiLayerModelImpl());
+//    IFileFormat format = new PNGFile();
+//    format.createDirectory(");
   }
 }
