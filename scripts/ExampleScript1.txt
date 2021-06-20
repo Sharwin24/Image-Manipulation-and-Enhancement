@@ -1,0 +1,29 @@
+new 
+new 
+current 2 
+programmatic bwnoise 474 270 20
+current 1
+import PPM res/rover.ppm
+delete 0
+apply sepia sharpen greyscale blur sharpen
+export JPEG layers
+undo
+redo
+redo
+swap 0 1
+delete 0
+delete 0
+import JPEG layers res/exampleLayers
+delete 0
+delete 0
+programmatic rainbownoise 100 100 10
+new
+current 1
+programmatic purenoise 100 100 10
+new
+current 2
+programmatic checkerboard 100 100 10
+save
+visibility 1
+current 0
+export PNG res/finalImage-Rover

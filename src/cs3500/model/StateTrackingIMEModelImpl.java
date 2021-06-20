@@ -50,7 +50,7 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel {
   public void applyOperations(IOperation... operations) throws IllegalArgumentException {
     for (IOperation op : operations) {
       IImage recentImage = this.image.copy();
-      System.out.println("Applying " + op.toString() + "...");
+      // System.out.println("Applying " + op.toString() + "...");
       this.setImage(op.apply(recentImage));
     }
   }

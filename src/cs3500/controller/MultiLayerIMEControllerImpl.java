@@ -28,9 +28,10 @@ import java.util.Scanner;
  * A Controller for the {@link IMultiLayerModel} that relies on I/O from a {@link Readable} such as
  * System.in or a script file and to a given {@link Appendable}. Communicates data to a view and
  * communicates to the model in order to provide I/O feedback to the user.
- * <p>
- * In this controller, inputs are processed from the mentioned {@link Readable} with the following
- * syntax:
+ *
+ * <p>In this controller, inputs are processed from the mentioned {@link Readable}
+ * with the following syntax:
+ *
  * <p> Each command follows this meta-structure:
  * <i><code>[CMD] [arg1] [arg2] ... [argn]</code></i>,
  * where <code>[CMD]</code> is the textual representation of a command, and where
@@ -337,9 +338,9 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
    * a simple textual view.
    *
    * <p>The methods in this class allow the user to specify which fields they want to change from
-   * the
-   * stated default values, and only customize what they want, taking advantage of method chaining.
-   * For example, a call <code> MultiLayerIMEControllerImpl.controllerBuilder().buildController()}
+   * the stated default values, and only customize what they want, taking advantage of method
+   * chaining. For example, a call <code> MultiLayerIMEControllerImpl.controllerBuilder().
+   * buildController()}
    * </code>
    * customizes no fields of the returned controller, setting them to the stated 'default' values,
    * while a more verbose call such as
@@ -427,7 +428,8 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
      *
      * @return a new {@link IMultiLayerIMEController} is returned with some or all fields
      *         customized.
-     * @throws IllegalArgumentException if any of the fields that the {@link IMultiLayerIMEController}
+     * @throws IllegalArgumentException if any of the fields that the
+     *                                  {@link IMultiLayerIMEController}
      *                                  to be constructed with have been set to {@code null}: allows
      *                                  us to check for nullness here instead of from within each
      *                                  setter method individually.
@@ -465,6 +467,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
     vw.write("Welcome to Image Manipulation and Enhancement! \n"
         + "Please consult the USEME file "
         + "for information on how to specify commands");
+    vw.renderLayers();
     Scanner s = new Scanner(rd);
 
     while (s.hasNextLine()) {
@@ -480,7 +483,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
       }
 
     }
-    System.out.println("done");
+    //vw.write("done");
   }
 
   /**

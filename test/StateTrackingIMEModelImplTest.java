@@ -1,11 +1,9 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 import cs3500.model.IStateTrackingIMEModel;
 import cs3500.model.StateTrackingIMEModelImpl;
-import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.image.IImage;
 import cs3500.model.image.ImageImpl;
 import cs3500.model.matrix.MatrixImpl;
@@ -42,7 +40,8 @@ public class StateTrackingIMEModelImplTest {
   }
 
   /**
-   * Tests for the {@link StateTrackingIMEModelImpl#StateTrackingIMEModelImpl(cs3500.model.image.IImage)}
+   * Tests for the
+   * {@link StateTrackingIMEModelImpl#StateTrackingIMEModelImpl(cs3500.model.image.IImage)}
    * constructor.
    */
   @Test(expected = IllegalArgumentException.class)

@@ -264,7 +264,13 @@ syntax:
    </ul>
 </ul></p>
 
-
+<p><b><u>RULES:</u></b>
+<ul>
+<li>
+There is only one command per line</li>
+<li>
+After a valid command is processed, the rest of the line is ignored</li>
+<li>Invalid commands are ignored</li></ul></p>
 <p><b><u>Example Scripts:</u></b> <br>
 In the <code>/scripts</code> folder there are multiple example
 scripts that can be used to control the IME program. Here, we give a brief commentary of what they
@@ -274,23 +280,66 @@ do. To view these scripts without comments, see the
 <li><i><code>ExampleScript1</code>:</i></li>
 Shows several examples of valid commands that can be executed through 
 the controller and demonstrates all functionality of a multi 
-layer model 
+layer model <br>
 <code>new</code><i><small>adds a layer at index 1 (starting from 0)</small></i><br>
 <code>new</code><i><small>adds a layer at index 2</small></i><br> 
 <code>current 2</code><i><small>switches the current layer to layer 2</small></i> <br>
-<code>programmatic checkerboard 100 150 20</code><i><small>creates a checkerboard with width 100,
-height 150, and square size 20 (pixels) on layer 2</small></i><br>
+<code>programmatic bwnoise 474 270 20</code><i><small>creates a black and white noise image
+with width 474,
+height 270, and unit size 20 (pixels) on layer 2. These dimensions are chosen
+to allow us to import the rover image which has
+the same dimensions.</small></i><br>
 <code>current 1</code><i><small>sets the current layer to layer 1</small></i><br> 
-<code>import PPM res/exampleImage.ppm</code><i><small>imports a ppm image from the file path in the
+<code>import PPM res/rover.ppm</code><i><small>imports a ppm image of rover, the windows dog,
+from the file path in the
 res folder</small></i><br>
 <code>delete 0</code><i><small>deletes layer 0</small></i><br>
 <code>apply sepia sharpen greyscale blur sharpen</code><i><small>applies the specified filters to 
 the current layer</small></i><br>
-<code>export JPEG layers</code><small>exports all layers (0 and 1, since there were
-originally 3 but one was deleted)</small><br>
+<code>export JPEG layers res/exampleLayers</code><small>exports all layers (0 and 1, since there were
+originally 3 but one was deleted) to the directory
+<code>exampleLayers</code> and creates a text file containing the path
+to all of those images.</small><br>
 <code>undo</code><small>undoes the filters applied to the current layer</small><br>
-<code>redo</code><i><small>redoes the filters that were just undone</small></i>
-<code>redo</code><i><small>does nothing, there is nothing to redo</small></i>
+<code>redo</code><i><small>redoes the filters that were just undone</small></i> <br>
+<code>redo</code><i><small>does nothing, there is nothing to redo</small></i> <br>
+
+<code>swap 0 1</code><i><small>swaps layers 0 and 1, swapping the image of rover with the 
+black and white noise image</small></i> <br>
+<code>delete 0</code><i><small>deletes layer 0. Now there is only one layer at index 0</small></i> <br>
+<code>delete 0</code><i><small>tries to delete layer 0, will not delete since there must be at
+least one layer.</small></i> <br>
+<code>import JPEG layers res/exampleLayers</code><i><small>imports the images that were just exported
+and deleted, restoring layers 0 and 1 to the black and white noise 
+and rover images</small></i> <br>
+<code>delete 0</code><i><small>deletes layer 0. Now there is only one layer at index 0</small></i> <br>
+<code>delete 0</code><i><small>tries to delete layer 0, will not delete since there must be at
+least one layer.</small></i> <br>
+<code>programmatic rainbownoise 100 100 10</code><i><small>
+sets layer 0 (the only layer) to a rainbow noise image</small></i> <br>
+<code>new</code><i><small>creates a new layer at index 1</small></i> <br>
+<code>current 1</code><i><small>sets the current layer to index 1</small></i> <br>
+<code>programmatic purenoise 100 100 10
+</code><i><small>sets the image at layer 1 to a pure noise image with
+the specified dimensions</small></i> <br>
+<code>new
+</code><i><small>creates a new layer at index 2</small></i> <br>
+<code>current 2
+</code><i><small>sets the current layer to the one at index 2, the new layer</small></i> <br>
+<code>programmatic checkerboard 100 100 10
+</code><i><small>sets the image at layer index 2 to 
+a programmatically created checkerboard with the given dimensions
+with a square size of 10 pixels. Note that these dimensions match the
+pure noise image contained in layer 1</small></i> <br>
+<code>save</code><i><small>saves the most recent state to the image history</small></i> <br>
+<code>visibility 1
+</code><i><small>toggles the visibility of layer 1, making it invisible</small></i> <br>
+<code>current 0
+</code><i><small>sets the current layer to layer 0, the rainbow
+noise image</small></i> <br>
+<code>export PNG res/finalImage-Rover
+</code><i><small>exports the rainbow noise image
+at layer 1 to the specified path.</small></i> <br>
 <li>
 <i><code>ExampleScript2-bogus</code></i></li></li>
 A script to show bad calls to commands that will not be

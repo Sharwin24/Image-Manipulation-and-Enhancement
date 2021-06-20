@@ -43,17 +43,18 @@ public class ProgrammaticImageCommand extends AIMECommand {
 
       mdl.setProgrammaticImage(imagesMap.get(type),
           width, height, unit);
+      vw.write("created a new programmatic image of a " + type);
     } catch (IllegalArgumentException | NoSuchElementException e) {
       vw.write("invalid arguments passed to programmatic command, try again");
     }
   }
 
   /**
-   * <p>Initializes a one-to-one mapping between textual commands that the user can \
+   * <p>Initializes a one-to-one mapping between textual commands that the user can
    * supply to specify
    * what type of {@link IProgramImage} they'd like to create, and the
    * actual corresponding concrete object representing that programmtic image, as specified in the
-   * table below</p>
+   * table below.</p>
    * <p><table style="width:150%">
    * <tr>
    * <th>Textual Command  </th>

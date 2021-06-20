@@ -79,11 +79,11 @@ public class PPMFile extends AFileFormat {
       }
       try {
         int width = sc.nextInt();
-        System.out.println("Width of image: " + width);
+        //System.out.println("Width of image: " + width);
         int height = sc.nextInt();
-        System.out.println("Height of image: " + height);
+        //System.out.println("Height of image: " + height);
         int maxValue = sc.nextInt();
-        System.out.println("Maximum value of a color in this file (usually 256): " + maxValue);
+        //System.out.println("Maximum value of a color in this file (usually 256): " + maxValue);
         List<List<IPixel>> pixels = new ArrayList<>();
         for (int i = 0; i < height; i++) {
           List<IPixel> thisRow = new ArrayList<>();

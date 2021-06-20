@@ -6,6 +6,9 @@ import cs3500.model.operation.IOperation;
 import cs3500.model.programmaticimages.IProgramImage;
 import java.util.List;
 
+/**
+ * A mock model to test inputs from the controller.
+ */
 public class MockMultiLayerModel implements IMockMultiLayerModel {
 
   private final StringBuilder log;
@@ -17,7 +20,7 @@ public class MockMultiLayerModel implements IMockMultiLayerModel {
   @Override
   public void applyOperations(IOperation... operations) throws IllegalArgumentException {
 
-      this.log.append("applied operations " + operations.toString() + "\n");
+    this.log.append("applied operations " + operations.toString() + "\n");
 
   }
 
@@ -55,7 +58,7 @@ public class MockMultiLayerModel implements IMockMultiLayerModel {
 
   @Override
   public void setCurrentLayer(int layerIndex) throws IllegalArgumentException {
-    log.append("set current layer to index " +layerIndex + "\n");
+    log.append("set current layer to index " + layerIndex + "\n");
   }
 
   @Override
@@ -70,7 +73,7 @@ public class MockMultiLayerModel implements IMockMultiLayerModel {
 
   @Override
   public void swapLayers(int layerIndex1, int layerIndex2) throws IllegalArgumentException {
-    log.append("swapped layers at indices " + layerIndex1 +" and " + layerIndex2 + "\n");
+    log.append("swapped layers at indices " + layerIndex1 + " and " + layerIndex2 + "\n");
   }
 
   @Override

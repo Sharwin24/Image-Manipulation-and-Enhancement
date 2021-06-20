@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 import cs3500.Utility;
 import cs3500.controller.IMultiLayerIMEController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
-import cs3500.model.MockMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
 import java.io.StringReader;
 import org.junit.Test;
@@ -47,13 +46,17 @@ public class MultiLayerIMEControllerImplTest {
             + "\n"
             + " | Visibility: true\n"
             + "\n"
+            + "created a new programmatic image of a purenoise\n"
+            + "\n"
             + " | Visibility: true\n"
             + "\n"
             + "applying operations: [Sepia]\n"
             + "\n"
             + " | Visibility: true\n"
             + "\n"
-            + "successfully undone\n",
+            + "successfully undone\n"
+            + "\n"
+            + " | Visibility: true\n",
         "programmatic purenoise 123 123 12\n apply sepia\n undo"
     ));
   }
@@ -103,6 +106,8 @@ public class MultiLayerIMEControllerImplTest {
             + "\n"
             + " | Visibility: true\n"
             + "\n"
+            + "created a new programmatic image of a purenoise\n"
+            + "\n"
             + " | Visibility: true\n"
             + "\n"
             + "applying operations: [Sepia]\n"
@@ -113,7 +118,9 @@ public class MultiLayerIMEControllerImplTest {
             + "\n"
             + " | Visibility: true\n"
             + "\n"
-            + "successfully redone\n",
+            + "successfully redone\n"
+            + "\n"
+            + " | Visibility: true\n",
         "programmatic purenoise 123 123 12\n apply sepia\n undo\n redo"
     ));
   }
@@ -131,7 +138,6 @@ public class MultiLayerIMEControllerImplTest {
   }
 
 
-
   /**
    * Tests for the "save" command.
    */
@@ -145,24 +151,27 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + " | Visibility: true\n"
                 + "\n"
-                + "saved current image to image history\n",
+                + "saved current image to image history\n"
+                + "\n"
+                + " | Visibility: true\n",
             "save"
         )
     );
   }
 
   @Test
-  public void testSaveAfterBadInput() {
+  public void testSaveAfterBadInputIgnored() {
     assertTrue(
         this.utilityTestViewOutputFromController(
             "\n"
                 + "Welcome to Image Manipulation and Enhancement! \n"
-                + "Please consult the USEME file for information on how to specify commands\n",
+                + "Please consult the USEME file for information on how to specify commands\n"
+                + "\n"
+                + " | Visibility: true\n",
             "bla save"
         )
     );
   }
-
 
 
   /**
@@ -208,7 +217,9 @@ public class MultiLayerIMEControllerImplTest {
             + "\n"
             + "importing from JPEG file res/rover.jpg...\n"
             + "\n"
-            + "successfully imported!\n",
+            + "successfully imported!\n"
+            + "\n"
+            + " | Visibility: true\n",
         "import JPEG res/rover.jpg" // exists
     ));
   }
@@ -225,7 +236,9 @@ public class MultiLayerIMEControllerImplTest {
             + "\n"
             + "importing from PPM file res/rover.ppm...\n"
             + "\n"
-            + "successfully imported!\n",
+            + "successfully imported!\n"
+            + "\n"
+            + " | Visibility: true\n",
         "import PPM res/rover.ppm" // exists
     ));
   }
@@ -242,7 +255,9 @@ public class MultiLayerIMEControllerImplTest {
             + "\n"
             + "importing from PNG file res/rover.png...\n"
             + "\n"
-            + "successfully imported!\n",
+            + "successfully imported!\n"
+            + "\n"
+            + " | Visibility: true\n",
         "import PNG res/rover.png" // exists
     ));
   }
@@ -259,7 +274,9 @@ public class MultiLayerIMEControllerImplTest {
             + "\n"
             + "importing from JPEG file rover.jpg...\n"
             + "\n"
-            + "failed to import from JPEG file at path rover.jpg: Failed to read Image\n",
+            + "failed to import from JPEG file at path rover.jpg: Failed to read Image\n"
+            + "\n"
+            + " | Visibility: true\n",
         "import JPEG rover.jpg" // does not exist
     ));
   }
@@ -305,11 +322,12 @@ public class MultiLayerIMEControllerImplTest {
             + "\n"
             + " | Visibility: true\n"
             + "\n"
-            + "invalid file format: \"FOO\"\n",
+            + "invalid file format: \"FOO\"\n"
+            + "\n"
+            + " | Visibility: true\n",
         "import FOO res/rover.jpg"
     ));
   }
-
 
 
   @Test
@@ -331,11 +349,12 @@ public class MultiLayerIMEControllerImplTest {
             + "Welcome to Image Manipulation and Enhancement! \n"
             + "Please consult the USEME file for information on how to specify commands\n"
             + "\n"
+            + " | Visibility: true\n"
+            + "\n"
             + " | Visibility: true\n",
         "import JPEG"
     ));
   }
-
 
 
   @Test
@@ -349,12 +368,12 @@ public class MultiLayerIMEControllerImplTest {
             + "\n"
             + "importing from JPEG file res/rover.jpg...\n"
             + "\n"
-            + "successfully imported!\n",
+            + "successfully imported!\n"
+            + "\n"
+            + " | Visibility: true\n",
         "import JPEG res/rover.jpg"
     ));
   }
-
-
 
 
   /**
@@ -386,8 +405,37 @@ public class MultiLayerIMEControllerImplTest {
   public void testExportAllLayers() {
     assertTrue(
         this.utilityTestViewOutputFromController(
-            "",
-            ""
+            "\n"
+                + "Welcome to Image Manipulation and Enhancement! \n"
+                + "Please consult the USEME file for information on how to specify commands\n"
+                + "\n"
+                + " | Visibility: true\n"
+                + "\n"
+                + "adding new layer at index 1\n"
+                + "\n"
+                + "added!\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "created a new programmatic image of a purenoise\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "setting the current working layer to layer #1\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "created a new programmatic image of a bwnoise\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "exporting to PNG file layers...\n"
+                + "\n"
+                + "should've exported by now\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n",
+            "new \n programmatic purenoise 30 30 1 \n current 1 \n programmatic "
+                + "bwnoise 30 30 1 \n export PNG layers"
         )
     );
   }
@@ -409,7 +457,9 @@ public class MultiLayerIMEControllerImplTest {
             + "\n"
             + "exporting to PPM file res/rover...\n"
             + "\n"
-            + "should've exported by now\n",
+            + "should've exported by now\n"
+            + "\n"
+            + " | Visibility: true\n",
         "import JPEG res/rover.jpg\n export PPM res/rover"
     ));
   }
@@ -474,11 +524,12 @@ public class MultiLayerIMEControllerImplTest {
             + "\n"
             + " | Visibility: true\n"
             + "\n"
-            + "invalid file format: \"FOO\"\n",
+            + "invalid file format: \"FOO\"\n"
+            + "\n"
+            + " | Visibility: true\n",
         "import JPEG res/rover.jpg\n export FOO res/rover"
     ));
   }
-
 
 
   @Test
@@ -512,6 +563,8 @@ public class MultiLayerIMEControllerImplTest {
             + "\n"
             + "successfully imported!\n"
             + "\n"
+            + " | Visibility: true\n"
+            + "\n"
             + " | Visibility: true\n",
         "import JPEG res/rover.jpg\n export JPEG"
     ));
@@ -537,7 +590,9 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + " | Visibility: true\n"
                 + "\n"
-                + "applying operations: [Sepia, Greyscale, ImageBlur, Sharpening]\n",
+                + "applying operations: [Sepia, Greyscale, ImageBlur, Sharpening]\n"
+                + "\n"
+                + " | Visibility: true\n",
             "import JPEG res/rover.jpg\n apply sepia greyscale blur sharpen"
         )
     );
@@ -567,7 +622,9 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + "did not recognize operation \"quux\"\n"
                 + "\n"
-                + "applying operations: [Sepia, Greyscale, ImageBlur, Sharpening]\n",
+                + "applying operations: [Sepia, Greyscale, ImageBlur, Sharpening]\n"
+                + "\n"
+                + " | Visibility: true\n",
             "import JPEG res/rover.jpg\n apply foo sepia bar greyscale baz blur quux "
                 + "sharpen"
         )
@@ -618,7 +675,9 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + " | Visibility: true\n"
                 + "\n"
-                + "applying operations: [ImageBlur, Sharpening]\n",
+                + "applying operations: [ImageBlur, Sharpening]\n"
+                + "\n"
+                + " | Visibility: true\n",
             "import JPEG res/rover.jpg\n apply sepia greyscale\n apply blur sharpen"
         )
     );
@@ -670,7 +729,9 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + "applying operations: []\n"
                 + "\n"
-                + "could not apply operations: Invalid operations\n",
+                + "could not apply operations: Invalid operations\n"
+                + "\n"
+                + " | Visibility: true\n",
             "import JPEG res/rover.jpg\n apply asdjfo;uiasedhr  234123423"
         )
     );
@@ -690,8 +751,10 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + " | Visibility: true\n"
                 + "\n"
-                + "could not toggle visibility of layer \"asdfg\": "
-                + "layers must be an integer in valid range of the number of present layers\n",
+                + "could not toggle visibility of layer \"asdfg\": layers must be an integer in "
+                + "valid range of the number of present layers\n"
+                + "\n"
+                + " | Visibility: true\n",
             "visibility asdfg"
         )
     );
@@ -709,7 +772,9 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + "toggling visibility of layer -1\n"
                 + "\n"
-                + "could not toggle visibility of layer -1: Layer Index out of bounds\n",
+                + "could not toggle visibility of layer -1: Layer Index out of bounds\n"
+                + "\n"
+                + " | Visibility: true\n",
             "visibility -1"
         )
     );
@@ -727,7 +792,9 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + "toggling visibility of layer 0\n"
                 + "\n"
-                + "toggled!\n",
+                + "toggled!\n"
+                + "\n"
+                + " | Visibility: false\n",
             "visibility 0"
         )
     );
@@ -762,7 +829,9 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + " | Visibility: true\n"
                 + "\n"
-                + "setting the current working layer to layer #0\n",
+                + "setting the current working layer to layer #0\n"
+                + "\n"
+                + " | Visibility: true\n",
             "current 0"
         )
     );
@@ -780,12 +849,13 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + "setting the current working layer to layer #8\n"
                 + "\n"
-                + "invalid layer number: 8, out of bounds for layers 0-0\n",
+                + "invalid layer number: 8, out of bounds for layers 0-0\n"
+                + "\n"
+                + " | Visibility: true\n",
             "current 8"
         )
     );
   }
-
 
 
   /**
@@ -818,7 +888,9 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + "deleting layer 0\n"
                 + "\n"
-                + "could not delete layer 0: Cannot delete last layer\n",
+                + "could not delete layer 0: Cannot delete last layer\n"
+                + "\n"
+                + " | Visibility: true\n",
             "delete 0"
         )
     );
@@ -858,7 +930,9 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + "deleting layer 1000\n"
                 + "\n"
-                + "could not delete layer 1000: Layer Index out of bounds\n",
+                + "could not delete layer 1000: Layer Index out of bounds\n"
+                + "\n"
+                + " | Visibility: true\n",
             "delete 1000"
         )
     );
@@ -886,7 +960,9 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + "swapping layers 1 and 1\n"
                 + "\n"
-                + "could not swap layers at indices 1 and 1: Layer Indexes invalid\n",
+                + "could not swap layers at indices 1 and 1: Layer Indexes invalid\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n",
             "new \n swap 1 1"
         )
     );
@@ -923,6 +999,8 @@ public class MultiLayerIMEControllerImplTest {
             "\n"
                 + "Welcome to Image Manipulation and Enhancement! \n"
                 + "Please consult the USEME file for information on how to specify commands\n"
+                + "\n"
+                + " | Visibility: true\n"
                 + "\n"
                 + " | Visibility: true\n",
             "swap 0"
@@ -969,7 +1047,9 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + "adding new layer at index 1\n"
                 + "\n"
-                + "added!\n",
+                + "added!\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n",
             "new"
         )
     );
@@ -1003,12 +1083,13 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + "adding new layer at index 2\n"
                 + "\n"
-                + "added!\n",
+                + "added!\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true | Visibility: true\n",
             "new \n new \n delete 1 \n new"
         )
     );
   }
-
 
 
   /**
@@ -1024,10 +1105,10 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + " | Visibility: true\n"
                 + "\n"
-                + "adding new layer at index 1\n"
+                + "created a new programmatic image of a checkerboard\n"
                 + "\n"
-                + "added!\n",
-            "new"
+                + " | Visibility: true\n",
+            "programmatic checkerboard 100 100 10"
         )
     );
   }
@@ -1042,10 +1123,10 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + " | Visibility: true\n"
                 + "\n"
-                + "adding new layer at index 1\n"
+                + "created a new programmatic image of a purenoise\n"
                 + "\n"
-                + "added!\n",
-            "new"
+                + " | Visibility: true\n",
+            "programmatic purenoise 12 12 1"
         )
     );
   }
@@ -1060,10 +1141,10 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + " | Visibility: true\n"
                 + "\n"
-                + "adding new layer at index 1\n"
+                + "created a new programmatic image of a bwnoise\n"
                 + "\n"
-                + "added!\n",
-            "new"
+                + " | Visibility: true\n",
+            "programmatic bwnoise 90 1000 12"
         )
     );
   }
@@ -1078,28 +1159,345 @@ public class MultiLayerIMEControllerImplTest {
                 + "\n"
                 + " | Visibility: true\n"
                 + "\n"
-                + "adding new layer at index 1\n"
+                + "created a new programmatic image of a rainbownoise\n"
                 + "\n"
-                + "added!\n",
-            "new"
+                + " | Visibility: true\n",
+            "programmatic rainbownoise 123 123 12"
         )
     );
   }
 
   @Test
   public void testProgrammaticImageCommandNotEnoughParameters() {
-
+    assertTrue(
+        this.utilityTestViewOutputFromController(
+            "\n"
+                + "Welcome to Image Manipulation and Enhancement! \n"
+                + "Please consult the USEME file for information on how to specify commands\n"
+                + "\n"
+                + " | Visibility: true\n"
+                + "\n"
+                + "invalid arguments passed to programmatic command, try again\n"
+                + "\n"
+                + " | Visibility: true\n",
+            "programmatic rainbownoise 12"
+        )
+    );
   }
 
+  /**
+   * Testing an entire script.
+   */
+  @Test
+  public void testExampleScript1() {
+    assertTrue(
+        this.utilityTestViewOutputFromController(
+            "\n"
+                + "Welcome to Image Manipulation and Enhancement! \n"
+                + "Please consult the USEME file for information on how to specify commands\n"
+                + "\n"
+                + " | Visibility: true\n"
+                + "\n"
+                + "adding new layer at index 1\n"
+                + "\n"
+                + "added!\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "adding new layer at index 2\n"
+                + "\n"
+                + "added!\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "setting the current working layer to layer #2\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "created a new programmatic image of a bwnoise\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "setting the current working layer to layer #1\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "importing from PPM file res/rover.ppm...\n"
+                + "\n"
+                + "successfully imported!\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "deleting layer 0\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "applying operations: [Sepia, Sharpening, Greyscale, ImageBlur, Sharpening]\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "exporting to JPEG file layers...\n"
+                + "\n"
+                + "should've exported by now\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "successfully undone\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "successfully redone\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "Failed to redo: Nothing to Redo\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "swapping layers 0 and 1\n"
+                + "\n"
+                + "swapped!\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "deleting layer 0\n"
+                + "\n"
+                + " | Visibility: true\n"
+                + "\n"
+                + "deleting layer 0\n"
+                + "\n"
+                + "could not delete layer 0: Cannot delete last layer\n"
+                + "\n"
+                + " | Visibility: true\n"
+                + "\n"
+                + "importing from JPEG file layers...\n"
+                + "\n"
+                + "failed to import from JPEG file at path layers: Failed to read Image\n"
+                + "\n"
+                + " | Visibility: true\n"
+                + "\n"
+                + "deleting layer 0\n"
+                + "\n"
+                + "could not delete layer 0: Cannot delete last layer\n"
+                + "\n"
+                + " | Visibility: true\n"
+                + "\n"
+                + "deleting layer 0\n"
+                + "\n"
+                + "could not delete layer 0: Cannot delete last layer\n"
+                + "\n"
+                + " | Visibility: true\n"
+                + "\n"
+                + "invalid arguments passed to programmatic command, try again\n"
+                + "\n"
+                + " | Visibility: true\n"
+                + "\n"
+                + "adding new layer at index 1\n"
+                + "\n"
+                + "added!\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "setting the current working layer to layer #1\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "invalid arguments passed to programmatic command, try again\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "adding new layer at index 2\n"
+                + "\n"
+                + "added!\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "setting the current working layer to layer #2\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "invalid arguments passed to programmatic command, try again\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "saved current image to image history\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "toggling visibility of layer 1\n"
+                + "\n"
+                + "toggled!\n"
+                + "\n"
+                + " | Visibility: true | Visibility: false | Visibility: true\n"
+                + "\n"
+                + "setting the current working layer to layer #0\n"
+                + "\n"
+                + " | Visibility: true | Visibility: false | Visibility: true\n"
+                + "\n"
+                + "exporting to PNG file res/finalImage-Rover...\n"
+                + "\n"
+                + "should've exported by now\n"
+                + "\n"
+                + " | Visibility: true | Visibility: false | Visibility: true\n",
+            "new \n"
+                + "new \n"
+                + "current 2 \n"
+                + "programmatic bwnoise 474 270 20\n"
+                + "current 1\n"
+                + "import PPM res/rover.ppm\n"
+                + "delete 0\n"
+                + "apply sepia sharpen greyscale blur sharpen\n"
+                + "export JPEG layers\n"
+                + "undo\n"
+                + "redo\n"
+                + "redo\n"
+                + "swap 0 1\n"
+                + "delete 0\n"
+                + "delete 0\n"
+                + "import JPEG layers res/exampleLayers\n"
+                + "delete 0\n"
+                + "delete 0\n"
+                + "programmatic rainbownoise 100 100 10\n"
+                + "new\n"
+                + "current 1\n"
+                + "programmatic purenoise 100 100 10\n"
+                + "new\n"
+                + "current 2\n"
+                + "programmatic checkerboard 100 100 10\n"
+                + "save\n"
+                + "visibility 1\n"
+                + "current 0\n"
+                + "export PNG res/finalImage-Rover\n"
+        )
+    );
+  }
 
-
-
+  @Test
+  public void testExampleScript2Bogus() {
+    assertTrue(
+        this.utilityTestViewOutputFromController(
+            "\n"
+                + "Welcome to Image Manipulation and Enhancement! \n"
+                + "Please consult the USEME file for information on how to specify commands\n"
+                + "\n"
+                + " | Visibility: true\n"
+                + "\n"
+                + "deleting layer 100\n"
+                + "\n"
+                + "could not delete layer 100: Layer Index out of bounds\n"
+                + "\n"
+                + " | Visibility: true\n"
+                + "\n"
+                + "setting the current working layer to layer #12\n"
+                + "\n"
+                + "invalid layer number: 12, out of bounds for layers 0-0\n"
+                + "\n"
+                + " | Visibility: true\n"
+                + "\n"
+                + "adding new layer at index 1\n"
+                + "\n"
+                + "added!\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "Illegal index anms. Must be an integer in the inclusive range [0,2]\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "did not recognize operation \"dog\"\n"
+                + "\n"
+                + "did not recognize operation \"cat\"\n"
+                + "\n"
+                + "applying operations: [Sepia]\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "did not recognize operation \"banana\"\n"
+                + "\n"
+                + "applying operations: []\n"
+                + "\n"
+                + "could not apply operations: Invalid operations\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "saved current image to image history\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "deleting layer -2\n"
+                + "\n"
+                + "could not delete layer -2: Layer Index out of bounds\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "invalid file format: \"TXT\"\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "invalid file format: \"jpeg\"\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "exporting to PPM file directoryDoesntExist...\n"
+                + "\n"
+                + "should've exported by now\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "swapping layers 0 and 2\n"
+                + "\n"
+                + "could not swap layers at indices 0 and 0: Layer Indexes invalid\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "could not toggle visibility of layer \"kkkkkkk\": layers must be an integer in"
+                + " valid range of the number of present layers\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "successfully undone\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "successfully redone\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "invalid arguments passed to programmatic command, try again\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n"
+                + "\n"
+                + "created a new programmatic image of a purenoise\n"
+                + "\n"
+                + " | Visibility: true | Visibility: true\n",
+            "delete 100\n"
+                + "current 12\n"
+                + "new foo\n"
+                + "delete anms\n"
+                + "apply dog cat sepia\n"
+                + "apply banana\n"
+                + "save -2\n"
+                + "delete -2\n"
+                + "export TXT notGonnaWork.txt\n"
+                + "import jpeg layers notGonnaWorkShouldveBeenCapitalized\n"
+                + "export PPM directoryDoesntExist\n"
+                + "swap 0 2\n"
+                + "visibility kkkkkkk\n"
+                + "undo undo\n"
+                + "redo redo redo redo\n"
+                + "notACommand\n"
+                + "programmatic programmatic checkerboard 400 400 12\n"
+                + "programmatic purenoise 12 12 312 213 1231 2312 123\n"
+        )
+    );
+  }
 
 
   /**
    * Utility method to help abstract testing for the correct feedback being logged by the controller
    * and mock.
-   * @param expected The expected I/O output messages.
+   *
+   * @param expected    The expected I/O output messages.
    * @param inputToTest mock input from the controller.
    * @return whether the expected output is the real output.
    */
@@ -1111,7 +1509,7 @@ public class MultiLayerIMEControllerImplTest {
 
     IMultiLayerIMEController ctrlr =
         MultiLayerIMEControllerImpl.controllerBuilder().model(new MultiLayerModelImpl())
-        .appendable(out).readable(in).buildController();
+            .appendable(out).readable(in).buildController();
 
     ctrlr.run();
 
