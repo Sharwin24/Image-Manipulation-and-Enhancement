@@ -1,0 +1,5 @@
+import PNG res/sample.png
+mosaic 4000
+
+
+export PNG res/MPP2

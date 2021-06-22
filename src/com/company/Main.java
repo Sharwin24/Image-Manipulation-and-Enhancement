@@ -2,6 +2,11 @@ package com.company;
 
 import cs3500.controller.IMultiLayerIMEController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
+import cs3500.model.IMultiLayerModel;
+import cs3500.model.MultiLayerModelImpl;
+import cs3500.model.fileformat.JPEGFile;
+import cs3500.model.image.IImage;
+import cs3500.model.operation.Sepia;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
@@ -21,46 +26,58 @@ public class Main {
 
     // add calls to methods to manipulate images here...
 
-    final String scriptToRun =
+    final StringReader scriptToRun =
         //  scriptToStringBuilder("scripts/ExampleScript1.txt");
-        "new \n"
-            + "new \n"
-            + "current 2 \n"
-            + "programmatic bwnoise 474 270 20\n"
-            + "current 1\n"
-            + "import PPM res/rover.ppm\n"
-            + "delete 0\n"
-            + "apply sepia sharpen greyscale blur sharpen\n"
-            + "export JPEG layers\n"
-            + "undo\n"
-            + "redo\n"
-            + "redo\n"
-            + "swap 0 1\n"
-            + "delete 0\n"
-            + "delete 0\n"
-            + "import JPEG layers res/exampleLayers\n"
-            + "delete 0 \n"
-            + "delete 0\n"
-            + "programmatic rainbownoise 100 100 10\n"
-            + "new\n"
-            + "current 1 \n"
-            + "programmatic purenoise 100 100 10\n"
-            + "new\n"
-            + "current 2\n"
-            + "programmatic checkerboard 100 100 10\n"
-            + "save\n"
-            + "visibility 1\n"
-            + "current 0\n"
-            + "export PNG res/finalImage-Rover\n";
+//        "new \n"
+//            + "new \n"
+//            + "current 2 \n"
+//            + "programmatic bwnoise 474 270 20\n"
+//            + "current 1\n"
+//            + "import PPM res/rover.ppm\n"
+//            + "delete 0\n"
+//            + "apply sepia sharpen greyscale blur sharpen\n"
+//            + "export JPEG layers\n"
+//            + "undo\n"
+//            + "redo\n"
+//            + "redo\n"
+//            + "swap 0 1\n"
+//            + "delete 0\n"
+//            + "delete 0\n"
+//            + "import JPEG layers res/exampleLayers\n"
+//            + "delete 0 \n"
+//            + "delete 0\n"
+//            + "programmatic rainbownoise 100 100 10\n"
+//            + "new\n"
+//            + "current 1 \n"
+//            + "programmatic purenoise 100 100 10\n"
+//            + "new\n"
+//            + "current 2\n"
+//            + "programmatic checkerboard 100 100 10\n"
+//            + "save\n"
+//            + "visibility 1\n"
+//            + "current 0\n"
+//            + "export PNG res/finalImage-Rover\n";
+        scriptToStringBuilder("scripts/ExampleScript3.txt");
+    IMultiLayerModel mdl = new MultiLayerModelImpl();
     IMultiLayerIMEController controller =
         MultiLayerIMEControllerImpl.controllerBuilder()
-            .readable(new StringReader(scriptToRun)).buildController();
+            .readable(scriptToRun).model(mdl).buildController();
     controller.run();
+//
+//    IImage rover = mdl.getImage();
+//
+//    rover.mosaic(10);
+//
+//    mdl.applyOperations(new Sepia());
+//
+//    new JPEGFile().exportImage("res/mosaicedRover", rover);
 
     // A NOTE TO THE TA: to run this interactively, comment out lines 54-58 and uncomment
     // the following lines
-    // IMultiLayerIMEController controllerInteractive =
-    // MultiLayerIMEControllerImpl.controllerBuilder().buildController();
+//     IMultiLayerIMEController controllerInteractive =
+//     MultiLayerIMEControllerImpl.controllerBuilder().buildController();
+//     controllerInteractive.run();
+
   }
 
   /**
