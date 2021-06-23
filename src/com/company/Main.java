@@ -2,15 +2,22 @@ package com.company;
 
 import cs3500.controller.IMultiLayerIMEController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
+import cs3500.frame.IMEFrame;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
 import cs3500.model.fileformat.JPEGFile;
 import cs3500.model.image.IImage;
 import cs3500.model.operation.Sepia;
+import java.awt.Font;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * Main class.
@@ -26,8 +33,8 @@ public class Main {
 
     // add calls to methods to manipulate images here...
 
-    final StringReader scriptToRun =
-        //  scriptToStringBuilder("scripts/ExampleScript1.txt");
+//    final StringReader scriptToRun =
+    //  scriptToStringBuilder("scripts/ExampleScript1.txt");
 //        "new \n"
 //            + "new \n"
 //            + "current 2 \n"
@@ -57,12 +64,12 @@ public class Main {
 //            + "visibility 1\n"
 //            + "current 0\n"
 //            + "export PNG res/finalImage-Rover\n";
-        scriptToStringBuilder("scripts/ExampleScript3.txt");
-    IMultiLayerModel mdl = new MultiLayerModelImpl();
-    IMultiLayerIMEController controller =
-        MultiLayerIMEControllerImpl.controllerBuilder()
-            .readable(scriptToRun).model(mdl).buildController();
-    controller.run();
+//        scriptToStringBuilder("scripts/ExampleScript3.txt");
+//    IMultiLayerModel mdl = new MultiLayerModelImpl();
+//    IMultiLayerIMEController controller =
+//        MultiLayerIMEControllerImpl.controllerBuilder()
+//            .readable(scriptToRun).model(mdl).buildController();
+//    controller.run();
 //
 //    IImage rover = mdl.getImage();
 //
@@ -78,9 +85,30 @@ public class Main {
 //     MultiLayerIMEControllerImpl.controllerBuilder().buildController();
 //     controllerInteractive.run();
 
-  }
+    IMEFrame.setDefaultLookAndFeelDecorated(false);
+    IMEFrame frame = new IMEFrame();
 
-  /**
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setVisible(true);
+
+    try {
+      //UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+      UIManager.getCrossPlatformLookAndFeelClassName();
+
+//    } catch (UnsupportedLookAndFeelException e) {
+//      // do something
+//    } catch (ClassNotFoundException e) {
+//      // do something
+//    } catch (InstantiationException e) {
+//      // do something
+//    } catch (IllegalAccessException e) {
+//      // do something
+//    }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+    /**
    * Utility method to read a script text file for the controller directly into a StringReader that
    * will be passed to the main method.
    *
