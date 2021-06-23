@@ -67,4 +67,10 @@ public interface IMultiLayerModel extends IStateTrackingIMEModel {
    * @return the layers in this {@link IMultiLayerModel}, as a {@link List}.
    */
   List<ILayer> getLayers();
+
+  /**
+   * TODO: reorganize
+   * @param seeds
+   */
+  void mosaic(int seeds);
 }

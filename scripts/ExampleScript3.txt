@@ -1,0 +1,5 @@
+new
+programmatic purenoise 500 500 1
+current 1
+programmatic bwnoise 500 500 1
+export PNG layers

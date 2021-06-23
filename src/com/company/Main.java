@@ -2,18 +2,22 @@ package com.company;
 
 import cs3500.controller.IMultiLayerIMEController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
-import cs3500.model.IIMEModel;
+import cs3500.frame.IMEFrame;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
+import cs3500.model.fileformat.JPEGFile;
 import cs3500.model.image.IImage;
-import cs3500.model.image.ImageImpl;
-import cs3500.model.matrix.MatrixImpl;
-import cs3500.model.operation.Downscale;
-import cs3500.model.pixel.PixelImpl;
+import cs3500.model.operation.Sepia;
+import java.awt.Font;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * Main class.
@@ -29,8 +33,8 @@ public class Main {
 
     // add calls to methods to manipulate images here...
 
-//    final String scriptToRun =
-//        //  scriptToStringBuilder("scripts/ExampleScript1.txt");
+//    final StringReader scriptToRun =
+    //  scriptToStringBuilder("scripts/ExampleScript1.txt");
 //        "new \n"
 //            + "new \n"
 //            + "current 2 \n"
@@ -60,21 +64,46 @@ public class Main {
 //            + "visibility 1\n"
 //            + "current 0\n"
 //            + "export PNG res/finalImage-Rover\n";
+//        scriptToStringBuilder("scripts/ExampleScript3.txt");
+//    IMultiLayerModel mdl = new MultiLayerModelImpl();
 //    IMultiLayerIMEController controller =
 //        MultiLayerIMEControllerImpl.controllerBuilder()
-//            .readable(new StringReader(scriptToRun)).buildController();
+//            .readable(scriptToRun).model(mdl).buildController();
 //    controller.run();
+//
+//    IImage rover = mdl.getImage();
+//
+//    rover.mosaic(10);
+//
+//    mdl.applyOperations(new Sepia());
+//
+//    new JPEGFile().exportImage("res/mosaicedRover", rover);
 
     // A NOTE TO THE TA: to run this interactively, comment out lines 54-58 and uncomment
     // the following lines
-    // IMultiLayerIMEController controllerInteractive =
-    // MultiLayerIMEControllerImpl.controllerBuilder().buildController();
+//     IMultiLayerIMEController controllerInteractive =
+//     MultiLayerIMEControllerImpl.controllerBuilder().buildController();
+//     controllerInteractive.run();
 
-    IMultiLayerModel model = new MultiLayerModelImpl();
-    IImage image = new ImageImpl(new MatrixImpl<>(new PixelImpl(100, 0, 0), 10, 10));
-    Downscale downscale = new Downscale(model, 5, 5);
-    model.load(image);
-    downscale.apply();
+    IMEFrame.setDefaultLookAndFeelDecorated(true);
+    IMEFrame frame = new IMEFrame();
+
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setVisible(true);
+
+    try {
+      UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+      //UIManager.getCrossPlatformLookAndFeelClassName();
+
+    } catch (UnsupportedLookAndFeelException e) {
+      // do something
+    } catch (ClassNotFoundException e) {
+      // do something
+    } catch (InstantiationException e) {
+      // do something
+    } catch (IllegalAccessException e) {
+      // do something
+    }
   }
 
   /**

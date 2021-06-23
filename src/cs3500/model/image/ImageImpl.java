@@ -5,8 +5,12 @@ import cs3500.model.channel.EChannelType;
 import cs3500.model.matrix.IMatrix;
 import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.pixel.IPixel;
+import cs3500.model.pixel.PixelImpl;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * An image, represented by a {@link IMatrix} of pixels.
@@ -82,5 +86,89 @@ public class ImageImpl implements IImage {
   @Override
   public int hashCode() {
     return Objects.hash(this.pixels);
+  }
+
+  @Override
+  public IImage mosaic(int numSeeds) {
+    Utility.checkIntBetween(numSeeds, 0, this.getHeight()
+        * this.getWidth());
+
+    List<IndexedPixel> seeds = new ArrayList<>();
+    Random r = new Random();
+
+    for (int i = 0; i < numSeeds; i++) {
+      int col = r.nextInt(this.getHeight());
+      int row = r.nextInt(this.getWidth());
+
+      seeds.add(new IndexedPixel(col, row, this.pixels.getElement(col, row)));
+    }
+
+    List<List<IPixel>> newPixels = new ArrayList<>();
+    for (int i = 0; i < this.getHeight(); i++) {
+      List<IPixel> thisRow = new ArrayList<>();
+      for (int j = 0; j < this.getWidth(); j++) {
+        IPixel pxToMosaic = this.pixels.getElement(i, j);
+        IPixel closestSeed = this.closestPixelTo(i, j, seeds);
+
+        thisRow.add(avgPixels(pxToMosaic, closestSeed));
+
+      }
+      newPixels.add(thisRow);
+    }
+
+    return new ImageImpl(newPixels);
+  }
+
+  private IPixel closestPixelTo(int row, int col, List<IndexedPixel> seeds) {
+    return Collections.min(seeds,
+        ( (px1, px2) -> (int) (px1.distanceTo(row, col) - px2.distanceTo(row, col)))).px;
+  }
+
+  /**
+   * TODO
+   *
+   * @param px1
+   * @param px2
+   * @return
+   */
+  private static IPixel avgPixels(IPixel px1, IPixel px2) {
+    return new PixelImpl(
+        avg(px1.getIntensity(EChannelType.RED), px2.getIntensity(EChannelType.RED)),
+        avg(px1.getIntensity(EChannelType.GREEN), px2.getIntensity(EChannelType.GREEN)),
+        avg(px1.getIntensity(EChannelType.BLUE), px2.getIntensity(EChannelType.BLUE)));
+  }
+
+  /**
+   * TODO
+   *
+   * @param n1
+   * @param n2
+   * @return
+   */
+  private static int avg(int n1, int n2) {
+    return (n1 + n2) / 2;
+  }
+
+
+
+  /**
+   * Utility class to keep track of a pixel's position.
+   */
+  private class IndexedPixel {
+
+    private final int row;
+    private final int col;
+    private final IPixel px;
+
+    public IndexedPixel(int row, int col, IPixel px) {
+      this.row = Utility.checkIntBetween(row, 0, Integer.MAX_VALUE);
+      this.col = Utility.checkIntBetween(col, 0, Integer.MAX_VALUE);
+      this.px = Utility.checkNotNull(px, "cannot create an indexed pixel with a null "
+          + "pixel value");
+    }
+
+    public double distanceTo(int row, int col) {
+      return Math.sqrt(Math.pow(row - this.row, 2) + Math.pow(col - this.col, 2));
+    }
   }
 }

@@ -1,0 +1,6 @@
+import JPEG res/cursed.jpg
+apply sharpen sharpen sharpen
+mosaic 500
+mosaic 750
+apply sharpen
+export PNG res/koala

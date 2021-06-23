@@ -34,7 +34,7 @@ public class ExportCommand extends APortCommand {
       if (lineScan.hasNext()) {
         String relativePath = lineScan.next();
 
-        if (fileFormat.equals("layers")) {
+        if (relativePath.equals("layers")) {
           try {
             this.exportAllLayers(formatsMap.get(fileFormat),
                 relativePath, mdl, vw);

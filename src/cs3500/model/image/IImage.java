@@ -50,4 +50,9 @@ public interface IImage {
    */
   int getHeight();
 
+  /**
+   * TODO: maybe move this
+   */
+  IImage mosaic(int numSeeds);
+
 }

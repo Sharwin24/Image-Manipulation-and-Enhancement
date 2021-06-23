@@ -55,4 +55,9 @@ public interface IIMEModel {
    * @return an {@link IIMEModel} that is a copy of this one.
    */
   IIMEModel copy();
+
+  /**
+   * TODO: reorganize
+   */
+  void mosaic(int numSeeds);
 }

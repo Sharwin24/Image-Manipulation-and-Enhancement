@@ -1,0 +1,6 @@
+new
+new
+current 2
+import JPEG res/siameseDream.jpg
+mosaic 300
+export PNG res/mosaicedSiameseDream

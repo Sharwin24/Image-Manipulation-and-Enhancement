@@ -190,4 +190,11 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
         this.layersImageWidth);
   }
 
+  /**
+   * TODO: reorganize
+   */
+  public void mosaic(int numSeeds) {
+    this.currentLayer.getModel().mosaic(numSeeds);
+  }
+
 }

@@ -7,6 +7,7 @@ import cs3500.controller.commands.DeleteCommand;
 import cs3500.controller.commands.ExportCommand;
 import cs3500.controller.commands.IIMECommand;
 import cs3500.controller.commands.ImportCommand;
+import cs3500.controller.commands.MosaicCommand;
 import cs3500.controller.commands.NewLayerCommand;
 import cs3500.controller.commands.ProgrammaticImageCommand;
 import cs3500.controller.commands.RedoCommand;
@@ -507,6 +508,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
     cmds.putIfAbsent("swap", new SwapCommand());
     cmds.putIfAbsent("new", new NewLayerCommand());
     cmds.putIfAbsent("programmatic", new ProgrammaticImageCommand());
+    cmds.putIfAbsent("mosaic", new MosaicCommand());
 
     return cmds;
   }

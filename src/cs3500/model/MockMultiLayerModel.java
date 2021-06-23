@@ -82,6 +82,11 @@ public class MockMultiLayerModel implements IMockMultiLayerModel {
   }
 
   @Override
+  public void mosaic(int seeds) {
+    log.append("mosaiced with " + seeds + " seeds");
+  }
+
+  @Override
   public void undo() throws IllegalArgumentException {
     log.append("undone" + "\n");
   }

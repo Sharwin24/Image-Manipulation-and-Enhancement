@@ -1,4 +1,26 @@
 **<u></u>**
+
+<ul> <b>assignment 7</b>
+<li>
+set up layout with all features
+</li>
+<li>
+adjust hashmap controller (command pattern) for 
+action listeners.</li>
+<li>
+fix import/export all layers</li>
+<li>
+fix downscaling</li>
+<li>
+add command line arguments
+</li>
+<li>
+update README</li>
+<li>
+update USEME</li>
+</ul></div>
+
+
 <ul>
 <li>
 <b>In general,</b> <code>ctrl+shift+r</code> for <i></i></li>
@@ -35,3 +57,4 @@ IImage wrapper class fixes</li></ul>
 <li>Image Tests</li>
 <li>Pixel Tests</li>
 </ul>
+<div>
