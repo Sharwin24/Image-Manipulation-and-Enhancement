@@ -85,30 +85,27 @@ public class Main {
 //     MultiLayerIMEControllerImpl.controllerBuilder().buildController();
 //     controllerInteractive.run();
 
-    IMEFrame.setDefaultLookAndFeelDecorated(false);
+    IMEFrame.setDefaultLookAndFeelDecorated(true);
     IMEFrame frame = new IMEFrame();
 
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setVisible(true);
 
     try {
-      //UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-      UIManager.getCrossPlatformLookAndFeelClassName();
+      UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+      //UIManager.getCrossPlatformLookAndFeelClassName();
 
-//    } catch (UnsupportedLookAndFeelException e) {
-//      // do something
-//    } catch (ClassNotFoundException e) {
-//      // do something
-//    } catch (InstantiationException e) {
-//      // do something
-//    } catch (IllegalAccessException e) {
-//      // do something
-//    }
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (UnsupportedLookAndFeelException e) {
+      // do something
+    } catch (ClassNotFoundException e) {
+      // do something
+    } catch (InstantiationException e) {
+      // do something
+    } catch (IllegalAccessException e) {
+      // do something
     }
   }
-    /**
+  /**
    * Utility method to read a script text file for the controller directly into a StringReader that
    * will be passed to the main method.
    *
