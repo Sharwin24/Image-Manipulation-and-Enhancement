@@ -52,7 +52,6 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
     this.currentLayer = currentLayer;
     this.layersImageHeight = height;
     this.layersImageWidth = width;
-
   }
 
   @Override
@@ -104,7 +103,6 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   public IImage getImage() {
     return this.currentLayer.getModel().getImage();
   }
-
 
   @Override
   public void toggleInvisible(int layerIndex) throws IllegalArgumentException {
