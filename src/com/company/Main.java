@@ -107,6 +107,7 @@ public class Main {
     } catch (IllegalAccessException e) {
       // do something
     }
+    // -----------------DOWNSCALE TEST--------------------//
     IMultiLayerModel model = new MultiLayerModelImpl();
     IFileFormat format = new PNGFile();
     IImage image = format.importImage("src/facebookLogo.png");
@@ -114,11 +115,9 @@ public class Main {
     Downscale downscale = new Downscale(model, 150, 150);
     downscale.apply();
     format.exportImage("res/oh", model.getImage());
+    // -----------------DOWNSCALE TEST--------------------//
   }
-<<<<<<< HEAD
-=======
 
->>>>>>> 9e64da708cfc06d8bfb46ef8f179a043d0f9d7d6
   /**
    * Utility method to read a script text file for the controller directly into a StringReader that
    * will be passed to the main method.
