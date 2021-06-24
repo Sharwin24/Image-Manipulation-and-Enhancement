@@ -115,7 +115,10 @@ public class Main {
     downscale.apply();
     format.exportImage("res/oh", model.getImage());
   }
+<<<<<<< HEAD
+=======
 
+>>>>>>> 9e64da708cfc06d8bfb46ef8f179a043d0f9d7d6
   /**
    * Utility method to read a script text file for the controller directly into a StringReader that
    * will be passed to the main method.
