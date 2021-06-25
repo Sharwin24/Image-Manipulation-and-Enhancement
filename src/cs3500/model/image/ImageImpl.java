@@ -98,10 +98,10 @@ public class ImageImpl implements IImage {
     Random r = new Random();
 
     for (int i = 0; i < numSeeds; i++) {
-      int col = r.nextInt(this.getHeight());
-      int row = r.nextInt(this.getWidth());
+      int row = r.nextInt(this.getHeight());
+      int col = r.nextInt(this.getWidth());
 
-      seeds.add(new IndexedPixel(col, row, this.pixels.getElement(col, row)));
+      seeds.add(new IndexedPixel(row, col, this.pixels.getElement(row, col)));
     }
 
     List<List<IPixel>> newPixels = new ArrayList<>();
@@ -122,7 +122,8 @@ public class ImageImpl implements IImage {
 
   @Override
   public BufferedImage getBufferedImage() {
-    BufferedImage outputImage = new BufferedImage(this.pixels.getWidth(), this.pixels.getHeight(),
+    BufferedImage outputImage = new BufferedImage(this.pixels.getWidth(),
+        this.pixels.getHeight(),
         BufferedImage.TYPE_INT_RGB);
     for (int r = 0; r < this.pixels.getHeight(); r++) {
       for (int c = 0; c < this.pixels.getWidth(); c++) {
@@ -141,13 +142,14 @@ public class ImageImpl implements IImage {
 
   /**
    * Todo:
+   *
    * @param row
    * @param col
    * @param seeds
    * @return
    */
   private IPixel closestPixelTo(int row, int col, List<IndexedPixel> seeds) {
-    return Collections.min(seeds,
+    return Collections.min(seeds, // lambda moment
         ((px1, px2) -> (int) (px1.distanceTo(row, col) - px2.distanceTo(row, col)))).px;
   }
 

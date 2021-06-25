@@ -22,6 +22,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.StringReader;
+import java.util.concurrent.ExecutionException;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -32,6 +33,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -66,6 +69,19 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private JLabel editMenuLabel;
   private JLabel transformationsMenuLabel;
   private JLabel programmaticImagesMenuLabel;
+
+  // Image panel architecture
+  private BufferedImage currentImage;
+  private JPanel imagePanel;
+  private JScrollPane imageScrollPanel;
+
+
+  private JMenuBar menuRibbon;
+
+  // the architecture for the file menu
+  private JMenu fileMenu;
+  private JMenu exportSubmenu;
+  private JMenu importSubmenu;
 
 
   public IMEFrame() {
@@ -188,7 +204,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     layersPanel.add(layersButtonsPanel);
 
     for (int i = 0; i < 5; i++) {
-      layersPanel.add(this.createLayerRow("layer " + i, i, true));
+      layersPanel.add(this.createLayerRow("layer ", i, true));
     }
 
     mainPanel.add(layersPanel, BorderLayout.LINE_START);
@@ -222,18 +238,45 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
    */
   private void imageArea() {
     // Scrolling image panel
-    this.mdl.load(new JPEGFile().importImage("src/lakeImage.jpg"));
-    BufferedImage image = this.mdl.getImage().getBufferedImage();
-    JPanel imagePanel = new JPanel() {
-      @Override
-      protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(image, 0, 0, null);
-      }
-    };
-    imagePanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
-    JScrollPane scrollPane = new JScrollPane(imagePanel);
-    mainPanel.add(scrollPane, BorderLayout.CENTER);
+    this.imagePanel = new JPanel();
+    this.imagePanel.setPreferredSize(new Dimension(600, 600));
+    this.imageScrollPanel = new JScrollPane(this.imagePanel);
+    this.mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
+//    ///~~~~~~~~~~~~~~~~~~~~~~~~~~///
+//    this.mdl.load(new JPEGFile().importImage("src/lakeImage.jpg"));
+//    this.displayNewImage(this.mdl.getImage().getBufferedImage());
+//    this.mdl.addLayer();
+//    this.mdl.setCurrentLayer(1);
+//    try {
+//      this.displayNewImage(this.mdl.getImage().getBufferedImage());
+//    } catch (Exception e) {
+//      this.imagePanel = new JPanel();
+//      this.imagePanel.setPreferredSize(new Dimension(600, 600));
+//      this.imageScrollPanel = new JScrollPane(this.imagePanel);
+//      this.mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
+//    }
+//    ///~~~~~~~~~~~~~~~~~~~~~~~~~~///
+  }
+
+  /**
+   * @param image the new image to display on the GUI.
+   */
+  private void displayNewImage(BufferedImage image) {
+    if (image.getWidth() == 0 || image.getHeight() == 0) {
+      this.imagePanel = new JPanel();
+      this.imagePanel.setPreferredSize(new Dimension(600, 600));
+    } else {
+      this.imagePanel = new JPanel() {
+        @Override
+        protected void paintComponent(Graphics g) {
+          super.paintComponent(g);
+          g.drawImage(image, 0, 0, null);
+        }
+      };
+      this.imagePanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+    }
+    this.imageScrollPanel = new JScrollPane(this.imagePanel);
+    this.mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
   }
 
   @Override

@@ -81,7 +81,6 @@ public class Main {
 //    mdl.applyOperations(new Sepia());
 //
 //    new JPEGFile().exportImage("res/mosaicedRover", rover);
-
     // A NOTE TO THE TA: to run this interactively, comment out lines 54-58 and uncomment
     // the following lines
 //     IMultiLayerIMEController controllerInteractive =
