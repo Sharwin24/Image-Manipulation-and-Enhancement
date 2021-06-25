@@ -80,11 +80,12 @@ public class Downscale {
             }
           }
           IPixel newPixel = new PixelImpl(red, green, blue);
-          newPixels.updateEntry(newPixel,);
+          newPixels.updateEntry(newPixel, 0, 0);  // STUB, DELETE
         }
       }
     }
 
   }
+
 
 }

@@ -78,7 +78,6 @@ public class Main {
 //    mdl.applyOperations(new Sepia());
 //
 //    new JPEGFile().exportImage("res/mosaicedRover", rover);
-
     // A NOTE TO THE TA: to run this interactively, comment out lines 54-58 and uncomment
     // the following lines
 //     IMultiLayerIMEController controllerInteractive =
@@ -104,11 +103,13 @@ public class Main {
     } catch (IllegalAccessException e) {
       // do something
     }
-  }
-<<<<<<< HEAD
-=======
 
->>>>>>> 9e64da708cfc06d8bfb46ef8f179a043d0f9d7d6
+    IMultiLayerIMEController ctrlr = MultiLayerIMEControllerImpl.controllerBuilder().buildController();
+    ctrlr.run();
+
+
+  }
+
   /**
    * Utility method to read a script text file for the controller directly into a StringReader that
    * will be passed to the main method.

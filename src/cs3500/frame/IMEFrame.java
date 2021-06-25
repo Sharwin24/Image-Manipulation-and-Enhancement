@@ -24,7 +24,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.event.ListSelectionEvent;
@@ -57,6 +60,16 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private final JLabel editMenuLabel;
   private final JLabel transformationsMenuLabel;
   private final JLabel programmaticImagesMenuLabel;
+
+
+
+  private final JMenuBar menuRibbon;
+
+  // the architecture for the file menu
+  private final JMenu fileMenu;
+  private final JMenu exportSubmenu;
+  private final JMenu importSubmenu;
+
 
 
   public IMEFrame() {
@@ -158,7 +171,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     layersPanel.add(layersButtonsPanel);
 
     for (int i = 0; i < 5; i++) {
-      layersPanel.add(this.createLayerRow("layer " + i, i, true));
+      layersPanel.add(this.createLayerRow("layer ", i, true));
     }
 
     mainPanel.add(layersPanel, BorderLayout.LINE_START);
@@ -184,6 +197,13 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     JPanel imagePanel = new JPanel();
     imagePanel.setBorder(BorderFactory.createTitledBorder("this layer"));
     mainPanel.add(imagePanel, BorderLayout.CENTER);
+    // demo to display an image:
+    String imageName = "res/LONG.png";
+    JLabel imageLabel = new JLabel(imageName);
+    JScrollPane imageScrollPane = new JScrollPane(imageLabel);
+    Icon im = new ImageIcon(imageName);
+    imageLabel.setIcon(im);
+    imagePanel.add(imageScrollPane);
 
 
 
