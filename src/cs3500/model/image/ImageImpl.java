@@ -121,10 +121,15 @@ public class ImageImpl implements IImage {
   }
 
   @Override
-  public BufferedImage getBufferedImage() {
-    BufferedImage outputImage = new BufferedImage(this.pixels.getWidth(),
-        this.pixels.getHeight(),
-        BufferedImage.TYPE_INT_RGB);
+  public BufferedImage getBufferedImage() throws IllegalArgumentException {
+    BufferedImage outputImage;
+    try {
+      outputImage = new BufferedImage(this.pixels.getWidth(),
+          this.pixels.getHeight(),
+          BufferedImage.TYPE_INT_RGB);
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Empty Image");
+    }
     for (int r = 0; r < this.pixels.getHeight(); r++) {
       for (int c = 0; c < this.pixels.getWidth(); c++) {
         // Get RGB values

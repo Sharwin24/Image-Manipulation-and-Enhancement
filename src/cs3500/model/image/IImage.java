@@ -59,7 +59,8 @@ public interface IImage {
    * Returns this image as a {@link BufferedImage}.
    *
    * @return a {@link BufferedImage} representing this image.
+   * @throws IllegalArgumentException if the image is empty.
    */
-  BufferedImage getBufferedImage();
+  BufferedImage getBufferedImage() throws IllegalArgumentException;
 
 }
