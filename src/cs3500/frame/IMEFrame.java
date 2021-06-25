@@ -7,14 +7,14 @@ import cs3500.model.MultiLayerModelImpl;
 import cs3500.view.IMEView;
 import cs3500.view.TextualIMEView;
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -24,15 +24,11 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.text.JTextComponent;
 
 public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     ListSelectionListener {
@@ -60,15 +56,18 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private JLabel editMenuLabel;
   private JLabel transformationsMenuLabel;
   private JLabel programmaticImagesMenuLabel;
+  private final JPanel layersPanel = new JPanel();
+
+ // private final Map<String, IGUICommand> actionsMap;
 
 
 
-  private final JMenuBar menuRibbon;
-
-  // the architecture for the file menu
-  private final JMenu fileMenu;
-  private final JMenu exportSubmenu;
-  private final JMenu importSubmenu;
+//  private final JMenuBar menuRibbon;
+//
+//  // the architecture for the file menu
+//  private final JMenu fileMenu;
+//  private final JMenu exportSubmenu;
+//  private final JMenu importSubmenu;
 
 
 
@@ -105,6 +104,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~//
     add(mainPanel);
+
+    // this.actionsMap = this.initActionsMap();
   }
 
   /**
@@ -175,7 +176,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
    */
   private void layersPanel() {
     // setting up the layers panel:
-    JPanel layersPanel = new JPanel();
     layersPanel.setLayout(new BoxLayout(layersPanel, BoxLayout.Y_AXIS));
     layersPanel.setBorder(BorderFactory.createTitledBorder("LAYERS"));
     JPanel layersButtonsPanel = new JPanel();
@@ -247,6 +247,13 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   @Override
   public void actionPerformed(ActionEvent e) {
 
+    Map<String, IGUICommand> actionsMap = this.initActionsMap();
+
+    if ( !(actionsMap.containsKey(e.getActionCommand()))) {
+      return; // throw new IllegalArgumentException("command not recognized");
+    }
+
+    actionsMap.get(e.getActionCommand()).execute();
   }
 
   @Override
@@ -289,6 +296,47 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
     return thisRow;
 
+  }
+
+
+  /**
+   * TODO
+   * @return
+   */
+  private Map<String, IGUICommand> initActionsMap() {
+
+    Map<String, IGUICommand> actionsMap = new HashMap<>();
+
+//    actionsMap.putIfAbsent("file", new FileMenuCommand());
+//    actionsMap.putIfAbsent("edit", new EditMenuCommand());
+//    actionsMap.putIfAbsent("transformations", new TransformationsMenuCommand());
+//    actionsMap.putIfAbsent("programmatic images", new ProgrammaticImagesMenuCommand());
+//    actionsMap.putIfAbsent("swap", new SwapCommand());
+//    actionsMap.putIfAbsent("new", new NewLayerCommand());
+
+
+    actionsMap.putIfAbsent("new", new ExampleCommand());
+
+
+    return actionsMap;
+  }
+
+
+
+  private interface IGUICommand {
+
+    void execute();
+
+  }
+
+  private class ExampleCommand implements IGUICommand {
+
+
+    @Override
+    public void execute() {
+      layersPanel.add(createLayerRow("NEWLAYER", mdl.getLayers().size(),
+          true));
+    }
   }
 
 }
