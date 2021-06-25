@@ -4,18 +4,26 @@ import cs3500.controller.IMultiLayerIMEController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
+import cs3500.model.fileformat.JPEGFile;
+import cs3500.model.fileformat.PNGFile;
 import cs3500.view.IMEView;
 import cs3500.view.TextualIMEView;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
 import java.io.StringReader;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -25,6 +33,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.event.ListSelectionEvent;
@@ -212,10 +221,19 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
    * Initializes the panel for the main image to appear.
    */
   private void imageArea() {
-    // setting up the image area
-    JPanel imagePanel = new JPanel();
-    imagePanel.setBorder(BorderFactory.createTitledBorder("this layer"));
-    mainPanel.add(imagePanel, BorderLayout.CENTER);
+    // Scrolling image panel
+    this.mdl.load(new JPEGFile().importImage("src/lakeImage.jpg"));
+    BufferedImage image = this.mdl.getImage().getBufferedImage();
+    JPanel imagePanel = new JPanel() {
+      @Override
+      protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, null);
+      }
+    };
+    imagePanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+    JScrollPane scrollPane = new JScrollPane(imagePanel);
+    mainPanel.add(scrollPane, BorderLayout.CENTER);
   }
 
   @Override
@@ -235,6 +253,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
 
   /**
+   * Todo
+   *
    * @param layerName
    * @param layerNum
    * @param isVisible

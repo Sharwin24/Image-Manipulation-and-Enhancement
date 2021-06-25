@@ -6,6 +6,7 @@ import cs3500.model.matrix.IMatrix;
 import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.pixel.IPixel;
 import cs3500.model.pixel.PixelImpl;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -119,9 +120,35 @@ public class ImageImpl implements IImage {
     return new ImageImpl(newPixels);
   }
 
+  @Override
+  public BufferedImage getBufferedImage() {
+    BufferedImage outputImage = new BufferedImage(this.pixels.getWidth(), this.pixels.getHeight(),
+        BufferedImage.TYPE_INT_RGB);
+    for (int r = 0; r < this.pixels.getHeight(); r++) {
+      for (int c = 0; c < this.pixels.getWidth(); c++) {
+        // Get RGB values
+        int red = this.pixels.getElement(r, c).getIntensity(EChannelType.RED);
+        int green = this.pixels.getElement(r, c).getIntensity(EChannelType.GREEN);
+        int blue = this.pixels.getElement(r, c).getIntensity(EChannelType.BLUE);
+        int rgb = red;
+        rgb = (rgb << 8) + green;
+        rgb = (rgb << 8) + blue;
+        outputImage.setRGB(c, r, rgb);
+      }
+    }
+    return outputImage;
+  }
+
+  /**
+   * Todo:
+   * @param row
+   * @param col
+   * @param seeds
+   * @return
+   */
   private IPixel closestPixelTo(int row, int col, List<IndexedPixel> seeds) {
     return Collections.min(seeds,
-        ( (px1, px2) -> (int) (px1.distanceTo(row, col) - px2.distanceTo(row, col)))).px;
+        ((px1, px2) -> (int) (px1.distanceTo(row, col) - px2.distanceTo(row, col)))).px;
   }
 
   /**
@@ -148,7 +175,6 @@ public class ImageImpl implements IImage {
   private static int avg(int n1, int n2) {
     return (n1 + n2) / 2;
   }
-
 
 
   /**

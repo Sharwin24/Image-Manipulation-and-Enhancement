@@ -60,7 +60,7 @@ public class Downscale {
   /**
    * Applies a downscale to a single layer.
    *
-   * @param layer
+   * @param layer the layer to apply the downscale to.
    */
   private void applyToLayer(ILayer layer) {
     IImage image = layer.getModel().getImage();
