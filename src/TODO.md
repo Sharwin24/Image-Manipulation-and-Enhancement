@@ -18,6 +18,7 @@ add command line arguments
 update README</li>
 <li>
 update USEME</li>
+<li>Refactor IndexedPixel class to implement IPixel</li>
 </ul></div>
 
 

@@ -5,8 +5,11 @@ import cs3500.controller.MultiLayerIMEControllerImpl;
 import cs3500.frame.IMEFrame;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
+import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.fileformat.JPEGFile;
+import cs3500.model.fileformat.PNGFile;
 import cs3500.model.image.IImage;
+import cs3500.model.operation.Downscale;
 import cs3500.model.operation.Sepia;
 import java.awt.Font;
 import java.io.IOException;
@@ -107,6 +110,15 @@ public class Main {
     IMultiLayerIMEController ctrlr = MultiLayerIMEControllerImpl.controllerBuilder().buildController();
     ctrlr.run();
 
+    // -----------------DOWNSCALE TEST--------------------//
+    IMultiLayerModel model = new MultiLayerModelImpl();
+    IFileFormat format = new PNGFile();
+    IImage image = format.importImage("src/facebookLogo.png");
+    model.load(image);
+    Downscale downscale = new Downscale(model, 150, 150);
+    downscale.apply();
+    format.exportImage("res/oh", model.getImage());
+    // -----------------DOWNSCALE TEST--------------------//
 
   }
 

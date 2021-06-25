@@ -54,12 +54,12 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   // to store the GUI elements
   private final JPanel mainPanel;
   // to store the menu ribbon elements
-  private final JLabel menusLabel;
-  private final JPanel menusPanel;
-  private final JLabel fileMenuLabel;
-  private final JLabel editMenuLabel;
-  private final JLabel transformationsMenuLabel;
-  private final JLabel programmaticImagesMenuLabel;
+  private JLabel menusLabel;
+  private JPanel menusPanel;
+  private JLabel fileMenuLabel;
+  private JLabel editMenuLabel;
+  private JLabel transformationsMenuLabel;
+  private JLabel programmaticImagesMenuLabel;
 
 
 
@@ -92,7 +92,25 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     this.mainPanel = new JPanel();
     this.mainPanel.setLayout(new BorderLayout());
 
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // setup drop down menus
+    this.dropDownMenus();
+    // setup layers panel
+    this.layersPanel();
+    // setup console panel
+    this.console();
+    // setup script area panel
+    this.scriptArea();
+    // setup image area panel.
+    this.imageArea();
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~//
+    add(mainPanel);
+  }
+
+  /**
+   * Initializes the dropdown menus at the top of the gui.
+   */
+  private void dropDownMenus() {
     // setting up the dropdown menus ribbon:
     this.menusLabel = new JLabel("Menus Ribbon");
     this.menusPanel = new JPanel();
@@ -150,9 +168,12 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     menusPanel.add(programmaticImagesMenuBox);
 
     mainPanel.add(menusPanel, BorderLayout.PAGE_START);
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  }
 
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  /**
+   * Initializes the panel for the layers.
+   */
+  private void layersPanel() {
     // setting up the layers panel:
     JPanel layersPanel = new JPanel();
     layersPanel.setLayout(new BoxLayout(layersPanel, BoxLayout.Y_AXIS));
@@ -175,28 +196,40 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
 
     mainPanel.add(layersPanel, BorderLayout.LINE_START);
+  }
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  /**
+   * Initializes the panel for the console.
+   */
+  private void console() {
     // setting up the console
     JPanel consolePanel = new JPanel();
     JTextArea consoleTxt = new JTextArea(this.out.toString() + " TEST");
     consolePanel.add(consoleTxt);
 
     mainPanel.add(consolePanel, BorderLayout.PAGE_END);
+  }
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  /**
+   * Initializes the panel for the script.
+   */
+  private void scriptArea() {
     // setting up the script area
     JPanel scriptPanel = new JPanel();
     JTextArea scriptArea = new JTextArea("SCRIPT HERE");
     scriptPanel.add(scriptArea);
     mainPanel.add(scriptPanel, BorderLayout.LINE_END);
+  }
 
-
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  /**
+   * Initializes the panel for the main image to appear.
+   */
+  private void imageArea() {
     // setting up the image area
     JPanel imagePanel = new JPanel();
     imagePanel.setBorder(BorderFactory.createTitledBorder("this layer"));
     mainPanel.add(imagePanel, BorderLayout.CENTER);
+
     // demo to display an image:
     String imageName = "res/LONG.png";
     JLabel imageLabel = new JLabel(imageName);
@@ -208,6 +241,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
 
     add(mainPanel);
+
   }
 
   @Override
@@ -227,7 +261,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
 
   /**
-   *
    * @param layerName
    * @param layerNum
    * @param isVisible
