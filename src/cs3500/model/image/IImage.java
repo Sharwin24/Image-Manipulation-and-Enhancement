@@ -3,11 +3,11 @@ package cs3500.model.image;
 import cs3500.model.channel.EChannelType;
 import cs3500.model.matrix.IMatrix;
 import cs3500.model.pixel.IPixel;
+import java.awt.image.BufferedImage;
 
 /**
- * An image to be manipulated or edited. Supports the operations to
- * extract a channel of some color, copy the image, and observer methods
- * to return the width and height
+ * An image to be manipulated or edited. Supports the operations to extract a channel of some color,
+ * copy the image, and observer methods to return the width and height
  */
 public interface IImage {
 
@@ -54,5 +54,13 @@ public interface IImage {
    * TODO: maybe move this
    */
   IImage mosaic(int numSeeds);
+
+  /**
+   * Returns this image as a {@link BufferedImage}.
+   *
+   * @return a {@link BufferedImage} representing this image.
+   * @throws IllegalArgumentException if the image is empty.
+   */
+  BufferedImage getBufferedImage() throws IllegalArgumentException;
 
 }

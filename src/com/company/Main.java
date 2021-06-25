@@ -107,9 +107,6 @@ public class Main {
       // do something
     }
 
-    IMultiLayerIMEController ctrlr = MultiLayerIMEControllerImpl.controllerBuilder().buildController();
-    ctrlr.run();
-
 //    // -----------------DOWNSCALE TEST--------------------//
 //    IMultiLayerModel model = new MultiLayerModelImpl();
 //    IFileFormat format = new PNGFile();

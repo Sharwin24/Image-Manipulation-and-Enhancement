@@ -5,14 +5,23 @@ import cs3500.controller.IMultiLayerIMEController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
+
 import cs3500.model.fileformat.PNGFile;
 import cs3500.model.operation.Greyscale;
 import cs3500.model.operation.ImageBlur;
 import cs3500.model.operation.Sepia;
 import cs3500.model.operation.Sharpening;
+
 import cs3500.view.IMEView;
 import cs3500.view.TextualIMEView;
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
@@ -20,10 +29,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.StringReader;
+import java.util.concurrent.ExecutionException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -70,10 +82,13 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private JLabel programmaticImagesMenuLabel;
   private final JPanel layersPanel = new JPanel();
 
-  // private final Map<String, IGUICommand> actionsMap;
-
 
   private JMenuBar menuRibbon;
+  // Image panel architecture
+  private BufferedImage currentImage;
+  private JPanel imagePanel;
+  private JScrollPane imageScrollPanel;
+
 
   // the architecture for the file menu
   private JMenu fileMenu;
@@ -91,7 +106,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   // to handle input and display it
   private JLabel inputDisplay;
-
 
   public IMEFrame() {
     super();
@@ -131,7 +145,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
     // this.actionsMap = this.initActionsMap();
 
-    mdl.load(new PNGFile().importImage("res/MPP.png");
+    mdl.load(new PNGFile().importImage("res/MPP.png"));
     
   }
 
@@ -471,7 +485,46 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     imagePanel.add(imageScrollPane);
 
     add(mainPanel);
+    // Scrolling image panel
+    this.imagePanel = new JPanel();
+    this.imagePanel.setPreferredSize(new Dimension(600, 600));
+    this.imageScrollPanel = new JScrollPane(this.imagePanel);
+    this.mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
+//    ///~~~~~~~~~~~~~~~~~~~~~~~~~~///
+//    this.mdl.load(new JPEGFile().importImage("src/lakeImage.jpg"));
+//    this.displayNewImage(this.mdl.getImage().getBufferedImage());
+//    this.mdl.addLayer();
+//    this.mdl.setCurrentLayer(1);
+//    try {
+//      this.displayNewImage(this.mdl.getImage().getBufferedImage());
+//    } catch (Exception e) {
+//      this.imagePanel = new JPanel();
+//      this.imagePanel.setPreferredSize(new Dimension(600, 600));
+//      this.imageScrollPanel = new JScrollPane(this.imagePanel);
+//      this.mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
+//    }
+//    ///~~~~~~~~~~~~~~~~~~~~~~~~~~///
+  }
 
+  /**
+   * @param image the new image to display on the GUI.
+   */
+  private void displayNewImage(BufferedImage image) {
+    if (image.getWidth() == 0 || image.getHeight() == 0) {
+      this.imagePanel = new JPanel();
+      this.imagePanel.setPreferredSize(new Dimension(600, 600));
+    } else {
+      this.imagePanel = new JPanel() {
+        @Override
+        protected void paintComponent(Graphics g) {
+          super.paintComponent(g);
+          g.drawImage(image, 0, 0, null);
+        }
+      };
+      this.imagePanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+    }
+    this.imageScrollPanel = new JScrollPane(this.imagePanel);
+    this.mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
   }
 
   @Override
@@ -498,6 +551,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
 
   /**
+   * Todo
+   *
    * @param layerName
    * @param layerNum
    * @param isVisible
@@ -547,6 +602,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
     actionsMap.putIfAbsent("new", new NewLayerCommand());
     actionsMap.putIfAbsent("mosaic", new GUIMosaicCommand());
+
     return actionsMap;
   }
 
