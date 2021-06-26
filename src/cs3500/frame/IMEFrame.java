@@ -713,6 +713,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Applies the Sepia operation to the current image.
+   */
   private class SepiaCommand implements IGUICommand {
 
     @Override
@@ -722,6 +725,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Applies the Greyscale operation to the current image.
+   */
   private class GreyScaleCommand implements IGUICommand {
 
     @Override
@@ -731,6 +737,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Applies the Sharpen operation to the current image.
+   */
   private class SharpenCommand implements IGUICommand {
 
     @Override
@@ -740,6 +749,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Applies the Blur operation to the current image.
+   */
   private class BlurCommand implements IGUICommand {
 
     @Override
@@ -749,6 +761,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Command for applying the Mosaic operation to the current image.
+   */
   private class GUIMosaicCommand implements IGUICommand {
 
     @Override
@@ -806,6 +821,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 //    }
 //  }
 
+  /**
+   * Command for downscaling an image.
+   */
   private class DownScaleCommand implements IGUICommand {
 
     @Override
@@ -819,7 +837,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
         int width = Integer.parseInt(widthInp);
         new Downscale(mdl, height, width).apply();
         setImage();
-        ;        // TODO: repaint the image here
         // TODO: repaint the image here
       } catch (IllegalArgumentException e) {
         // TODO: show an error dialog popup
@@ -833,11 +850,14 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Exports the current image.
+   */
   private class ExportOneCommand implements IGUICommand {
 
     @Override
     public void execute() {
-
+      // Todo: Change to FileDialog
       final JFileChooser fChooser = new JFileChooser("");
       fChooser.setDialogTitle("Choose the location to save the image");
 
@@ -863,8 +883,10 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   }
 
   /**
-   * @param fileName
-   * @return
+   * Returns the file extension for the given fileName.
+   *
+   * @param fileName the file name to get the extension of.
+   * @return a string with the file extension including the dot.
    */
   private static String getFileExtension(String fileName)
       throws IllegalArgumentException {
@@ -872,7 +894,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   }
 
   /**
-   * TODO
+   * Sets the image in the GUI to the current one.
    */
   private void setImage() {
     imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
