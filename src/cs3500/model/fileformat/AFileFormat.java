@@ -13,6 +13,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.imageio.ImageIO;
 
 /**
@@ -23,6 +25,8 @@ import javax.imageio.ImageIO;
 public abstract class AFileFormat implements IFileFormat {
 
   private final String fileExtension;
+
+
 
   /**
    * Constructs the AFileFormat with the subclass' file extension.
@@ -182,4 +186,7 @@ public abstract class AFileFormat implements IFileFormat {
       directory.mkdirs();
     }
   }
+
+
+
 }

@@ -2,6 +2,8 @@ package cs3500.model.fileformat;
 
 import cs3500.model.image.IImage;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A function object representing a PPM/NetPBM file format, with the ability to import a ppm image
@@ -63,9 +65,14 @@ public interface IFileFormat {
   /**
    * Creates a directory with the given relative path.
    *
-   * @param relativePath the path to the folder to put the directory in.
->>>>>>> c078fab59f2e6e03cffdf99646d69eb7a39952d3
+   * @param relativePath the path to the folder to put the directory in. >>>>>>>
+   *                     c078fab59f2e6e03cffdf99646d69eb7a39952d3
    * @throws IllegalArgumentException if either arguments are null.
    */
   void createDirectory(String relativePath) throws IllegalArgumentException;
+
+
+
+
+
 }
