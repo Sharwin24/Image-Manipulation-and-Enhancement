@@ -5,8 +5,6 @@ import cs3500.controller.IMultiLayerIMEController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
-
-
 import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.fileformat.JPEGFile;
 import cs3500.model.fileformat.PNGFile;
@@ -31,9 +29,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.FlowLayout;
-
-import java.awt.Graphics;
-
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,6 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
+import javax.print.attribute.standard.JobKOctets;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -69,8 +65,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import jdk.jshell.execution.Util;
 
+/**
+ * Class for the Java Swing Frame for the IME.
+ */
 public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     ListSelectionListener {
 
@@ -134,7 +132,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   private JLabel imgLabel = new JLabel("");
 
-  private JPanel fileOpenPanel;
 
   private JPanel inputDialogPanel;
 
@@ -142,6 +139,12 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   private Map<String, IGUICommand> actionsMap = this.initActionsMap();
 
+  // Handle Layers
+  private final List<JPanel> allLayers = new ArrayList<>();
+
+  /**
+   * Todo:
+   */
   public IMEFrame() {
     super();
     setTitle("Image Manipulation and Enhancement");
@@ -173,17 +176,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     // setup the menu bar
     this.menuRibbon();
 
-    /**
-     * REORGANIZE
-     */
-    this.fileChooser();
-
     //~~~~~~~~~~~~~~~~~~~~~~~~~//
     add(mainPanel);
-
-    // this.actionsMap = this.initActionsMap();
-
-    //mdl.load(new PNGFile().importImage("res/MPP.png"));
   }
 
   /**
@@ -263,6 +257,12 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     setCurrentLayerItem.addActionListener(this);
     editMenu.add(setCurrentLayerItem);
 
+    JMenuItem deleteItem = new JMenuItem("Delete layer");
+    deleteItem.setMnemonic(KeyEvent.VK_D);
+    deleteItem.setActionCommand("delete");
+    deleteItem.addActionListener(this);
+    editMenu.add(deleteItem);
+
     menuRibbon.add(editMenu);
 
     // the transformations menu
@@ -301,25 +301,15 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     mosaicItem.setActionCommand("mosaic");
     mosaicItem.addActionListener(this);
     transformationsMenu.add(mosaicItem);
-    // TODO: ADD DIALOG POPUP HERE TO GET SEEDS
-    //JPanel dialogBoxesPanel = new JPanel(); // ???
-    //dialogBoxesPanel.setBorder(BorderFactory.createTitledBorder("taking input..."));
-    //dialogBoxesPanel.setLayout(new BoxLayout(dialogBoxesPanel,BoxLayout.PAGE_AXIS));
-    //mainPanel.add(dialogBoxesPanel);
 
     inputDialogPanel = new JPanel();
     inputDialogPanel.setLayout(new FlowLayout());
-    //dialogBoxesPanel.add(mosaicInputDialogPanel);
-
-    // inputDisplay = new JLabel("Default");
-    // mosaicInputDialogPanel.add(inputDisplay);
 
     JMenuItem downscaleItem = new JMenuItem("Downscale...");
     downscaleItem.setMnemonic(KeyEvent.VK_D);
     downscaleItem.setActionCommand("downscale");
     downscaleItem.addActionListener(this);
     transformationsMenu.add(downscaleItem);
-    // TODO: ADD DIALOG POPUP HERE TO GET DIMS
 
     menuRibbon.add(transformationsMenu);
 
@@ -335,7 +325,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     checkerBoardItem.setActionCommand("checkerboard");
     checkerBoardItem.addActionListener(this);
     programmaticImagesMenu.add(checkerBoardItem);
-    // TODO: ADD DIALOG POPUP TO GET DIMENSIONS
 
     // the noise images submenu
     JMenu noiseSubMenu = new JMenu("Noise Images");
@@ -407,7 +396,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     layersButtonsPanel.add(newBtn);
 
     layersPanel.add(layersButtonsPanel);
-    layersPanel.add(this.createLayerRow("layer ", 0, true));
+
+    allLayers.add(createLayerRow(0));
+    layersPanel.add(allLayers.get(0));
 
     mainPanel.add(layersPanel, BorderLayout.LINE_START);
   }
@@ -454,17 +445,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
   }
 
-  /**
-   * Initializes the file chooser for the GUI.
-   */
-  private void fileChooser() {
-    fileOpenPanel = new JPanel();
-    fileOpenPanel.setLayout(new FlowLayout());
-    inputDialogPanel.add(fileOpenPanel);
-
-
-  }
-
   @Override
   public void actionPerformed(ActionEvent e) {
 
@@ -489,35 +469,25 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   /**
    * Creates a new layer row given the parameters for the layer.
    *
-   * @param layerName the name of the layer.
-   * @param layerNum  the number of the layer.
-   * @param isVisible the visibility of the layer.
+   * @param layerNum the number of the layer.
    * @return a {@link JPanel} with the new layer.
    * @throws IllegalArgumentException if arguments are invalid or null.
    */
-  private JPanel createLayerRow(String layerName, int layerNum, boolean isVisible)
-      throws IllegalArgumentException {
-    if (layerName == null) {
-      throw new IllegalArgumentException("Arguments are null");
-    }
+  private JPanel createLayerRow(int layerNum) {
     JPanel thisRow = new JPanel();
     thisRow.setLayout(new FlowLayout());
-
-    JButton layerBtn = new JButton(layerName + " | " + layerNum);
-    layerBtn.setActionCommand("layer " + layerNum);
+    thisRow.add(new JLabel(String.valueOf(layerNum)));
+    JButton layerBtn = new JButton("Layer | " + layerNum);
+    layerBtn.setActionCommand("currentLayerWithIndex " + layerNum);
     layerBtn.addActionListener(this);
-    JCheckBox layerCB = new JCheckBox("visible?", isVisible);
+    JCheckBox layerCB = new JCheckBox("visible?", true);
     layerCB.setActionCommand("layer " + layerNum + " check box");
     layerCB.addActionListener(this);
-    // REPLACE THIS WITH A DELETE ICON
-    JButton deleteLayerBtn = new JButton("delete");
-    deleteLayerBtn.setActionCommand("delete layer " + layerNum);
-    deleteLayerBtn.addActionListener(this);
 
     thisRow.add(layerBtn);
     thisRow.add(layerCB);
-    thisRow.add(deleteLayerBtn);
 
+    this.allLayers.add(thisRow);
     return thisRow;
 
   }
@@ -531,13 +501,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private Map<String, IGUICommand> initActionsMap() {
 
     Map<String, IGUICommand> actionsMap = new HashMap<>();
-
-//    actionsMap.putIfAbsent("file", new FileMenuCommand());
-//    actionsMap.putIfAbsent("edit", new EditMenuCommand());
-//    actionsMap.putIfAbsent("transformations", new TransformationsMenuCommand());
-//    actionsMap.putIfAbsent("programmatic images", new ProgrammaticImagesMenuCommand());
-//    actionsMap.putIfAbsent("swap", new SwapCommand());
-//    actionsMap.putIfAbsent("new", new NewLayerCommand());
 
     actionsMap.putIfAbsent("new", new NewLayerCommand());
     actionsMap.putIfAbsent("mosaic", new GUIMosaicCommand());
@@ -556,6 +519,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     actionsMap.putIfAbsent("pure noise", new PureNoiseCommand());
     actionsMap.putIfAbsent("custom noise", new CustomNoiseCommand());
     actionsMap.putIfAbsent("undo", new UndoCommand());
+    actionsMap.putIfAbsent("currentLayerWithIndex", new CurrentLayerWithIndex());
 
     return actionsMap;
   }
@@ -590,16 +554,32 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   }
 
+  /**
+   * Command for setting the current layer with the layer button.
+   */
+  private class CurrentLayerWithIndex implements IGUICommand {
+
+    @Override
+    public void execute() {
+      // determine which button was pressed
+    }
+  }
+
+  /**
+   * Command for creating a new layer.
+   */
   private class NewLayerCommand implements IGUICommand {
 
     @Override
     public void execute() {
       mdl.addLayer();
-      layersPanel.add(createLayerRow("NEWLAYER", mdl.getLayers().size(),
-          true));
+      layersPanel.add(createLayerRow(mdl.getLayers().size() - 1));
     }
   }
 
+  /**
+   * Command for swapping two layers.
+   */
   private class SwapLayersCommand implements IGUICommand {
 
     @Override
@@ -701,50 +681,14 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
       try {
         int seeds = Integer.parseInt(input);
         mdl.mosaic(seeds);
-        setImage();        // TODO: repaint the image here
-        // TODO: repaint the image here
+        setImage();
       } catch (IllegalArgumentException e) {
-        // TODO: show an error dialog popup
         errorPopup("Please try again and "
                 + "enter an integer greater than or equal to 0 for the number of seeds",
             "Invalid seed number");
       }
     }
   }
-
-//  private class ImportOneCommand implements IGUICommand {
-//
-//    @Override
-//    public void execute() {
-//
-//      final JFileChooser fChooser = new JFileChooser("");
-//      FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG, PNG, PPM",
-//          "jpg", "png", "ppm");
-//      fChooser.setFileFilter(filter);
-//      int fChooserValidation = fChooser.showOpenDialog(IMEFrame.this);
-//      if (fChooserValidation == JFileChooser.APPROVE_OPTION) {
-//        File f = fChooser.getSelectedFile();
-//        String absPath = f.getAbsolutePath();
-//
-//        //String fExtension = absPath.substring(absPath.lastIndexOf('.'));
-//
-//        //Map<String, IFileFormat> formatsMap = IMEFrame.initFormatsMap();
-//
-//      }
-//
-//      String path = "res/MPP.png";
-//
-//      IImage toImport = new PNGFile().importImage(path);
-//
-//      mdl.load(toImport);
-//
-//      BufferedImage buffered = toImport.getBufferedImage();
-//
-//      ImageIcon icon = new ImageIcon(buffered);
-//
-//      imgLabel.setIcon(icon);
-//    }
-//  }
 
   /**
    * Command for downscaling an image.
@@ -763,12 +707,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
         new Downscale(mdl, height, width).apply();
         setImage();
       } catch (IllegalArgumentException e) {
-        // TODO: show an error dialog popup
-        JOptionPane.showMessageDialog(IMEFrame.this,
-            "Please try again and "
-                + "enter an integer greater than or equal to 0 for the number of seeds",
-            "Invalid seed number",
-            JOptionPane.ERROR_MESSAGE);
+        errorPopup("Please try again and enter an integer greater than or equal to 0 for the "
+            + "number of seeds", "Invalid number of seeds");
       }
 
     }
@@ -796,16 +736,16 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
           absPath += ".png"; // default to save as png
           ImageIO.write(mdl.getImage().getBufferedImage(), "png", f);
         } catch (IOException e) {
-          JOptionPane.showMessageDialog(IMEFrame.this,
-              "Could not save the specified file",
-              "I/O Error",
-              JOptionPane.ERROR_MESSAGE);
+          errorPopup("Could not save the specified file", "I/O Error");
         }
 
       }
     }
   }
 
+  /**
+   * Command for selecting the current layer.
+   */
   private class CurrentLayerCommand implements IGUICommand {
 
     @Override
@@ -823,6 +763,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Command for creating a checkerboard image.
+   */
   private class CheckerBoardCommand implements IGUICommand {
 
     @Override
@@ -847,16 +790,18 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Command to delete a layer.
+   */
   private class DeleteLayerCommand implements IGUICommand {
 
     @Override
     public void execute() {
-      String layerToDeleteInp = getDialogInput("Enter the number of the layer to delete");
-
+      String layerToDeleteInp = getDialogInput("Enter the index of the layer to delete");
       try {
         int layerToDelete = Integer.parseInt(layerToDeleteInp);
         mdl.deleteLayer(layerToDelete);
-      } catch (NumberFormatException e) {
+      } catch (IllegalArgumentException e) {
         errorPopup("Please enter a valid number between 0 and " +
             (mdl.getLayers().size() - 1), "Bad layer number");
       }
@@ -992,7 +937,10 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   }
 
   /**
-   * TODO
+   * Displays a popup error message with the given message and title.
+   *
+   * @param dialogMsg the message text.
+   * @param title     the title of the popup.
    */
   private void errorPopup(String dialogMsg, String title)
       throws IllegalArgumentException {
@@ -1005,11 +953,11 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   }
 
   /**
-   * TODO
+   * Displays a popup prompting the user for input, and saves the user response.
    *
-   * @param prompt
-   * @return
-   * @throws IllegalArgumentException
+   * @param prompt the prompt for the user to respond to.
+   * @return the user's input as a String.
+   * @throws IllegalArgumentException if the given input is invalid.
    */
   private String getDialogInput(String prompt)
       throws IllegalArgumentException {

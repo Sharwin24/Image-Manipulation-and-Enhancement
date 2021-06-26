@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * TODO
+ * Command for the Mosaic operation.
  */
 public class MosaicCommand extends AIMECommand {
 

@@ -51,7 +51,8 @@ public interface IImage {
   int getHeight();
 
   /**
-   * TODO: maybe move this
+   * Generates a Mosaic of this image with the given number of seeds.
+   * @param numSeeds the number of seeds to generate the Mosaic image.
    */
   IImage mosaic(int numSeeds);
 

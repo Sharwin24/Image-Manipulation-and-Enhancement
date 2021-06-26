@@ -216,9 +216,11 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   }
 
 
+
   @Override
   public void mosaic(int numSeeds)
       throws IllegalArgumentException {
+
     this.currentLayer.getModel().mosaic(numSeeds);
   }
 

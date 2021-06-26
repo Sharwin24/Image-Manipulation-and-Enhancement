@@ -146,12 +146,12 @@ public class ImageImpl implements IImage {
   }
 
   /**
-   * Todo:
+   * Finds the closest seed to the pixel at the given location.
    *
-   * @param row
-   * @param col
-   * @param seeds
-   * @return
+   * @param row the pixel's row position.
+   * @param col the pixel's column position.
+   * @param seeds the list of seeds to find the closest one to.
+   * @return the closest seed.
    */
   private IPixel closestPixelTo(int row, int col, List<IndexedPixel> seeds) {
     return Collections.min(seeds, // lambda moment
@@ -159,11 +159,11 @@ public class ImageImpl implements IImage {
   }
 
   /**
-   * TODO
+   * Returns an IPixel with an average value of the 2 given pixels.
    *
-   * @param px1
-   * @param px2
-   * @return
+   * @param px1 the first pixel.
+   * @param px2 the second pixel.
+   * @return a new IPixel with an average color of the 2 given pixels.
    */
   private static IPixel avgPixels(IPixel px1, IPixel px2) {
     return new PixelImpl(
@@ -173,11 +173,11 @@ public class ImageImpl implements IImage {
   }
 
   /**
-   * TODO
+   * Returns the average of the 2 given integers.
    *
-   * @param n1
-   * @param n2
-   * @return
+   * @param n1 the first number.
+   * @param n2 the second number.
+   * @return an integer representing the average.
    */
   private static int avg(int n1, int n2) {
     return (n1 + n2) / 2;
