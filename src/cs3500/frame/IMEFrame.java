@@ -16,10 +16,18 @@ import cs3500.model.operation.Greyscale;
 import cs3500.model.operation.ImageBlur;
 import cs3500.model.operation.Sepia;
 import cs3500.model.operation.Sharpening;
+import cs3500.model.pixel.IPixel;
+import cs3500.model.pixel.PixelImpl;
+import cs3500.model.programmaticimages.BWNoise;
 import cs3500.model.programmaticimages.Checkerboard;
+import cs3500.model.programmaticimages.IProgramImage;
+import cs3500.model.programmaticimages.Noise;
+import cs3500.model.programmaticimages.PureNoise;
+import cs3500.model.programmaticimages.RainbowNoise;
 import cs3500.view.IMEView;
 import cs3500.view.TextualIMEView;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.FlowLayout;
@@ -36,7 +44,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -44,6 +55,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -125,6 +137,10 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private JPanel fileOpenPanel;
 
   private JPanel inputDialogPanel;
+
+  private JPanel colorChooserDisplay = new JPanel();
+
+  private Map<String, IGUICommand> actionsMap = this.initActionsMap();
 
   public IMEFrame() {
     super();
@@ -260,7 +276,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     sepiaItem.setMnemonic(KeyEvent.VK_E);
     sepiaItem.setActionCommand("sepia");
     sepiaItem.addActionListener(this);
-    sepiaItem.addActionListener(this);
     transformationsMenu.add(sepiaItem);
 
     JMenuItem greyScaleItem = new JMenuItem("Greyscale");
@@ -337,7 +352,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     pureNoiseItem.addActionListener(this);
     noiseSubMenu.add(pureNoiseItem);
 
-    JMenuItem bwNoiseItem = new JMenuItem("Black and white noise");
+    JMenuItem bwNoiseItem = new JMenuItem("Black and white noise...");
     bwNoiseItem.getAccessibleContext().setAccessibleDescription(
         "creates a noise image wherein each pixel is either black or white");
     bwNoiseItem.setMnemonic(KeyEvent.VK_B);
@@ -345,7 +360,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     bwNoiseItem.addActionListener(this);
     noiseSubMenu.add(bwNoiseItem);
 
-    JMenuItem rainbowNoiseItem = new JMenuItem("Black and white noise");
+    JMenuItem rainbowNoiseItem = new JMenuItem("Rainbow noise...");
     rainbowNoiseItem.getAccessibleContext().setAccessibleDescription(
         "creates a noise image wherein each pixel is one of the colors of the rainbow: "
             + "red, orange, yellow, green, blue, indigo, or violet.");
@@ -372,68 +387,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     this.mainPanel.add(menuRibbon, BorderLayout.PAGE_START);
   }
 
-  /**
-   * Initializes the dropdown menus at the top of the gui.
-   */
-  /*private void dropDownMenus() {
-    // setting up the dropdown menus ribbon:
-    this.menusLabel = new JLabel("Menus Ribbon");
-    this.menusPanel = new JPanel();
-    this.menusPanel.setLayout(new FlowLayout());
-
-    // to set up the file menu
-    this.fileMenuLabel = new JLabel("File");
-    menusPanel.add(fileMenuLabel);
-    // fileMenuPanel.add(fileMenuLabel);
-    String[] fileOptions = {"Import", "Import layers", "Export", "Export layers"};
-    JComboBox<String> fileMenuBox = new JComboBox<>();
-    // event listeners
-    fileMenuBox.setActionCommand("import"); // Todo: refactor to give each button an event
-    fileMenuBox.addActionListener(this);
-    for (int i = 0; i < fileOptions.length; i++) {
-      fileMenuBox.addItem(fileOptions[i]);
-    }
-    menusPanel.add(fileMenuBox);
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // to set up the edit menu
-    this.editMenuLabel = new JLabel("Edit");
-    menusPanel.add(editMenuLabel);
-    String[] editOptions = {"Undo", "Redo", "Save", "New layer", "Set current layer"};
-    JComboBox<String> editMenuBox = new JComboBox<>();
-    editMenuBox.setActionCommand("edit");
-    editMenuBox.addActionListener(this);
-    for (int i = 0; i < editOptions.length; i++) {
-      editMenuBox.addItem(editOptions[i]);
-    }
-    menusPanel.add(editMenuBox);
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // to set up the transformations menu
-    this.transformationsMenuLabel = new JLabel("Transformations");
-    menusPanel.add(transformationsMenuLabel);
-    String[] transformationsOptions = {"Sepia", "Greyscale", "Blur", ""
-        + "Sharpen", "Mosaic...", "Downscale..."};
-    JComboBox<String> transformationsMenuBox = new JComboBox<>();
-    transformationsMenuBox.setActionCommand("transformations");
-    transformationsMenuBox.addActionListener(this);
-    for (int i = 0; i < transformationsOptions.length; i++) {
-      transformationsMenuBox.addItem(transformationsOptions[i]);
-    }
-    menusPanel.add(transformationsMenuBox);
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // to set up the programmatic images menu
-    this.programmaticImagesMenuLabel = new JLabel("Programmatic Images");
-    menusPanel.add(programmaticImagesMenuLabel);
-    String[] programmaticImagesOptions = {"Checkerboard...", "Noise..."};
-    JComboBox<String> programmaticImagesMenuBox = new JComboBox<>();
-    programmaticImagesMenuBox.setActionCommand("programmatic images");
-    programmaticImagesMenuBox.addActionListener(this);
-    for (int i = 0; i < programmaticImagesOptions.length; i++) {
-      programmaticImagesMenuBox.addItem(programmaticImagesOptions[i]);
-    }
-    menusPanel.add(programmaticImagesMenuBox);
-
-    mainPanel.add(menusPanel, BorderLayout.PAGE_START);
-  }*/
 
   /**
    * Initializes the panel for the layers.
@@ -494,8 +447,10 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
    * Initializes the panel for the main image to appear.
    */
   private void imageArea() {
+
     this.imageScrollPanel = new JScrollPane(this.imgLabel);
     imageScrollPanel.setPreferredSize(new Dimension(700, 700));
+
     mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
   }
 
@@ -512,8 +467,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   @Override
   public void actionPerformed(ActionEvent e) {
-
-    Map<String, IGUICommand> actionsMap = this.initActionsMap();
 
     if (!(actionsMap.containsKey(e.getActionCommand()))) {
       return; // throw new IllegalArgumentException("command not recognized");
@@ -598,6 +551,11 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     actionsMap.putIfAbsent("set current layer", new CurrentLayerCommand());
     actionsMap.putIfAbsent("checkerboard", new CheckerBoardCommand());
     actionsMap.putIfAbsent("delete", new DeleteLayerCommand());
+    actionsMap.putIfAbsent("bw noise", new BWNoiseCommand());
+    actionsMap.putIfAbsent("rainbow noise", new RainbowNoiseCommand());
+    actionsMap.putIfAbsent("pure noise", new PureNoiseCommand());
+    actionsMap.putIfAbsent("custom noise", new CustomNoiseCommand());
+    actionsMap.putIfAbsent("undo", new UndoCommand());
 
     return actionsMap;
   }
@@ -905,6 +863,115 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  private abstract class ANoiseCommand implements IGUICommand {
+
+    /**
+     * TODO
+     */
+    @Override
+    public void execute() {
+      String widthInp = getDialogInput("Please enter the width of the noise image");
+      String heightInp = getDialogInput("Please enter the height of the noise image");
+
+      try {
+        int width = Integer.parseInt(widthInp);
+        int height = Integer.parseInt(heightInp);
+
+        mdl.setProgrammaticImage(this.factoryProgrammaticImage(), width, height, 1);
+        setImage();
+      } catch (NumberFormatException e) {
+        errorPopup("Cannot create a noise input with the specified width \""
+            + widthInp + "\" and height \"" + heightInp + "\"", "Bad noise image dimensions");
+      }
+    }
+
+    /**
+     * TODO
+     */
+    protected abstract IProgramImage factoryProgrammaticImage();
+
+  }
+
+  private class BWNoiseCommand extends ANoiseCommand {
+
+    @Override
+    protected IProgramImage factoryProgrammaticImage() {
+      return new BWNoise();
+    }
+  }
+
+  private class RainbowNoiseCommand extends ANoiseCommand {
+
+    @Override
+    protected IProgramImage factoryProgrammaticImage() {
+      return new RainbowNoise();
+    }
+  }
+
+  private class PureNoiseCommand extends ANoiseCommand {
+
+    @Override
+    protected IProgramImage factoryProgrammaticImage() {
+      return new PureNoise();
+    }
+  }
+
+  private class CustomNoiseCommand extends ANoiseCommand {
+
+    @Override
+    protected IProgramImage factoryProgrammaticImage() {
+      return new Noise(getColorsFromUser());
+    }
+
+    private IPixel[] getColorsFromUser() {
+
+      List<Color> colorsPicked = new ArrayList<>();
+
+
+      int addAnotherColor = JOptionPane.YES_OPTION;
+
+      while (addAnotherColor == JOptionPane.YES_OPTION) {
+        addAnotherColor = JOptionPane.showConfirmDialog(inputDialogPanel,
+            "Would you like to add another color to the noise image to be generated?",
+            "Add more colors?",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
+        if (addAnotherColor == JOptionPane.YES_OPTION) {
+          Color c = JColorChooser.showDialog(IMEFrame.this, "Choose a color",
+              colorChooserDisplay.getBackground());
+
+          colorsPicked.add(c);
+        }
+      }
+
+      IPixel[] colorsPickedArr = new IPixel[colorsPicked.size()];
+
+      for (int i = 0; i < colorsPicked.size(); i++) {
+        colorsPickedArr[i] = colorToIPixel(colorsPicked.get(i));
+      }
+
+      return colorsPickedArr;
+    }
+  }
+
+  private class UndoCommand implements IGUICommand {
+
+    @Override
+    public void execute() {
+      mdl.undo();
+      setImage();
+    }
+  }
+
+  private class RedoCommand implements IGUICommand {
+
+    @Override
+    public void execute() {
+      mdl.redo();
+      setImage();
+    }
+  }
+
 
   /**
    * Returns the file extension for the given fileName.
@@ -948,6 +1015,16 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
       throws IllegalArgumentException {
     return JOptionPane.showInputDialog(Utility.checkNotNull(prompt, "cannot create a "
         + "dialog box with no prompt"));
+  }
+
+  /**
+   * TODO
+   *
+   * @param c
+   * @return
+   */
+  private static IPixel colorToIPixel(Color c) {
+    return new PixelImpl(c.getRed(), c.getGreen(), c.getBlue());
   }
 
 
