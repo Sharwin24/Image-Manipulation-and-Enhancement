@@ -404,6 +404,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     layersPanel.add(allLayers.get(0));
 
     mainPanel.add(layersPanel, BorderLayout.LINE_START);
+    packPanels();
   }
 
   /**
@@ -483,6 +484,14 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   }
 
+  /**
+   * Packs panels with preferred size.
+   */
+  private void packPanels() {
+    this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+    this.pack();
+  }
+
 
   /**
    * Creates a new layer row given the parameters for the layer.
@@ -495,19 +504,20 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     JPanel thisRow = new JPanel();
     thisRow.setLayout(new FlowLayout());
     JButton layerBtn = new JButton("Layer | " + layerNum);
+    layerBtn.setOpaque(false);
     actionsMap.putIfAbsent("currentLayerWithIndex " + layerNum,
         new CurrentLayerWithIndex(layerNum));
     layerBtn.setActionCommand("currentLayerWithIndex " + layerNum);
     layerBtn.addActionListener(this);
-    // Todo: Implement with ItemListeners
     JCheckBox layerCB = new JCheckBox("visible?", true);
+    layerCB.setOpaque(false);
     actionsMap.putIfAbsent("visible " + layerNum, new VisibleLayer(layerNum));
     layerCB.setActionCommand("visible " + layerNum);
     layerCB.addItemListener(this);
 
     thisRow.add(layerBtn);
     thisRow.add(layerCB);
-
+    thisRow.setOpaque(false);
     this.allLayers.add(thisRow);
     return thisRow;
 
@@ -635,6 +645,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     public void execute() {
       mdl.addLayer();
       layersPanel.add(createLayerRow(mdl.getLayers().size() - 1));
+      packPanels();
     }
   }
 
@@ -645,8 +656,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
     @Override
     public void execute() {
-      // ADD GUI I/O FOR GETTING LAYERS TO SWAP VIA A POPUP
-      // mdl.swapLayers();
       String layerIndex1 = getDialogInput("Enter the index for the first layer to swap");
       String layerIndex2 = getDialogInput("Enter the index for the second layer to swap");
       try {
