@@ -106,6 +106,7 @@ public class Main {
     } catch (IllegalAccessException e) {
       // do something
     }
+
 //    // -----------------DOWNSCALE TEST--------------------//
 //    IMultiLayerModel model = new MultiLayerModelImpl();
 //    IFileFormat format = new PNGFile();
@@ -115,6 +116,7 @@ public class Main {
 //    downscale.apply();
 //    format.exportImage("res/oh", model.getImage());
 //    // -----------------DOWNSCALE TEST--------------------//
+
   }
 
   /**

@@ -25,9 +25,9 @@ import java.util.Objects;
  */
 public class PixelImpl implements IPixel {
 
-  private IChannel red;
-  private IChannel green;
-  private IChannel blue;
+  protected IChannel red;
+  protected IChannel green;
+  protected IChannel blue;
 
   // Constants representing a pixel of a given color to be used for convenience.
   public static final PixelImpl RED = new PixelImpl(255, 0, 0);
