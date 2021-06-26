@@ -389,7 +389,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     layersPanel.setBorder(BorderFactory.createTitledBorder("LAYERS"));
     JPanel layersButtonsPanel = new JPanel();
     layersButtonsPanel.setLayout(new FlowLayout());
-    JButton swapBtn = new JButton("Swap");
+    JButton swapBtn = new JButton("Swap Layers");
     swapBtn.setActionCommand("swap");
     swapBtn.addActionListener(this);
     layersButtonsPanel.add(swapBtn);
@@ -472,7 +472,10 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   @Override
   public void itemStateChanged(ItemEvent e) {
-
+    if (!(actionsMap.containsKey(((JCheckBox) e.getItemSelectable()).getActionCommand()))) {
+      return;
+    }
+    actionsMap.get(((JCheckBox) e.getItemSelectable()).getActionCommand()).execute();
   }
 
   @Override
@@ -539,9 +542,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     actionsMap.putIfAbsent("undo", new UndoCommand());
     actionsMap.putIfAbsent("redo", new RedoCommand());
     actionsMap.putIfAbsent("run script", new RunScriptCommand());
-    actionsMap.putIfAbsent("currentLayerWithIndex", new CurrentLayerWithIndex());
     actionsMap.putIfAbsent("load script", new LoadScriptCommand());
-
+    actionsMap.putIfAbsent("swap", new SwapLayersCommand());
 
     return actionsMap;
   }
@@ -576,6 +578,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   }
 
+  /**
+   * Command for setting the visibility of a layer.
+   */
   private class VisibleLayer implements IGUICommand {
 
     private int layerNum;
@@ -590,6 +595,12 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     @Override
     public void execute() {
       mdl.toggleInvisible(layerNum);
+      if (mdl.getLayers().get(layerNum).isInvisible()) {
+        System.out.println("Layer " + layerNum + " is invisible");
+      } else {
+        System.out.println("Layer " + layerNum + " is visible");
+      }
+
     }
   }
 
@@ -610,6 +621,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     @Override
     public void execute() {
       mdl.setCurrentLayer(layerNum);
+      System.out.println("Layer " + layerNum + " selected");
+      setImage();
     }
   }
 
@@ -634,6 +647,14 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     public void execute() {
       // ADD GUI I/O FOR GETTING LAYERS TO SWAP VIA A POPUP
       // mdl.swapLayers();
+      String layerIndex1 = getDialogInput("Enter the index for the first layer to swap");
+      String layerIndex2 = getDialogInput("Enter the index for the second layer to swap");
+      try {
+        mdl.swapLayers(Integer.parseInt(layerIndex1), Integer.parseInt(layerIndex2));
+        setImage();
+      } catch (IllegalArgumentException e) {
+        System.out.println("Swap Failed: " + e.getMessage());
+      }
     }
   }
 
@@ -807,7 +828,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
             "Bad layer number");
 
       }
-      //mdl.setCurrentLayer();
     }
   }
 
