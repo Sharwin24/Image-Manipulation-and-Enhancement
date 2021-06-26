@@ -476,13 +476,16 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private JPanel createLayerRow(int layerNum) {
     JPanel thisRow = new JPanel();
     thisRow.setLayout(new FlowLayout());
-    thisRow.add(new JLabel(String.valueOf(layerNum)));
     JButton layerBtn = new JButton("Layer | " + layerNum);
+    actionsMap.putIfAbsent("currentLayerWithIndex " + layerNum,
+        new CurrentLayerWithIndex(layerNum));
     layerBtn.setActionCommand("currentLayerWithIndex " + layerNum);
     layerBtn.addActionListener(this);
+    // Todo: Implement with ItemListeners
     JCheckBox layerCB = new JCheckBox("visible?", true);
-    layerCB.setActionCommand("layer " + layerNum + " check box");
-    layerCB.addActionListener(this);
+    actionsMap.putIfAbsent("visible " + layerNum, new VisibleLayer(layerNum));
+    layerCB.setActionCommand("visible " + layerNum);
+    layerCB.addItemListener(this);
 
     thisRow.add(layerBtn);
     thisRow.add(layerCB);
@@ -519,7 +522,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     actionsMap.putIfAbsent("pure noise", new PureNoiseCommand());
     actionsMap.putIfAbsent("custom noise", new CustomNoiseCommand());
     actionsMap.putIfAbsent("undo", new UndoCommand());
-    actionsMap.putIfAbsent("currentLayerWithIndex", new CurrentLayerWithIndex());
+    actionsMap.putIfAbsent("redo", new RedoCommand());
 
     return actionsMap;
   }
@@ -554,14 +557,40 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   }
 
+  private class VisibleLayer implements IGUICommand {
+
+    private int layerNum;
+
+    public VisibleLayer(int layerNum) throws IllegalArgumentException {
+      if (layerNum < 0) {
+        throw new IllegalArgumentException("Layer Number cannot be less than zero");
+      }
+      this.layerNum = layerNum;
+    }
+
+    @Override
+    public void execute() {
+      mdl.toggleInvisible(layerNum);
+    }
+  }
+
   /**
    * Command for setting the current layer with the layer button.
    */
   private class CurrentLayerWithIndex implements IGUICommand {
 
+    private int layerNum;
+
+    public CurrentLayerWithIndex(int layerNum) throws IllegalArgumentException {
+      if (layerNum < 0) {
+        throw new IllegalArgumentException("Layer Number cannot be less than zero");
+      }
+      this.layerNum = layerNum;
+    }
+
     @Override
     public void execute() {
-      // determine which button was pressed
+      mdl.setCurrentLayer(layerNum);
     }
   }
 
@@ -872,7 +901,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
       List<Color> colorsPicked = new ArrayList<>();
 
-
       int addAnotherColor = JOptionPane.YES_OPTION;
 
       while (addAnotherColor == JOptionPane.YES_OPTION) {
@@ -933,7 +961,11 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
    * Sets the image in the GUI to the current one.
    */
   private void setImage() {
-    imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
+    try {
+      imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
   }
 
   /**
