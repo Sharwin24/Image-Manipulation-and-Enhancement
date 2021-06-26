@@ -539,7 +539,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     actionsMap.putIfAbsent("undo", new UndoCommand());
     actionsMap.putIfAbsent("redo", new RedoCommand());
     actionsMap.putIfAbsent("run script", new RunScriptCommand());
-    actionsMap.putIfAbsent("currentLayerWithIndex", new CurrentLayerWithIndex());
+    // actionsMap.putIfAbsent("currentLayerWithIndex", new CurrentLayerWithIndex());
     actionsMap.putIfAbsent("load script", new LoadScriptCommand());
 
 
@@ -1015,6 +1015,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private void setImage() {
     try {
       imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
+      // scriptArea.setText(scriptIn.toString());
+      consoleTxt.setText("PLEASE");
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
