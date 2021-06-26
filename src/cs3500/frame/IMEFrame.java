@@ -78,10 +78,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- * The interactive GUI frame for the Image Manipulation and Enhancement program.
- * Supports all of the functionality of the {@link IMultiLayerModel} interface,
- * exposing all functionality through a menu ribbon as well as convenient buttons. Also supports
- * interactive scripting from within the GUI itself.
+ * The interactive GUI frame for the Image Manipulation and Enhancement program. Supports all of the
+ * functionality of the {@link IMultiLayerModel} interface, exposing all functionality through a
+ * menu ribbon as well as convenient buttons. Also supports interactive scripting from within the
+ * GUI itself.
  */
 public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     ListSelectionListener {
@@ -190,7 +190,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     setTitle("Image Manipulation and Enhancement");
     setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     // setBackground(defaultTheme.getPrimary());
-
 
     this.mdl = new MultiLayerModelImpl();
     this.scriptIn = new StringReader("");
@@ -619,11 +618,11 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
 
   /**
-   * Returns a Hashmap of the string commands to the command objects. Helps to implement
-   * the command pattern for all listeners of the supported events in the GUI frame.
+   * Returns a Hashmap of the string commands to the command objects. Helps to implement the command
+   * pattern for all listeners of the supported events in the GUI frame.
    *
-   * @return a {@link HashMap} of the commands from a string to their function objects that
-   * execute the promised action.
+   * @return a {@link HashMap} of the commands from a string to their function objects that execute
+   * the promised action.
    */
   private Map<String, IGUICommand> initActionsMap() {
 
@@ -683,16 +682,16 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   /**
    * <p>An interface for function objects representing a command that the GUI can execute.
-   * Each class implementing this interface has an <code>execute()</code> command that,
-   * quite obviously, just executes that command. Any relevant information that the object
-   * needs to execute that command is passed in that object's constructor.</p>
+   * Each class implementing this interface has an <code>execute()</code> command that, quite
+   * obviously, just executes that command. Any relevant information that the object needs to
+   * execute that command is passed in that object's constructor.</p>
    *
    * <p>This interface is marked <code>private</code> and nested inside of the
-   * {@link IMEFrame} since it is only to be used to better organize action listeners and the
-   * {@link IMEFrame#actionPerformed(ActionEvent)} method, and nowhere outside of that class.
-   * Having this class nested inside of the {@link IMEFrame} class also gives it access to the frame
-   * and model that are to be manipulated by this interface, meaning that we don't have to pass
-   * those objects as parameters, and can instead reference them from within this context.</p>
+   * {@link IMEFrame} since it is only to be used to better organize action listeners and the {@link
+   * IMEFrame#actionPerformed(ActionEvent)} method, and nowhere outside of that class. Having this
+   * class nested inside of the {@link IMEFrame} class also gives it access to the frame and model
+   * that are to be manipulated by this interface, meaning that we don't have to pass those objects
+   * as parameters, and can instead reference them from within this context.</p>
    */
   private interface IGUICommand {
 
@@ -814,6 +813,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   }
 
   private class OperationCommand implements IGUICommand {
+
     private final IOperation toApply;
 
     public OperationCommand(IOperation toApply) {
@@ -827,54 +827,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
       setImage();
     }
   }
-
-//  /**
-//   * Applies a Sepia filter to the current image and reflects that change.
-//   */
-//  private class SepiaCommand implements IGUICommand {
-//
-//    @Override
-//    public void execute() {
-//      mdl.applyOperations(new Sepia());
-//      setImage();
-//    }
-//  }
-//
-//  /**
-//   * Applies the Greyscale operation to the current image.
-//   */
-//  private class GreyScaleCommand implements IGUICommand {
-//
-//    @Override
-//    public void execute() {
-//      mdl.applyOperations(new Greyscale());
-//      setImage();
-//    }
-//  }
-//
-//  /**
-//   * Applies the Sharpen operation to the current image.
-//   */
-//  private class SharpenCommand implements IGUICommand {
-//
-//    @Override
-//    public void execute() {
-//      mdl.applyOperations(new Sharpening());
-//      setImage();
-//    }
-//  }
-//
-//  /**
-//   * Applies the Blur operation to the current image.
-//   */
-//  private class BlurCommand implements IGUICommand {
-//
-//    @Override
-//    public void execute() {
-//      mdl.applyOperations(new ImageBlur());
-//      setImage();
-//    }
-//  }
 
   /**
    * Command for applying the Mosaic operation to the current image.
@@ -1015,11 +967,12 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * All Noise Commands follow the same execution with different parameters, which are specified by
+   * each subclass that extends this abstract class.
+   */
   private abstract class ANoiseCommand implements IGUICommand {
 
-    /**
-     * TODO
-     */
     @Override
     public void execute() {
       String widthInp = getDialogInput("Please enter the width of the noise image");
@@ -1038,7 +991,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
 
     /**
-     * TODO
+     * Returns the subclass programmed Image.
      */
     protected abstract IProgramImage factoryProgrammaticImage();
 
@@ -1221,15 +1174,15 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     @Override
     public void execute() {
 
-          try {
-            Desktop.getDesktop().browse(new URL(GITHUB_URL).toURI());
-          } catch (URISyntaxException | IOException e) {
-            errorPopup("Could not open up the github URL. Congrats on breaking the "
-                + "program. https://github.com/Sharwin24/Image-Manipulation-and-Enhancement.git is"
-                + " the actual link. Contact us there about this issue", "Bad GitHub URL");
-          }
-
+      try {
+        Desktop.getDesktop().browse(new URL(GITHUB_URL).toURI());
+      } catch (URISyntaxException | IOException e) {
+        errorPopup("Could not open up the github URL. Congrats on breaking the "
+            + "program. https://github.com/Sharwin24/Image-Manipulation-and-Enhancement.git is"
+            + " the actual link. Contact us there about this issue", "Bad GitHub URL");
       }
+
+    }
 
 
   }
