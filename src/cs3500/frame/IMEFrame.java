@@ -2,24 +2,31 @@ package cs3500.frame;
 
 import cs3500.controller.IMultiLayerIMEController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
+import cs3500.model.IIMEModel;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
+
 
 import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.fileformat.JPEGFile;
 import cs3500.model.fileformat.PNGFile;
 import cs3500.model.fileformat.PPMFile;
+import cs3500.model.image.IImage;
+import cs3500.model.operation.Downscale;
 import cs3500.model.operation.Greyscale;
 import cs3500.model.operation.ImageBlur;
 import cs3500.model.operation.Sepia;
 import cs3500.model.operation.Sharpening;
-
 import cs3500.view.IMEView;
 import cs3500.view.TextualIMEView;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.FlowLayout;
+
+import java.awt.Graphics;
+import java.awt.Image;
+
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -29,10 +36,14 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
+import java.nio.file.Path;
 import java.io.FilenameFilter;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -40,6 +51,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -51,26 +63,30 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     ListSelectionListener {
 
+
+  private static final String WORKING_DIR = System.getProperty("user.dir");
   // the dimensions of a typical computer screen
   private static final int SCREEN_WIDTH = 1200;
   private static final int SCREEN_HEIGHT = 800;
 
   // to represent the model--the images to be manipulated
-  private final IMultiLayerModel mdl;
+  private IMultiLayerModel mdl;
   // to represent the scriptable controller embedded in the GUI
-  private final IMultiLayerIMEController scrptCtrlr;
+  private IMultiLayerIMEController scrptCtrlr;
+  private JButton runScriptBtn;
   // to store interactively-scripted commands
-  private final Readable scriptIn;
+  private Readable scriptIn;
   // to represent the embedded text view
-  private final IMEView txtView;
+  private IMEView txtView;
   // to store output from the view
-  private final Appendable out;
+  private Appendable out;
   // to store the GUI elements
-  private final JPanel mainPanel;
+  private JPanel mainPanel;
   // to store the menu ribbon elements
   private JLabel menusLabel;
   private JPanel menusPanel;
@@ -105,6 +121,17 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   // to handle input and display it
   private JLabel inputDisplay;
 
+  // to handle text in the console
+  private JPanel consolePanel;
+  private JTextArea consoleTxt;
+
+
+  private JLabel imgLabel = new JLabel("");
+
+  private JPanel fileOpenPanel;
+
+  private JPanel mosaicInputDialogPanel;// TODO: possibly refactor for more general name
+
   public IMEFrame() {
     super();
     setTitle("Image Manipulation and Enhancement");
@@ -125,8 +152,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     this.mainPanel = new JPanel();
     this.mainPanel.setLayout(new BorderLayout());
 
-    // setup drop down menus
-//    this.dropDownMenus();
     // setup layers panel
     this.layersPanel();
     // setup console panel
@@ -138,13 +163,17 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     // setup the menu bar
     this.menuRibbon();
 
+    /**
+     * REORGANIZE
+     */
+    this.fileChooser();
+
     //~~~~~~~~~~~~~~~~~~~~~~~~~//
     add(mainPanel);
 
     // this.actionsMap = this.initActionsMap();
 
     //mdl.load(new PNGFile().importImage("res/MPP.png"));
-
   }
 
   /**
@@ -269,7 +298,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     //dialogBoxesPanel.setLayout(new BoxLayout(dialogBoxesPanel,BoxLayout.PAGE_AXIS));
     //mainPanel.add(dialogBoxesPanel);
 
-    JPanel mosaicInputDialogPanel = new JPanel();
+    mosaicInputDialogPanel = new JPanel();
     mosaicInputDialogPanel.setLayout(new FlowLayout());
     //dialogBoxesPanel.add(mosaicInputDialogPanel);
 
@@ -352,7 +381,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   /**
    * Initializes the dropdown menus at the top of the gui.
    */
-  private void dropDownMenus() {
+  /*private void dropDownMenus() {
     // setting up the dropdown menus ribbon:
     this.menusLabel = new JLabel("Menus Ribbon");
     this.menusPanel = new JPanel();
@@ -410,7 +439,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     menusPanel.add(programmaticImagesMenuBox);
 
     mainPanel.add(menusPanel, BorderLayout.PAGE_START);
-  }
+  }*/
 
   /**
    * Initializes the panel for the layers.
@@ -431,10 +460,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     layersButtonsPanel.add(newBtn);
 
     layersPanel.add(layersButtonsPanel);
-
-    for (int i = 0; i < 5; i++) {
-      layersPanel.add(this.createLayerRow("layer ", i, true));
-    }
+    layersPanel.add(this.createLayerRow("layer ", 0, true));
 
     mainPanel.add(layersPanel, BorderLayout.LINE_START);
   }
@@ -444,8 +470,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
    */
   private void console() {
     // setting up the console
-    JPanel consolePanel = new JPanel();
-    JTextArea consoleTxt = new JTextArea(this.out.toString() + " TEST");
+    consolePanel = new JPanel();
+    consoleTxt = new JTextArea(this.out.toString() + " TEST");
     consolePanel.add(consoleTxt);
 
     mainPanel.add(consolePanel, BorderLayout.PAGE_END);
@@ -459,46 +485,41 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     JPanel scriptPanel = new JPanel();
     JTextArea scriptArea = new JTextArea("SCRIPT HERE");
     scriptPanel.add(scriptArea);
+
+    runScriptBtn = new JButton("Run script");
+    runScriptBtn.addActionListener(this);
+    runScriptBtn.setActionCommand("run script");
+    scriptPanel.add(runScriptBtn);
+
     mainPanel.add(scriptPanel, BorderLayout.LINE_END);
+
+
   }
 
   /**
    * Initializes the panel for the main image to appear.
    */
   private void imageArea() {
-    // setting up the image area
-    JPanel imagePanel = new JPanel();
-    imagePanel.setBorder(BorderFactory.createTitledBorder("this layer"));
-    mainPanel.add(imagePanel, BorderLayout.CENTER);
-
-    // demo to display an image:
-    String imageName = "res/LONG.png";
-    JLabel imageLabel = new JLabel(imageName);
-    JScrollPane imageScrollPane = new JScrollPane(imageLabel);
-    Icon im = new ImageIcon(imageName);
-    imageLabel.setIcon(im);
-    imagePanel.add(imageScrollPane);
-
-    add(mainPanel);
-    // Scrolling image panel
     this.imagePanel = new JPanel();
     this.imagePanel.setPreferredSize(new Dimension(600, 600));
+    this.imagePanel.setBorder(BorderFactory.createTitledBorder("This layer: "
+        + imgLabel.getText()));
     this.imageScrollPanel = new JScrollPane(this.imagePanel);
-    this.mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
-//    ///~~~~~~~~~~~~~~~~~~~~~~~~~~///
-//    this.mdl.load(new JPEGFile().importImage("src/lakeImage.jpg"));
-//    this.displayNewImage(this.mdl.getImage().getBufferedImage());
-//    this.mdl.addLayer();
-//    this.mdl.setCurrentLayer(1);
-//    try {
-//      this.displayNewImage(this.mdl.getImage().getBufferedImage());
-//    } catch (Exception e) {
-//      this.imagePanel = new JPanel();
-//      this.imagePanel.setPreferredSize(new Dimension(600, 600));
-//      this.imageScrollPanel = new JScrollPane(this.imagePanel);
-//      this.mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
-//    }
-//    ///~~~~~~~~~~~~~~~~~~~~~~~~~~///
+    imgLabel = new JLabel("image!");
+    imagePanel.add(imgLabel);
+    imageScrollPanel.add(imagePanel);
+    mainPanel.add(imagePanel, BorderLayout.CENTER);
+  }
+
+  /**
+   * Initializes the file chooser for the GUI.
+   */
+  private void fileChooser() {
+    fileOpenPanel = new JPanel();
+    fileOpenPanel.setLayout(new FlowLayout());
+    mosaicInputDialogPanel.add(fileOpenPanel);
+
+
   }
 
   /**
@@ -598,8 +619,27 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     actionsMap.putIfAbsent("new", new NewLayerCommand());
     actionsMap.putIfAbsent("mosaic", new GUIMosaicCommand());
     actionsMap.putIfAbsent("import one", new ImportOneCommand());
+    actionsMap.putIfAbsent("sepia", new SepiaCommand());
+    actionsMap.putIfAbsent("greyscale", new GreyScaleCommand());
+    actionsMap.putIfAbsent("sharpen", new SharpenCommand());
+    actionsMap.putIfAbsent("blur", new BlurCommand());
+    actionsMap.putIfAbsent("downscale", new DownScaleCommand());
+    actionsMap.putIfAbsent("export one", new ExportOneCommand());
 
     return actionsMap;
+  }
+
+
+  private static Map<String, IFileFormat> initFormatsMap() {
+    final Map<String, IFileFormat> formatsMap = new HashMap<>();
+
+    formatsMap.putIfAbsent("jpg", new JPEGFile());
+    formatsMap.putIfAbsent("jpeg", new JPEGFile());
+    formatsMap.putIfAbsent("ppm", new PPMFile());
+    formatsMap.putIfAbsent("png", new PNGFile());
+
+    return formatsMap;
+
   }
 
 
@@ -647,14 +687,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
       String absolutePath = dialog.getDirectory() + dialog.getFile();
       // ensure valid fileType
       IFileFormat fileFormat = null;
-      Map<String, IFileFormat> formats = new HashMap<>();
-      formats.putIfAbsent(".ppm", new PPMFile());
-      formats.putIfAbsent(".jpg", new JPEGFile());
-      formats.putIfAbsent(".jpeg", new JPEGFile());
-      formats.putIfAbsent(".png", new PNGFile());
-      String[] validFileTypes = {".jpg", ".jpeg", ".png", ".ppm"};
+      Map<String, IFileFormat> formats = initFormatsMap();
       boolean validFileTypeSelected = false;
-      for (String s : validFileTypes) {
+      for (String s : formats.keySet()) {
         if (absolutePath.endsWith(s)) {
           validFileTypeSelected = true;
           fileFormat = formats.get(s);
@@ -664,8 +699,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
         System.out.println("Invalid File Type Selected");
         return; // TODO: Print to GUI console
       }
+//      System.out.println(absolutePath);
       mdl.load(fileFormat.importImage(absolutePath));
-      displayNewImage(mdl.getImage().getBufferedImage());
+      imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
     }
   }
 
@@ -682,6 +718,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     @Override
     public void execute() {
       mdl.applyOperations(new Sepia());
+      imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
     }
   }
 
@@ -690,6 +727,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     @Override
     public void execute() {
       mdl.applyOperations(new Greyscale());
+      imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
     }
   }
 
@@ -698,6 +736,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     @Override
     public void execute() {
       mdl.applyOperations(new Sharpening());
+      imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
     }
   }
 
@@ -706,6 +745,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     @Override
     public void execute() {
       mdl.applyOperations(new ImageBlur());
+      imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
     }
   }
 
@@ -719,7 +759,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
       try {
         int seeds = Integer.parseInt(input);
         mdl.mosaic(seeds);
-        repaint();
+        imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
+        // TODO: repaint the image here
         // TODO: repaint the image here
       } catch (IllegalArgumentException e) {
         // TODO: show an error dialog popup
@@ -730,6 +771,106 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
             JOptionPane.ERROR_MESSAGE);
       }
     }
+  }
+
+//  private class ImportOneCommand implements IGUICommand {
+//
+//    @Override
+//    public void execute() {
+//
+//      final JFileChooser fChooser = new JFileChooser("");
+//      FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG, PNG, PPM",
+//          "jpg", "png", "ppm");
+//      fChooser.setFileFilter(filter);
+//      int fChooserValidation = fChooser.showOpenDialog(IMEFrame.this);
+//      if (fChooserValidation == JFileChooser.APPROVE_OPTION) {
+//        File f = fChooser.getSelectedFile();
+//        String absPath = f.getAbsolutePath();
+//
+//        //String fExtension = absPath.substring(absPath.lastIndexOf('.'));
+//
+//        //Map<String, IFileFormat> formatsMap = IMEFrame.initFormatsMap();
+//
+//      }
+//
+//      String path = "res/MPP.png";
+//
+//      IImage toImport = new PNGFile().importImage(path);
+//
+//      mdl.load(toImport);
+//
+//      BufferedImage buffered = toImport.getBufferedImage();
+//
+//      ImageIcon icon = new ImageIcon(buffered);
+//
+//      imgLabel.setIcon(icon);
+//    }
+//  }
+
+  private class DownScaleCommand implements IGUICommand {
+
+    @Override
+    public void execute() {
+
+      String widthInp = JOptionPane.showInputDialog("Enter the new width of the image");
+      String heightInp = JOptionPane.showInputDialog("Enter the new height of the image");
+
+      try {
+        int height = Integer.parseInt(heightInp);
+        int width = Integer.parseInt(widthInp);
+        new Downscale(mdl, height, width).apply();
+        imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
+
+        // TODO: repaint the image here
+        // TODO: repaint the image here
+      } catch (IllegalArgumentException e) {
+        // TODO: show an error dialog popup
+        JOptionPane.showMessageDialog(IMEFrame.this,
+            "Please try again and "
+                + "enter an integer greater than or equal to 0 for the number of seeds",
+            "Invalid seed number",
+            JOptionPane.ERROR_MESSAGE);
+      }
+
+    }
+  }
+
+  private class ExportOneCommand implements IGUICommand {
+
+    @Override
+    public void execute() {
+
+      final JFileChooser fChooser = new JFileChooser("");
+      fChooser.setDialogTitle("Choose the location to save the image");
+
+      int selection = fChooser.showSaveDialog(IMEFrame.this);
+      if (selection == JFileChooser.APPROVE_OPTION) {
+        File f = fChooser.getSelectedFile();
+        String absPath = f.getAbsolutePath();
+        try {
+          if (!initFormatsMap().containsKey(getFileExtension(absPath))) {
+            ImageIO.write(mdl.getImage().getBufferedImage(), getFileExtension(absPath), f);
+          }
+          absPath += ".png"; // default to save as png
+          ImageIO.write(mdl.getImage().getBufferedImage(), "png", f);
+        } catch (IOException e) {
+          JOptionPane.showMessageDialog(IMEFrame.this,
+              "Could not save the specified file",
+              "I/O Error",
+              JOptionPane.ERROR_MESSAGE);
+        }
+
+      }
+    }
+  }
+
+  /**
+   * @param fileName
+   * @return
+   */
+  private static String getFileExtension(String fileName)
+      throws IllegalArgumentException {
+    return fileName.substring(fileName.lastIndexOf('.'));
   }
 
 
