@@ -11,6 +11,7 @@ import cs3500.model.fileformat.PNGFile;
 import cs3500.model.fileformat.PPMFile;
 import cs3500.model.operation.Downscale;
 import cs3500.model.operation.Greyscale;
+import cs3500.model.operation.IOperation;
 import cs3500.model.operation.ImageBlur;
 import cs3500.model.operation.Sepia;
 import cs3500.model.operation.Sharpening;
@@ -27,6 +28,7 @@ import cs3500.view.TextualIMEView;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.FlowLayout;
@@ -40,6 +42,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.MalformedInputException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -64,11 +73,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.Scrollable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- * Class for the Java Swing Frame for the IME.
+ * The interactive GUI frame for the Image Manipulation and Enhancement program.
+ * Supports all of the functionality of the {@link IMultiLayerModel} interface,
+ * exposing all functionality through a menu ribbon as well as convenient buttons. Also supports
+ * interactive scripting from within the GUI itself.
  */
 public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     ListSelectionListener {
@@ -87,6 +100,10 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private static final GUITheme MATRIX_THEME = new GUITheme(Color.BLACK, Color.GREEN, Color.GREEN);
   private static final GUITheme RETRO_THEME = new GUITheme(Color.BLUE, Color.RED,
       new Color(177, 156, 217));
+
+  // URLS
+  private static final String GITHUB_URL = "https://github.com/Sharwin24/Image-Manipulation-"
+      + "and-Enhancement.git";
 
   // to represent the model--the images to be manipulated
   private IMultiLayerModel mdl;
@@ -136,6 +153,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   // the architecture for changing the theme
   private JMenu themeMenu;
 
+  // the architecture for the help menu
+  private JMenu helpMenu;
+
   // to handle input and display it
   private JLabel inputDisplay;
 
@@ -158,13 +178,19 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   private JTextArea scriptArea;
 
+  private GUITheme defaultTheme = MATRIX_THEME;
+
   /**
-   * Todo:
+   * Sets up the visual components of the GUI in all their glory. Sets the default theme of the GUI
+   * to {@link this#defaultTheme}. Adds all action listeners to interactive elements so that they
+   * can trigger events.
    */
   public IMEFrame() {
     super();
     setTitle("Image Manipulation and Enhancement");
     setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    // setBackground(defaultTheme.getPrimary());
+
 
     this.mdl = new MultiLayerModelImpl();
     this.scriptIn = new StringReader("");
@@ -194,6 +220,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~//
     add(mainPanel);
+    new ThemeCommand(defaultTheme).execute();
   }
 
   /**
@@ -417,6 +444,30 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
     menuRibbon.add(themeMenu);
 
+    // help menu
+    this.helpMenu = new JMenu("Help");
+    helpMenu.setMnemonic(KeyEvent.VK_H);
+
+//    JMenuItem aboutItem = new JMenuItem("About");
+//    aboutItem.setMnemonic(KeyEvent.VK_A);
+//    aboutItem.setActionCommand("about");
+//    aboutItem.addActionListener(this);
+//    helpMenu.add(aboutItem);
+//
+//    JMenuItem usemeItem = new JMenuItem("Show USEME");
+//    usemeItem.setMnemonic(KeyEvent.VK_U);
+//    usemeItem.setActionCommand("show useme");
+//    usemeItem.addActionListener(this);
+//    helpMenu.add(usemeItem);
+
+    JMenuItem githubItem = new JMenuItem("View GitHub source");
+    githubItem.setMnemonic(KeyEvent.VK_G);
+    githubItem.setActionCommand("github");
+    githubItem.addActionListener(this);
+    helpMenu.add(githubItem);
+
+    menuRibbon.add(helpMenu);
+
     // finally,
     this.mainPanel.add(menuRibbon, BorderLayout.PAGE_START);
   }
@@ -471,6 +522,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     scriptArea = new JTextArea();
     scriptArea.setPreferredSize(new Dimension(SCREEN_WIDTH / 5, SCREEN_HEIGHT / 2));
     scriptArea.setBorder(BorderFactory.createTitledBorder("Type script here"));
+
     scriptPanel.add(scriptArea);
 
     JPanel scriptBtnsPanel = new JPanel();
@@ -540,7 +592,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
    *
    * @param layerNum the number of the layer.
    * @return a {@link JPanel} with the new layer.
-   * @throws IllegalArgumentException if arguments are invalid or null.
+   * @throws IllegalArgumentException if the layer number is invalid.
    */
   private JPanel createLayerRow(int layerNum) {
     JPanel thisRow = new JPanel();
@@ -567,9 +619,11 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
 
   /**
-   * Returns a Hashmap of the string commands to the command objects.
+   * Returns a Hashmap of the string commands to the command objects. Helps to implement
+   * the command pattern for all listeners of the supported events in the GUI frame.
    *
-   * @return a {@link HashMap} of the commands from a string to their objects.
+   * @return a {@link HashMap} of the commands from a string to their function objects that
+   * execute the promised action.
    */
   private Map<String, IGUICommand> initActionsMap() {
 
@@ -578,10 +632,10 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     actionsMap.putIfAbsent("new", new NewLayerCommand());
     actionsMap.putIfAbsent("mosaic", new GUIMosaicCommand());
     actionsMap.putIfAbsent("import one", new ImportOneCommand());
-    actionsMap.putIfAbsent("sepia", new SepiaCommand());
-    actionsMap.putIfAbsent("greyscale", new GreyScaleCommand());
-    actionsMap.putIfAbsent("sharpen", new SharpenCommand());
-    actionsMap.putIfAbsent("blur", new BlurCommand());
+    actionsMap.putIfAbsent("sepia", new OperationCommand(new Sepia()));
+    actionsMap.putIfAbsent("greyscale", new OperationCommand(new Greyscale()));
+    actionsMap.putIfAbsent("sharpen", new OperationCommand(new Sharpening()));
+    actionsMap.putIfAbsent("blur", new OperationCommand(new ImageBlur()));
     actionsMap.putIfAbsent("downscale", new DownScaleCommand());
     actionsMap.putIfAbsent("export one", new ExportOneCommand());
     actionsMap.putIfAbsent("set current layer", new CurrentLayerCommand());
@@ -602,12 +656,15 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     actionsMap.putIfAbsent("retro theme", new ThemeCommand(RETRO_THEME));
     actionsMap.putIfAbsent("load script", new LoadScriptCommand());
     actionsMap.putIfAbsent("swap", new SwapLayersCommand());
+//    actionsMap.putIfAbsent("about", new AboutCommand());
+//    actionsMap.putIfAbsent("show useme", new ShowUSEMECommand());
+    actionsMap.putIfAbsent("github", new ViewGitHubCommand());
 
     return actionsMap;
   }
 
   /**
-   * Returns a HashMap of the format objects to their strings.
+   * Returns a HashMap of the format objects to their string representations.
    *
    * @return a {@link HashMap} of the format strings and objects.
    */
@@ -625,19 +682,29 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
 
   /**
-   * Interface for GUI Commands to be called inside the {@code actionPerformed()} method.
+   * <p>An interface for function objects representing a command that the GUI can execute.
+   * Each class implementing this interface has an <code>execute()</code> command that,
+   * quite obviously, just executes that command. Any relevant information that the object
+   * needs to execute that command is passed in that object's constructor.</p>
+   *
+   * <p>This interface is marked <code>private</code> and nested inside of the
+   * {@link IMEFrame} since it is only to be used to better organize action listeners and the
+   * {@link IMEFrame#actionPerformed(ActionEvent)} method, and nowhere outside of that class.
+   * Having this class nested inside of the {@link IMEFrame} class also gives it access to the frame
+   * and model that are to be manipulated by this interface, meaning that we don't have to pass
+   * those objects as parameters, and can instead reference them from within this context.</p>
    */
   private interface IGUICommand {
 
     /**
-     * Executes the GUI command.
+     * Executes the GUI command. Mutates the model and GUI accordingly based on the command object.
      */
     void execute();
 
   }
 
   /**
-   * Command for setting the visibility of a layer.
+   * Action listener to toggle the visibility of a desired layer.
    */
   private class VisibleLayer implements IGUICommand {
 
@@ -716,7 +783,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   }
 
   /**
-   * Class for Importing/Loading an image command.
+   * Class for Importing/Loading an image into the GUI.
    */
   private class ImportOneCommand implements IGUICommand {
 
@@ -746,53 +813,68 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
-  /**
-   * Applies the Sepia operation to the current image.
-   */
-  private class SepiaCommand implements IGUICommand {
+  private class OperationCommand implements IGUICommand {
+    private final IOperation toApply;
+
+    public OperationCommand(IOperation toApply) {
+      this.toApply = Utility.checkNotNull(toApply, "cannot make an operation command "
+          + "with a null operation");
+    }
 
     @Override
     public void execute() {
-      mdl.applyOperations(new Sepia());
+      mdl.applyOperations(toApply);
       setImage();
     }
   }
 
-  /**
-   * Applies the Greyscale operation to the current image.
-   */
-  private class GreyScaleCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      mdl.applyOperations(new Greyscale());
-      setImage();
-    }
-  }
-
-  /**
-   * Applies the Sharpen operation to the current image.
-   */
-  private class SharpenCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      mdl.applyOperations(new Sharpening());
-      setImage();
-    }
-  }
-
-  /**
-   * Applies the Blur operation to the current image.
-   */
-  private class BlurCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      mdl.applyOperations(new ImageBlur());
-      setImage();
-    }
-  }
+//  /**
+//   * Applies a Sepia filter to the current image and reflects that change.
+//   */
+//  private class SepiaCommand implements IGUICommand {
+//
+//    @Override
+//    public void execute() {
+//      mdl.applyOperations(new Sepia());
+//      setImage();
+//    }
+//  }
+//
+//  /**
+//   * Applies the Greyscale operation to the current image.
+//   */
+//  private class GreyScaleCommand implements IGUICommand {
+//
+//    @Override
+//    public void execute() {
+//      mdl.applyOperations(new Greyscale());
+//      setImage();
+//    }
+//  }
+//
+//  /**
+//   * Applies the Sharpen operation to the current image.
+//   */
+//  private class SharpenCommand implements IGUICommand {
+//
+//    @Override
+//    public void execute() {
+//      mdl.applyOperations(new Sharpening());
+//      setImage();
+//    }
+//  }
+//
+//  /**
+//   * Applies the Blur operation to the current image.
+//   */
+//  private class BlurCommand implements IGUICommand {
+//
+//    @Override
+//    public void execute() {
+//      mdl.applyOperations(new ImageBlur());
+//      setImage();
+//    }
+//  }
 
   /**
    * Command for applying the Mosaic operation to the current image.
@@ -1103,6 +1185,54 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+//  private class AboutCommand implements IGUICommand {
+//
+//    @Override
+//    public void execute() {
+//      errorPopup("foo", "bar");
+//    }
+//  }
+//
+//  private class ShowUSEMECommand implements IGUICommand {
+//
+//    @Override
+//    public void execute() {
+//
+//      File useme = new File("USEME.md");
+//      try {
+//        String usemeTxt = Files.readString(Path.of("USEME.md"), StandardCharsets.US_ASCII);
+//        JOptionPane.showMessageDialog(IMEFrame.this,
+//            "<html>" + usemeTxt + "</html>",
+//            "USEME.md",
+//            JOptionPane.PLAIN_MESSAGE);
+//
+//      } catch (IOException e) {
+//        errorPopup("Failed to load USEME file, check directory",
+//            "Could not load USEME.md");
+//      }
+//
+//    }
+//
+//  }
+
+  private class ViewGitHubCommand implements IGUICommand {
+
+    @Override
+    public void execute() {
+
+          try {
+            Desktop.getDesktop().browse(new URL(GITHUB_URL).toURI());
+          } catch (URISyntaxException | IOException e) {
+            errorPopup("Could not open up the github URL. Congrats on breaking the "
+                + "program. https://github.com/Sharwin24/Image-Manipulation-and-Enhancement.git is"
+                + " the actual link. Contact us there about this issue", "Bad GitHub URL");
+          }
+
+      }
+
+
+  }
+
 
   /**
    * Returns the file extension for the given fileName.
@@ -1122,7 +1252,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     try {
       imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
       // scriptArea.setText(scriptIn.toString());
-      consoleTxt.setText("PLEASE");
+      consoleTxt.setText("console text goes here");
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }

@@ -1,6 +1,9 @@
 package com.company;
 
+import cs3500.controller.IMultiLayerIMEController;
+import cs3500.controller.MultiLayerIMEControllerImpl;
 import cs3500.frame.IMEFrame;
+import cs3500.model.MultiLayerModelImpl;
 import java.awt.desktop.ScreenSleepEvent;
 import java.io.IOException;
 import java.io.StringReader;
@@ -21,6 +24,9 @@ public class Main {
    * @param args optional args.
    */
   public static void main(String[] args) {
+
+    //TODO: comment this out: this just runs the GUI from main for testing purposes
+    args = new String[]{"-interactive"};
 
     if (args.length == 0) {
       System.out.println("no args passed");
@@ -49,11 +55,13 @@ public class Main {
             // do something
           }
           break;
-        case "-script":
+        case "-script": // TODO: handle script path I/O
           System.out.println("script path");
           break;
         case "-text":
-          System.out.println("text");
+          IMultiLayerIMEController ctrlr =
+              MultiLayerIMEControllerImpl.controllerBuilder().buildController();
+          ctrlr.run();
           break;
         default:
           System.out.println("error");
