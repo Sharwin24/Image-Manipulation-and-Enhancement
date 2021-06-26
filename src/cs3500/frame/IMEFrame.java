@@ -460,10 +460,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     layersButtonsPanel.add(newBtn);
 
     layersPanel.add(layersButtonsPanel);
-
-    for (int i = 0; i < 5; i++) {
-      layersPanel.add(this.createLayerRow("layer ", i, true));
-    }
+    layersPanel.add(this.createLayerRow("layer ", 0, true));
 
     mainPanel.add(layersPanel, BorderLayout.LINE_START);
   }
@@ -503,22 +500,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
    * Initializes the panel for the main image to appear.
    */
   private void imageArea() {
-    // setting up the image area
-//    imagePanel = new JPanel();
-//    imagePanel.setBorder(BorderFactory.createTitledBorder("this layer"));
-//    mainPanel.add(imagePanel, BorderLayout.CENTER);
-//
-//    // demo to display an image:
-//    JLabel imageLabel = new JLabel();
-//    JScrollPane scrollPane = new JScrollPane(imageLabel);
-//    imageLabel.setIcon(new ImageIcon("res/MPP.png"));
-//    imagePanel.add(scrollPane);
-//    mainPanel.add(imagePanel);
-
-    // BufferedImage im = ImageIO.read(new File())
-
-    // add(mainPanel);
-    // Scrolling image panel
     this.imagePanel = new JPanel();
     this.imagePanel.setPreferredSize(new Dimension(600, 600));
     this.imagePanel.setBorder(BorderFactory.createTitledBorder("This layer: "
@@ -528,21 +509,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     imagePanel.add(imgLabel);
     imageScrollPanel.add(imagePanel);
     mainPanel.add(imagePanel, BorderLayout.CENTER);
-
-//    ///~~~~~~~~~~~~~~~~~~~~~~~~~~///
-//    this.mdl.load(new JPEGFile().importImage("src/lakeImage.jpg"));
-//    this.displayNewImage(this.mdl.getImage().getBufferedImage());
-//    this.mdl.addLayer();
-//    this.mdl.setCurrentLayer(1);
-//    try {
-//      this.displayNewImage(this.mdl.getImage().getBufferedImage());
-//    } catch (Exception e) {
-//      this.imagePanel = new JPanel();
-//      this.imagePanel.setPreferredSize(new Dimension(600, 600));
-//      this.imageScrollPanel = new JScrollPane(this.imagePanel);
-//      this.mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
-//    }
-//    ///~~~~~~~~~~~~~~~~~~~~~~~~~~///
   }
 
   /**
@@ -721,14 +687,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
       String absolutePath = dialog.getDirectory() + dialog.getFile();
       // ensure valid fileType
       IFileFormat fileFormat = null;
-      Map<String, IFileFormat> formats = new HashMap<>();
-      formats.putIfAbsent(".ppm", new PPMFile());
-      formats.putIfAbsent(".jpg", new JPEGFile());
-      formats.putIfAbsent(".jpeg", new JPEGFile());
-      formats.putIfAbsent(".png", new PNGFile());
-      String[] validFileTypes = {".jpg", ".jpeg", ".png", ".ppm"};
+      Map<String, IFileFormat> formats = initFormatsMap();
       boolean validFileTypeSelected = false;
-      for (String s : validFileTypes) {
+      for (String s : formats.keySet()) {
         if (absolutePath.endsWith(s)) {
           validFileTypeSelected = true;
           fileFormat = formats.get(s);
@@ -739,7 +700,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
         return; // TODO: Print to GUI console
       }
 
-      System.out.println(absolutePath);
       mdl.load(fileFormat.importImage(absolutePath));
       setImage();
     }
