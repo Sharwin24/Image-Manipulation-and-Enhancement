@@ -75,18 +75,18 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private static final int SCREEN_HEIGHT = 800;
 
   // to represent the model--the images to be manipulated
-  private  IMultiLayerModel mdl;
+  private IMultiLayerModel mdl;
   // to represent the scriptable controller embedded in the GUI
-  private  IMultiLayerIMEController scrptCtrlr;
+  private IMultiLayerIMEController scrptCtrlr;
   private JButton runScriptBtn;
   // to store interactively-scripted commands
-  private  Readable scriptIn;
+  private Readable scriptIn;
   // to represent the embedded text view
-  private  IMEView txtView;
+  private IMEView txtView;
   // to store output from the view
-  private  Appendable out;
+  private Appendable out;
   // to store the GUI elements
-  private  JPanel mainPanel;
+  private JPanel mainPanel;
   // to store the menu ribbon elements
   private JLabel menusLabel;
   private JPanel menusPanel;
@@ -172,7 +172,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     add(mainPanel);
 
     // this.actionsMap = this.initActionsMap();
-
 
     //mdl.load(new PNGFile().importImage("res/MPP.png"));
   }
@@ -739,10 +738,10 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
         System.out.println("Invalid File Type Selected");
         return; // TODO: Print to GUI console
       }
-      
+
       System.out.println(absolutePath);
       mdl.load(fileFormat.importImage(absolutePath));
-      imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
+      setImage();
     }
   }
 
@@ -759,7 +758,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     @Override
     public void execute() {
       mdl.applyOperations(new Sepia());
-      imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
+      setImage();
     }
   }
 
@@ -768,7 +767,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     @Override
     public void execute() {
       mdl.applyOperations(new Greyscale());
-      imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
+      setImage();
     }
   }
 
@@ -777,7 +776,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     @Override
     public void execute() {
       mdl.applyOperations(new Sharpening());
-      imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
+      setImage();
     }
   }
 
@@ -786,7 +785,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     @Override
     public void execute() {
       mdl.applyOperations(new ImageBlur());
-      imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
+      setImage();
     }
   }
 
@@ -800,8 +799,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
       try {
         int seeds = Integer.parseInt(input);
         mdl.mosaic(seeds);
-        imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
-        // TODO: repaint the image here
+        setImage();        // TODO: repaint the image here
         // TODO: repaint the image here
       } catch (IllegalArgumentException e) {
         // TODO: show an error dialog popup
@@ -860,9 +858,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
         int height = Integer.parseInt(heightInp);
         int width = Integer.parseInt(widthInp);
         new Downscale(mdl, height, width).apply();
-        imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
-
-        // TODO: repaint the image here
+        setImage();
+        ;        // TODO: repaint the image here
         // TODO: repaint the image here
       } catch (IllegalArgumentException e) {
         // TODO: show an error dialog popup
@@ -912,6 +909,13 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private static String getFileExtension(String fileName)
       throws IllegalArgumentException {
     return fileName.substring(fileName.lastIndexOf('.'));
+  }
+
+  /**
+   * TODO
+   */
+  private void setImage() {
+    imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
   }
 
 
