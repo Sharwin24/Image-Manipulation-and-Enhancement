@@ -359,13 +359,21 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     return actionsMap;
   }
 
-
+  /**
+   * Interface for GUI Commands to be called inside the {@code actionPerformed()} method.
+   */
   private interface IGUICommand {
 
+    /**
+     * Exectus the GUI command.
+     */
     void execute();
 
   }
 
+  /**
+   * A class for an Example Command.
+   */
   private class ExampleCommand implements IGUICommand {
 
 
@@ -375,5 +383,17 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
           true));
     }
   }
+
+  /**
+   * Class for Importing/Loading an image command.
+   */
+  private class ImportCommand implements IGUICommand {
+
+    @Override
+    public void execute() {
+      
+    }
+  }
+
 
 }
