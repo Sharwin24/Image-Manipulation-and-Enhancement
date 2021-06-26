@@ -1,8 +1,8 @@
 package cs3500.frame;
 
+import cs3500.Utility;
 import cs3500.controller.IMultiLayerIMEController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
-import cs3500.model.IIMEModel;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
 
@@ -11,7 +11,6 @@ import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.fileformat.JPEGFile;
 import cs3500.model.fileformat.PNGFile;
 import cs3500.model.fileformat.PPMFile;
-import cs3500.model.image.IImage;
 import cs3500.model.operation.Downscale;
 import cs3500.model.operation.Greyscale;
 import cs3500.model.operation.ImageBlur;
@@ -25,10 +24,8 @@ import java.awt.FileDialog;
 import java.awt.FlowLayout;
 
 import java.awt.Graphics;
-import java.awt.Image;
 
 import java.awt.Frame;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -38,19 +35,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.nio.file.Path;
-import java.io.FilenameFilter;
-import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -63,7 +56,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import jdk.jshell.execution.Util;
 
 public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     ListSelectionListener {
@@ -130,7 +123,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   private JPanel fileOpenPanel;
 
-  private JPanel mosaicInputDialogPanel;// TODO: possibly refactor for more general name
+  private JPanel inputDialogPanel;
 
   public IMEFrame() {
     super();
@@ -298,8 +291,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     //dialogBoxesPanel.setLayout(new BoxLayout(dialogBoxesPanel,BoxLayout.PAGE_AXIS));
     //mainPanel.add(dialogBoxesPanel);
 
-    mosaicInputDialogPanel = new JPanel();
-    mosaicInputDialogPanel.setLayout(new FlowLayout());
+    inputDialogPanel = new JPanel();
+    inputDialogPanel.setLayout(new FlowLayout());
     //dialogBoxesPanel.add(mosaicInputDialogPanel);
 
     // inputDisplay = new JLabel("Default");
@@ -517,7 +510,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private void fileChooser() {
     fileOpenPanel = new JPanel();
     fileOpenPanel.setLayout(new FlowLayout());
-    mosaicInputDialogPanel.add(fileOpenPanel);
+    inputDialogPanel.add(fileOpenPanel);
 
 
   }
@@ -703,8 +696,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
         }
       }
       if (!validFileTypeSelected) {
-        System.out.println("Invalid File Type Selected");
-        return; // TODO: Print to GUI console
+        errorPopup("invalid file type selected, try again, specifying either "
+            + ".png, .jpg, or .ppm", "Invalid file type");
       }
 
       mdl.load(fileFormat.importImage(absolutePath));
@@ -767,7 +760,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
     @Override
     public void execute() {
-      String input = JOptionPane.showInputDialog("Enter the number of seeds with which to "
+      String input = getDialogInput("Enter the number of seeds with which to "
           + "mosaic the image");
 
       try {
@@ -777,11 +770,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
         // TODO: repaint the image here
       } catch (IllegalArgumentException e) {
         // TODO: show an error dialog popup
-        JOptionPane.showMessageDialog(IMEFrame.this,
-            "Please try again and "
+        errorPopup("Please try again and "
                 + "enter an integer greater than or equal to 0 for the number of seeds",
-            "Invalid seed number",
-            JOptionPane.ERROR_MESSAGE);
+            "Invalid seed number");
       }
     }
   }
@@ -827,16 +818,15 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
     @Override
     public void execute() {
+      String widthInp = getDialogInput("Enter the new width of the image");
 
-      String widthInp = JOptionPane.showInputDialog("Enter the new width of the image");
-      String heightInp = JOptionPane.showInputDialog("Enter the new height of the image");
+      String heightInp = getDialogInput("Enter the new height of the image");
 
       try {
         int height = Integer.parseInt(heightInp);
         int width = Integer.parseInt(widthInp);
         new Downscale(mdl, height, width).apply();
         setImage();
-        // TODO: repaint the image here
       } catch (IllegalArgumentException e) {
         // TODO: show an error dialog popup
         JOptionPane.showMessageDialog(IMEFrame.this,
@@ -881,6 +871,15 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  private class CurrentLayerCommand implements IGUICommand {
+
+    @Override
+    public void execute() {
+      //mdl.setCurrentLayer();
+    }
+  }
+
+
   /**
    * Returns the file extension for the given fileName.
    *
@@ -897,6 +896,31 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
    */
   private void setImage() {
     imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
+  }
+
+  /**
+   * TODO
+   */
+  private void errorPopup(String dialogMsg, String title)
+      throws IllegalArgumentException {
+    JOptionPane.showMessageDialog(IMEFrame.this,
+        Utility.checkNotNull(dialogMsg, "cannot display a popup window"
+            + " with a null dialog message"),
+        Utility.checkNotNull(title, "cannot display a popup window"
+            + " with a null title"),
+        JOptionPane.ERROR_MESSAGE);
+  }
+
+  /**
+   * TODO
+   * @param prompt
+   * @return
+   * @throws IllegalArgumentException
+   */
+  private String getDialogInput(String prompt)
+    throws IllegalArgumentException {
+    return JOptionPane.showInputDialog(Utility.checkNotNull(prompt, "cannot create a "
+        + "dialog box with no prompt"));
   }
 
 
