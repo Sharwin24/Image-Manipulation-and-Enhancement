@@ -5,6 +5,8 @@ import cs3500.controller.MultiLayerIMEControllerImpl;
 import cs3500.model.IIMEModel;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
+
+
 import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.fileformat.JPEGFile;
 import cs3500.model.fileformat.PNGFile;
@@ -19,9 +21,14 @@ import cs3500.view.IMEView;
 import cs3500.view.TextualIMEView;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FileDialog;
 import java.awt.FlowLayout;
+
 import java.awt.Graphics;
 import java.awt.Image;
+
+import java.awt.Frame;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -32,6 +39,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Path;
+import java.io.FilenameFilter;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
@@ -66,18 +75,18 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private static final int SCREEN_HEIGHT = 800;
 
   // to represent the model--the images to be manipulated
-  private final IMultiLayerModel mdl;
+  private  IMultiLayerModel mdl;
   // to represent the scriptable controller embedded in the GUI
-  private final IMultiLayerIMEController scrptCtrlr;
+  private  IMultiLayerIMEController scrptCtrlr;
   private JButton runScriptBtn;
   // to store interactively-scripted commands
-  private final Readable scriptIn;
+  private  Readable scriptIn;
   // to represent the embedded text view
-  private final IMEView txtView;
+  private  IMEView txtView;
   // to store output from the view
-  private final Appendable out;
+  private  Appendable out;
   // to store the GUI elements
-  private final JPanel mainPanel;
+  private  JPanel mainPanel;
   // to store the menu ribbon elements
   private JLabel menusLabel;
   private JPanel menusPanel;
@@ -143,8 +152,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     this.mainPanel = new JPanel();
     this.mainPanel.setLayout(new BorderLayout());
 
-    // setup drop down menus
-    // this.dropDownMenus();
     // setup layers panel
     this.layersPanel();
     // setup console panel
@@ -166,6 +173,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
     // this.actionsMap = this.initActionsMap();
 
+
+    //mdl.load(new PNGFile().importImage("res/MPP.png"));
   }
 
   /**
@@ -386,7 +395,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     String[] fileOptions = {"Import", "Import layers", "Export", "Export layers"};
     JComboBox<String> fileMenuBox = new JComboBox<>();
     // event listeners
-    fileMenuBox.setActionCommand("file");
+    fileMenuBox.setActionCommand("import"); // Todo: refactor to give each button an event
     fileMenuBox.addActionListener(this);
     for (int i = 0; i < fileOptions.length; i++) {
       fileMenuBox.addItem(fileOptions[i]);
@@ -670,10 +679,13 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
 
   /**
-   * TODO
+   * Interface for GUI Commands to be called inside the {@code actionPerformed()} method.
    */
   private interface IGUICommand {
 
+    /**
+     * Executes the GUI command.
+     */
     void execute();
 
   }
@@ -697,11 +709,40 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
-  private class ImportCommand implements IGUICommand {
+  /**
+   * Class for Importing/Loading an image command.
+   */
+  private class ImportOneCommand implements IGUICommand {
 
     @Override
     public void execute() {
-
+      FileDialog dialog = new FileDialog((Frame) null, "Select File");
+      dialog.setMode(FileDialog.LOAD);
+      dialog.setVisible(true);
+      String absolutePath = dialog.getDirectory() + dialog.getFile();
+      // ensure valid fileType
+      IFileFormat fileFormat = null;
+      Map<String, IFileFormat> formats = new HashMap<>();
+      formats.putIfAbsent(".ppm", new PPMFile());
+      formats.putIfAbsent(".jpg", new JPEGFile());
+      formats.putIfAbsent(".jpeg", new JPEGFile());
+      formats.putIfAbsent(".png", new PNGFile());
+      String[] validFileTypes = {".jpg", ".jpeg", ".png", ".ppm"};
+      boolean validFileTypeSelected = false;
+      for (String s : validFileTypes) {
+        if (absolutePath.endsWith(s)) {
+          validFileTypeSelected = true;
+          fileFormat = formats.get(s);
+        }
+      }
+      if (!validFileTypeSelected) {
+        System.out.println("Invalid File Type Selected");
+        return; // TODO: Print to GUI console
+      }
+      
+      System.out.println(absolutePath);
+      mdl.load(fileFormat.importImage(absolutePath));
+      imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
     }
   }
 
@@ -773,39 +814,39 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
-  private class ImportOneCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-
-      final JFileChooser fChooser = new JFileChooser("");
-      FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG, PNG, PPM",
-          "jpg", "png", "ppm");
-      fChooser.setFileFilter(filter);
-      int fChooserValidation = fChooser.showOpenDialog(IMEFrame.this);
-      if (fChooserValidation == JFileChooser.APPROVE_OPTION) {
-        File f = fChooser.getSelectedFile();
-        String absPath = f.getAbsolutePath();
-
-        //String fExtension = absPath.substring(absPath.lastIndexOf('.'));
-
-        //Map<String, IFileFormat> formatsMap = IMEFrame.initFormatsMap();
-
-      }
-
-      String path = "res/MPP.png";
-
-      IImage toImport = new PNGFile().importImage(path);
-
-      mdl.load(toImport);
-
-      BufferedImage buffered = toImport.getBufferedImage();
-
-      ImageIcon icon = new ImageIcon(buffered);
-
-      imgLabel.setIcon(icon);
-    }
-  }
+//  private class ImportOneCommand implements IGUICommand {
+//
+//    @Override
+//    public void execute() {
+//
+//      final JFileChooser fChooser = new JFileChooser("");
+//      FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG, PNG, PPM",
+//          "jpg", "png", "ppm");
+//      fChooser.setFileFilter(filter);
+//      int fChooserValidation = fChooser.showOpenDialog(IMEFrame.this);
+//      if (fChooserValidation == JFileChooser.APPROVE_OPTION) {
+//        File f = fChooser.getSelectedFile();
+//        String absPath = f.getAbsolutePath();
+//
+//        //String fExtension = absPath.substring(absPath.lastIndexOf('.'));
+//
+//        //Map<String, IFileFormat> formatsMap = IMEFrame.initFormatsMap();
+//
+//      }
+//
+//      String path = "res/MPP.png";
+//
+//      IImage toImport = new PNGFile().importImage(path);
+//
+//      mdl.load(toImport);
+//
+//      BufferedImage buffered = toImport.getBufferedImage();
+//
+//      ImageIcon icon = new ImageIcon(buffered);
+//
+//      imgLabel.setIcon(icon);
+//    }
+//  }
 
   private class DownScaleCommand implements IGUICommand {
 
