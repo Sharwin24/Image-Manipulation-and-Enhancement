@@ -83,6 +83,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   // to represent the scriptable controller embedded in the GUI
   private IMultiLayerIMEController scrptCtrlr;
   private JButton runScriptBtn;
+  private JButton loadScriptBtn;
   // to store interactively-scripted commands
   private Readable scriptIn;
   // to represent the embedded text view
@@ -141,6 +142,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   // Handle Layers
   private final List<JPanel> allLayers = new ArrayList<>();
+
+  private JTextArea scriptArea;
 
   /**
    * Todo:
@@ -421,16 +424,28 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private void scriptArea() {
     // setting up the script area
     JPanel scriptPanel = new JPanel();
-    JTextArea scriptArea = new JTextArea("SCRIPT HERE");
+    scriptPanel.setLayout(new BoxLayout(scriptPanel, BoxLayout.Y_AXIS));
+    scriptArea = new JTextArea();
+    scriptArea.setPreferredSize(new Dimension(SCREEN_WIDTH / 5, SCREEN_HEIGHT / 2));
+    scriptArea.setBorder(BorderFactory.createTitledBorder("Type script here"));
     scriptPanel.add(scriptArea);
+
+    JPanel scriptBtnsPanel = new JPanel();
+    scriptBtnsPanel.setLayout(new FlowLayout());
 
     runScriptBtn = new JButton("Run script");
     runScriptBtn.addActionListener(this);
     runScriptBtn.setActionCommand("run script");
-    scriptPanel.add(runScriptBtn);
+    scriptBtnsPanel.add(runScriptBtn);
+
+    loadScriptBtn = new JButton("Load script");
+    loadScriptBtn.addActionListener(this);
+    loadScriptBtn.setActionCommand("load script");
+    scriptBtnsPanel.add(loadScriptBtn);
+
+    scriptPanel.add(scriptBtnsPanel, BoxLayout.Y_AXIS);
 
     mainPanel.add(scriptPanel, BorderLayout.LINE_END);
-
 
   }
 
@@ -519,7 +534,10 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     actionsMap.putIfAbsent("pure noise", new PureNoiseCommand());
     actionsMap.putIfAbsent("custom noise", new CustomNoiseCommand());
     actionsMap.putIfAbsent("undo", new UndoCommand());
+    actionsMap.putIfAbsent("redo", new RedoCommand());
+    actionsMap.putIfAbsent("run script", new RunScriptCommand());
     actionsMap.putIfAbsent("currentLayerWithIndex", new CurrentLayerWithIndex());
+    actionsMap.putIfAbsent("load script", new LoadScriptCommand());
 
     return actionsMap;
   }
@@ -872,7 +890,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
       List<Color> colorsPicked = new ArrayList<>();
 
-
       int addAnotherColor = JOptionPane.YES_OPTION;
 
       while (addAnotherColor == JOptionPane.YES_OPTION) {
@@ -914,6 +931,39 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     public void execute() {
       mdl.redo();
       setImage();
+    }
+  }
+
+  private class RunScriptCommand implements IGUICommand {
+
+    @Override
+    public void execute() {
+      StringReader scriptInput = new StringReader(scriptArea.getText());
+
+      // System.out.println(scriptArea.getText());
+
+      scrptCtrlr = MultiLayerIMEControllerImpl.controllerBuilder().model(mdl)
+          .readable(scriptInput).buildController();
+
+      scrptCtrlr.run();
+      setImage();
+    }
+  }
+
+  private class LoadScriptCommand implements IGUICommand {
+
+    @Override
+    public void execute() {
+
+      // TODO: use a file explorer to get the TXT file
+      // scriptInput = ... get this from the loaded file ...
+      scrptCtrlr = MultiLayerIMEControllerImpl.controllerBuilder().model(mdl)
+          /*.readable(scriptInput)*/.buildController();
+
+      // scriptArea.setText(scriptInput.toString());
+      scrptCtrlr.run();
+      setImage();
+
     }
   }
 
