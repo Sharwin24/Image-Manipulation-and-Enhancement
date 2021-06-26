@@ -60,5 +60,8 @@ public interface IIMEModel {
    * Applies the mosaic operation on the image given the number of seeds.
    * @param numSeeds the number of seeds for the Mosaic.
    */
-  void mosaic(int numSeeds);
+  void mosaic(int numSeeds)
+      throws IllegalArgumentException;
+
+
 }
