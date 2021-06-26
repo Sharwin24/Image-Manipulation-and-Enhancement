@@ -3,7 +3,7 @@ package cs3500.model.pixel;
 import cs3500.Utility;
 
 /**
- * TODO
+ * Class for a {@link IPixel} with a coordinate.
  */
 public class IndexedPixel extends PixelImpl {
 
@@ -12,14 +12,14 @@ public class IndexedPixel extends PixelImpl {
   private final IPixel px;
 
   /**
-   * TODO
+   * Constructs an Indexed pixel given RGB, row, column, and the IPixel.
    *
-   * @param r
-   * @param g
-   * @param b
-   * @param row
-   * @param col
-   * @param px
+   * @param r the red channel's intensity.
+   * @param g the green channel's intensity.
+   * @param b the blue channel's intensity.
+   * @param row the row of the pixel.
+   * @param col the column of the pixel.
+   * @param px the IPixel.
    */
   public IndexedPixel(int r, int g, int b, int row, int col, IPixel px) {
     super(r,g,b);
@@ -30,11 +30,11 @@ public class IndexedPixel extends PixelImpl {
   }
 
   /**
-   * TODO
+   * Returns the Euclidean distance between the given position and this pixel.
    *
-   * @param row
-   * @param col
-   * @return
+   * @param row the row position to find the distance to.
+   * @param col the col position to find the distance to.
+   * @return the distance as a double.
    */
   public double distanceTo(int row, int col) {
     return Math.sqrt(Math.pow(row - this.row, 2) + Math.pow(col - this.col, 2));

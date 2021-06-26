@@ -54,6 +54,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import jdk.jshell.execution.Util;
@@ -156,17 +157,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     // setup the menu bar
     this.menuRibbon();
 
-    /**
-     * REORGANIZE
-     */
-    this.fileChooser();
-
     //~~~~~~~~~~~~~~~~~~~~~~~~~//
     add(mainPanel);
-
-    // this.actionsMap = this.initActionsMap();
-
-    //mdl.load(new PNGFile().importImage("res/MPP.png"));
   }
 
   /**
@@ -285,25 +277,15 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     mosaicItem.setActionCommand("mosaic");
     mosaicItem.addActionListener(this);
     transformationsMenu.add(mosaicItem);
-    // TODO: ADD DIALOG POPUP HERE TO GET SEEDS
-    //JPanel dialogBoxesPanel = new JPanel(); // ???
-    //dialogBoxesPanel.setBorder(BorderFactory.createTitledBorder("taking input..."));
-    //dialogBoxesPanel.setLayout(new BoxLayout(dialogBoxesPanel,BoxLayout.PAGE_AXIS));
-    //mainPanel.add(dialogBoxesPanel);
 
     inputDialogPanel = new JPanel();
     inputDialogPanel.setLayout(new FlowLayout());
-    //dialogBoxesPanel.add(mosaicInputDialogPanel);
-
-    // inputDisplay = new JLabel("Default");
-    // mosaicInputDialogPanel.add(inputDisplay);
 
     JMenuItem downscaleItem = new JMenuItem("Downscale...");
     downscaleItem.setMnemonic(KeyEvent.VK_D);
     downscaleItem.setActionCommand("downscale");
     downscaleItem.addActionListener(this);
     transformationsMenu.add(downscaleItem);
-    // TODO: ADD DIALOG POPUP HERE TO GET DIMS
 
     menuRibbon.add(transformationsMenu);
 
@@ -319,7 +301,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     checkerBoardItem.setActionCommand("checkerboard");
     checkerBoardItem.addActionListener(this);
     programmaticImagesMenu.add(checkerBoardItem);
-    // TODO: ADD DIALOG POPUP TO GET DIMENSIONS
 
     // the noise images submenu
     JMenu noiseSubMenu = new JMenu("Noise Images");
@@ -370,69 +351,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     // finally,
     this.mainPanel.add(menuRibbon, BorderLayout.PAGE_START);
   }
-
-  /**
-   * Initializes the dropdown menus at the top of the gui.
-   */
-  /*private void dropDownMenus() {
-    // setting up the dropdown menus ribbon:
-    this.menusLabel = new JLabel("Menus Ribbon");
-    this.menusPanel = new JPanel();
-    this.menusPanel.setLayout(new FlowLayout());
-
-    // to set up the file menu
-    this.fileMenuLabel = new JLabel("File");
-    menusPanel.add(fileMenuLabel);
-    // fileMenuPanel.add(fileMenuLabel);
-    String[] fileOptions = {"Import", "Import layers", "Export", "Export layers"};
-    JComboBox<String> fileMenuBox = new JComboBox<>();
-    // event listeners
-    fileMenuBox.setActionCommand("import"); // Todo: refactor to give each button an event
-    fileMenuBox.addActionListener(this);
-    for (int i = 0; i < fileOptions.length; i++) {
-      fileMenuBox.addItem(fileOptions[i]);
-    }
-    menusPanel.add(fileMenuBox);
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // to set up the edit menu
-    this.editMenuLabel = new JLabel("Edit");
-    menusPanel.add(editMenuLabel);
-    String[] editOptions = {"Undo", "Redo", "Save", "New layer", "Set current layer"};
-    JComboBox<String> editMenuBox = new JComboBox<>();
-    editMenuBox.setActionCommand("edit");
-    editMenuBox.addActionListener(this);
-    for (int i = 0; i < editOptions.length; i++) {
-      editMenuBox.addItem(editOptions[i]);
-    }
-    menusPanel.add(editMenuBox);
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // to set up the transformations menu
-    this.transformationsMenuLabel = new JLabel("Transformations");
-    menusPanel.add(transformationsMenuLabel);
-    String[] transformationsOptions = {"Sepia", "Greyscale", "Blur", ""
-        + "Sharpen", "Mosaic...", "Downscale..."};
-    JComboBox<String> transformationsMenuBox = new JComboBox<>();
-    transformationsMenuBox.setActionCommand("transformations");
-    transformationsMenuBox.addActionListener(this);
-    for (int i = 0; i < transformationsOptions.length; i++) {
-      transformationsMenuBox.addItem(transformationsOptions[i]);
-    }
-    menusPanel.add(transformationsMenuBox);
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // to set up the programmatic images menu
-    this.programmaticImagesMenuLabel = new JLabel("Programmatic Images");
-    menusPanel.add(programmaticImagesMenuLabel);
-    String[] programmaticImagesOptions = {"Checkerboard...", "Noise..."};
-    JComboBox<String> programmaticImagesMenuBox = new JComboBox<>();
-    programmaticImagesMenuBox.setActionCommand("programmatic images");
-    programmaticImagesMenuBox.addActionListener(this);
-    for (int i = 0; i < programmaticImagesOptions.length; i++) {
-      programmaticImagesMenuBox.addItem(programmaticImagesOptions[i]);
-    }
-    menusPanel.add(programmaticImagesMenuBox);
-
-    mainPanel.add(menusPanel, BorderLayout.PAGE_START);
-  }*/
 
   /**
    * Initializes the panel for the layers.
@@ -496,17 +414,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     this.imageScrollPanel = new JScrollPane(this.imgLabel);
     imageScrollPanel.setPreferredSize(new Dimension(700, 700));
     mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
-  }
-
-  /**
-   * Initializes the file chooser for the GUI.
-   */
-  private void fileChooser() {
-    fileOpenPanel = new JPanel();
-    fileOpenPanel.setLayout(new FlowLayout());
-    inputDialogPanel.add(fileOpenPanel);
-
-
   }
 
   @Override
@@ -577,13 +484,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private Map<String, IGUICommand> initActionsMap() {
 
     Map<String, IGUICommand> actionsMap = new HashMap<>();
-
-//    actionsMap.putIfAbsent("file", new FileMenuCommand());
-//    actionsMap.putIfAbsent("edit", new EditMenuCommand());
-//    actionsMap.putIfAbsent("transformations", new TransformationsMenuCommand());
-//    actionsMap.putIfAbsent("programmatic images", new ProgrammaticImagesMenuCommand());
-//    actionsMap.putIfAbsent("swap", new SwapCommand());
-//    actionsMap.putIfAbsent("new", new NewLayerCommand());
 
     actionsMap.putIfAbsent("new", new NewLayerCommand());
     actionsMap.putIfAbsent("mosaic", new GUIMosaicCommand());
@@ -739,50 +639,14 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
       try {
         int seeds = Integer.parseInt(input);
         mdl.mosaic(seeds);
-        setImage();        // TODO: repaint the image here
-        // TODO: repaint the image here
+        setImage();
       } catch (IllegalArgumentException e) {
-        // TODO: show an error dialog popup
         errorPopup("Please try again and "
                 + "enter an integer greater than or equal to 0 for the number of seeds",
             "Invalid seed number");
       }
     }
   }
-
-//  private class ImportOneCommand implements IGUICommand {
-//
-//    @Override
-//    public void execute() {
-//
-//      final JFileChooser fChooser = new JFileChooser("");
-//      FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG, PNG, PPM",
-//          "jpg", "png", "ppm");
-//      fChooser.setFileFilter(filter);
-//      int fChooserValidation = fChooser.showOpenDialog(IMEFrame.this);
-//      if (fChooserValidation == JFileChooser.APPROVE_OPTION) {
-//        File f = fChooser.getSelectedFile();
-//        String absPath = f.getAbsolutePath();
-//
-//        //String fExtension = absPath.substring(absPath.lastIndexOf('.'));
-//
-//        //Map<String, IFileFormat> formatsMap = IMEFrame.initFormatsMap();
-//
-//      }
-//
-//      String path = "res/MPP.png";
-//
-//      IImage toImport = new PNGFile().importImage(path);
-//
-//      mdl.load(toImport);
-//
-//      BufferedImage buffered = toImport.getBufferedImage();
-//
-//      ImageIcon icon = new ImageIcon(buffered);
-//
-//      imgLabel.setIcon(icon);
-//    }
-//  }
 
   /**
    * Command for downscaling an image.
@@ -801,12 +665,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
         new Downscale(mdl, height, width).apply();
         setImage();
       } catch (IllegalArgumentException e) {
-        // TODO: show an error dialog popup
-        JOptionPane.showMessageDialog(IMEFrame.this,
-            "Please try again and "
-                + "enter an integer greater than or equal to 0 for the number of seeds",
-            "Invalid seed number",
-            JOptionPane.ERROR_MESSAGE);
+        errorPopup("Please try again and enter an integer greater than or equal to 0 for the "
+            + "number of seeds", "Invalid number of seeds");
       }
 
     }
@@ -834,10 +694,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
           absPath += ".png"; // default to save as png
           ImageIO.write(mdl.getImage().getBufferedImage(), "png", f);
         } catch (IOException e) {
-          JOptionPane.showMessageDialog(IMEFrame.this,
-              "Could not save the specified file",
-              "I/O Error",
-              JOptionPane.ERROR_MESSAGE);
+          errorPopup("Could not save the specified file", "I/O Error");
         }
 
       }
@@ -872,7 +729,10 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   }
 
   /**
-   * TODO
+   * Displays a popup error message with the given message and title.
+   *
+   * @param dialogMsg the message text.
+   * @param title     the title of the popup.
    */
   private void errorPopup(String dialogMsg, String title)
       throws IllegalArgumentException {
@@ -885,11 +745,11 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   }
 
   /**
-   * TODO
+   * Displays a popup prompting the user for input, and saves the user response.
    *
-   * @param prompt
-   * @return
-   * @throws IllegalArgumentException
+   * @param prompt the prompt for the user to respond to.
+   * @return the user's input as a String.
+   * @throws IllegalArgumentException if the given input is invalid.
    */
   private String getDialogInput(String prompt)
       throws IllegalArgumentException {

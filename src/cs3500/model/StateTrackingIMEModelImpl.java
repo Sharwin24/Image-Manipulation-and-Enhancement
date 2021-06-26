@@ -121,9 +121,7 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel {
     this.image = newImage.copy();
   }
 
-  /**
-   * TODO: reorganize
-   */
+ @Override
   public void mosaic(int numSeeds) {
     this.image = this.image.mosaic(numSeeds);
   }

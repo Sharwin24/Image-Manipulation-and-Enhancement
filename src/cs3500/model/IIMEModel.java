@@ -57,7 +57,8 @@ public interface IIMEModel {
   IIMEModel copy();
 
   /**
-   * TODO: reorganize
+   * Applies the mosaic operation on the image given the number of seeds.
+   * @param numSeeds the number of seeds for the Mosaic.
    */
   void mosaic(int numSeeds);
 }
