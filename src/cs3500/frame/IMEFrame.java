@@ -16,6 +16,7 @@ import cs3500.model.operation.Greyscale;
 import cs3500.model.operation.ImageBlur;
 import cs3500.model.operation.Sepia;
 import cs3500.model.operation.Sharpening;
+import cs3500.model.programmaticimages.Checkerboard;
 import cs3500.view.IMEView;
 import cs3500.view.TextualIMEView;
 import java.awt.BorderLayout;
@@ -493,15 +494,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
    * Initializes the panel for the main image to appear.
    */
   private void imageArea() {
-    this.imagePanel = new JPanel();
-    this.imagePanel.setPreferredSize(new Dimension(600, 600));
-    this.imagePanel.setBorder(BorderFactory.createTitledBorder("This layer: "
-        + imgLabel.getText()));
-    this.imageScrollPanel = new JScrollPane(this.imagePanel);
-    imgLabel = new JLabel("image!");
-    imagePanel.add(imgLabel);
-    imageScrollPanel.add(imagePanel);
-    mainPanel.add(imagePanel, BorderLayout.CENTER);
+    this.imageScrollPanel = new JScrollPane(this.imgLabel);
+    imageScrollPanel.setPreferredSize(new Dimension(700, 700));
+    mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
   }
 
   /**
@@ -618,6 +613,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     actionsMap.putIfAbsent("blur", new BlurCommand());
     actionsMap.putIfAbsent("downscale", new DownScaleCommand());
     actionsMap.putIfAbsent("export one", new ExportOneCommand());
+    actionsMap.putIfAbsent("set current layer", new CurrentLayerCommand());
+    actionsMap.putIfAbsent("checkerboard", new CheckerBoardCommand());
+    actionsMap.putIfAbsent("delete", new DeleteLayerCommand());
 
     return actionsMap;
   }
@@ -876,7 +874,56 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
     @Override
     public void execute() {
+      String desiredLayerInp = getDialogInput("Enter the layer you want to switch to");
+      try {
+        int desiredLayer = Integer.parseInt(desiredLayerInp);
+        mdl.setCurrentLayer(desiredLayer);
+      } catch (NumberFormatException e) {
+        errorPopup("Cannot switch to layer: \"" + desiredLayerInp + "\"",
+            "Bad layer number");
+
+      }
       //mdl.setCurrentLayer();
+    }
+  }
+
+  private class CheckerBoardCommand implements IGUICommand {
+
+    @Override
+    public void execute() {
+      String widthInp = getDialogInput("Please enter the width of the checkerboard");
+      String heightInp = getDialogInput("Please enter the height of the checkerboard");
+      String unitInp = getDialogInput("Please enter the size of a square in the "
+          + "checkerboard");
+
+      try {
+        int width = Integer.parseInt(widthInp);
+        int height = Integer.parseInt(heightInp);
+        int unit = Integer.parseInt(unitInp);
+
+        mdl.setProgrammaticImage(new Checkerboard(), width, height, unit);
+        setImage();
+      } catch (NumberFormatException e) {
+        errorPopup("Please enter a width height and unit size that are non-negative "
+            + "integers", "Bad dimensions");
+      }
+
+    }
+  }
+
+  private class DeleteLayerCommand implements IGUICommand {
+
+    @Override
+    public void execute() {
+      String layerToDeleteInp = getDialogInput("Enter the number of the layer to delete");
+
+      try {
+        int layerToDelete = Integer.parseInt(layerToDeleteInp);
+        mdl.deleteLayer(layerToDelete);
+      } catch (NumberFormatException e) {
+        errorPopup("Please enter a valid number between 0 and " +
+            (mdl.getLayers().size() - 1), "Bad layer number");
+      }
     }
   }
 
@@ -914,12 +961,13 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   /**
    * TODO
+   *
    * @param prompt
    * @return
    * @throws IllegalArgumentException
    */
   private String getDialogInput(String prompt)
-    throws IllegalArgumentException {
+      throws IllegalArgumentException {
     return JOptionPane.showInputDialog(Utility.checkNotNull(prompt, "cannot create a "
         + "dialog box with no prompt"));
   }
