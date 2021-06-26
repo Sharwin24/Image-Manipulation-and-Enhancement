@@ -525,7 +525,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   /**
    * Interface for GUI Commands to be called inside the {@code actionPerformed()} method.
    */
-  private interface IGUICommand {
+  private interface IGUICommand{
 
     /**
      * Executes the GUI command.
