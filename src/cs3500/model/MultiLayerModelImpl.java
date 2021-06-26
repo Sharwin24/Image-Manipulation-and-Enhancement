@@ -40,6 +40,30 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   }
 
   /**
+   * Constructs a MultiLayer Model with the list of images as the layers to this model.
+   *
+   * @param images the list of images to create the layers with.
+   * @throws IllegalArgumentException if any arguments are null.
+   */
+  public MultiLayerModelImpl(IImage... images) throws IllegalArgumentException {
+    if (images == null) {
+      throw new IllegalArgumentException("Argument is null");
+    }
+    this.listOfLayers = new ArrayList<>();
+    for (IImage image : images) {
+      if (image == null) {
+        throw new IllegalArgumentException("Argument is null");
+      }
+      this.listOfLayers.add(new Layer());
+      this.listOfLayers.get(this.listOfLayers.size() - 1).modelLoad(image);
+    }
+    this.currentLayer = this.listOfLayers.get(0);
+    this.currentIndex = 0;
+    this.layersImageWidth = -1;
+    this.layersImageHeight = -1;
+  }
+
+  /**
    * Constructs a custom Multi-layer model with given parameters.
    *
    * @param layerCopy    the list of layers as a copy.

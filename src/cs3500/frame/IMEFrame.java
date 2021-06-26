@@ -567,16 +567,19 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
 
   /**
-   * Todo
+   * Creates a new layer row given the parameters for the layer.
    *
-   * @param layerName
-   * @param layerNum
-   * @param isVisible
-   * @return
-   * @throws IllegalArgumentException
+   * @param layerName the name of the layer.
+   * @param layerNum  the number of the layer.
+   * @param isVisible the visibility of the layer.
+   * @return a {@link JPanel} with the new layer.
+   * @throws IllegalArgumentException if arguments are invalid or null.
    */
   private JPanel createLayerRow(String layerName, int layerNum, boolean isVisible)
       throws IllegalArgumentException {
+    if (layerName == null) {
+      throw new IllegalArgumentException("Arguments are null");
+    }
     JPanel thisRow = new JPanel();
     thisRow.setLayout(new FlowLayout());
 
@@ -601,9 +604,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
 
   /**
-   * TODO
+   * Returns a Hashmap of the string commands to the command objects.
    *
-   * @return
+   * @return a {@link HashMap} of the commands from a string to their objects.
    */
   private Map<String, IGUICommand> initActionsMap() {
 
@@ -629,7 +632,11 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     return actionsMap;
   }
 
-
+  /**
+   * Returns a HashMap of the format objects to their strings.
+   *
+   * @return a {@link HashMap} of the format strings and objects.
+   */
   private static Map<String, IFileFormat> initFormatsMap() {
     final Map<String, IFileFormat> formatsMap = new HashMap<>();
 
@@ -702,14 +709,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
       mdl.load(fileFormat.importImage(absolutePath));
       setImage();
-    }
-  }
-
-  private class ExportCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-
     }
   }
 
