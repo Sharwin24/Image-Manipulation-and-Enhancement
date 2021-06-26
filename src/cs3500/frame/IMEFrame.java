@@ -646,7 +646,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
       dialog.setVisible(true);
       String absolutePath = dialog.getDirectory() + dialog.getFile();
       // ensure valid fileType
-      IFileFormat fileFormat;
+      IFileFormat fileFormat = null;
       Map<String, IFileFormat> formats = new HashMap<>();
       formats.putIfAbsent(".ppm", new PPMFile());
       formats.putIfAbsent(".jpg", new JPEGFile());
@@ -664,9 +664,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
         System.out.println("Invalid File Type Selected");
         return; // TODO: Print to GUI console
       }
-      
-      System.out.println(absolutePath);
-
+      mdl.load(fileFormat.importImage(absolutePath));
+      displayNewImage(mdl.getImage().getBufferedImage());
     }
   }
 
