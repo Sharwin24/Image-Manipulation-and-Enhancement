@@ -493,15 +493,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
    * Initializes the panel for the main image to appear.
    */
   private void imageArea() {
-    this.imagePanel = new JPanel();
-    this.imagePanel.setPreferredSize(new Dimension(600, 600));
-    this.imagePanel.setBorder(BorderFactory.createTitledBorder("This layer: "
-        + imgLabel.getText()));
-    this.imageScrollPanel = new JScrollPane(this.imagePanel);
-    imgLabel = new JLabel("image!");
-    imagePanel.add(imgLabel);
-    imageScrollPanel.add(imagePanel);
-    mainPanel.add(imagePanel, BorderLayout.CENTER);
+    this.imageScrollPanel = new JScrollPane(this.imgLabel);
+    imageScrollPanel.setPreferredSize(new Dimension(700, 700));
+    mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
   }
 
   /**
@@ -513,27 +507,6 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     inputDialogPanel.add(fileOpenPanel);
 
 
-  }
-
-  /**
-   * @param image the new image to display on the GUI.
-   */
-  private void displayNewImage(BufferedImage image) {
-    if (image.getWidth() == 0 || image.getHeight() == 0) {
-      this.imagePanel = new JPanel();
-      this.imagePanel.setPreferredSize(new Dimension(600, 600));
-    } else {
-      this.imagePanel = new JPanel() {
-        @Override
-        protected void paintComponent(Graphics g) {
-          super.paintComponent(g);
-          g.drawImage(image, 0, 0, null);
-        }
-      };
-      this.imagePanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
-    }
-    this.imageScrollPanel = new JScrollPane(this.imagePanel);
-    this.mainPanel.add(imageScrollPanel, BorderLayout.CENTER);
   }
 
   @Override
@@ -913,12 +886,13 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   /**
    * TODO
+   *
    * @param prompt
    * @return
    * @throws IllegalArgumentException
    */
   private String getDialogInput(String prompt)
-    throws IllegalArgumentException {
+      throws IllegalArgumentException {
     return JOptionPane.showInputDialog(Utility.checkNotNull(prompt, "cannot create a "
         + "dialog box with no prompt"));
   }
