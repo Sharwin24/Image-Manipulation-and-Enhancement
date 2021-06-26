@@ -3,6 +3,7 @@ package cs3500.model;
 import cs3500.model.image.IImage;
 import cs3500.model.layer.ILayer;
 import cs3500.model.layer.Layer;
+import cs3500.model.operation.Downscale;
 import cs3500.model.operation.IOperation;
 import cs3500.model.programmaticimages.IProgramImage;
 import java.util.ArrayList;
@@ -214,11 +215,19 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
         this.layersImageWidth);
   }
 
-  /**
-   * TODO: reorganize
-   */
-  public void mosaic(int numSeeds) {
+
+  @Override
+  public void mosaic(int numSeeds)
+      throws IllegalArgumentException {
     this.currentLayer.getModel().mosaic(numSeeds);
   }
 
+
+
+//  @Override
+//  public void downscaleLayers(int newHeight, int newWidth) {
+//    for (ILayer lyr : this.listOfLayers) {
+//      lyr.getModel().downscaleLayers(newHeight, newWidth);
+//    }
+//  }
 }

@@ -63,8 +63,8 @@ public class Downscale {
    * Applies a downscale to a single layer.
    *
    * @param layer the layer to apply the downscale to.
-   */
-  private void applyToLayer(ILayer layer) {
+   */ // TODO: change to private
+  public void applyToLayer(ILayer layer) {
     IImage image = layer.getModel().getImage();
     IMatrix<IPixel> pixels = image.getPixelArray();
     IMatrix<IPixel> newPixels = new MatrixImpl<>(new PixelImpl(0, 0, 0), this.newHeight,

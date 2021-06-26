@@ -70,7 +70,13 @@ public interface IMultiLayerModel extends IStateTrackingIMEModel {
 
   /**
    * TODO: reorganize
+   *
    * @param seeds
    */
-  void mosaic(int seeds);
+  void mosaic(int seeds)
+      throws IllegalArgumentException;
+
+
+//  void downscaleLayers(int newHeight, int newWidth)
+//      throws IllegalArgumentException;
 }

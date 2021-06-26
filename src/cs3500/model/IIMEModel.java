@@ -59,5 +59,8 @@ public interface IIMEModel {
   /**
    * TODO: reorganize
    */
-  void mosaic(int numSeeds);
+  void mosaic(int numSeeds)
+      throws IllegalArgumentException;
+
+
 }
