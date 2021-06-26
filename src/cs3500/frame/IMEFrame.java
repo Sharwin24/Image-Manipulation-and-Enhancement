@@ -1136,6 +1136,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
       scrptCtrlr.run();
       setImage();
+      packPanels();
     }
   }
 
