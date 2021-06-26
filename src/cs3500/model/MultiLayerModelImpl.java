@@ -125,8 +125,12 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   }
 
   @Override
-  public IImage getImage() {
-    return this.currentLayer.getModel().getImage();
+  public IImage getImage() throws IllegalArgumentException{
+    if (!this.currentLayer.isInvisible()) {
+      return this.currentLayer.getModel().getImage();
+    } else {
+      throw new IllegalArgumentException("Current Layer is invisible");
+    }
   }
 
   @Override
@@ -216,15 +220,12 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   }
 
 
-
   @Override
   public void mosaic(int numSeeds)
       throws IllegalArgumentException {
 
     this.currentLayer.getModel().mosaic(numSeeds);
   }
-
-
 
 //  @Override
 //  public void downscaleLayers(int newHeight, int newWidth) {
