@@ -1,24 +1,12 @@
 package com.company;
 
-import cs3500.controller.IMultiLayerIMEController;
-import cs3500.controller.MultiLayerIMEControllerImpl;
 import cs3500.frame.IMEFrame;
-import cs3500.model.IMultiLayerModel;
-import cs3500.model.MultiLayerModelImpl;
-import cs3500.model.fileformat.IFileFormat;
-import cs3500.model.fileformat.JPEGFile;
-import cs3500.model.fileformat.PNGFile;
-import cs3500.model.image.IImage;
-import cs3500.model.operation.Downscale;
-import cs3500.model.operation.Sepia;
-import java.awt.Font;
+import java.awt.desktop.ScreenSleepEvent;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -33,6 +21,44 @@ public class Main {
    * @param args optional args.
    */
   public static void main(String[] args) {
+
+    if (args.length == 0) {
+      System.out.println("no args passed");
+    }
+    else {
+
+      switch (args[0]) {
+        case "-interactive":
+          IMEFrame.setDefaultLookAndFeelDecorated(true);
+          IMEFrame frame = new IMEFrame();
+
+          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+          frame.setVisible(true);
+
+          try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+            //UIManager.getCrossPlatformLookAndFeelClassName();
+
+          } catch (UnsupportedLookAndFeelException e) {
+            // do something
+          } catch (ClassNotFoundException e) {
+            // do something
+          } catch (InstantiationException e) {
+            // do something
+          } catch (IllegalAccessException e) {
+            // do something
+          }
+          break;
+        case "-script":
+          System.out.println("script path");
+          break;
+        case "-text":
+          System.out.println("text");
+          break;
+        default:
+          System.out.println("error");
+      }
+    }
 
     // add calls to methods to manipulate images here...
 
@@ -87,25 +113,25 @@ public class Main {
 //     MultiLayerIMEControllerImpl.controllerBuilder().buildController();
 //     controllerInteractive.run();
 
-    IMEFrame.setDefaultLookAndFeelDecorated(true);
-    IMEFrame frame = new IMEFrame();
-
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setVisible(true);
-
-    try {
-      UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-      //UIManager.getCrossPlatformLookAndFeelClassName();
-
-    } catch (UnsupportedLookAndFeelException e) {
-      // do something
-    } catch (ClassNotFoundException e) {
-      // do something
-    } catch (InstantiationException e) {
-      // do something
-    } catch (IllegalAccessException e) {
-      // do something
-    }
+//    IMEFrame.setDefaultLookAndFeelDecorated(true);
+//    IMEFrame frame = new IMEFrame();
+//
+//    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//    frame.setVisible(true);
+//
+//    try {
+//      UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+//      //UIManager.getCrossPlatformLookAndFeelClassName();
+//
+//    } catch (UnsupportedLookAndFeelException e) {
+//      // do something
+//    } catch (ClassNotFoundException e) {
+//      // do something
+//    } catch (InstantiationException e) {
+//      // do something
+//    } catch (IllegalAccessException e) {
+//      // do something
+//    }
 
 //    // -----------------DOWNSCALE TEST--------------------//
 //    IMultiLayerModel model = new MultiLayerModelImpl();

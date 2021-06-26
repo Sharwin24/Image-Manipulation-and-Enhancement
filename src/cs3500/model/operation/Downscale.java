@@ -1,14 +1,10 @@
 package cs3500.model.operation;
 
 import cs3500.model.IMultiLayerModel;
-import cs3500.model.IStateTrackingIMEModel;
-import cs3500.model.MultiLayerModelImpl;
-import cs3500.model.StateTrackingIMEModelImpl;
 import cs3500.model.channel.EChannelType;
 import cs3500.model.image.IImage;
 import cs3500.model.image.ImageImpl;
 import cs3500.model.layer.ILayer;
-import cs3500.model.layer.Layer;
 import cs3500.model.matrix.IMatrix;
 import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.pixel.IPixel;

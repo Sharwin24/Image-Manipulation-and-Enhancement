@@ -26,6 +26,7 @@ import cs3500.view.IMEView;
 import cs3500.view.TextualIMEView;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.FlowLayout;
@@ -78,6 +79,15 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private static final int SCREEN_WIDTH = 1200;
   private static final int SCREEN_HEIGHT = 800;
 
+  // themes
+  private static final GUITheme LIGHT_THEME = new GUITheme(Color.WHITE, Color.LIGHT_GRAY,
+      Color.GRAY);
+  private static final GUITheme DARK_THEME = new GUITheme(Color.BLACK, Color.DARK_GRAY,
+      Color.ORANGE);
+  private static final GUITheme MATRIX_THEME = new GUITheme(Color.BLACK, Color.GREEN, Color.GREEN);
+  private static final GUITheme RETRO_THEME = new GUITheme(Color.BLUE, Color.RED,
+      new Color(177, 156, 217));
+
   // to represent the model--the images to be manipulated
   private IMultiLayerModel mdl;
   // to represent the scriptable controller embedded in the GUI
@@ -122,6 +132,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   // the architecture for the programmatic images menu
   private JMenu programmaticImagesMenu;
+
+  // the architecture for changing the theme
+  private JMenu themeMenu;
 
   // to handle input and display it
   private JLabel inputDisplay;
@@ -369,11 +382,40 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     customNoiseItem.setActionCommand("custom noise");
     customNoiseItem.addActionListener(this);
     noiseSubMenu.add(customNoiseItem);
-    // TODO: ADD DIALOG TO BUILD LIST OF COLORS VIA COLOR PICKER
-
     programmaticImagesMenu.add(noiseSubMenu);
 
     menuRibbon.add(programmaticImagesMenu);
+
+    // theme menu
+    this.themeMenu = new JMenu("Theme");
+    themeMenu.setMnemonic(KeyEvent.VK_M);
+    themeMenu.getAccessibleContext().setAccessibleDescription("Change the theme of the GUI");
+
+    JMenuItem lightThemeItem = new JMenuItem("Light");
+    lightThemeItem.setMnemonic(KeyEvent.VK_L);
+    lightThemeItem.setActionCommand("light theme");
+    lightThemeItem.addActionListener(this);
+    themeMenu.add(lightThemeItem);
+
+    JMenuItem darkThemeItem = new JMenuItem("Dark");
+    lightThemeItem.setMnemonic(KeyEvent.VK_D);
+    darkThemeItem.setActionCommand("dark theme");
+    darkThemeItem.addActionListener(this);
+    themeMenu.add(darkThemeItem);
+
+    JMenuItem matrixThemeItem = new JMenuItem("Matrix");
+    matrixThemeItem.setMnemonic(KeyEvent.VK_M);
+    matrixThemeItem.setActionCommand("matrix theme");
+    matrixThemeItem.addActionListener(this);
+    themeMenu.add(matrixThemeItem);
+
+    JMenuItem retroThemeItem = new JMenuItem("Retro");
+    retroThemeItem.setMnemonic(KeyEvent.VK_R);
+    retroThemeItem.setActionCommand("retro theme");
+    retroThemeItem.addActionListener(this);
+    themeMenu.add(retroThemeItem);
+
+    menuRibbon.add(themeMenu);
 
     // finally,
     this.mainPanel.add(menuRibbon, BorderLayout.PAGE_START);
@@ -552,6 +594,12 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     actionsMap.putIfAbsent("undo", new UndoCommand());
     actionsMap.putIfAbsent("redo", new RedoCommand());
     actionsMap.putIfAbsent("run script", new RunScriptCommand());
+    // actionsMap.putIfAbsent("currentLayerWithIndex", new CurrentLayerWithIndex());
+    actionsMap.putIfAbsent("load script", new LoadScriptCommand());
+    actionsMap.putIfAbsent("light theme", new ThemeCommand(LIGHT_THEME));
+    actionsMap.putIfAbsent("dark theme", new ThemeCommand(DARK_THEME));
+    actionsMap.putIfAbsent("matrix theme", new ThemeCommand(MATRIX_THEME));
+    actionsMap.putIfAbsent("retro theme", new ThemeCommand(RETRO_THEME));
     actionsMap.putIfAbsent("load script", new LoadScriptCommand());
     actionsMap.putIfAbsent("swap", new SwapLayersCommand());
 
@@ -1027,6 +1075,35 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  private class ThemeCommand implements IGUICommand {
+
+    private final GUITheme theme;
+
+    /**
+     * TODO
+     *
+     * @param theme
+     */
+    public ThemeCommand(final GUITheme theme) {
+      this.theme = Utility.checkNotNull(theme, "cannot create a theme command object "
+          + "with a null theme");
+    }
+
+    @Override
+    public void execute() {
+      mainPanel.setBackground(theme.getPrimary());
+      layersPanel.setBackground(theme.getPrimary());
+      imageScrollPanel.setBackground(theme.getPrimary());
+      //imagePanel.setBackground(theme.getPrimary());
+      consolePanel.setBackground(theme.getPrimary());
+
+      scriptArea.setBackground(theme.getPrimary());
+      scriptArea.setForeground(theme.getAccent());
+
+      menuRibbon.setBackground(theme.getSecondary());
+    }
+  }
+
 
   /**
    * Returns the file extension for the given fileName.
@@ -1045,6 +1122,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   private void setImage() {
     try {
       imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
+      // scriptArea.setText(scriptIn.toString());
+      consoleTxt.setText("PLEASE");
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
