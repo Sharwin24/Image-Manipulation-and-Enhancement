@@ -16,6 +16,7 @@ import cs3500.model.operation.Greyscale;
 import cs3500.model.operation.ImageBlur;
 import cs3500.model.operation.Sepia;
 import cs3500.model.operation.Sharpening;
+import cs3500.model.programmaticimages.Checkerboard;
 import cs3500.view.IMEView;
 import cs3500.view.TextualIMEView;
 import java.awt.BorderLayout;
@@ -494,6 +495,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     actionsMap.putIfAbsent("blur", new BlurCommand());
     actionsMap.putIfAbsent("downscale", new DownScaleCommand());
     actionsMap.putIfAbsent("export one", new ExportOneCommand());
+    actionsMap.putIfAbsent("set current layer", new CurrentLayerCommand());
+    actionsMap.putIfAbsent("checkerboard", new CheckerBoardCommand());
+    actionsMap.putIfAbsent("delete", new DeleteLayerCommand());
 
     return actionsMap;
   }
@@ -705,7 +709,56 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
     @Override
     public void execute() {
+      String desiredLayerInp = getDialogInput("Enter the layer you want to switch to");
+      try {
+        int desiredLayer = Integer.parseInt(desiredLayerInp);
+        mdl.setCurrentLayer(desiredLayer);
+      } catch (NumberFormatException e) {
+        errorPopup("Cannot switch to layer: \"" + desiredLayerInp + "\"",
+            "Bad layer number");
+
+      }
       //mdl.setCurrentLayer();
+    }
+  }
+
+  private class CheckerBoardCommand implements IGUICommand {
+
+    @Override
+    public void execute() {
+      String widthInp = getDialogInput("Please enter the width of the checkerboard");
+      String heightInp = getDialogInput("Please enter the height of the checkerboard");
+      String unitInp = getDialogInput("Please enter the size of a square in the "
+          + "checkerboard");
+
+      try {
+        int width = Integer.parseInt(widthInp);
+        int height = Integer.parseInt(heightInp);
+        int unit = Integer.parseInt(unitInp);
+
+        mdl.setProgrammaticImage(new Checkerboard(), width, height, unit);
+        setImage();
+      } catch (NumberFormatException e) {
+        errorPopup("Please enter a width height and unit size that are non-negative "
+            + "integers", "Bad dimensions");
+      }
+
+    }
+  }
+
+  private class DeleteLayerCommand implements IGUICommand {
+
+    @Override
+    public void execute() {
+      String layerToDeleteInp = getDialogInput("Enter the number of the layer to delete");
+
+      try {
+        int layerToDelete = Integer.parseInt(layerToDeleteInp);
+        mdl.deleteLayer(layerToDelete);
+      } catch (NumberFormatException e) {
+        errorPopup("Please enter a valid number between 0 and " +
+            (mdl.getLayers().size() - 1), "Bad layer number");
+      }
     }
   }
 
