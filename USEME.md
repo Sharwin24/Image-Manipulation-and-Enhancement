@@ -1,3 +1,19 @@
+
+
+
+
+
+
+
+
+# Table of Contents
+1. [How to write scripts](#example)
+2. [How to use the GUI](#example2)
+3. [Third Example](#third-example)
+4. [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
+
+
+## How to write scripts
 <p><u><b>How to write scripts for Image Manipulation and Enhancment</b></u>
 
 In this controller, inputs are processed from the mentioned <code> Readable</code> with the following
@@ -381,21 +397,6 @@ way too many parameters passed, everything after "312" gets ignored (<code>progr
 is a quaternary command)</i></small><br>
 
 </ul>
-
-
-
-
-
-
-
-# Table of Contents
-1. [How to write scripts](#example)
-2. [How to use the GUI](#example2)
-3. [Third Example](#third-example)
-4. [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
-
-
-## How to write scripts
 ## How to use the GUI
 ## Third Example
 ## [Fourth Example](http://www.fourthexample.com) 
