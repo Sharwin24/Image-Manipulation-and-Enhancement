@@ -5,7 +5,6 @@ import cs3500.model.channel.EChannelType;
 import cs3500.model.matrix.IMatrix;
 import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.pixel.IPixel;
-import cs3500.model.pixel.IndexedPixel;
 import cs3500.model.pixel.PixelImpl;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -112,6 +111,7 @@ public class ImageImpl implements IImage {
         IPixel pxToMosaic = this.pixels.getElement(i, j);
         IPixel closestSeed = this.closestPixelTo(i, j, seeds);
 
+
         thisRow.add(avgPixels(pxToMosaic, closestSeed));
 
       }
@@ -166,7 +166,7 @@ public class ImageImpl implements IImage {
                 break;
               default:
                 throw new IllegalArgumentException("You broke the code, congrats! You must be proud"
-                    + " of yourself, you silly fool");
+                    + " of yourself you silly fool");
             }
           }
           IPixel newPixel = new PixelImpl(red, green, blue);
@@ -204,6 +204,38 @@ public class ImageImpl implements IImage {
   }
 
   /**
+   * Helper class to keep track of a pixel's index.
+   */
+  private class IndexedPixel {
+    private final int row;
+    private final int col;
+    private final IPixel px;
+
+
+    /**
+     * Initializes an indexed pixel based on its logical coordinate and the pixel contained therin.
+     * @param row the row that this pixel is stored in, starting from 0.
+     * @param col the column that this pixel is stored in, starting from 0.
+     * @param px the pixel described at this index.
+     */
+    private IndexedPixel(int row, int col, IPixel px) {
+      this.row = row;
+      this.col = col;
+      this.px = px;
+    }
+
+    /**
+     * Returns the euclidean distance to the logical coordinate specified.
+     * @param row the logical coordinate of the row to find the distance to.
+     * @param col the logical coordinate of the row to find the distance to.
+     * @return Returns the euclidean distance to the logical coordinate specified.
+     */
+    public double distanceTo(int row, int col) {
+      return Math.sqrt(Math.pow(row - this.row, 2) + Math.pow(col - this.col, 2));
+    }
+  }
+
+  /**
    * Finds the closest seed to the pixel at the given location.
    *
    * @param row   the pixel's row position.
@@ -213,7 +245,7 @@ public class ImageImpl implements IImage {
    */
   private IPixel closestPixelTo(int row, int col, List<IndexedPixel> seeds) {
     return Collections.min(seeds, // lambda moment
-        ((px1, px2) -> (int) (px1.distanceTo(row, col) - px2.distanceTo(row, col)))).getPx();
+        ((px1, px2) -> (int) (px1.distanceTo(row, col) - px2.distanceTo(row, col)))).px;
   }
 
   /**
@@ -240,5 +272,26 @@ public class ImageImpl implements IImage {
   private static int avg(int n1, int n2) {
     return (n1 + n2) / 2;
   }
-  
+
+
+//  /**
+//   * Utility class to keep track of a pixel's position.
+//   */
+//  private class IndexedPixel {
+//
+//    private final int row;
+//    private final int col;
+//    private final IPixel px;
+//
+//    public IndexedPixel(int row, int col, IPixel px) {
+//      this.row = Utility.checkIntBetween(row, 0, Integer.MAX_VALUE);
+//      this.col = Utility.checkIntBetween(col, 0, Integer.MAX_VALUE);
+//      this.px = Utility.checkNotNull(px, "cannot create an indexed pixel with a null "
+//          + "pixel value");
+//    }
+//
+//    public double distanceTo(int row, int col) {
+//      return Math.sqrt(Math.pow(row - this.row, 2) + Math.pow(col - this.col, 2));
+//    }
+//  }
 }
