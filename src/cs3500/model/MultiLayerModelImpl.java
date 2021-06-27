@@ -227,10 +227,10 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
     this.currentLayer.getModel().mosaic(numSeeds);
   }
 
-//  @Override
-//  public void downscaleLayers(int newHeight, int newWidth) {
-//    for (ILayer lyr : this.listOfLayers) {
-//      lyr.getModel().downscaleLayers(newHeight, newWidth);
-//    }
-//  }
+  @Override
+  public void downscaleLayers(int newHeight, int newWidth) {
+    for (ILayer lyr : this.listOfLayers) {
+      lyr.getModel().downscaleLayers(newHeight, newWidth);
+    }
+  }
 }

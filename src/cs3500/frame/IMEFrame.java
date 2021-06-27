@@ -9,7 +9,6 @@ import cs3500.model.fileformat.IFileFormat;
 import cs3500.model.fileformat.JPEGFile;
 import cs3500.model.fileformat.PNGFile;
 import cs3500.model.fileformat.PPMFile;
-import cs3500.model.operation.Downscale;
 import cs3500.model.operation.Greyscale;
 import cs3500.model.operation.IOperation;
 import cs3500.model.operation.ImageBlur;
@@ -49,6 +48,7 @@ import java.nio.charset.MalformedInputException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -178,7 +178,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   private JTextArea scriptArea;
 
-  private GUITheme defaultTheme = MATRIX_THEME;
+  private GUITheme defaultTheme = LIGHT_THEME;
 
   /**
    * Sets up the visual components of the GUI in all their glory. Sets the default theme of the GUI
@@ -598,11 +598,13 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     thisRow.setLayout(new FlowLayout());
     JButton layerBtn = new JButton("Layer | " + layerNum);
     layerBtn.setOpaque(false);
+    layerBtn.setBackground(Color.WHITE);
     actionsMap.putIfAbsent("currentLayerWithIndex " + layerNum,
         new CurrentLayerWithIndex(layerNum));
     layerBtn.setActionCommand("currentLayerWithIndex " + layerNum);
     layerBtn.addActionListener(this);
     JCheckBox layerCB = new JCheckBox("visible?", true);
+    layerCB.setBackground(Color.WHITE);
     layerCB.setOpaque(false);
     actionsMap.putIfAbsent("visible " + layerNum, new VisibleLayer(layerNum));
     layerCB.setActionCommand("visible " + layerNum);
@@ -758,7 +760,8 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     @Override
     public void execute() {
       mdl.addLayer();
-      layersPanel.add(createLayerRow(mdl.getLayers().size() - 1));
+      allLayers.add(createLayerRow(mdl.getLayers().size() - 1));
+      layersPanel.add(allLayers.get(allLayers.size() - 1));
       packPanels();
     }
   }
@@ -804,7 +807,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
       }
       if (!validFileTypeSelected) {
         errorPopup("invalid file type selected, try again, specifying either "
-            + ".png, .jpg, or .ppm", "Invalid file type");
+            + ".png, .jpg, or .ppm", "Invalid File Type");
       }
 
       mdl.load(fileFormat.importImage(absolutePath));
@@ -864,8 +867,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
       try {
         int height = Integer.parseInt(heightInp);
         int width = Integer.parseInt(widthInp);
-        new Downscale(mdl, height, width).apply();
+        mdl.downscaleLayers(height, width);
         setImage();
+        packPanels();
       } catch (IllegalArgumentException e) {
         errorPopup("Please try again and enter an integer greater than or equal to 0 for the "
             + "number of seeds", "Invalid number of seeds");
@@ -1098,26 +1102,41 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     @Override
     public void execute() {
 
-      // TODO: use a file explorer to get the TXT file
-      // scriptInput = ... get this from the loaded file ...
+      FileDialog dialog = new FileDialog((Frame) null, "Select File");
+      dialog.setMode(FileDialog.LOAD);
+      dialog.setVisible(true);
+      String absolutePath = dialog.getDirectory() + dialog.getFile();
+      if (!absolutePath.endsWith(".txt")) {
+        errorPopup("Invalid file type selected, must be of type: .txt", "Invalid File Type");
+        return;
+      }
+      String scriptInput = "";
+      try {
+        scriptInput = new String(Files.readAllBytes(Paths.get(absolutePath)));
+      } catch (IOException e) {
+        errorPopup("Unable to read from File at: " + absolutePath, "Unable to read file");
+      }
       scrptCtrlr = MultiLayerIMEControllerImpl.controllerBuilder().model(mdl)
-          /*.readable(scriptInput)*/.buildController();
+          .readable(new StringReader(scriptInput)).buildController();
 
-      // scriptArea.setText(scriptInput.toString());
+      scriptArea.setText(scriptInput);
       scrptCtrlr.run();
       setImage();
-
+      packPanels();
     }
   }
 
+  /**
+   * Class to set the GUI's color theme.
+   */
   private class ThemeCommand implements IGUICommand {
 
     private final GUITheme theme;
 
     /**
-     * TODO
+     * Constructs a ThemeCommand using a specific GUI theme.
      *
-     * @param theme
+     * @param theme the theme to use for the GUI.
      */
     public ThemeCommand(final GUITheme theme) {
       this.theme = Utility.checkNotNull(theme, "cannot create a theme command object "
@@ -1242,10 +1261,10 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   }
 
   /**
-   * TODO
+   * Converts a Java Color object into an {@link IPixel} object.
    *
-   * @param c
-   * @return
+   * @param c the color object.
+   * @return an {@link IPixel} object with the same value as the given color object.
    */
   private static IPixel colorToIPixel(Color c) {
     return new PixelImpl(c.getRed(), c.getGreen(), c.getBlue());

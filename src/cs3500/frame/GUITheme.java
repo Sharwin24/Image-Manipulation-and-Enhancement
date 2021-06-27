@@ -4,7 +4,7 @@ import cs3500.Utility;
 import java.awt.Color;
 
 /**
- * TODO
+ * Class for representing the color theme of the GUI.
  */
 public class GUITheme {
 
@@ -13,11 +13,11 @@ public class GUITheme {
   private final Color accent;
 
   /**
-   * TODO
+   * Constructs a {@link GUITheme} with parameters for the colors.
    *
-   * @param primary
-   * @param secondary
-   * @param accent
+   * @param primary the primary color for the theme.
+   * @param secondary the secondary color for the theme.
+   * @param accent the accent color for the theme.
    */
   public GUITheme(Color primary, Color secondary, Color accent) {
     this.primary = Utility.checkNotNull(primary, "cannot create a theme with a null "
@@ -29,26 +29,26 @@ public class GUITheme {
   }
 
   /**
-   * TODO
+   * Gets the primary color.
    *
-   * @return
+   * @return a Color object representing the primary color.
    */
   public Color getPrimary() {
     return this.primary;
   }
 
   /**
-   * TODO
+   * Gets the secondary color.
    *
-   * @return
+   * @return Color object representing the secondary color.
    */
   public Color getSecondary() {
     return this.secondary;
   }
   /**
-   * TODO
+   * Gets the accent color.
    *
-   * @return
+   * @return a Color object representing the accent color.
    */
   public Color getAccent() {
     return this.accent;

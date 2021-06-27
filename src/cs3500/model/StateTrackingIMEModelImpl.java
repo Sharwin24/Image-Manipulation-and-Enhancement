@@ -127,12 +127,13 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel {
     this.image = newImage.copy();
   }
 
- @Override
+  @Override
   public void mosaic(int numSeeds) {
     this.setImage(this.image.mosaic(numSeeds));
   }
 
-  public void downscaleLayer(int newHeight, int newWidth)
+  @Override
+  public void downscaleLayers(int newHeight, int newWidth)
       throws IllegalArgumentException {
     IImage image = this.getImage();
     IMatrix<IPixel> pixels = image.getPixelArray();
@@ -185,9 +186,6 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel {
       }
     }
     this.setImage(new ImageImpl(newPixels));
-//    layer = new Layer(new StateTrackingIMEModelImpl(new ImageImpl(newPixels)), layer.isInvisible(),
-//        newPixels.getHeight(), newPixels.getWidth());
-
   }
 
 }
