@@ -35,50 +35,31 @@ import cs3500.model.fileformat.JPEGFile;
 import cs3500.model.fileformat.PNGFile;
 import cs3500.model.fileformat.PPMFile;
 import cs3500.model.operation.Greyscale;
-import cs3500.model.operation.IOperation;
 import cs3500.model.operation.ImageBlur;
 import cs3500.model.operation.Sepia;
 import cs3500.model.operation.Sharpening;
 import cs3500.model.pixel.IPixel;
 import cs3500.model.pixel.PixelImpl;
-import cs3500.model.programmaticimages.BWNoise;
-import cs3500.model.programmaticimages.Checkerboard;
-import cs3500.model.programmaticimages.IProgramImage;
-import cs3500.model.programmaticimages.Noise;
-import cs3500.model.programmaticimages.PureNoise;
-import cs3500.model.programmaticimages.RainbowNoise;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.FileDialog;
 import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.io.StringReader;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JColorChooser;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -121,6 +102,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
 
   // to represent the model--the images to be manipulated
   private IMultiLayerExtraOperations model;
+
   // to represent the scriptable controller embedded in the GUI
   private IMultiLayerIMEController scrptCtrlr;
   private JButton runScriptBtn;
@@ -131,23 +113,18 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   private IMEView txtView;
   // to store output from the view
   private Appendable out;
+
+
   // to store the GUI elements
   private JPanel mainPanel;
+
+
   // to store the menu ribbon elements
-  private JLabel menusLabel;
-  private JPanel menusPanel;
-  private JLabel fileMenuLabel;
-  private JLabel editMenuLabel;
-  private JLabel transformationsMenuLabel;
-  private JLabel programmaticImagesMenuLabel;
-
-
   private JMenuBar menuRibbon;
-  // Image panel architecture
-  private BufferedImage currentImage;
-  private JPanel imagePanel;
-  private JScrollPane imageScrollPanel;
 
+
+  // Image panel architecture
+  private JScrollPane imageScrollPanel;
 
   // the architecture for the file menu
   private JMenu fileMenu;
@@ -169,8 +146,6 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   // the architecture for the help menu
   private JMenu helpMenu;
 
-  // to handle input and display it
-  private JLabel inputDisplay;
 
   // to handle text in the console
   private JPanel consolePanel;
@@ -179,8 +154,43 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
 
   private JLabel imgLabel = new JLabel("");
 
+  public JMenuBar getMenuRibbon() {
+    return this.menuRibbon;
+  }
 
-  private JPanel inputDialogPanel; // Todo: Getters
+  public JPanel getConsolePanel() {
+    return consolePanel;
+  }
+
+  public JScrollPane getImageScrollPanel() {
+    return imageScrollPanel;
+  }
+
+  public JPanel getMainPanel() {
+    return this.mainPanel;
+  }
+
+  public IMultiLayerIMEController getScrptCtrlr() {
+    return this.scrptCtrlr;
+  }
+
+  public JPanel getInputDialogPanel() {
+    return this.inputDialogPanel;
+  }
+
+  public JPanel getColorChooserDisplay() {
+    return this.colorChooserDisplay;
+  }
+
+  public JTextArea getScriptArea() {
+    return this.scriptArea;
+  }
+
+  public JPanel getLayersPanel() {
+    return this.layersPanel;
+  }
+
+  private JPanel inputDialogPanel;
 
   private JPanel colorChooserDisplay = new JPanel();
 
@@ -189,12 +199,14 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   // Handle Layers
   private JPanel layerAreaPanel = new JPanel();
   private final JPanel layerButtonsPanel = new JPanel();
+
+
   private JPanel layersPanel = new JPanel();
   private final List<JPanel> allLayers = new ArrayList<>();
 
   private JTextArea scriptArea;
 
-  private GUITheme defaultTheme = LIGHT_THEME;
+  private final GUITheme defaultTheme = LIGHT_THEME;
 
   /**
    * Sets up the visual components of the GUI in all their glory. Sets the default theme of the GUI
