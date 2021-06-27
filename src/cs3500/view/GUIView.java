@@ -98,7 +98,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
       + "and-Enhancement.git";
 
   // to represent the model--the images to be manipulated
-  private IMultiLayerExtraOperations model = new MultiLayerModelImpl();
+  private final IMultiLayerExtraOperations model = new MultiLayerModelImpl();
 
 
   // to represent the scriptable controller embedded in the GUI
@@ -249,8 +249,6 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     super();
     setTitle("Image Manipulation and Enhancement");
     setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-    this.model = new MultiLayerModelImpl();
     // to store interactively-scripted commands
     Readable scriptIn = new StringReader("");
     // to store output from the view
