@@ -815,6 +815,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Command to apply operations to the GUI's image.
+   */
   private class OperationCommand implements IGUICommand {
 
     private final IOperation toApply;
@@ -828,6 +831,7 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     public void execute() {
       mdl.applyOperations(toApply);
       setImage();
+      packPanels();
     }
   }
 
@@ -1001,6 +1005,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
   }
 
+  /**
+   * Command to create a BWNoise image.
+   */
   private class BWNoiseCommand extends ANoiseCommand {
 
     @Override
@@ -1009,6 +1016,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Command to create a RainbowNoise image.
+   */
   private class RainbowNoiseCommand extends ANoiseCommand {
 
     @Override
@@ -1017,6 +1027,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Command to create a PureNoise image.
+   */
   private class PureNoiseCommand extends ANoiseCommand {
 
     @Override
@@ -1025,6 +1038,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Command for Noise with custom colors.
+   */
   private class CustomNoiseCommand extends ANoiseCommand {
 
     @Override
@@ -1032,6 +1048,11 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
       return new Noise(getColorsFromUser());
     }
 
+    /**
+     * Prompts user to select colors and returns a list of pixels with the color specified.
+     *
+     * @return a list of pixels with each pixel's color being a selected color by the user.
+     */
     private IPixel[] getColorsFromUser() {
 
       List<Color> colorsPicked = new ArrayList<>();
@@ -1062,6 +1083,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Command to Undo an operation.
+   */
   private class UndoCommand implements IGUICommand {
 
     @Override
@@ -1071,6 +1095,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Command to Redo an operation.
+   */
   private class RedoCommand implements IGUICommand {
 
     @Override
@@ -1080,6 +1107,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Command to run a script written in the script panel.
+   */
   private class RunScriptCommand implements IGUICommand {
 
     @Override
@@ -1097,6 +1127,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
     }
   }
 
+  /**
+   * Command to load a script and run it.
+   */
   private class LoadScriptCommand implements IGUICommand {
 
     @Override
