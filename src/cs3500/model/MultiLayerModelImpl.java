@@ -3,7 +3,6 @@ package cs3500.model;
 import cs3500.model.image.IImage;
 import cs3500.model.layer.ILayer;
 import cs3500.model.layer.Layer;
-import cs3500.model.operation.Downscale;
 import cs3500.model.operation.IOperation;
 import cs3500.model.programmaticimages.IProgramImage;
 import java.util.ArrayList;

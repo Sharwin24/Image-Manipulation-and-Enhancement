@@ -26,7 +26,6 @@ import cs3500.view.IMEView;
 import cs3500.view.TextualIMEView;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FileDialog;
@@ -41,28 +40,21 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.MalformedInputException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
-import javax.print.attribute.standard.JobKOctets;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -73,7 +65,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.Scrollable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -594,24 +585,34 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
    * @throws IllegalArgumentException if the layer number is invalid.
    */
   private JPanel createLayerRow(int layerNum) {
+    // Layer Button
     JPanel thisRow = new JPanel();
     thisRow.setLayout(new FlowLayout());
     JButton layerBtn = new JButton("Layer | " + layerNum);
     layerBtn.setOpaque(false);
-    layerBtn.setBackground(Color.WHITE);
+    layerBtn.setBackground(this.defaultTheme.getPrimary());
     actionsMap.putIfAbsent("currentLayerWithIndex " + layerNum,
         new CurrentLayerWithIndex(layerNum));
     layerBtn.setActionCommand("currentLayerWithIndex " + layerNum);
     layerBtn.addActionListener(this);
+    // Visibility Checkbox
     JCheckBox layerCB = new JCheckBox("visible?", true);
-    layerCB.setBackground(Color.WHITE);
+    layerCB.setBackground(this.defaultTheme.getPrimary());
     layerCB.setOpaque(false);
     actionsMap.putIfAbsent("visible " + layerNum, new VisibleLayer(layerNum));
     layerCB.setActionCommand("visible " + layerNum);
     layerCB.addItemListener(this);
+    // Delete Button
+    JButton deleteBtn = new JButton("Delete");
+    deleteBtn.setOpaque(false);
+    deleteBtn.setBackground(this.defaultTheme.getPrimary());
+    actionsMap.putIfAbsent("delete " + layerNum, new DeleteLayerWithIndexCommand(layerNum));
+    deleteBtn.setActionCommand("delete " + layerNum);
+    deleteBtn.addActionListener(this);
 
     thisRow.add(layerBtn);
     thisRow.add(layerCB);
+    thisRow.add(deleteBtn);
     thisRow.setOpaque(false);
     this.allLayers.add(thisRow);
     return thisRow;
@@ -958,6 +959,40 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
   }
 
   /**
+   * Command for a delete button to delete that specific layer.
+   */
+  private class DeleteLayerWithIndexCommand implements IGUICommand {
+
+    private int layerNum;
+
+    /**
+     * Constructs a DeleteLayerWithIndexCommand with the given layerIndex.
+     *
+     * @param layerNum the index of the layer to delete.
+     */
+    private DeleteLayerWithIndexCommand(int layerNum) {
+      if (layerNum < 0) {
+        throw new IllegalArgumentException("Layer Number cannot be less than zero");
+      }
+      this.layerNum = layerNum;
+    }
+
+
+    @Override
+    public void execute() {
+      try {
+        mdl.deleteLayer(layerNum);
+        allLayers.remove(layerNum);
+        layersPanel.remove(layerNum);
+        setImage();
+        packPanels();
+      } catch (IllegalArgumentException e) {
+        System.out.println("Delete Failed: " + e.getMessage());
+      }
+    }
+  }
+
+  /**
    * Command to delete a layer.
    */
   private class DeleteLayerCommand implements IGUICommand {
@@ -968,6 +1003,10 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
       try {
         int layerToDelete = Integer.parseInt(layerToDeleteInp);
         mdl.deleteLayer(layerToDelete);
+        allLayers.remove(layerToDelete);
+        layersPanel.remove(layerToDelete);
+        setImage();
+        packPanels();
       } catch (IllegalArgumentException e) {
         errorPopup("Please enter a valid number between 0 and " +
             (mdl.getLayers().size() - 1), "Bad layer number");

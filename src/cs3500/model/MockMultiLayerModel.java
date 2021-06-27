@@ -87,6 +87,11 @@ public class MockMultiLayerModel implements IMockMultiLayerModel {
   }
 
   @Override
+  public void downscaleLayers(int newHeight, int newWidth) throws IllegalArgumentException {
+    log.append("Downscaled with H:" + newHeight + " and W:" + newWidth);
+  }
+
+  @Override
   public void undo() throws IllegalArgumentException {
     log.append("undone" + "\n");
   }

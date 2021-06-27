@@ -7,7 +7,6 @@ import cs3500.model.image.ImageImpl;
 import cs3500.model.layer.ILayer;
 import cs3500.model.matrix.IMatrix;
 import cs3500.model.matrix.MatrixImpl;
-import cs3500.model.operation.Downscale;
 import cs3500.model.operation.IOperation;
 import cs3500.model.pixel.IPixel;
 import cs3500.model.pixel.PixelImpl;
