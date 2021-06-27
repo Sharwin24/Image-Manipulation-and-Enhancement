@@ -6,7 +6,7 @@ import cs3500.controller.MultiLayerIMEControllerImpl;
 import cs3500.controller.commands.guicommands.BWNoiseCommand;
 import cs3500.controller.commands.guicommands.CheckerBoardCommand;
 import cs3500.controller.commands.guicommands.CurrentLayerCommand;
-import cs3500.controller.commands.guicommands.CurrentLayerWithIndex;
+import cs3500.controller.commands.guicommands.CurrentLayerWithIndexCommand;
 import cs3500.controller.commands.guicommands.CustomNoiseCommand;
 import cs3500.controller.commands.guicommands.DeleteLayerCommand;
 import cs3500.controller.commands.guicommands.DeleteLayerWithIndexCommand;
@@ -26,7 +26,7 @@ import cs3500.controller.commands.guicommands.SwapLayersCommand;
 import cs3500.controller.commands.guicommands.ThemeCommand;
 import cs3500.controller.commands.guicommands.UndoCommand;
 import cs3500.controller.commands.guicommands.ViewGitHubCommand;
-import cs3500.controller.commands.guicommands.VisibleLayer;
+import cs3500.controller.commands.guicommands.VisibleLayerCommand;
 import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
@@ -49,7 +49,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -664,14 +663,14 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     layerBtn.setOpaque(false);
     layerBtn.setBackground(this.defaultTheme.getPrimary());
     actionsMap.putIfAbsent("currentLayerWithIndex " + layerNum,
-        new CurrentLayerWithIndex(this.model, this, layerNum));
+        new CurrentLayerWithIndexCommand(this.model, this, layerNum));
     layerBtn.setActionCommand("currentLayerWithIndex " + layerNum);
     layerBtn.addActionListener(this);
     // Visibility Checkbox
     JCheckBox layerCB = new JCheckBox("visible?", true);
     layerCB.setBackground(this.defaultTheme.getPrimary());
     layerCB.setOpaque(false);
-    actionsMap.putIfAbsent("visible " + layerNum, new VisibleLayer(this.model, this, layerNum));
+    actionsMap.putIfAbsent("visible " + layerNum, new VisibleLayerCommand(this.model, this, layerNum));
     layerCB.setActionCommand("visible " + layerNum);
     layerCB.addItemListener(this);
     // Delete Button
