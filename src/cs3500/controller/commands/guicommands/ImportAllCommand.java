@@ -1,8 +1,14 @@
 package cs3500.controller.commands.guicommands;
 
 import cs3500.model.IMultiLayerExtraOperations;
+import cs3500.model.fileformat.JPEGFile;
 import cs3500.model.layer.ILayer;
 import cs3500.view.GUIView;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Command to import an image to all layers.
@@ -22,17 +28,30 @@ public class ImportAllCommand extends AImportCommand {
     super(model, frame);
   }
 
+
   @Override
   public void execute() {
-    String path = "";
-    try {
-      path = this.getAbsolutePathOfFile();
-    } catch (IllegalArgumentException e) {
-      return;
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Specify the txt file containing the paths of the files to import");
+    FileNameExtensionFilter txtFilter = new FileNameExtensionFilter("text files", "txt");
+    fileChooser.setFileFilter(txtFilter);
+    int selection = fileChooser.showSaveDialog(frame);
+    if (selection == JFileChooser.APPROVE_OPTION) {
+      File filePathsTxt = fileChooser.getSelectedFile();
+      try {
+        Scanner filePathsScanner = new Scanner(filePathsTxt);
+        while (filePathsScanner.hasNextLine()) {
+          String onePath = filePathsScanner.nextLine();
+
+          model.addLayer();
+          model.setCurrentLayer(model.getLayers().size() - 1);
+          model.load(new JPEGFile().importImage(onePath));
+        }
+        frame.setImage();
+        frame.renderLayers();
+      } catch (FileNotFoundException e) {
+        frame.errorPopup("Could not find specified file", "Bad file error");
+      }
     }
-    for (ILayer layer : model.getLayers()) {
-      layer.modelLoad(this.fileFormat.importImage(path));
-    }
-    frame.setImage();
   }
 }
