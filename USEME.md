@@ -32,9 +32,10 @@ The <i>Import</i> submenu</li>
 from a file explorer/finder (for Windows/MacOS)-- referenced in a text file
 that contains the absolute path of all of the images that are to be imported, one on each line.
 An example is a file <i>images.txt</i> with contents 
-<code>C:\Users\Joe\JoesImages\image1.png <br> C:\Users\Sally\SallysImages\dogImage.jpg <br>
-D:\FancyBear\Images\russianFlag.ppm <br> C:\Sys\Images\Logo.jpeg
-</code></li>
+<code>C:\Users\Joe\JoesImages\image1.png</code> <br> 
+<code>C:\Users\Sally\SallysImages\dogImage.jpg</code> <br>
+<code>D:\FancyBear\Images\russianFlag.ppm</code> <br> 
+<code>C:\Sys\Images\Logo.jpeg</code></li>
 <li><i>import one image</i> imports one JPG/JPEG, PNG, or PPM file 
 from a file explorer/finder (for Windows/MacOS)</li>
 </ul>
