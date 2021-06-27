@@ -5,6 +5,7 @@ import cs3500.view.GUIView;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.naming.spi.DirectoryManager;
 import javax.swing.JFileChooser;
 
 /**
@@ -34,8 +35,8 @@ public class ExportOneCommand extends AGUICommand {
       File f = fChooser.getSelectedFile();
       String absPath = f.getAbsolutePath();
       try {
-        if (!frame.initFormatsMap().containsKey(frame.getFileExtension(absPath))) {
-          ImageIO.write(model.getImage().getBufferedImage(), frame.getFileExtension(absPath), f);
+        if (!GUIView.initFormatsMap().containsKey(GUIView.getFileExtension(absPath))) {
+          ImageIO.write(model.getImage().getBufferedImage(), GUIView.getFileExtension(absPath), f);
         }
         absPath += ".png"; // default to save as png
         ImageIO.write(model.getImage().getBufferedImage(), "png", f);

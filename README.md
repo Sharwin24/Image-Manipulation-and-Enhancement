@@ -421,15 +421,30 @@ Command for setting the selected layer as visible/invisible using the GUI checkb
 
 Command for swapping two layers, prompts the user to enter the two layer indices to swap.
 
+### The <code>AImportCommand</code> abstract class
+
+An abstract class to provide the method for prompting the user to select a file. Offers each
+subclass the ability to override the execute method to perform their respective command.
+
 ### The <code>ImportOneCommand</code> class
 
 Command to import an image to the current selected layer. Prompts the user to select a file through
-a file explorer.
+a file explorer using the method from the <code>AImportCommand</code> abstract class.
+
+### The <code>ImportAllCommand</code> class
+
+Command to import an image to all layers in the model. Prompts the user to select a file through a
+file explorer using the method from the <code>AImportCommand</code> abstract class.
 
 ### The <code>ExportOneCommand</code> class
 
 Command to export the image on the current selected layer. Prompts the user to select a directory
 and path through a file explorer.
+
+### The <code>ExportAllCommand</code> class
+
+Command to export all layers to a specified directory as PNG files. The resulting directory also
+contains a <code>txt</code> file with the paths to the exported images.
 
 ### The <code>LoadScriptCommand</code> class
 
@@ -497,10 +512,12 @@ view. The diagram also shows the methods that each class contains.
 # USEME Table of Contents
 
 # Table of Contents
+
 1. [How to use the GUI](#gui)
 2. [How to write scripts](#scripts)
 
 ## How to use the GUI <a name="gui"></a>
+
 <p>In the <code>GUIController</code> and <code>GUIView</code> classes, support is added for a 
 Graphical User Interface (GUI) that supports all of the functionality of the model, as well as some 
 extra features. Almost all functionality is exposed through dropdown menus, while some functionality
@@ -925,42 +942,41 @@ to all of those images.</small><br>
 <code>redo</code><i><small>redoes the filters that were just undone</small></i> <br>
 <code>redo</code><i><small>does nothing, there is nothing to redo</small></i> <br>
 
-<code>swap 0 1</code><i><small>swaps layers 0 and 1, swapping the image of rover with the
-black and white noise image</small></i> <br>
-<code>delete 0</code><i><small>deletes layer 0. Now there is only one layer at index 0</small></i> <br>
-<code>delete 0</code><i><small>tries to delete layer 0, will not delete since there must be at
-least one layer.</small></i> <br>
-<code>import JPEG layers res/exampleLayers</code><i><small>imports the images that were just exported
-and deleted, restoring layers 0 and 1 to the black and white noise
-and rover images</small></i> <br>
-<code>delete 0</code><i><small>deletes layer 0. Now there is only one layer at index 0</small></i> <br>
-<code>delete 0</code><i><small>tries to delete layer 0, will not delete since there must be at
-least one layer.</small></i> <br>
+<code>swap 0 1</code><i><small>swaps layers 0 and 1, swapping the image of rover with the black and
+white noise image</small></i> <br>
+<code>delete 0</code><i><small>deletes layer 0. Now there is only one layer at index
+0</small></i> <br>
+<code>delete 0</code><i><small>tries to delete layer 0, will not delete since there must be at least
+one layer.</small></i> <br>
+<code>import JPEG layers res/exampleLayers</code><i><small>imports the images that were just
+exported and deleted, restoring layers 0 and 1 to the black and white noise and rover
+images</small></i> <br>
+<code>delete 0</code><i><small>deletes layer 0. Now there is only one layer at index
+0</small></i> <br>
+<code>delete 0</code><i><small>tries to delete layer 0, will not delete since there must be at least
+one layer.</small></i> <br>
 <code>programmatic rainbownoise 100 100 10</code><i><small>
 sets layer 0 (the only layer) to a rainbow noise image</small></i> <br>
 <code>new</code><i><small>creates a new layer at index 1</small></i> <br>
 <code>current 1</code><i><small>sets the current layer to index 1</small></i> <br>
 <code>programmatic purenoise 100 100 10
-</code><i><small>sets the image at layer 1 to a pure noise image with
-the specified dimensions</small></i> <br>
+</code><i><small>sets the image at layer 1 to a pure noise image with the specified
+dimensions</small></i> <br>
 <code>new
 </code><i><small>creates a new layer at index 2</small></i> <br>
 <code>current 2
 </code><i><small>sets the current layer to the one at index 2, the new layer</small></i> <br>
 <code>programmatic checkerboard 100 100 10
-</code><i><small>sets the image at layer index 2 to
-a programmatically created checkerboard with the given dimensions
-with a square size of 10 pixels. Note that these dimensions match the
-pure noise image contained in layer 1</small></i> <br>
+</code><i><small>sets the image at layer index 2 to a programmatically created checkerboard with the
+given dimensions with a square size of 10 pixels. Note that these dimensions match the pure noise
+image contained in layer 1</small></i> <br>
 <code>save</code><i><small>saves the most recent state to the image history</small></i> <br>
 <code>visibility 1
 </code><i><small>toggles the visibility of layer 1, making it invisible</small></i> <br>
 <code>current 0
-</code><i><small>sets the current layer to layer 0, the rainbow
-noise image</small></i> <br>
+</code><i><small>sets the current layer to layer 0, the rainbow noise image</small></i> <br>
 <code>export PNG res/finalImage-Rover
-</code><i><small>exports the rainbow noise image
-at layer 1 to the specified path.</small></i> <br>
+</code><i><small>exports the rainbow noise image at layer 1 to the specified path.</small></i> <br>
 <li>
 <i><code>ExampleScript2-bogus</code></i></li></li>
 A script to show bad calls to commands that will not be
@@ -978,7 +994,8 @@ get ignored and a sepia filter is a"pplied</i></small><br>
 <code>save -2</code><i><small>-2 is not a valid parameter for the save command, gets ignored
 </i></small><br>
 <code>delete -2</code><i><small>-2 is not a valid layer to be deleted</i></small><br>
-<code>export TXT notGonnaWork.txt</code><i><small>"TXT" is not a supported file format</i></small><br>
+<code>export TXT notGonnaWork.txt</code><i><small>"TXT" is not a supported file
+format</i></small><br>
 <code>import jpeg layers notGonnaWorkShouldveBeenCapitalized</code><i><small>according to the guide,
 "jpeg" should be capitalized as "JPEG"</i></small><br>
 <code>export PPM directoryDoesntExist</code><i><small>
@@ -988,12 +1005,12 @@ directory is assumed not to exist and will throw an error</i></small><br>
 </i></small><br>
 <code>undo undo</code><i><small>cannot undo twice if only one operation has been applied
 </i></small><br>
-<code>redo redo redo redo</code><i><small></i>cannot redo
-four times when there is only one undone operation to redo (once)</small><br>
+<code>redo redo redo redo</code><i><small></i>cannot redo four times when there is only one undone
+operation to redo (once)</small><br>
 <code>notACommand</code><i><small>not a valid textual command</i></small><br>
 <code>programmatic programmatic checkerboard 400 400 12</code><i>
-<small>second call to "programmatic" textual command has valid parameters,
-but since only one command is allowed per line, the second instance of
+<small>second call to "programmatic" textual command has valid parameters, but since only one
+command is allowed per line, the second instance of
 "programmatic" is interpreted as the <code>[Integer]</code>
 parameter and gets ignored, since "programmatic" is not an
 <code>[Integer]</code></i></small><br>
