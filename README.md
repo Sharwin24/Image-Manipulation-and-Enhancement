@@ -215,8 +215,20 @@ string.
 
 ## The <code>TextualIMEView</code> class
 
-The implementation of the view interface. The class implements the methods and is used for the final
-program.
+The textual implementation of the view interface. The class implements the methods and is used for
+the final program.
+
+## The <code>GUIView</code> class
+
+The Graphical implementation of the view interface. This class hanles the construction and
+organization of the graphical user interface for the IME. The class also extends JFrame to build the
+GUI itself.
+
+## The <code>GUITheme</code> class
+
+A class to build a color theme for the GUI, supports many color themes like: Dark Theme, Light
+Theme, Matrix Theme(green and black), and a Retro Theme(red and blue). The class offers support to
+easily add new color themes.
 
 # The <code>Controller</code> Package
 
@@ -234,6 +246,8 @@ executes the commands by delegating the action through the command's class.
 
 ## The <code>Commands</code> package
 
+## The <code>Text Commands</code> package
+
 ### The <code>IIMECommand</code> interface
 
 The interface for all commands for an <code>IMEModel</code> interface. This interface offers the
@@ -248,30 +262,104 @@ implement.
 
 ### The <code>APortCommand</code> abstract class
 
+An abstract class for the import/export commands. The class provides a <code>HashMap</code> of
+strings to <code>IFileFormat</code> objects for import/export to utilize.
+
 ### The <code>ApplyCommand</code> class
+
+Command for applying an operation to an image. The class is capable of applying multiple operations
+in succession utilizing a list of given <code>IOperation</code>.
 
 ### The <code>CurrentCommand</code> class
 
+Command for setting the current layer given a layer index.
+
 ### The <code>DeleteCommand</code> class
-
+Command for deleting a layer given a layer index.
 ### The <code>ImportCommand</code> class
-
+Command for importing an image. Extends the <code>APortCommand</code> abstract class to gain 
+access to the <code>IFileFormat</code> HashMap. 
 ### The <code>ExportCommand</code> class
-
+Command for exporting an image. Extends the <code>APortCommand</code> abstract class to gain
+access to the <code>IFileFormat</code> HashMap.
 ### The <code>NewLayerCommand</code> class
-
+Command for creating a new layer with an empty image at first.
 ### The <code>ProgrammaticImageCommand</code> class
-
+Command for creating a Programmatic Image given parameters for the size and type of image. 
+Offers the creation of: checkerboard, pure noise, black and white noise, and rainbow noise images.
 ### The <code>UndoCommand</code> class
-
+Command for Undoing an operation to an image. Utilizes a stack structure for Undo/Redo History, 
+which only allows Undoing/Redoing after a single operation.
 ### The <code>RedoCommand</code> class
-
+Command for Redoing an operation to an image. Utilizes a stack structure for Undo/Redo History, 
+which only allows Undoing/Redoing after a single operation.
 ### The <code>SaveCommand</code> class
-
+Command for saving an image and pushing it's state to the Undo history.
 ### The <code>SwapCommand</code> class
-
+Command for swapping two layers given the two layer indices.
 ### The <code>VisibilityCommand</code> class
+Command for toggling the Visibility of a layer given a layer index.
+## The <code>GUI Commands</code> package
 
+### The <code>IGUICommand</code> interface
+Interface for all GUI Command classes to extend. Provides the <code>execute()</code> method for 
+each command class to implement with their respective execution.
+### The <code>AGUICommand</code> abstract class
+An abstract class for <code>IGUICommand</code>. Offers the construction of the 
+<code>MultiLayer</code> model and the <code>GUIView</code> frame for each command to utilize in 
+their executions.
+
+### The <code>ThemeCommand</code> class
+Command for setting a new color theme to the GUI. Prompts the user to select a 
+<code>GUITheme</code> to switch to.
+
+### The <code>ANoiseCommand</code> abstract class
+Abstract class for all Noise images to be constructed and output to the GUI given a specific set 
+of colors gathered from user input or by the user selecting a specific noise image such as 
+RainbowNoise etc.
+
+### The <code>BWNoiseCommand</code> class
+Extends the <code>ANoiseCommand</code> abstract class, and provides the abstract class the 
+colors required to create a black and white noise image.
+### The <code>PureNoiseCommand</code> class
+Extends the <code>ANoiseCommand</code> abstract class, and provides the abstract class the
+colors required to create a pure noise image.
+### The <code>RainbowNoiseCommand</code> class
+Extends the <code>ANoiseCommand</code> abstract class, and provides the abstract class the
+colors required to create a rainbow noise image.
+### The <code>CustomNoiseCommand</code> class
+Extends the <code>ANoiseCommand</code> abstract class, and prompts the user to select any number 
+of colors using a <code>ColorChooser</code> to create a noise image with the selected colors.
+###The <code>CheckerBoardCommand</code> class
+Command for drawing a Checkerboard programmatic image by prompting the user for the size of the 
+image and of the squares.
+### The <code>GUIMosaicCommand</code> class
+Command for creating a Mosaic image of the current image by prompting the user for the number of 
+seeds to use.
+### The <code>DownScaleCommand</code> class
+Command for downscaling all the layers. Prompts the user to enter a new size to downscale to.
+### The <code>CurrentLayerCommand</code> class
+Command for setting a layer as the current one. Prompts the user for enter a specific layer 
+index to set the current layer to.
+### The <code>CurrentLayerWithIndexCommand</code> class
+Command for setting a layer as the current one by pressing the layer button.
+### The <code>DeleteLayerCommand</code> class
+Command for deleting a layer. Prompts the user to enter a specific layer index to delete.
+### The <code>DeleteLayerWithIndexCommand</code> class
+Command for deleting a layer by pressing the delete button for a specific layer.
+### The <code>VisibleLayerCommand</code> class
+Command for setting the selected layer as visible/invisible using the GUI checkbox.
+### The <code>SwapLayersCommand</code> class
+Command for swapping two layers, prompts the user to enter the two layer indices to swap.
+### The <code>ImportOneCommand</code> class
+Command to import an image to the current selected layer.
+### The <code>ExportOneCommand</code> class
+### The <code>LoadScriptCommand</code> class
+### The <code>RunScriptCommand</code> class
+### The <code>OperationCommand</code> class
+### The <code>UndoCommand</code> class
+### The <code>RedoCommand</code> class
+### The <code>ViewGitHubCommand</code> class
 ## The <code>Utility</code> class
 
 A class with helpful methods to be utilized throughout the program. Includes many methods to
