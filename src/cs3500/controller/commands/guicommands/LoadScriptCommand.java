@@ -41,7 +41,7 @@ public class LoadScriptCommand extends AGUICommand {
     } catch (IOException e) {
       frame.errorPopup("Unable to read from File at: " + absolutePath, "Unable to read file");
     }
-    frame.scriptArea.setText(scriptInput);
+    frame.scriptArea.setText(scriptInput); // Todo: Getters
   }
   }
 }

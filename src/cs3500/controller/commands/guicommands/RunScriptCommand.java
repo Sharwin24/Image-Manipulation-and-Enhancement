@@ -23,7 +23,7 @@ public class RunScriptCommand extends AGUICommand {
   }
 
   @Override
-  public void execute() {
+  public void execute() { // Todo: Getters
     StringReader scriptInput = new StringReader(frame.scriptArea.getText());
 
     frame.scrptCtrlr = MultiLayerIMEControllerImpl.controllerBuilder().model(model)
