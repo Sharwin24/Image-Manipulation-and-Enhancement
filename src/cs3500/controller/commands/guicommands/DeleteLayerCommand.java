@@ -27,8 +27,8 @@ public class DeleteLayerCommand extends AGUICommand {
     try { // Todo: Getters
       int layerToDelete = Integer.parseInt(layerToDeleteInp);
       model.deleteLayer(layerToDelete);
-      frame.allLayers.remove(layerToDelete);
-      frame.layersPanel.remove(layerToDelete);
+      frame.getAllLayers().remove(layerToDelete);
+      frame.getLayersPanel().remove(layerToDelete);
       frame.setImage();
       frame.renderLayers();
     } catch (IllegalArgumentException e) {

@@ -32,7 +32,7 @@ public class DeleteLayerWithIndexCommand extends AGUICommand {
   public void execute() {
     try {
       model.deleteLayer(layerNum);
-      frame.allLayers.remove(layerNum);
+      frame.getAllLayers().remove(layerNum);
       frame.setImage();
       frame.renderLayers();
     } catch (IllegalArgumentException e) {

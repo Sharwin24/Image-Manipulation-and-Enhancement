@@ -98,7 +98,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
       + "and-Enhancement.git";
 
   // to represent the model--the images to be manipulated
-  private IMultiLayerExtraOperations model;
+  private IMultiLayerExtraOperations model = new MultiLayerModelImpl();
 
 
   // to represent the scriptable controller embedded in the GUI
@@ -176,7 +176,6 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     return consolePanel;
   }
 
-
   // Handle Dialog Panel
   private JPanel inputDialogPanel;
 
@@ -190,7 +189,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   }
 
   // Handle Color Chooser
-  public JPanel colorChooserDisplay = new JPanel();
+  private JPanel colorChooserDisplay = new JPanel();
 
   /**
    * Gets the Color Chooser Display.
@@ -200,7 +199,6 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   public JPanel getColorChooserDisplay() {
     return this.colorChooserDisplay;
   }
-
 
   // Handle Layers
   private final JPanel layerAreaPanel = new JPanel();
@@ -215,6 +213,15 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
    */
   public JPanel getLayersPanel() {
     return this.layersPanel;
+  }
+
+  /**
+   * Gets the list of Layer Panels.
+   *
+   * @return a List of JPanels.
+   */
+  public List<JPanel> getAllLayers() {
+    return this.allLayers;
   }
 
   // Handle Script Area
@@ -347,7 +354,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
 
     JMenuItem newLayerItem = new JMenuItem("New layer");
     newLayerItem.setMnemonic(KeyEvent.VK_N);
-    newLayerItem.setActionCommand("new layer");
+    newLayerItem.setActionCommand("new");
     newLayerItem.addActionListener(this);
     editMenu.add(newLayerItem);
 
@@ -698,7 +705,6 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
 
     Map<String, IGUICommand> actionsMap = new HashMap<>();
     GUIView frame = this;
-    IMultiLayerExtraOperations modelal = model;
     actionsMap.putIfAbsent("new", new NewLayerCommand(model, this));
     actionsMap.putIfAbsent("mosaic", new GUIMosaicCommand(model, this));
     actionsMap.putIfAbsent("import one", new ImportOneCommand(model, this));
