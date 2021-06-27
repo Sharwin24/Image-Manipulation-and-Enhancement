@@ -49,7 +49,7 @@ public abstract class AImportCommand extends AGUICommand {
         this.fileFormat = formats.get(s);
       }
     }
-    if (!validFileTypeSelected) {
+    if (dialog.isActive() && !validFileTypeSelected) {
       frame.errorPopup("invalid file type selected, try again, specifying either "
           + ".png, .jpg, or .ppm", "Invalid File Type");
       throw new IllegalArgumentException("Invalid File Type");

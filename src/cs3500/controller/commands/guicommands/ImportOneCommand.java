@@ -23,13 +23,17 @@ public class ImportOneCommand extends AImportCommand {
 
   @Override
   public void execute() {
-    String path = "";
+    String path;
     try {
       path = this.getAbsolutePathOfFile();
     } catch (IllegalArgumentException e) {
       return;
     }
-    model.load(this.fileFormat.importImage(path));
+    try {
+      model.load(this.fileFormat.importImage(path));
+    } catch (IllegalArgumentException e) {
+      return;
+    }
     frame.setImage();
   }
 }
