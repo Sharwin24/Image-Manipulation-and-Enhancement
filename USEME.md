@@ -7,18 +7,110 @@
 
 
 # Table of Contents
-1. [How to write scripts](#example)
-2. [How to use the GUI](#example2)
-3. [Third Example](#third-example)
-4. [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
+1. [How to use the GUI](#gui)
+2. [How to write scripts](#scripts)
+
+## How to use the GUI <a name="gui"></a>
+<p>In the <code>GUIController</code> and <code>GUIView</code> classes, support is added for a 
+Graphical User Interface (GUI) that supports all of the functionality of the model, as well as some 
+extra features. Almost all functionality is exposed through dropdown menus, while some functionality
+is also exposed through on-screen buttons, interactive text areas, or a combination.</p>
+<p>In general, interactable elements such as menu items and buttons that have
+"...", such as the button <code>Foo...</code>
+indicate that this action will require extra input from the user, usually obtained through a popup 
+window. The following 
+provides a brief summary of all of the functionalities of the GUI and how they can be used:</p>
+<p>
+<ul>
+ <li>
+<b>The <i>File</i> menu</b>
+<ul>
+<li>
+The <i>Import</i> submenu</li>
+<ul>
+<li><i>Import a multi-layered image</i> imports a group of layers--JPG/JPEG, PNG, or PPM files
+from a file explorer/finder (for Windows/MacOS)-- referenced in a text file
+that contains the absolute path of all of the images that are to be imported, one on each line.
+An example is a file <i>images.txt</i> with contents 
+<code>C:\Users\Joe\JoesImages\image1.png <br> C:\Users\Sally\SallysImages\dogImage.jpg <br>
+D:\FancyBear\Images\russianFlag.ppm <br> C:\Sys\Images\Logo.jpeg
+</code></li>
+<li><i>import one image</i> imports one JPG/JPEG, PNG, or PPM file 
+from a file explorer/finder (for Windows/MacOS)</li>
+</ul>
+<li>The <i>Export</i> submenu</li> <ul>
+<li><i>Export one image</i> exports the currently visibile layer to a given destination
+via a file explorer/finder (for Windows/MacOS), as a PPM, PNG, or JPEG/PNG file</li>
+<li>
+<i>Export a multi-layered image</i> exports all **visible** layers to a folder with 
+a name specified by the user. This folder contains a text file like the one describe in the 
+<i>import all</i> section, as well as the images themselves.</li></ul></ul>
+</li>
+<li>The <i>Edit</i> menu</li>
+<ul>
+<li><i>Undo</i> undoes the most recent transformation applied to the current layer (see <i>
+Transformations menu</i>).</li>
+<li><i>Redo</i> redoes the most recent transformation undone from the current layer (see <i>
+Transformations menu</i>).</li>
+<li><i>New Layer</i> creates a new layer that comes after all of the preexisting layers. This layer
+is visible and contains no image. Note that this layer is not set as the current, just created.</li>
+<li><i>Set current layer...</i> asks the user to enter the layer number to switch to, and sets that 
+layer as the current working layer.</li>
+<li><i>Delete layer...</i> asks the user to enter the layer number to delete, and deletes that 
+layer.</li></ul>
+
+<li>The <i>Transformations</i> menu</li>
+<ul>
+<li><i>Sepia</i> applies a sepia filter to the current working layer.</li>
+<li><i>Greyscale</i> applies a greyscale filter to the current working layer.</li>
+<li><i>Blur</i> applies a blur filter to the current working layer.</li>
+<li><i>Sharpen</i> applies a sharpen filter to the current working layer.</li>
+<li><i>Mosaic...</i> asks the user to enter the number of seeds to mosaic the image with and then 
+applies a mosaic filter to the current working layer with that number of seeds. The number of
+seeds indicates how large 'clusters', or the stained-glass-looking pieces that result from the 
+mosaic filter should be. A higher seed number will result in smaller, more ubiquitous clusters, 
+while a smaller seed number will result in larger clusters that are fewer in size.</li>
+<li><i>Downscale...</i> asks the user to enter a new width and height (smaller than the current width 
+ height) to set the new dimensions as. This transformation is then applied to **all** layers that
+are being worked on, since all layers must be of the same size.</li>
+</ul>
+
+<li>The <i>Programmatic images</i> menu</li>
+<ul>
+<li><i>Checkerboard...</i> asks the user for a width, height, and square size (all in pixels) for 
+for the checkerboard image and then displays the checkerboard image on the current working layer.</li>
+<li>The <i>Noise</i> submenu: all commands in this menu ask the user for the width and 
+height of the noise image to be created, then display that noise image on the current working layer.
+<ul>
+<li><i>Pure noise...</i> creates a noise image where each pixel's color is completely randomized.
+</li>
+<li><i>Black and white noise...</i> creates a noise image where each pixel is either black or white.
+</li>
+<li>
+<i>Rainbow noise...</i> creates a noise image where each pixel is either red, orange, yellow, 
+green, blue, indigo, or violet--the colors of the rainbow.</li>
+<li><i>Custom...</i> opens a color picker and allows the user to choose as many colors as they want
+to be included in a noise image. Once the user is done picking colors, their specified noise image
+is generated.</li></ul></li>
+</ul>
+
+<li>The <i>Theme</i> menu sets a color theme for the GUI. Currently, there are
+four themes: <i>Light, Dark, Matrix, </i> and <i>Retro</i>. Try them out!</li>
+
+<li>The <i>Help</i> menu provides resources for how to use the program. Currently, the
+<i>View GitHub Source</i> item links to the README and USEME files contained in this project on 
+its source on GitHub, since the repository is private. You likely opened this document using this
+menu item. If you did, hello! Nice to see you here.</li>
+</ul>
+ </li>
+ </ul></p>
 
 
-## How to write scripts
-<p><u><b>How to write scripts for Image Manipulation and Enhancment</b></u>
+## How to write scripts <a name="scripts"></a>
 
-In this controller, inputs are processed from the mentioned <code> Readable</code> with the following
+<p>In the <code>MultiLayerIIMEControllerImpl class, inputs are processed from the a <code> Readable</code> with the following
 syntax:
- <p> Each command follows this meta-structure:
+ <p> Each command follows this meta-syntax:
  <i><code>[CMD] [arg1] [arg2] ... [argn]</code></i>,
  where <code>[CMD]</code> is the textual representation of a command, and where
  <code>[argi]</code> is the <code>i</code>th required argument of a function of arity
@@ -275,7 +367,7 @@ syntax:
 
 
 
-     
+
 
    </ul>
 </ul></p>
@@ -320,13 +412,13 @@ to all of those images.</small><br>
 <code>redo</code><i><small>redoes the filters that were just undone</small></i> <br>
 <code>redo</code><i><small>does nothing, there is nothing to redo</small></i> <br>
 
-<code>swap 0 1</code><i><small>swaps layers 0 and 1, swapping the image of rover with the 
+<code>swap 0 1</code><i><small>swaps layers 0 and 1, swapping the image of rover with the
 black and white noise image</small></i> <br>
 <code>delete 0</code><i><small>deletes layer 0. Now there is only one layer at index 0</small></i> <br>
 <code>delete 0</code><i><small>tries to delete layer 0, will not delete since there must be at
 least one layer.</small></i> <br>
 <code>import JPEG layers res/exampleLayers</code><i><small>imports the images that were just exported
-and deleted, restoring layers 0 and 1 to the black and white noise 
+and deleted, restoring layers 0 and 1 to the black and white noise
 and rover images</small></i> <br>
 <code>delete 0</code><i><small>deletes layer 0. Now there is only one layer at index 0</small></i> <br>
 <code>delete 0</code><i><small>tries to delete layer 0, will not delete since there must be at
@@ -343,7 +435,7 @@ the specified dimensions</small></i> <br>
 <code>current 2
 </code><i><small>sets the current layer to the one at index 2, the new layer</small></i> <br>
 <code>programmatic checkerboard 100 100 10
-</code><i><small>sets the image at layer index 2 to 
+</code><i><small>sets the image at layer index 2 to
 a programmatically created checkerboard with the given dimensions
 with a square size of 10 pixels. Note that these dimensions match the
 pure noise image contained in layer 1</small></i> <br>
@@ -363,10 +455,10 @@ processed as valid commands.
 
 <code>delete 100</code><i><small>layer 100 does not exist</i></small><br>
 <code>current 12</code><i><small>layer 12 does not exist</i></small><br>
-<code>new foo</code><i><small>"foo" is an invalid parameter for the <code>new</code> command and 
+<code>new foo</code><i><small>"foo" is an invalid parameter for the <code>new</code> command and
 gets ignored</i></small><br>
 <code>delete anms</code><i><small>"anms" is gibberish, gets ignored</i></small><br>
-<code>apply dog cat sepia</code><i><small>"cat" and "dog" are not valid operations to apply. They 
+<code>apply dog cat sepia</code><i><small>"cat" and "dog" are not valid operations to apply. They
 get ignored and a sepia filter is a"pplied</i></small><br>
 <code>apply banana</code><i><small>"banana" is an invalid operation; gets ignored
 </i></small><br>
@@ -374,7 +466,7 @@ get ignored and a sepia filter is a"pplied</i></small><br>
 </i></small><br>
 <code>delete -2</code><i><small>-2 is not a valid layer to be deleted</i></small><br>
 <code>export TXT notGonnaWork.txt</code><i><small>"TXT" is not a supported file format</i></small><br>
-<code>import jpeg layers notGonnaWorkShouldveBeenCapitalized</code><i><small>according to the guide, 
+<code>import jpeg layers notGonnaWorkShouldveBeenCapitalized</code><i><small>according to the guide,
 "jpeg" should be capitalized as "JPEG"</i></small><br>
 <code>export PPM directoryDoesntExist</code><i><small>
 directory is assumed not to exist and will throw an error</i></small><br>
@@ -387,7 +479,7 @@ directory is assumed not to exist and will throw an error</i></small><br>
 four times when there is only one undone operation to redo (once)</small><br>
 <code>notACommand</code><i><small>not a valid textual command</i></small><br>
 <code>programmatic programmatic checkerboard 400 400 12</code><i>
-<small>second call to "programmatic" textual command has valid parameters, 
+<small>second call to "programmatic" textual command has valid parameters,
 but since only one command is allowed per line, the second instance of
 "programmatic" is interpreted as the <code>[Integer]</code>
 parameter and gets ignored, since "programmatic" is not an
@@ -397,7 +489,5 @@ way too many parameters passed, everything after "312" gets ignored (<code>progr
 is a quaternary command)</i></small><br>
 
 </ul>
-## How to use the GUI
-## Third Example
-## [Fourth Example](http://www.fourthexample.com) 
+
 
