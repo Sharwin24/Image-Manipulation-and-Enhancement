@@ -22,7 +22,7 @@ public class NewLayerCommand extends AGUICommand {
   }
 
   @Override
-  public void execute() { // Todo: Change to Getters
+  public void execute() {
     model.addLayer();
     frame.getAllLayers().add(frame.createLayerRow(model.getLayers().size() - 1, true));
     frame.getLayersPanel().add(frame.getAllLayers().get(frame.getAllLayers().size() - 1));

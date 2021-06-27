@@ -30,7 +30,7 @@ public class Main {
     IMultiLayerExtraOperations model = new MultiLayerModelImpl();
     IMultiLayerIMEController ctrlr = new MultiLayerGUIController(model,
         new GUIView());
-    ctrlr.run();
+//    ctrlr.run();
 
     args = new String[]{"-interactive"};
 
