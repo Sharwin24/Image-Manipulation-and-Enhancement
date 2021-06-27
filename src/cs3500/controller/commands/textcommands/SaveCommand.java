@@ -1,4 +1,4 @@
-package cs3500.controller.commands;
+package cs3500.controller.commands.textcommands;
 
 import cs3500.model.IMultiLayerModel;
 import cs3500.view.IMEView;
@@ -6,27 +6,23 @@ import java.util.Scanner;
 
 /**
  * <p>A function object used to represent the execution of a
- * {@link IMultiLayerModel#redo()} call in the {@link IMultiLayerModel}, to be used to
+ * {@link IMultiLayerModel#save()} call in the {@link IMultiLayerModel}, to be used to
  * implement the <i>command design pattern</i> in the
  * {@link cs3500.controller.IMultiLayerIMEController}
  * class.</p>
  *
  * <p>This class, in particular, allows the user to input a command in the form
- * "<code>redo</code>", in order to <code>redo</code> the most recent change to the layer.
+ * "<code>save</code>", in order to <code>save</code> the most recent iteration of this layer
+ * to the layer's history.
  */
-
-public class RedoCommand extends AIMECommand {
+public class SaveCommand extends AIMECommand {
 
   @Override
   public void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IMEView vw)
       throws IllegalArgumentException, IllegalStateException {
 
-    try {
-      mdl.redo();
-      vw.write("successfully redone");
-    } catch (IllegalArgumentException e) {
-      vw.write("Failed to redo: " + e.getMessage());
-    }
+    mdl.save();
+    vw.write("saved current image to image history");
 
   }
 }
