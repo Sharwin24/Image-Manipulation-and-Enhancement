@@ -12,11 +12,12 @@ public abstract class AGUICommand implements IGUICommand {
   protected final GUIView frame;
 
   /**
-   * Todo
+   * Constructs an {@link AGUICommand} based on the model it manipulates and the
+   * {@link GUIView} that it renders these changes to.
    *
-   * @param model
-   * @param frame
-   * @throws IllegalArgumentException
+   * @param model the model to be manipulated.
+   * @param frame the view that will reflect the changes to the model.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public AGUICommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {

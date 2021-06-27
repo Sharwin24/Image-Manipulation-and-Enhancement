@@ -15,10 +15,7 @@ import cs3500.controller.commands.textcommands.SaveCommand;
 import cs3500.controller.commands.textcommands.SwapCommand;
 import cs3500.controller.commands.textcommands.UndoCommand;
 import cs3500.controller.commands.textcommands.VisibilityCommand;
-<<<<<<< HEAD
 import cs3500.model.IMultiLayerExtraOperations;
-=======
->>>>>>> fb94e06b15c6b1f845b55a086c6f71efd18ae76c
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
 import cs3500.model.operation.IOperation;
@@ -364,13 +361,15 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
     /**
      * Private constructor to trivially initialize all fields of a {@link ControllerBuilder}. No
      * exceptions are thrown since this error-checking is handled in the {@link
-     * MultiLayerIMEControllerImpl#MultiLayerIMEControllerImpl(IMultiLayerExtraOperations, Readable, Appendable, IMEView)} constructor.
+     * MultiLayerIMEControllerImpl#MultiLayerIMEControllerImpl(IMultiLayerExtraOperations, Readable,
+     * Appendable, IMEView)} constructor.
      *  @param mdl the model to control
      * @param rd  the readable to read inputs from
      * @param ap  the appendable to write output messages to
      * @param vw  the view to display interactions messages
      */
-    private ControllerBuilder(IMultiLayerExtraOperations mdl, Readable rd, Appendable ap, IMEView vw) {
+    private ControllerBuilder(IMultiLayerExtraOperations mdl, Readable rd, Appendable ap,
+        IMEView vw) {
       this.mdl = mdl;
       this.rd = rd;
       this.ap = ap;

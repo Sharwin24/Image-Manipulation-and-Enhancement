@@ -12,16 +12,18 @@ import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 
 /**
- * Command for Noise image with user defined colors.
+ * A command/listener that allows the user to pick as many colors as they want from a color picker
+ * and then will construct a {@link Noise} image from the given colors and display it on the GUI.
  */
 public class CustomNoiseCommand extends ANoiseCommand {
 
   /**
-   * Constructs a Custom Noise Command for the GUI and passes the model and frame.
+   * Constructs a CustomNoiseCommand based on the model to manipulate and the view that will
+   * reflect these changes.
    *
-   * @param model the multi-layer model for the GUI to use.
-   * @param frame the JFrame for the GUI to use.
-   * @throws IllegalArgumentException if any arguments are null or invalid.
+   * @param model the model to manipulate.
+   * @param frame view that will reflect these changes.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public CustomNoiseCommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {

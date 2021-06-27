@@ -1,7 +1,7 @@
 package cs3500.controller.commands.guicommands;
 
 import cs3500.view.GUIView;
-import java.awt.event.ActionEvent;
+// import java.awt.event.ActionEvent;
 
 /**
  * <p>An interface for function objects representing a command that the GUI can execute.
@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
  * that are to be manipulated by this interface, meaning that we don't have to pass those objects
  * as parameters, and can instead reference them from within this context.</p>
  */
-public interface IGUICommand{
+public interface IGUICommand {
 
   /**
    * Executes the GUI command. Mutates the model and GUI accordingly based on the command object.

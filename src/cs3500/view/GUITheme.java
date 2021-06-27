@@ -45,6 +45,7 @@ public class GUITheme {
   public Color getSecondary() {
     return this.secondary;
   }
+
   /**
    * Gets the accent color.
    *

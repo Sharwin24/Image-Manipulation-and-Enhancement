@@ -14,11 +14,12 @@ import java.nio.file.Paths;
 public class LoadScriptCommand extends AGUICommand {
 
   /**
-   * Constructs a LoadScript Command for the GUI and passes the model and frame.
+   * Constructs a LoadScriptCommand based on the model to manipulate and the view that will reflect
+   * these changes.
    *
-   * @param model the multi-layer model for the GUI to use.
-   * @param frame the JFrame for the GUI to use.
-   * @throws IllegalArgumentException if any arguments are null or invalid.
+   * @param model the model to manipulate.
+   * @param frame view that will reflect these changes.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public LoadScriptCommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {

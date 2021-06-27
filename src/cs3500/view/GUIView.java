@@ -70,8 +70,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 /**
  * The interactive GUI frame for the Image Manipulation and Enhancement program. Supports all of the
@@ -79,8 +77,7 @@ import javax.swing.event.ListSelectionListener;
  * menu ribbon as well as convenient buttons. Also supports interactive scripting from within the
  * GUI itself.
  */
-public class GUIView extends JFrame implements IMEView, ActionListener, ItemListener,
-    ListSelectionListener {
+public class GUIView extends JFrame implements IMEView, ActionListener, ItemListener {
 
   private static final String WORKING_DIR = System.getProperty("user.dir");
   // the dimensions of a typical computer screen
@@ -88,7 +85,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   private static final int SCREEN_HEIGHT = 900;
 
   // themes
-  private static final GUITheme LIGHT_THEME = new GUITheme(Color.WHITE, Color.LIGHT_GRAY,
+  static final GUITheme LIGHT_THEME = new GUITheme(Color.WHITE, Color.LIGHT_GRAY,
       Color.GRAY);
   private static final GUITheme DARK_THEME = new GUITheme(Color.BLACK, Color.DARK_GRAY,
       Color.ORANGE);
@@ -146,13 +143,12 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   // the architecture for the help menu
   private JMenu helpMenu;
 
-
   // to handle text in the console
-  private JPanel consolePanel;
+  public JPanel consolePanel;
   private JTextArea consoleTxt;
 
 
-  private JLabel imgLabel = new JLabel("");
+  private final JLabel imgLabel = new JLabel("");
 
   public JMenuBar getMenuRibbon() {
     return this.menuRibbon;
@@ -192,12 +188,12 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
 
   private JPanel inputDialogPanel;
 
-  private JPanel colorChooserDisplay = new JPanel();
+  public JPanel colorChooserDisplay = new JPanel();
 
-  private Map<String, IGUICommand> actionsMap = this.initActionsMap();
+  private final Map<String, IGUICommand> actionsMap = this.initActionsMap();
 
   // Handle Layers
-  private JPanel layerAreaPanel = new JPanel();
+  private final JPanel layerAreaPanel = new JPanel();
   private final JPanel layerButtonsPanel = new JPanel();
 
 
@@ -219,10 +215,13 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     // setBackground(defaultTheme.getPrimary());
 
-    this.model = new MultiLayerModelImpl();
-    this.scriptIn = new StringReader("");
-    this.out = new StringBuilder();
-    this.txtView = new TextualIMEView(model, out);
+    // this.model = new MultiLayerModelImpl();
+    // to store interactively-scripted commands
+    Readable scriptIn = new StringReader("");
+    // to store output from the view
+    Appendable out = new StringBuilder();
+    // to represent the embedded text view
+    IMEView txtView = new TextualIMEView(model, out);
     this.scrptCtrlr =
         MultiLayerIMEControllerImpl.controllerBuilder()
             .model(model)
@@ -258,12 +257,13 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     this.menuRibbon = new JMenuBar();
 
     // the file menu
-    this.fileMenu = new JMenu("File");
-    this.fileMenu.setMnemonic(KeyEvent.VK_F);
-    this.fileMenu.getAccessibleContext().setAccessibleDescription("This menu handles file I/O");
+    // the architecture for the file menu
+    JMenu fileMenu = new JMenu("File");
+    fileMenu.setMnemonic(KeyEvent.VK_F);
+    fileMenu.getAccessibleContext().setAccessibleDescription("This menu handles file I/O");
 
     // the import submenu
-    this.importSubmenu = new JMenu("Import...");
+    JMenu importSubmenu = new JMenu("Import...");
     importSubmenu.setMnemonic(KeyEvent.VK_I);
     JMenuItem importOneImageItem = new JMenuItem("Import one image");
     importOneImageItem.setMnemonic(KeyEvent.VK_O);
@@ -280,7 +280,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     fileMenu.add(importSubmenu);
 
     // the export submenu
-    this.exportSubmenu = new JMenu("Export...");
+    JMenu exportSubmenu = new JMenu("Export...");
     exportSubmenu.setMnemonic(KeyEvent.VK_E);
     JMenuItem exportOneImageItem = new JMenuItem("export one layer of an image");
     exportOneImageItem.setMnemonic(KeyEvent.VK_O);
@@ -299,7 +299,8 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     menuRibbon.add(fileMenu);
 
     // the edit menu
-    this.editMenu = new JMenu("Edit");
+    // the architecture for the edit menu
+    JMenu editMenu = new JMenu("Edit");
     editMenu.setMnemonic(KeyEvent.VK_E);
     editMenu.getAccessibleContext().setAccessibleDescription(
         "This menu provides low-level functionality to manipulate images");
@@ -337,7 +338,8 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     menuRibbon.add(editMenu);
 
     // the transformations menu
-    this.transformationsMenu = new JMenu("Transformations");
+    // the architecture for the transformations menu
+    JMenu transformationsMenu = new JMenu("Transformations");
     transformationsMenu.setMnemonic(KeyEvent.VK_T);
     transformationsMenu.getAccessibleContext().setAccessibleDescription(
         "This menu provides the functionality to apply one of the following transformations to the"
@@ -385,7 +387,8 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     menuRibbon.add(transformationsMenu);
 
     // the programmatic images menu
-    this.programmaticImagesMenu = new JMenu("Programmatic Images");
+    // the architecture for the programmatic images menu
+    JMenu programmaticImagesMenu = new JMenu("Programmatic Images");
     programmaticImagesMenu.setMnemonic(KeyEvent.VK_P);
     programmaticImagesMenu.getAccessibleContext().setAccessibleDescription(
         "This menu provides the functionality to set the current layer to one of a "
@@ -442,7 +445,8 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     menuRibbon.add(programmaticImagesMenu);
 
     // theme menu
-    this.themeMenu = new JMenu("Theme");
+    // the architecture for changing the theme
+    JMenu themeMenu = new JMenu("Theme");
     themeMenu.setMnemonic(KeyEvent.VK_M);
     themeMenu.getAccessibleContext().setAccessibleDescription("Change the theme of the GUI");
 
@@ -473,7 +477,8 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     menuRibbon.add(themeMenu);
 
     // help menu
-    this.helpMenu = new JMenu("Help");
+    // the architecture for the help menu
+    JMenu helpMenu = new JMenu("Help");
     helpMenu.setMnemonic(KeyEvent.VK_H);
 
     JMenuItem githubItem = new JMenuItem("View GitHub source");
@@ -488,6 +493,9 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     this.mainPanel.add(menuRibbon, BorderLayout.PAGE_START);
   }
 
+  /**
+   * Initializes the swap and new layer buttons.
+   */
   private void setLayerButtonsPanel() {
     layerButtonsPanel.setLayout(new FlowLayout());
     JButton swapBtn = new JButton("Swap Layers");
@@ -546,12 +554,12 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     JPanel scriptBtnsPanel = new JPanel();
     scriptBtnsPanel.setLayout(new FlowLayout());
 
-    runScriptBtn = new JButton("Run script");
+    JButton runScriptBtn = new JButton("Run script");
     runScriptBtn.addActionListener(this);
     runScriptBtn.setActionCommand("run script");
     scriptBtnsPanel.add(runScriptBtn);
 
-    loadScriptBtn = new JButton("Load script");
+    JButton loadScriptBtn = new JButton("Load script");
     loadScriptBtn.addActionListener(this);
     loadScriptBtn.setActionCommand("load script");
     scriptBtnsPanel.add(loadScriptBtn);
@@ -590,10 +598,6 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     actionsMap.get(((JCheckBox) e.getItemSelectable()).getActionCommand()).execute();
   }
 
-  @Override
-  public void valueChanged(ListSelectionEvent e) {
-
-  }
 
   @Override
   public void renderLayers() {
@@ -660,38 +664,39 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
    * pattern for all listeners of the supported events in the GUI frame.
    *
    * @return a {@link HashMap} of the commands from a string to their function objects that execute
-   * the promised action.
+   *         the promised action.
    */
   public Map<String, IGUICommand> initActionsMap() {
 
     Map<String, IGUICommand> actionsMap = new HashMap<>();
     GUIView frame = this;
-    actionsMap.putIfAbsent("new", new NewLayerCommand(model, frame));
-    actionsMap.putIfAbsent("mosaic", new GUIMosaicCommand(model, frame));
-    actionsMap.putIfAbsent("import one", new ImportOneCommand(model, frame));
-    actionsMap.putIfAbsent("sepia", new OperationCommand(model, frame, new Sepia()));
-    actionsMap.putIfAbsent("greyscale", new OperationCommand(model, frame, new Greyscale()));
-    actionsMap.putIfAbsent("sharpen", new OperationCommand(model, frame, new Sharpening()));
-    actionsMap.putIfAbsent("blur", new OperationCommand(model, frame, new ImageBlur()));
-    actionsMap.putIfAbsent("downscale", new DownScaleCommand(model, frame));
-    actionsMap.putIfAbsent("export one", new ExportOneCommand(model, frame));
+    IMultiLayerExtraOperations modelal = model;
+    actionsMap.putIfAbsent("new", new NewLayerCommand(model, this));
+    actionsMap.putIfAbsent("mosaic", new GUIMosaicCommand(model, this));
+    actionsMap.putIfAbsent("import one", new ImportOneCommand(model, this));
+    actionsMap.putIfAbsent("sepia", new OperationCommand(model, this, new Sepia()));
+    actionsMap.putIfAbsent("greyscale", new OperationCommand(model, this, new Greyscale()));
+    actionsMap.putIfAbsent("sharpen", new OperationCommand(model, this, new Sharpening()));
+    actionsMap.putIfAbsent("blur", new OperationCommand(model, this, new ImageBlur()));
+    actionsMap.putIfAbsent("downscale", new DownScaleCommand(model, this));
+    actionsMap.putIfAbsent("export one", new ExportOneCommand(model, this));
     actionsMap.putIfAbsent("set current layer", new CurrentLayerCommand(model, frame));
     actionsMap.putIfAbsent("checkerboard", new CheckerBoardCommand(model, frame));
-    actionsMap.putIfAbsent("delete", new DeleteLayerCommand(model, frame));
-    actionsMap.putIfAbsent("bw noise", new BWNoiseCommand(model, frame));
-    actionsMap.putIfAbsent("rainbow noise", new RainbowNoiseCommand(model, frame));
-    actionsMap.putIfAbsent("pure noise", new PureNoiseCommand(model, frame));
-    actionsMap.putIfAbsent("custom noise", new CustomNoiseCommand(model, frame));
-    actionsMap.putIfAbsent("undo", new UndoCommand(model, frame));
-    actionsMap.putIfAbsent("redo", new RedoCommand(model, frame));
-    actionsMap.putIfAbsent("run script", new RunScriptCommand(model, frame));
-    actionsMap.putIfAbsent("load script", new LoadScriptCommand(model, frame));
-    actionsMap.putIfAbsent("light theme", new ThemeCommand(model, frame, LIGHT_THEME));
-    actionsMap.putIfAbsent("dark theme", new ThemeCommand(model, frame, DARK_THEME));
-    actionsMap.putIfAbsent("matrix theme", new ThemeCommand(model, frame, MATRIX_THEME));
-    actionsMap.putIfAbsent("retro theme", new ThemeCommand(model, frame, RETRO_THEME));
-    actionsMap.putIfAbsent("swap", new SwapLayersCommand(model, frame));
-    actionsMap.putIfAbsent("github", new ViewGitHubCommand(model, frame));
+    actionsMap.putIfAbsent("delete", new DeleteLayerCommand(model, this));
+    actionsMap.putIfAbsent("bw noise", new BWNoiseCommand(model, this));
+    actionsMap.putIfAbsent("rainbow noise", new RainbowNoiseCommand(model, this));
+    actionsMap.putIfAbsent("pure noise", new PureNoiseCommand(model, this));
+    actionsMap.putIfAbsent("custom noise", new CustomNoiseCommand(model, this));
+    actionsMap.putIfAbsent("undo", new UndoCommand(model, this));
+    actionsMap.putIfAbsent("redo", new RedoCommand(model, this));
+    actionsMap.putIfAbsent("run script", new RunScriptCommand(model, this));
+    actionsMap.putIfAbsent("load script", new LoadScriptCommand(model, this));
+    actionsMap.putIfAbsent("light theme", new ThemeCommand(model, this, LIGHT_THEME));
+    actionsMap.putIfAbsent("dark theme", new ThemeCommand(model, this, DARK_THEME));
+    actionsMap.putIfAbsent("matrix theme", new ThemeCommand(model, this, MATRIX_THEME));
+    actionsMap.putIfAbsent("retro theme", new ThemeCommand(model, this, RETRO_THEME));
+    actionsMap.putIfAbsent("swap", new SwapLayersCommand(model, this));
+    actionsMap.putIfAbsent("github", new ViewGitHubCommand(model, this));
 
     return actionsMap;
   }

@@ -9,11 +9,12 @@ import cs3500.view.GUIView;
 public class NewLayerCommand extends AGUICommand {
 
   /**
-   * Todo
+   * Constructs a NewLayerCommand based on the model to manipulate and the view that will reflect
+   * these changes.
    *
-   * @param model
-   * @param frame
-   * @throws IllegalArgumentException
+   * @param model the model to manipulate.
+   * @param frame view that will reflect these changes.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public NewLayerCommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {

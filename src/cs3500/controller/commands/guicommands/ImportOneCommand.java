@@ -6,17 +6,19 @@ import cs3500.view.GUIView;
 import java.awt.FileDialog;
 import java.awt.Frame;
 import java.util.Map;
+
 /**
  * Class for Importing/Loading an image into the GUI.
  */
-public class ImportOneCommand extends AGUICommand{
+public class ImportOneCommand extends AGUICommand {
 
   /**
-   * Todo
+   * Constructs a ImportOneCommand based on the model to manipulate and the view that will reflect
+   * these changes.
    *
-   * @param model
-   * @param frame
-   * @throws IllegalArgumentException
+   * @param model the model to manipulate.
+   * @param frame view that will reflect these changes.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public ImportOneCommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {

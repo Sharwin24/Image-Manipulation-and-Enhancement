@@ -5,12 +5,19 @@ import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.view.GUIView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Map;
+import javax.swing.JCheckBox;
 
-public class MultiLayerGUIController implements IMultiLayerIMEController, ActionListener {
+/**
+ * Controls all of the functions of the GUI by implementing the command pattern to look up and
+ * perform {@link IGUICommand}s/listeners from a {@link Map} in order to implement all of the
+ * functionality of the {@link IMultiLayerExtraOperations} within the {@link GUIView}.
+ */
+public class MultiLayerGUIController implements IMultiLayerIMEController, ActionListener,
+    ItemListener {
 
-  private IMultiLayerExtraOperations model;
-  private GUIView frame;
   private final Map<String, IGUICommand> actionsMap;
 
   /**
@@ -24,19 +31,28 @@ public class MultiLayerGUIController implements IMultiLayerIMEController, Action
    */
   public MultiLayerGUIController(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {
-    this.model = model;
-    this.frame = frame;
     this.actionsMap = frame.initActionsMap();
   }
 
 
   @Override
   public void actionPerformed(ActionEvent e) {
-
+    if (!(actionsMap.containsKey(e.getActionCommand()))) {
+      return; // throw new IllegalArgumentException("command not recognized");
+    }
+    actionsMap.get(e.getActionCommand()).execute();
   }
 
   @Override
   public void run() {
+    // uses listener methods to accomplish "running"
+  }
 
+  @Override
+  public void itemStateChanged(ItemEvent e) {
+    if (!(actionsMap.containsKey(((JCheckBox) e.getItemSelectable()).getActionCommand()))) {
+      return;
+    }
+    actionsMap.get(((JCheckBox) e.getItemSelectable()).getActionCommand()).execute();
   }
 }
