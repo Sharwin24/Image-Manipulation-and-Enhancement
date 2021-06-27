@@ -40,19 +40,19 @@ public class ImportAllCommand extends AImportCommand {
 
     File filePathsTxt = fileChooser.getSelectedFile();
 
-    try {
-      Scanner filePathsScanner = new Scanner(filePathsTxt);
-      while (filePathsScanner.hasNextLine()) {
-        String onePath = filePathsScanner.nextLine();
-
-        model.addLayer();
-        model.setCurrentLayer(model.getLayers().size() - 1);
-        model.load(new JPEGFile().importImage(onePath));
-      }
-
-      frame.setImage();
-    }catch (FileNotFoundException e) {
-      frame.errorPopup("Could not find specified file", "Bad file error");
-    }
+//    try {
+//      Scanner filePathsScanner = new Scanner(filePathsTxt);
+//      while (filePathsScanner.hasNextLine()) {
+//        String onePath = filePathsScanner.nextLine();
+//
+//        model.addLayer();
+//        model.setCurrentLayer(model.getLayers().size() - 1);
+//        model.load(new JPEGFile().importImage(onePath));
+//      }
+//
+//      frame.setImage();
+//    }catch (FileNotFoundException e) {
+//      frame.errorPopup("Could not find specified file", "Bad file error");
+//    }
   }
 }
