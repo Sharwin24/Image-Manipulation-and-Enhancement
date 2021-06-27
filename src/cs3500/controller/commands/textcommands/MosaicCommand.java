@@ -1,4 +1,4 @@
-package cs3500.controller.commands;
+package cs3500.controller.commands.textcommands;
 
 import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.view.IMEView;

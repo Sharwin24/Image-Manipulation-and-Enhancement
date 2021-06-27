@@ -1,20 +1,21 @@
 package cs3500.controller;
 
 import cs3500.Utility;
-import cs3500.controller.commands.ApplyCommand;
-import cs3500.controller.commands.CurrentCommand;
-import cs3500.controller.commands.DeleteCommand;
-import cs3500.controller.commands.ExportCommand;
-import cs3500.controller.commands.IIMECommand;
-import cs3500.controller.commands.ImportCommand;
-import cs3500.controller.commands.MosaicCommand;
-import cs3500.controller.commands.NewLayerCommand;
-import cs3500.controller.commands.ProgrammaticImageCommand;
-import cs3500.controller.commands.RedoCommand;
-import cs3500.controller.commands.SaveCommand;
-import cs3500.controller.commands.SwapCommand;
-import cs3500.controller.commands.UndoCommand;
-import cs3500.controller.commands.VisibilityCommand;
+import cs3500.controller.commands.textcommands.ApplyCommand;
+import cs3500.controller.commands.textcommands.CurrentCommand;
+import cs3500.controller.commands.textcommands.DeleteCommand;
+import cs3500.controller.commands.textcommands.ExportCommand;
+import cs3500.controller.commands.textcommands.IIMECommand;
+import cs3500.controller.commands.textcommands.ImportCommand;
+import cs3500.controller.commands.textcommands.MosaicCommand;
+import cs3500.controller.commands.textcommands.NewLayerCommand;
+import cs3500.controller.commands.textcommands.ProgrammaticImageCommand;
+import cs3500.controller.commands.textcommands.RedoCommand;
+import cs3500.controller.commands.textcommands.SaveCommand;
+import cs3500.controller.commands.textcommands.SwapCommand;
+import cs3500.controller.commands.textcommands.UndoCommand;
+import cs3500.controller.commands.textcommands.VisibilityCommand;
+import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
 import cs3500.model.operation.IOperation;
@@ -302,7 +303,7 @@ import java.util.Scanner;
  */
 public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
 
-  private final IMultiLayerModel mdl;
+  private final IMultiLayerExtraOperations mdl;
   private final Readable rd;
   private final Appendable ap;
   private IMEView vw;
@@ -319,7 +320,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
    * @param vw  the view to render feedback and interactions messages to
    * @throws IllegalArgumentException if any of the parameters are {@code null}.
    */
-  public MultiLayerIMEControllerImpl(IMultiLayerModel mdl, Readable rd, Appendable ap,
+  public MultiLayerIMEControllerImpl(IMultiLayerExtraOperations mdl, Readable rd, Appendable ap,
       IMEView vw) throws IllegalArgumentException {
     this.mdl = Utility.checkNotNull(mdl, "cannot make an IME controller with a null model");
     this.rd = Utility.checkNotNull(rd, "cannot make an IME controller with a null"
@@ -352,7 +353,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
    */
   public static final class ControllerBuilder {
 
-    private IMultiLayerModel mdl;
+    private IMultiLayerExtraOperations mdl;
     private Readable rd;
     private Appendable ap;
     private IMEView vw;
@@ -360,15 +361,13 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
     /**
      * Private constructor to trivially initialize all fields of a {@link ControllerBuilder}. No
      * exceptions are thrown since this error-checking is handled in the {@link
-     * MultiLayerIMEControllerImpl#MultiLayerIMEControllerImpl(IMultiLayerModel, Readable,
-     * Appendable, IMEView)} constructor.
-     *
-     * @param mdl the model to control
+     * MultiLayerIMEControllerImpl#MultiLayerIMEControllerImpl(IMultiLayerExtraOperations, Readable, Appendable, IMEView)} constructor.
+     *  @param mdl the model to control
      * @param rd  the readable to read inputs from
      * @param ap  the appendable to write output messages to
      * @param vw  the view to display interactions messages
      */
-    private ControllerBuilder(IMultiLayerModel mdl, Readable rd, Appendable ap, IMEView vw) {
+    private ControllerBuilder(IMultiLayerExtraOperations mdl, Readable rd, Appendable ap, IMEView vw) {
       this.mdl = mdl;
       this.rd = rd;
       this.ap = ap;
@@ -382,7 +381,7 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
      * @param mdl the model to control
      * @return a {@link ControllerBuilder} with the model field customized.
      */
-    public ControllerBuilder model(IMultiLayerModel mdl) {
+    public ControllerBuilder model(IMultiLayerExtraOperations mdl) {
       this.mdl = mdl;
       return this;
     }

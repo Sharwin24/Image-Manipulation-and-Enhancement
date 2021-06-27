@@ -1,9 +1,10 @@
-package cs3500.controller.commands;
+package cs3500.controller.commands.textcommands;
 
 import cs3500.Utility;
 import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.fileformat.IFileFormat;
+import cs3500.model.image.IImage;
 import cs3500.view.IMEView;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 
 /**
  * <p>A function object used to represent the execution of a
- * {@link IMultiLayerModel#importImage(IFileFormat, String)} or {@link
+ * {@link IMultiLayerModel#load(IImage)} or {@link
  * IMultiLayerModel#importAllLayers(IFileFormat, String)} call in the {@link IMultiLayerModel}, to
  * be used to implement the <i>command design pattern</i> in the {@link
  * cs3500.controller.IMultiLayerIMEController} class.</p>
