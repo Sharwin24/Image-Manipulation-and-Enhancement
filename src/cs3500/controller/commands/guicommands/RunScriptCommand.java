@@ -27,9 +27,8 @@ public class RunScriptCommand extends AGUICommand {
   @Override
   public void execute() {
     StringReader scriptInput = new StringReader(frame.getScriptArea().getText());
-   // frame.getScrptCtrlr() = MultiLayerIMEControllerImpl.controllerBuilder().model(model)
-     //   .readable(scriptInput).buildController();
-    // Fixme: Use the frame's controller to run the script.
+    frame.setScrptCtrlr(MultiLayerIMEControllerImpl.controllerBuilder().model(model)
+        .readable(scriptInput).buildController());
     frame.getScrptCtrlr().run();
     frame.setImage();
     frame.renderLayers();

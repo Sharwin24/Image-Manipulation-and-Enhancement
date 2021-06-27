@@ -100,112 +100,144 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   // to represent the model--the images to be manipulated
   private IMultiLayerExtraOperations model = new MultiLayerModelImpl();
 
+
   // to represent the scriptable controller embedded in the GUI
   private IMultiLayerIMEController scrptCtrlr;
-  private JButton runScriptBtn;
-  private JButton loadScriptBtn;
-  // to store interactively-scripted commands
-  private Readable scriptIn;
-  // to represent the embedded text view
-  private IMEView txtView;
-  // to store output from the view
-  private Appendable out;
 
+  /**
+   * Gets the Controller.
+   *
+   * @return a IMultiLayerIMEController.
+   */
+  public IMultiLayerIMEController getScrptCtrlr() {
+    return this.scrptCtrlr;
+  }
+
+  /**
+   * Sets the Controller to the given one.
+   *
+   * @param scrptCtrlr the controller to set the current one to.
+   * @throws IllegalArgumentException if the input is null.
+   */
+  public void setScrptCtrlr(IMultiLayerIMEController scrptCtrlr) {
+    if (scrptCtrlr == null) {
+      throw new IllegalArgumentException("Argument is null");
+    }
+    this.scrptCtrlr = scrptCtrlr;
+  }
 
   // to store the GUI elements
   private JPanel mainPanel;
 
+  /**
+   * Gets the main panel.
+   *
+   * @return a JPanel.
+   */
+  public JPanel getMainPanel() {
+    return this.mainPanel;
+  }
 
   // to store the menu ribbon elements
   private JMenuBar menuRibbon;
 
+  /**
+   * Gets the Menu Ribbon.
+   *
+   * @return a JMenuBar.
+   */
+  public JMenuBar getMenuRibbon() {
+    return this.menuRibbon;
+  }
 
   // Image panel architecture
   private JScrollPane imageScrollPanel;
+  private final JLabel imgLabel = new JLabel("");
 
-  // the architecture for the file menu
-  private JMenu fileMenu;
-  private JMenu exportSubmenu;
-  private JMenu importSubmenu;
-
-  // the architecture for the edit menu
-  private JMenu editMenu;
-
-  // the architecture for the transformations menu
-  private JMenu transformationsMenu;
-
-  // the architecture for the programmatic images menu
-  private JMenu programmaticImagesMenu;
-
-  // the architecture for changing the theme
-  private JMenu themeMenu;
-
-  // the architecture for the help menu
-  private JMenu helpMenu;
+  /**
+   * Gets the Image Scroll Panel.
+   *
+   * @return a JScrollPane.
+   */
+  public JScrollPane getImageScrollPanel() {
+    return imageScrollPanel;
+  }
 
   // to handle text in the console
   public JPanel consolePanel;
   private JTextArea consoleTxt;
 
-
-  private final JLabel imgLabel = new JLabel("");
-
-  public JMenuBar getMenuRibbon() {
-    return this.menuRibbon;
-  }
-
+  /**
+   * Gets the Console Panel
+   *
+   * @return a JPanel.
+   */
   public JPanel getConsolePanel() {
     return consolePanel;
   }
 
-  public JScrollPane getImageScrollPanel() {
-    return imageScrollPanel;
-  }
+  // Handle Dialog Panel
+  private JPanel inputDialogPanel;
 
-  public JPanel getMainPanel() {
-    return this.mainPanel;
-  }
-
-  public IMultiLayerIMEController getScrptCtrlr() {
-    return this.scrptCtrlr;
-  }
-
+  /**
+   * Gets the Input Dialog Panel.
+   *
+   * @return a JPanel.
+   */
   public JPanel getInputDialogPanel() {
     return this.inputDialogPanel;
   }
 
+  // Handle Color Chooser
+  private JPanel colorChooserDisplay = new JPanel();
+
+  /**
+   * Gets the Color Chooser Display.
+   *
+   * @return a JPanel.
+   */
   public JPanel getColorChooserDisplay() {
     return this.colorChooserDisplay;
   }
 
-  public JTextArea getScriptArea() {
-    return this.scriptArea;
-  }
+  // Handle Layers
+  private final JPanel layerAreaPanel = new JPanel();
+  private final JPanel layerButtonsPanel = new JPanel();
+  private JPanel layersPanel = new JPanel();
+  private final List<JPanel> allLayers = new ArrayList<>();
 
+  /**
+   * Gets the layers panel.
+   *
+   * @return a JPanel.
+   */
   public JPanel getLayersPanel() {
     return this.layersPanel;
   }
 
+  /**
+   * Gets the list of Layer Panels.
+   *
+   * @return a List of JPanels.
+   */
   public List<JPanel> getAllLayers() {
     return this.allLayers;
   }
 
-  private JPanel inputDialogPanel;
-
-  public JPanel colorChooserDisplay = new JPanel();
-
-  private final Map<String, IGUICommand> actionsMap = this.initActionsMap();
-
-  // Handle Layers
-  private final JPanel layerAreaPanel = new JPanel();
-  private final JPanel layerButtonsPanel = new JPanel();
-
-
-  private JPanel layersPanel = new JPanel();
-  private final List<JPanel> allLayers = new ArrayList<>();
-
+  // Handle Script Area
   private JTextArea scriptArea;
 
+  /**
+   * Gets the Script area.
+   *
+   * @return a JTextArea.
+   */
+  public JTextArea getScriptArea() {
+    return this.scriptArea;
+  }
+
+  // Initializing actions map and theme
+  private final Map<String, IGUICommand> actionsMap = this.initActionsMap();
   private final GUITheme defaultTheme = LIGHT_THEME;
 
   /**
@@ -217,9 +249,8 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     super();
     setTitle("Image Manipulation and Enhancement");
     setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-    // setBackground(defaultTheme.getPrimary());
 
-    // this.model = new MultiLayerModelImpl();
+    this.model = new MultiLayerModelImpl();
     // to store interactively-scripted commands
     Readable scriptIn = new StringReader("");
     // to store output from the view
@@ -668,7 +699,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
    * pattern for all listeners of the supported events in the GUI frame.
    *
    * @return a {@link HashMap} of the commands from a string to their function objects that execute
-   *         the promised action.
+   * the promised action.
    */
   public Map<String, IGUICommand> initActionsMap() {
 
@@ -796,6 +827,5 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   public static IPixel colorToIPixel(Color c) {
     return new PixelImpl(c.getRed(), c.getGreen(), c.getBlue());
   }
-
 
 }
