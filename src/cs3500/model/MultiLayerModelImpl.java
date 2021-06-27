@@ -1,15 +1,9 @@
 package cs3500.model;
 
-import cs3500.model.channel.EChannelType;
 import cs3500.model.image.IImage;
-import cs3500.model.image.ImageImpl;
 import cs3500.model.layer.ILayer;
 import cs3500.model.layer.Layer;
-import cs3500.model.matrix.IMatrix;
-import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.operation.IOperation;
-import cs3500.model.pixel.IPixel;
-import cs3500.model.pixel.PixelImpl;
 import cs3500.model.programmaticimages.IProgramImage;
 import java.util.ArrayList;
 import java.util.Collections;

@@ -7,14 +7,18 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+/**
+ * A command/listener to display the github source of this project in a new browser window.
+ */
 public class ViewGitHubCommand extends AGUICommand {
 
   /**
-   * Todo
+   * Constructs a ViewGitHubCommand based on the model to manipulate and the view that will reflect
+   * these changes.
    *
-   * @param model
-   * @param frame
-   * @throws IllegalArgumentException
+   * @param model the model to manipulate.
+   * @param frame view that will reflect these changes.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public ViewGitHubCommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {

@@ -1,37 +1,23 @@
 package cs3500.controller;
 
-import cs3500.controller.commands.guicommands.BWNoiseCommand;
-import cs3500.controller.commands.guicommands.CurrentLayerCommand;
-import cs3500.controller.commands.guicommands.CustomNoiseCommand;
-import cs3500.controller.commands.guicommands.DownScaleCommand;
-import cs3500.controller.commands.guicommands.ExportOneCommand;
-import cs3500.controller.commands.guicommands.GUIMosaicCommand;
 import cs3500.controller.commands.guicommands.IGUICommand;
-import cs3500.controller.commands.guicommands.ImportOneCommand;
-import cs3500.controller.commands.guicommands.NewLayerCommand;
-import cs3500.controller.commands.guicommands.OperationCommand;
-import cs3500.controller.commands.guicommands.PureNoiseCommand;
-import cs3500.controller.commands.guicommands.RainbowNoiseCommand;
-import cs3500.controller.commands.guicommands.RedoCommand;
-import cs3500.controller.commands.guicommands.RunScriptCommand;
-import cs3500.controller.commands.guicommands.SwapLayersCommand;
-import cs3500.controller.commands.guicommands.UndoCommand;
 import cs3500.model.IMultiLayerExtraOperations;
-import cs3500.model.operation.Greyscale;
-import cs3500.model.operation.ImageBlur;
-import cs3500.model.operation.Sepia;
-import cs3500.model.operation.Sharpening;
 import cs3500.view.GUIView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Map;
-import javax.swing.JFrame;
+import javax.swing.JCheckBox;
 
-public class MultiLayerGUIController implements IMultiLayerIMEController, ActionListener {
+/**
+ * Controls all of the functions of the GUI by implementing the command pattern to look up and
+ * perform {@link IGUICommand}s/listeners from a {@link Map} in order to implement all of the
+ * functionality of the {@link IMultiLayerExtraOperations} within the {@link GUIView}.
+ */
+public class MultiLayerGUIController implements IMultiLayerIMEController, ActionListener,
+    ItemListener {
 
-  private IMultiLayerExtraOperations model;
-  private GUIView frame;
   private final Map<String, IGUICommand> actionsMap;
 
   /**
@@ -45,19 +31,28 @@ public class MultiLayerGUIController implements IMultiLayerIMEController, Action
    */
   public MultiLayerGUIController(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {
-    this.model = model;
-    this.frame = frame;
     this.actionsMap = frame.initActionsMap();
   }
 
 
   @Override
   public void actionPerformed(ActionEvent e) {
-
+    if (!(actionsMap.containsKey(e.getActionCommand()))) {
+      return; // throw new IllegalArgumentException("command not recognized");
+    }
+    actionsMap.get(e.getActionCommand()).execute();
   }
 
   @Override
   public void run() {
+    // uses listener methods to accomplish "running"
+  }
 
+  @Override
+  public void itemStateChanged(ItemEvent e) {
+    if (!(actionsMap.containsKey(((JCheckBox) e.getItemSelectable()).getActionCommand()))) {
+      return;
+    }
+    actionsMap.get(((JCheckBox) e.getItemSelectable()).getActionCommand()).execute();
   }
 }

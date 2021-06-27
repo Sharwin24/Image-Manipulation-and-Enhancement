@@ -11,11 +11,12 @@ import java.io.StringReader;
 public class RunScriptCommand extends AGUICommand {
 
   /**
-   * Todo
+   * Constructs a RunScriptCommand based on the model to manipulate and the view that will reflect
+   * these changes.
    *
-   * @param model
-   * @param frame
-   * @throws IllegalArgumentException
+   * @param model the model to manipulate.
+   * @param frame view that will reflect these changes.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public RunScriptCommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {

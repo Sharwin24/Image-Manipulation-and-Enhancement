@@ -7,14 +7,15 @@ import cs3500.view.GUIView;
 /**
  * Command for creating a checkerboard image.
  */
-public class CheckerBoardCommand extends AGUICommand{
+public class CheckerBoardCommand extends AGUICommand {
 
   /**
-   * Todo
+   * Constructs an CheckerBoardCommand based on the model to manipulate and the view that will
+   * reflect these changes.
    *
-   * @param model
-   * @param frame
-   * @throws IllegalArgumentException
+   * @param model the model to manipulate.
+   * @param frame view that will reflect these changes.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public CheckerBoardCommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {

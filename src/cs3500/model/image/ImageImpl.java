@@ -164,6 +164,9 @@ public class ImageImpl implements IImage {
               case BLUE:
                 blue = (int) cp;
                 break;
+              default:
+                throw new IllegalArgumentException("You broke the code, congrats! You must be proud"
+                    + " of yourself, you silly fool");
             }
           }
           IPixel newPixel = new PixelImpl(red, green, blue);
@@ -237,26 +240,5 @@ public class ImageImpl implements IImage {
   private static int avg(int n1, int n2) {
     return (n1 + n2) / 2;
   }
-
-
-//  /**
-//   * Utility class to keep track of a pixel's position.
-//   */
-//  private class IndexedPixel {
-//
-//    private final int row;
-//    private final int col;
-//    private final IPixel px;
-//
-//    public IndexedPixel(int row, int col, IPixel px) {
-//      this.row = Utility.checkIntBetween(row, 0, Integer.MAX_VALUE);
-//      this.col = Utility.checkIntBetween(col, 0, Integer.MAX_VALUE);
-//      this.px = Utility.checkNotNull(px, "cannot create an indexed pixel with a null "
-//          + "pixel value");
-//    }
-//
-//    public double distanceTo(int row, int col) {
-//      return Math.sqrt(Math.pow(row - this.row, 2) + Math.pow(col - this.col, 2));
-//    }
-//  }
+  
 }

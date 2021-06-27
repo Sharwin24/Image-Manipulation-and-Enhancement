@@ -11,14 +11,19 @@ import java.util.List;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 
-public class CustomNoiseCommand extends ANoiseCommand{
+/**
+ * A command/listener that allows the user to pick as many colors as they want from a color picker
+ * and then will construct a {@link Noise} image from the given colors and display it on the GUI.
+ */
+public class CustomNoiseCommand extends ANoiseCommand {
 
   /**
-   * Todo
+   * Constructs a CustomNoiseCommand based on the model to manipulate and the view that will
+   * reflect these changes.
    *
-   * @param model
-   * @param frame
-   * @throws IllegalArgumentException
+   * @param model the model to manipulate.
+   * @param frame view that will reflect these changes.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public CustomNoiseCommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {

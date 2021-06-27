@@ -1,7 +1,10 @@
 package com.company;
 
 import cs3500.controller.IMultiLayerIMEController;
+import cs3500.controller.MultiLayerGUIController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
+import cs3500.model.IMultiLayerExtraOperations;
+import cs3500.model.MultiLayerModelImpl;
 import cs3500.view.GUIView;
 import java.io.IOException;
 import java.io.StringReader;
@@ -24,6 +27,11 @@ public class Main {
   public static void main(String[] args) {
 
     //TODO: comment this out: this just runs the GUI from main for testing purposes
+    IMultiLayerExtraOperations model = new MultiLayerModelImpl();
+    IMultiLayerIMEController ctrlr = new MultiLayerGUIController(model,
+        new GUIView());
+    ctrlr.run();
+
     args = new String[]{"-interactive"};
 
     if (args.length == 0) {
@@ -57,7 +65,7 @@ public class Main {
           System.out.println("script path");
           break;
         case "-text":
-          IMultiLayerIMEController ctrlr =
+          IMultiLayerIMEController ctrlrText =
               MultiLayerIMEControllerImpl.controllerBuilder().buildController();
           ctrlr.run();
           break;
@@ -65,89 +73,6 @@ public class Main {
           System.out.println("error");
       }
     }
-
-    // add calls to methods to manipulate images here...
-
-//    final StringReader scriptToRun =
-    //  scriptToStringBuilder("scripts/ExampleScript1.txt");
-//        "new \n"
-//            + "new \n"
-//            + "current 2 \n"
-//            + "programmatic bwnoise 474 270 20\n"
-//            + "current 1\n"
-//            + "import PPM res/rover.ppm\n"
-//            + "delete 0\n"
-//            + "apply sepia sharpen greyscale blur sharpen\n"
-//            + "export JPEG layers\n"
-//            + "undo\n"
-//            + "redo\n"
-//            + "redo\n"
-//            + "swap 0 1\n"
-//            + "delete 0\n"
-//            + "delete 0\n"
-//            + "import JPEG layers res/exampleLayers\n"
-//            + "delete 0 \n"
-//            + "delete 0\n"
-//            + "programmatic rainbownoise 100 100 10\n"
-//            + "new\n"
-//            + "current 1 \n"
-//            + "programmatic purenoise 100 100 10\n"
-//            + "new\n"
-//            + "current 2\n"
-//            + "programmatic checkerboard 100 100 10\n"
-//            + "save\n"
-//            + "visibility 1\n"
-//            + "current 0\n"
-//            + "export PNG res/finalImage-Rover\n";
-//        scriptToStringBuilder("scripts/ExampleScript3.txt");
-//    IMultiLayerModel mdl = new MultiLayerModelImpl();
-//    IMultiLayerIMEController controller =
-//        MultiLayerIMEControllerImpl.controllerBuilder()
-//            .readable(scriptToRun).model(mdl).buildController();
-//    controller.run();
-//
-//    IImage rover = mdl.getImage();
-//
-//    rover.mosaic(10);
-//
-//    mdl.applyOperations(new Sepia());
-//
-//    new JPEGFile().exportImage("res/mosaicedRover", rover);
-    // A NOTE TO THE TA: to run this interactively, comment out lines 54-58 and uncomment
-    // the following lines
-//     IMultiLayerIMEController controllerInteractive =
-//     MultiLayerIMEControllerImpl.controllerBuilder().buildController();
-//     controllerInteractive.run();
-
-//    IMEFrame.setDefaultLookAndFeelDecorated(true);
-//    IMEFrame frame = new IMEFrame();
-//
-//    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//    frame.setVisible(true);
-//
-//    try {
-//      UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-//      //UIManager.getCrossPlatformLookAndFeelClassName();
-//
-//    } catch (UnsupportedLookAndFeelException e) {
-//      // do something
-//    } catch (ClassNotFoundException e) {
-//      // do something
-//    } catch (InstantiationException e) {
-//      // do something
-//    } catch (IllegalAccessException e) {
-//      // do something
-//    }
-
-//    // -----------------DOWNSCALE TEST--------------------//
-//    IMultiLayerModel model = new MultiLayerModelImpl();
-//    IFileFormat format = new PNGFile();
-//    IImage image = format.importImage("src/facebookLogo.png");
-//    model.load(image);
-//    Downscale downscale = new Downscale(model, 150, 150);
-//    downscale.apply();
-//    format.exportImage("res/oh", model.getImage());
-//    // -----------------DOWNSCALE TEST--------------------//
 
   }
 

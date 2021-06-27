@@ -3,18 +3,20 @@ package cs3500.controller.commands.guicommands;
 import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.programmaticimages.IProgramImage;
 import cs3500.view.GUIView;
+
 /**
  * All Noise Commands follow the same execution with different parameters, which are specified by
  * each subclass that extends this abstract class.
  */
-public abstract class ANoiseCommand extends AGUICommand{
+public abstract class ANoiseCommand extends AGUICommand {
 
   /**
-   * Todo
+   * Constructs an abstract noise command based on the model to manipulate and the view that will
+   * reflect these changes.
    *
-   * @param model
-   * @param frame
-   * @throws IllegalArgumentException
+   * @param model the model to manipulate.
+   * @param frame view that will reflect these changes.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public ANoiseCommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {

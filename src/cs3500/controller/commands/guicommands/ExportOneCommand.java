@@ -6,17 +6,19 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+
 /**
  * Exports the current image.
  */
-public class ExportOneCommand extends AGUICommand{
+public class ExportOneCommand extends AGUICommand {
 
   /**
-   * Todo
+   * Constructs a ExportOneCommand based on the model to manipulate and the view that will
+   * reflect these changes.
    *
-   * @param model
-   * @param frame
-   * @throws IllegalArgumentException
+   * @param model the model to manipulate.
+   * @param frame view that will reflect these changes.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public ExportOneCommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {

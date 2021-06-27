@@ -361,13 +361,15 @@ public class MultiLayerIMEControllerImpl implements IMultiLayerIMEController {
     /**
      * Private constructor to trivially initialize all fields of a {@link ControllerBuilder}. No
      * exceptions are thrown since this error-checking is handled in the {@link
-     * MultiLayerIMEControllerImpl#MultiLayerIMEControllerImpl(IMultiLayerExtraOperations, Readable, Appendable, IMEView)} constructor.
+     * MultiLayerIMEControllerImpl#MultiLayerIMEControllerImpl(IMultiLayerExtraOperations, Readable,
+     * Appendable, IMEView)} constructor.
      *  @param mdl the model to control
      * @param rd  the readable to read inputs from
      * @param ap  the appendable to write output messages to
      * @param vw  the view to display interactions messages
      */
-    private ControllerBuilder(IMultiLayerExtraOperations mdl, Readable rd, Appendable ap, IMEView vw) {
+    private ControllerBuilder(IMultiLayerExtraOperations mdl, Readable rd, Appendable ap,
+        IMEView vw) {
       this.mdl = mdl;
       this.rd = rd;
       this.ap = ap;

@@ -6,14 +6,15 @@ import cs3500.view.GUIView;
 /**
  * Command for applying the Mosaic operation to the current image.
  */
-public class GUIMosaicCommand extends AGUICommand{
+public class GUIMosaicCommand extends AGUICommand {
 
   /**
-   * Todo
+   * Constructs a GUIMosaicCommand based on the model to manipulate and the view that will reflect
+   * these changes.
    *
-   * @param model
-   * @param frame
-   * @throws IllegalArgumentException
+   * @param model the model to manipulate.
+   * @param frame view that will reflect these changes.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public GUIMosaicCommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {

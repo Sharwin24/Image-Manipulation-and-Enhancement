@@ -14,11 +14,12 @@ import java.nio.file.Paths;
 public class LoadScriptCommand extends AGUICommand {
 
   /**
-   * Todo
+   * Constructs a LoadScriptCommand based on the model to manipulate and the view that will reflect
+   * these changes.
    *
-   * @param model
-   * @param frame
-   * @throws IllegalArgumentException
+   * @param model the model to manipulate.
+   * @param frame view that will reflect these changes.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public LoadScriptCommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {
@@ -43,5 +44,5 @@ public class LoadScriptCommand extends AGUICommand {
     }
     frame.scriptArea.setText(scriptInput); // Todo: Getters
   }
-  }
+
 }

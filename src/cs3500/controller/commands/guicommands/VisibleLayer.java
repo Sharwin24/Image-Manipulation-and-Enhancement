@@ -2,7 +2,6 @@ package cs3500.controller.commands.guicommands;
 
 import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.view.GUIView;
-import javax.swing.JFrame;
 
 /**
  * Action listener to toggle the visibility of a desired layer.

@@ -31,11 +31,10 @@ public class IndexedPixel extends PixelImpl {
   }
 
   /**
-   * TODO
-   *
-   * @param row
-   * @param col
-   * @param element
+   * Creates a pixel with an index in a logical 2D coordinate grid, starting from 0.
+   * @param row the vertical position of this pixel, in logical coordinates starting at 0.
+   * @param col the horizontal position of this pixel, in logical coordinates starting at 0.
+   * @param element the pixel stored at this index.
    */
   public IndexedPixel(int row, int col, IPixel element) {
     super(element.getIntensity(EChannelType.RED),

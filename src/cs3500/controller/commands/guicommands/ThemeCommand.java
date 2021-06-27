@@ -13,11 +13,13 @@ public class ThemeCommand extends AGUICommand {
   private final GUITheme theme;
 
   /**
-   * Todo
+   * Constructs a ThemeCommand based on the model to manipulate and the view that will reflect
+   * these changes, as well as the {@link GUITheme} to be swapped to.
    *
-   * @param model
-   * @param frame
-   * @throws IllegalArgumentException
+   * @param model the model to manipulate.
+   * @param frame view that will reflect these changes.
+   * @param theme the {@link GUITheme} to be swapped to.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public ThemeCommand(IMultiLayerExtraOperations model, GUIView frame, GUITheme theme)
       throws IllegalArgumentException {

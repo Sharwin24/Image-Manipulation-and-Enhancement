@@ -4,19 +4,21 @@ import cs3500.Utility;
 import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.operation.IOperation;
 import cs3500.view.GUIView;
+
 /**
  * Command to apply operations to the GUI's image.
  */
-public class OperationCommand extends AGUICommand{
+public class OperationCommand extends AGUICommand {
   private final IOperation toApply;
 
   /**
-   * Todo
+   * Constructs a OperationCommand based on the model to manipulate and the view that will reflect
+   * these changes, as well as the operation to apply.
    *
-   * @param model
-   * @param frame
-   * @param toApply
-   * @throws IllegalArgumentException
+   * @param model the model to manipulate.
+   * @param frame view that will reflect these changes.
+   * @param toApply the operation to apply.
+   * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
   public OperationCommand(IMultiLayerExtraOperations model, GUIView frame,
       IOperation toApply)

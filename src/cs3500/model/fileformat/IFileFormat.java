@@ -2,8 +2,6 @@ package cs3500.model.fileformat;
 
 import cs3500.model.image.IImage;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A function object representing a PPM/NetPBM file format, with the ability to import a ppm image
