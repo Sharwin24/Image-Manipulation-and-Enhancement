@@ -404,7 +404,7 @@ view. The diagram also shows the methods that each class contains.
 
 
 
-## How to use the Program## <a name="help-section"></a>
+## How to use the Program <a name="help-section"></a>
 # USEME Table of Contents
 1. [How to use the GUI](#gui)
 2. [How to write scripts](#scripts)
