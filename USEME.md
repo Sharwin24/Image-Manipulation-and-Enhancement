@@ -31,7 +31,7 @@ The <i>Import</i> submenu</li>
 <li><i>Import a multi-layered image</i> imports a group of layers--JPG/JPEG, PNG, or PPM files
 from a file explorer/finder (for Windows/MacOS)-- referenced in a text file
 that contains the absolute path of all of the images that are to be imported, one on each line.
-An example is a file <i>images.txt</i> with contents <br>
+An example is a file <i>images.txt</i> with contents 
 <code>C:\Users\Joe\JoesImages\image1.png</code> <br> 
 <code>C:\Users\Sally\SallysImages\dogImage.jpg</code> <br>
 <code>D:\FancyBear\Images\russianFlag.ppm</code> <br> 
@@ -109,7 +109,7 @@ menu item. If you did, hello! Nice to see you here.</li>
 
 ## How to write scripts <a name="scripts"></a>
 
-<p>In the <code>MultiLayerIIMEControllerImpl class, inputs are processed from the a <code> Readable</code> with the following
+<p>In the <code>MultiLayerIIMEControllerImpl</code> class, inputs are processed from the a <code> Readable</code> with the following
 syntax:
  <p> Each command follows this meta-syntax:
  <i><code>[CMD] [arg1] [arg2] ... [argn]</code></i>,
