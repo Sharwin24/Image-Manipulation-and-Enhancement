@@ -27,63 +27,56 @@ public class Main {
    * @param args optional args.
    */
   public static void main(String[] args) {
-
-//    //TODO: comment this out: this just runs the GUI from main for testing purposes
-//    IMultiLayerExtraOperations model = new MultiLayerModelImpl();
-//    IMultiLayerIMEController ctrlr = new MultiLayerGUIController(model,
-//        new GUIView());
-////    ctrlr.run();
-
-     args = new String[]{"-interactive"};
-
     if (args.length == 0) {
       args = new String[]{"-interactive"}; // in the case of no params, the GUI is opened.
-    } else {
-      switch (args[0]) {
-        case "-interactive":
-          GUIView.setDefaultLookAndFeelDecorated(true);
-          GUIView frame = new GUIView();
-
-          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-          frame.setVisible(true);
-
-          try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-            //UIManager.getCrossPlatformLookAndFeelClassName();
-
-          } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException
-              | IllegalAccessException e) {
-            throw new IllegalArgumentException("could not open GUI");
-          }
-          break;
-        case "-script":
-          System.out.println("script path");
-          if (args.length < 2) {
-            throw new IllegalArgumentException("no script was passed. Try again and pass a script");
-          }
-
-          Path filePath = Path.of(args[1]);
-          try {
-            String scriptTxt = Files.readString(filePath, StandardCharsets.US_ASCII);
-            StringReader script = new StringReader(scriptTxt);
-
-            IMultiLayerIMEController scriptCtrlr = MultiLayerIMEControllerImpl.controllerBuilder()
-                .readable(script).buildController();
-            scriptCtrlr.run();
-
-          } catch (IOException e) {
-            throw new IllegalArgumentException("could not read script from file " + filePath);
-          }
-          break;
-        case "-text":
-          IMultiLayerIMEController ctrlrText =
-              MultiLayerIMEControllerImpl.controllerBuilder().buildController();
-          ctrlrText.run();
-          break;
-        default:
-          System.out.println("error");
-      }
     }
+
+    switch (args[0]) {
+      case "-interactive":
+        GUIView.setDefaultLookAndFeelDecorated(true);
+        GUIView frame = new GUIView();
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+        try {
+          UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+
+        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException
+            | IllegalAccessException e) {
+          throw new IllegalArgumentException("could not open GUI");
+        }
+
+        break;
+      case "-script":
+        System.out.println("script path");
+        if (args.length < 2) {
+          throw new IllegalArgumentException("no script was passed. Try again and pass a script");
+        }
+
+        Path filePath = Path.of(args[1]);
+        try {
+          String scriptTxt = Files.readString(filePath, StandardCharsets.US_ASCII);
+          StringReader script = new StringReader(scriptTxt);
+
+          IMultiLayerIMEController scriptCtrlr = MultiLayerIMEControllerImpl.controllerBuilder()
+              .readable(script).buildController();
+          scriptCtrlr.run();
+
+        } catch (IOException e) {
+          throw new IllegalArgumentException("could not read script from file " + filePath);
+        }
+        break;
+      case "-text":
+        IMultiLayerIMEController ctrlrText =
+            MultiLayerIMEControllerImpl.controllerBuilder().buildController();
+        ctrlrText.run();
+        break;
+      default:
+        System.out.println("error");
+
+    }
+
 
   }
 
