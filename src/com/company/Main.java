@@ -8,7 +8,9 @@ import cs3500.model.MultiLayerModelImpl;
 import cs3500.view.GUIView;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
@@ -26,17 +28,18 @@ public class Main {
    */
   public static void main(String[] args) {
 
-    //TODO: comment this out: this just runs the GUI from main for testing purposes
-    IMultiLayerExtraOperations model = new MultiLayerModelImpl();
-    IMultiLayerIMEController ctrlr = new MultiLayerGUIController(model,
-        new GUIView());
-//    ctrlr.run();
+//    //TODO: comment this out: this just runs the GUI from main for testing purposes
+//    IMultiLayerExtraOperations model = new MultiLayerModelImpl();
+//    IMultiLayerIMEController ctrlr = new MultiLayerGUIController(model,
+//        new GUIView());
+////    ctrlr.run();
 
-    args = new String[]{"-interactive"};
+    // args = new String[]{"-interactive"};
 
     if (args.length == 0) {
-      System.out.println("no args passed");
+      args = new String[]{"-interactive"}; // in the case of no params, the GUI is opened.
     }
+
     else {
 
       switch (args[0]) {
@@ -51,23 +54,35 @@ public class Main {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
             //UIManager.getCrossPlatformLookAndFeelClassName();
 
-          } catch (UnsupportedLookAndFeelException e) {
-            // do something
-          } catch (ClassNotFoundException e) {
-            // do something
-          } catch (InstantiationException e) {
-            // do something
-          } catch (IllegalAccessException e) {
-            // do something
+          } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException
+              | IllegalAccessException e) {
+            throw new IllegalArgumentException("could not open GUI");
           }
+
           break;
-        case "-script": // TODO: handle script path I/O
+        case "-script": 
           System.out.println("script path");
+          if (args.length < 2) {
+            throw new IllegalArgumentException("no script was passed. Try again and pass a script");
+          }
+
+          Path filePath = Path.of(args[1]);
+          try {
+            String scriptTxt = Files.readString(filePath, StandardCharsets.US_ASCII);
+            StringReader script = new StringReader(scriptTxt);
+
+            IMultiLayerIMEController scriptCtrlr = MultiLayerIMEControllerImpl.controllerBuilder()
+                .readable(script).buildController();
+            scriptCtrlr.run();
+
+          } catch (IOException e) {
+            throw new IllegalArgumentException("could not read script from file " +  filePath);
+          }
           break;
         case "-text":
           IMultiLayerIMEController ctrlrText =
               MultiLayerIMEControllerImpl.controllerBuilder().buildController();
-          ctrlr.run();
+          ctrlrText.run();
           break;
         default:
           System.out.println("error");
