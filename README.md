@@ -352,14 +352,26 @@ Command for setting the selected layer as visible/invisible using the GUI checkb
 ### The <code>SwapLayersCommand</code> class
 Command for swapping two layers, prompts the user to enter the two layer indices to swap.
 ### The <code>ImportOneCommand</code> class
-Command to import an image to the current selected layer.
+Command to import an image to the current selected layer. Prompts the user to select a file 
+through a file explorer.
 ### The <code>ExportOneCommand</code> class
+Command to export the image on the current selected layer. Prompts the user to select a 
+directory and path through a file explorer.
 ### The <code>LoadScriptCommand</code> class
+Command to load a script to the script panel. Prompts the user to select a file through a file 
+explorer.
 ### The <code>RunScriptCommand</code> class
+Command to run the script written in the script panel.
 ### The <code>OperationCommand</code> class
+Command to apply a given <code>IOperation</code> to the current selected image.
 ### The <code>UndoCommand</code> class
+Command to Undo the last <code>IOperation</code> applied to the image. Undoing is only possible 
+after a single operation.
 ### The <code>RedoCommand</code> class
+Command to Redo the last <code>IOperation</code> applied to the image. Redoing is only possible
+after an Undo has been made on a single operation.
 ### The <code>ViewGitHubCommand</code> class
+Command to send user to the GitHub webpage.
 ## The <code>Utility</code> class
 
 A class with helpful methods to be utilized throughout the program. Includes many methods to
