@@ -170,7 +170,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   private JTextArea consoleTxt;
 
   /**
-   * Gets the Console Panel
+   * Gets the Console Panel.
    *
    * @return a JPanel.
    */
@@ -705,7 +705,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
    * pattern for all listeners of the supported events in the GUI frame.
    *
    * @return a {@link HashMap} of the commands from a string to their function objects that execute
-   * the promised action.
+   *         the promised action.
    */
   public Map<String, IGUICommand> initActionsMap() {
 

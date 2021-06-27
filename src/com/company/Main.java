@@ -1,10 +1,7 @@
 package com.company;
 
 import cs3500.controller.IMultiLayerIMEController;
-import cs3500.controller.MultiLayerGUIController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
-import cs3500.model.IMultiLayerExtraOperations;
-import cs3500.model.MultiLayerModelImpl;
 import cs3500.view.GUIView;
 import java.io.IOException;
 import java.io.StringReader;

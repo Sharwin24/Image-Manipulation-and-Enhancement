@@ -3019,7 +3019,7 @@ public class ConsolidatedTests {
     }
 
 
-  
+
 
     /**
      * Tests for the {@link StateTrackingIMEModelImpl#setProgrammaticImage(IProgramImage, int, int,

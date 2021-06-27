@@ -2,7 +2,6 @@ package cs3500.controller.commands.guicommands;
 
 import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.fileformat.JPEGFile;
-import cs3500.model.layer.ILayer;
 import cs3500.view.GUIView;
 import java.io.File;
 import java.io.FileNotFoundException;

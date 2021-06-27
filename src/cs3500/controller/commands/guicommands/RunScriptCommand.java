@@ -1,6 +1,5 @@
 package cs3500.controller.commands.guicommands;
 
-import cs3500.controller.IMultiLayerIMEController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
 import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.view.GUIView;
