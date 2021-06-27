@@ -6,7 +6,7 @@ import cs3500.view.GUIView;
 /**
  * Command for setting the current layer with the layer button.
  */
-public class CurrentLayerWithIndex extends AGUICommand {
+public class CurrentLayerWithIndexCommand extends AGUICommand {
 
   private final int layerNum;
 
@@ -19,7 +19,7 @@ public class CurrentLayerWithIndex extends AGUICommand {
    * @param layerNum the index of the layer to switch to.
    * @throws IllegalArgumentException if any arguments are <code>null</code>.
    */
-  public CurrentLayerWithIndex(IMultiLayerExtraOperations model, GUIView frame, int layerNum)
+  public CurrentLayerWithIndexCommand(IMultiLayerExtraOperations model, GUIView frame, int layerNum)
       throws IllegalArgumentException {
     super(model, frame);
     if (layerNum < 0) {

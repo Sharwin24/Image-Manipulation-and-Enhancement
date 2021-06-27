@@ -6,7 +6,7 @@ import cs3500.view.GUIView;
 /**
  * Action listener to toggle the visibility of a desired layer.
  */
-public class VisibleLayer extends AGUICommand {
+public class VisibleLayerCommand extends AGUICommand {
 
   private final int layerNum;
 
@@ -16,7 +16,7 @@ public class VisibleLayer extends AGUICommand {
    * @param layerNum the index of the layer.
    * @throws IllegalArgumentException if the layer index is invalid.
    */
-  public VisibleLayer(IMultiLayerExtraOperations model, GUIView frame, int layerNum)
+  public VisibleLayerCommand(IMultiLayerExtraOperations model, GUIView frame, int layerNum)
       throws IllegalArgumentException {
     super(model, frame);
     if (layerNum < 0) {
