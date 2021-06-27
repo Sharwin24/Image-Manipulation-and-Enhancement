@@ -2,9 +2,7 @@ package com.company;
 
 import cs3500.controller.IMultiLayerIMEController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
-import cs3500.frame.IMEFrame;
-import cs3500.model.MultiLayerModelImpl;
-import java.awt.desktop.ScreenSleepEvent;
+import cs3500.view.GUIView;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
@@ -35,8 +33,8 @@ public class Main {
 
       switch (args[0]) {
         case "-interactive":
-          IMEFrame.setDefaultLookAndFeelDecorated(true);
-          IMEFrame frame = new IMEFrame();
+          GUIView.setDefaultLookAndFeelDecorated(true);
+          GUIView frame = new GUIView();
 
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
           frame.setVisible(true);
