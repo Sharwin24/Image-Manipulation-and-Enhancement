@@ -16,6 +16,7 @@ import cs3500.controller.commands.guicommands.ExportOneCommand;
 import cs3500.controller.commands.guicommands.GUIMosaicCommand;
 import cs3500.controller.commands.guicommands.IGUICommand;
 import cs3500.controller.commands.guicommands.ImportAllCommand;
+import cs3500.controller.commands.guicommands.ImportImageToAllLayers;
 import cs3500.controller.commands.guicommands.ImportOneCommand;
 import cs3500.controller.commands.guicommands.LoadScriptCommand;
 import cs3500.controller.commands.guicommands.NewLayerCommand;
@@ -310,6 +311,11 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     importAllImagesItem.setActionCommand("import all");
     importAllImagesItem.addActionListener(this);
     importSubmenu.add(importAllImagesItem);
+
+    JMenuItem importOneImageToAllLayersItem = new JMenuItem("Import an image to all layers");
+    importOneImageToAllLayersItem.setActionCommand("import image to all layers");
+    importOneImageToAllLayersItem.addActionListener(this);
+    importSubmenu.add(importOneImageToAllLayersItem);
 
     fileMenu.add(importSubmenu);
 
@@ -733,6 +739,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     actionsMap.putIfAbsent("github", new ViewGitHubCommand(model, this));
     actionsMap.putIfAbsent("import all", new ImportAllCommand(model, this));
     actionsMap.putIfAbsent("export all", new ExportAllCommand(model, this));
+    actionsMap.putIfAbsent("import image to all layers", new ImportImageToAllLayers(model, this));
 
     return actionsMap;
   }
