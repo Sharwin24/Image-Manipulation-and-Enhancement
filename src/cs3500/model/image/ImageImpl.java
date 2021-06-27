@@ -5,6 +5,7 @@ import cs3500.model.channel.EChannelType;
 import cs3500.model.matrix.IMatrix;
 import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.pixel.IPixel;
+import cs3500.model.pixel.IndexedPixel;
 import cs3500.model.pixel.PixelImpl;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -209,7 +210,7 @@ public class ImageImpl implements IImage {
    */
   private IPixel closestPixelTo(int row, int col, List<IndexedPixel> seeds) {
     return Collections.min(seeds, // lambda moment
-        ((px1, px2) -> (int) (px1.distanceTo(row, col) - px2.distanceTo(row, col)))).px;
+        ((px1, px2) -> (int) (px1.distanceTo(row, col) - px2.distanceTo(row, col)))).getPx();
   }
 
   /**
@@ -238,24 +239,24 @@ public class ImageImpl implements IImage {
   }
 
 
-  /**
-   * Utility class to keep track of a pixel's position.
-   */
-  private class IndexedPixel {
-
-    private final int row;
-    private final int col;
-    private final IPixel px;
-
-    public IndexedPixel(int row, int col, IPixel px) {
-      this.row = Utility.checkIntBetween(row, 0, Integer.MAX_VALUE);
-      this.col = Utility.checkIntBetween(col, 0, Integer.MAX_VALUE);
-      this.px = Utility.checkNotNull(px, "cannot create an indexed pixel with a null "
-          + "pixel value");
-    }
-
-    public double distanceTo(int row, int col) {
-      return Math.sqrt(Math.pow(row - this.row, 2) + Math.pow(col - this.col, 2));
-    }
-  }
+//  /**
+//   * Utility class to keep track of a pixel's position.
+//   */
+//  private class IndexedPixel {
+//
+//    private final int row;
+//    private final int col;
+//    private final IPixel px;
+//
+//    public IndexedPixel(int row, int col, IPixel px) {
+//      this.row = Utility.checkIntBetween(row, 0, Integer.MAX_VALUE);
+//      this.col = Utility.checkIntBetween(col, 0, Integer.MAX_VALUE);
+//      this.px = Utility.checkNotNull(px, "cannot create an indexed pixel with a null "
+//          + "pixel value");
+//    }
+//
+//    public double distanceTo(int row, int col) {
+//      return Math.sqrt(Math.pow(row - this.row, 2) + Math.pow(col - this.col, 2));
+//    }
+//  }
 }

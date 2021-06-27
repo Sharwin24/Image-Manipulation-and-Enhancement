@@ -92,13 +92,13 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
       new Color(177, 156, 217));
 
   // URLS
-  private static final String GITHUB_URL = "https://github.com/Sharwin24/Image-Manipulation-"
+  public static final String GITHUB_URL = "https://github.com/Sharwin24/Image-Manipulation-"
       + "and-Enhancement.git";
 
   // to represent the model--the images to be manipulated
   private IMultiLayerExtraOperations mdl;
   // to represent the scriptable controller embedded in the GUI
-  private IMultiLayerIMEController scrptCtrlr;
+  public IMultiLayerIMEController scrptCtrlr;
   private JButton runScriptBtn;
   private JButton loadScriptBtn;
   // to store interactively-scripted commands
@@ -108,7 +108,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   // to store output from the view
   private Appendable out;
   // to store the GUI elements
-  private JPanel mainPanel;
+  public JPanel mainPanel;
   // to store the menu ribbon elements
   private JLabel menusLabel;
   private JPanel menusPanel;
@@ -118,11 +118,11 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   private JLabel programmaticImagesMenuLabel;
 
 
-  private JMenuBar menuRibbon;
+  public JMenuBar menuRibbon;
   // Image panel architecture
   private BufferedImage currentImage;
   private JPanel imagePanel;
-  private JScrollPane imageScrollPanel;
+  public JScrollPane imageScrollPanel;
 
 
   // the architecture for the file menu
@@ -149,7 +149,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   private JLabel inputDisplay;
 
   // to handle text in the console
-  private JPanel consolePanel;
+  public JPanel consolePanel;
   private JTextArea consoleTxt;
 
 
@@ -165,10 +165,10 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   // Handle Layers
   private JPanel layerAreaPanel = new JPanel();
   private final JPanel layerButtonsPanel = new JPanel();
-  private JPanel layersPanel = new JPanel();
+  public JPanel layersPanel = new JPanel();
   private final List<JPanel> allLayers = new ArrayList<>();
 
-  private JTextArea scriptArea;
+  public JTextArea scriptArea;
 
   private GUITheme defaultTheme = LIGHT_THEME;
 
@@ -1287,7 +1287,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   /**
    * Sets the image in the GUI to the current one.
    */
-  private void setImage() {
+  public void setImage() {
     try {
       if (!mdl.getCurrentLayer().isInvisible()) {
         imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
@@ -1305,7 +1305,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
    * @param dialogMsg the message text.
    * @param title     the title of the popup.
    */
-  private void errorPopup(String dialogMsg, String title)
+  public void errorPopup(String dialogMsg, String title)
       throws IllegalArgumentException {
     JOptionPane.showMessageDialog(GUIView.this,
         Utility.checkNotNull(dialogMsg, "cannot display a popup window"
