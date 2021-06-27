@@ -1,6 +1,7 @@
 package cs3500.controller.commands;
 
 import cs3500.Utility;
+import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.fileformat.IFileFormat;
 import cs3500.view.IMEView;
@@ -28,7 +29,7 @@ import java.util.Scanner;
 public class ImportCommand extends APortCommand {
 
   @Override
-  protected void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IMEView vw) {
+  protected void handleArgs(Scanner lineScan, IMultiLayerExtraOperations mdl, IMEView vw) {
     if (lineScan.hasNext()) {
       String fileFormat = lineScan.next();
       if (lineScan.hasNext()) {

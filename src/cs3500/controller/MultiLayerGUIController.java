@@ -1,7 +1,7 @@
 package cs3500.controller.commands;
 
 import cs3500.controller.MultiLayerIMEControllerImpl;
-import cs3500.model.IMultiLayerModel;
+import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.view.IMEView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +19,7 @@ public class MultiLayerGUIController extends MultiLayerIMEControllerImpl impleme
    * @param vw  the view to render feedback and interactions messages to
    * @throws IllegalArgumentException if any of the parameters are {@code null}.
    */
-  public MultiLayerGUIController(IMultiLayerModel mdl, Readable rd,
+  public MultiLayerGUIController(IMultiLayerExtraOperations mdl, Readable rd,
       Appendable ap, IMEView vw) throws IllegalArgumentException {
     super(mdl, rd, ap, vw);
   }

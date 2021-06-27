@@ -1,5 +1,6 @@
 package cs3500.controller.commands;
 
+import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.programmaticimages.BWNoise;
 import cs3500.model.programmaticimages.Checkerboard;
@@ -33,7 +34,7 @@ public class ProgrammaticImageCommand extends AIMECommand {
   private final Map<String, IProgramImage> imagesMap = this.initImagesMap();
 
   @Override
-  protected void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IMEView vw) {
+  protected void handleArgs(Scanner lineScan, IMultiLayerExtraOperations mdl, IMEView vw) {
 
     try {
       String type = lineScan.next();
