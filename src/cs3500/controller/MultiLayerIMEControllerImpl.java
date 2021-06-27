@@ -15,7 +15,10 @@ import cs3500.controller.commands.textcommands.SaveCommand;
 import cs3500.controller.commands.textcommands.SwapCommand;
 import cs3500.controller.commands.textcommands.UndoCommand;
 import cs3500.controller.commands.textcommands.VisibilityCommand;
+<<<<<<< HEAD
 import cs3500.model.IMultiLayerExtraOperations;
+=======
+>>>>>>> fb94e06b15c6b1f845b55a086c6f71efd18ae76c
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
 import cs3500.model.operation.IOperation;
