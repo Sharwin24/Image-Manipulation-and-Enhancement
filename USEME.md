@@ -389,14 +389,14 @@ is a quaternary command)</i></small><br>
 
 
 # Table of Contents
-1. [Example](#example)
-2. [Example2](#example2)
+1. [How to write scripts](#example)
+2. [How to use the GUI](#example2)
 3. [Third Example](#third-example)
 4. [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
 
 
-## Example
-## Example2
+## How to write scripts
+## How to use the GUI
 ## Third Example
 ## [Fourth Example](http://www.fourthexample.com) 
 
