@@ -1,5 +1,6 @@
 package cs3500.controller.commands.textcommands;
 
+import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.IMultiLayerModel;
 import cs3500.view.IMEView;
 import java.util.Scanner;
@@ -18,7 +19,7 @@ import java.util.Scanner;
 public class CurrentCommand extends AIMECommand {
 
   @Override
-  protected void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IMEView vw) {
+  protected void handleArgs(Scanner lineScan, IMultiLayerExtraOperations mdl, IMEView vw) {
     if (lineScan.hasNext()) {
       String inp = lineScan.next();
 

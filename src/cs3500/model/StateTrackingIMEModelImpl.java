@@ -113,78 +113,12 @@ public class StateTrackingIMEModelImpl implements IStateTrackingIMEModel {
     return new StateTrackingIMEModelImpl(this.image.copy());
   }
 
-  /**
-   * Sets the current image to the given image, using a deep copy to avoid immutability.
-   *
-   * @param newImage the image to set the current image to.
-   * @throws IllegalArgumentException if the given image is null.
-   */
-  private void setImage(IImage newImage)
+  @Override
+  public void setImage(IImage newImage)
       throws IllegalArgumentException {
     Utility.checkNotNull(newImage, "cannot set a new image that is null");
     this.save();
     this.image = newImage.copy();
-  }
-
-  @Override
-  public void mosaic(int numSeeds) {
-    this.setImage(this.image.mosaic(numSeeds));
-  }
-
-  @Override
-  public void downscaleLayers(int newHeight, int newWidth)
-      throws IllegalArgumentException {
-    IImage image = this.getImage();
-    IMatrix<IPixel> pixels = image.getPixelArray();
-    IMatrix<IPixel> newPixels = new MatrixImpl<>(new PixelImpl(0, 0, 0), newHeight,
-        newWidth);
-    int originalWidth = image.getWidth();
-    int originalHeight = image.getHeight();
-    for (int r = 0; r < newPixels.getHeight(); r++) {
-      for (int c = 0; c < newPixels.getWidth(); c++) {
-        double oldX = (c / (double) newWidth) * originalWidth;
-        double oldY = (r / (double) newHeight) * originalHeight;
-        if (oldX % 1 == 0 || oldY % 1 == 0) { // If either is an int
-          newPixels.updateEntry(pixels.getElement((int) oldY, (int) oldX), r, c);
-        } else {
-          // floor and ceiling of (x,y)
-          int floorX = (int) Math.floor(oldX);
-          int floorY = (int) Math.floor(oldY);
-          int ceilX = (int) Math.ceil(oldX);
-          int ceilY = (int) Math.ceil(oldY);
-          // Pixels ABCD:
-          IPixel pixelA = pixels.getElement(floorY, floorX);
-          IPixel pixelB = pixels.getElement(floorY, ceilX);
-          IPixel pixelC = pixels.getElement(ceilY, floorX);
-          IPixel pixelD = pixels.getElement(ceilY, ceilX);
-          int red = 0;
-          int green = 0;
-          int blue = 0;
-          for (EChannelType channel : EChannelType.values()) { // for all color channels
-            double m = pixelB.getIntensity(channel) * (oldX - floorX)
-                + pixelA.getIntensity(channel) * (ceilX - oldX);
-            double n = pixelD.getIntensity(channel) * (oldX - floorX)
-                + pixelC.getIntensity(channel) * (ceilX - oldX);
-            double cp = n * (oldY - floorY) + m * (ceilY - oldY);
-            switch (channel) {
-              case RED:
-                red = (int) cp;
-                break;
-              case GREEN:
-                green = (int) cp;
-                break;
-              case BLUE:
-                blue = (int) cp;
-                break;
-            }
-          }
-          IPixel newPixel = new PixelImpl(red, green, blue);
-
-          newPixels.updateEntry(newPixel, r, c);
-        }
-      }
-    }
-    this.setImage(new ImageImpl(newPixels));
   }
 
 }

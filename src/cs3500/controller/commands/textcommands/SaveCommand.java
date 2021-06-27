@@ -1,5 +1,6 @@
 package cs3500.controller.commands.textcommands;
 
+import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.IMultiLayerModel;
 import cs3500.view.IMEView;
 import java.util.Scanner;
@@ -18,7 +19,7 @@ import java.util.Scanner;
 public class SaveCommand extends AIMECommand {
 
   @Override
-  public void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IMEView vw)
+  public void handleArgs(Scanner lineScan, IMultiLayerExtraOperations mdl, IMEView vw)
       throws IllegalArgumentException, IllegalStateException {
 
     mdl.save();

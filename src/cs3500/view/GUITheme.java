@@ -1,4 +1,4 @@
-package cs3500.frame;
+package cs3500.view;
 
 import cs3500.Utility;
 import java.awt.Color;

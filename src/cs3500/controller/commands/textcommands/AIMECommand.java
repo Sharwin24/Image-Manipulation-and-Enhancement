@@ -1,6 +1,7 @@
 package cs3500.controller.commands.textcommands;
 
 import cs3500.Utility;
+import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.IMultiLayerModel;
 import cs3500.view.IMEView;
 import java.util.Scanner;
@@ -13,7 +14,7 @@ import java.util.Scanner;
 public abstract class AIMECommand implements IIMECommand {
 
   @Override
-  public void execute(Scanner lineScan, IMultiLayerModel mdl, IMEView vw)
+  public void execute(Scanner lineScan, IMultiLayerExtraOperations mdl, IMEView vw)
       throws IllegalArgumentException {
     Utility.checkNotNull(lineScan, "cannot process a command with a null scanner");
     Utility.checkNotNull(mdl, "cannot process a command with a null model");
@@ -32,11 +33,10 @@ public abstract class AIMECommand implements IIMECommand {
    * of this class to execute that command based on the (optional) arguments that come after it, and
    * communicates this information to the given {@link IMultiLayerModel} to execute the command from
    * the model's perspective. Also communicates any relevant I/O to the given {@link IMEView}.
-   *
-   * @param lineScan the {@link Scanner} over the line of a command to be processed.
+   *  @param lineScan the {@link Scanner} over the line of a command to be processed.
    * @param mdl      the model that that should execute the processed command.
    * @param vw       the view to which I/O data should be sent.
    */
-  protected abstract void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IMEView vw);
+  protected abstract void handleArgs(Scanner lineScan, IMultiLayerExtraOperations mdl, IMEView vw);
 
 }

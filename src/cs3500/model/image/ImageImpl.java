@@ -121,6 +121,60 @@ public class ImageImpl implements IImage {
   }
 
   @Override
+  public IImage downscale(int newHeight, int newWidth) {
+    IMatrix<IPixel> pixels = getPixelArray();
+    IMatrix<IPixel> newPixels = new MatrixImpl<>(new PixelImpl(0, 0, 0), newHeight,
+        newWidth);
+    int originalWidth = getWidth();
+    int originalHeight = getHeight();
+    for (int r = 0; r < newPixels.getHeight(); r++) {
+      for (int c = 0; c < newPixels.getWidth(); c++) {
+        double oldX = (c / (double) newWidth) * originalWidth;
+        double oldY = (r / (double) newHeight) * originalHeight;
+        if (oldX % 1 == 0 || oldY % 1 == 0) { // If either is an int
+          newPixels.updateEntry(pixels.getElement((int) oldY, (int) oldX), r, c);
+        } else {
+          // floor and ceiling of (x,y)
+          int floorX = (int) Math.floor(oldX);
+          int floorY = (int) Math.floor(oldY);
+          int ceilX = (int) Math.ceil(oldX);
+          int ceilY = (int) Math.ceil(oldY);
+          // Pixels ABCD:
+          IPixel pixelA = pixels.getElement(floorY, floorX);
+          IPixel pixelB = pixels.getElement(floorY, ceilX);
+          IPixel pixelC = pixels.getElement(ceilY, floorX);
+          IPixel pixelD = pixels.getElement(ceilY, ceilX);
+          int red = 0;
+          int green = 0;
+          int blue = 0;
+          for (EChannelType channel : EChannelType.values()) { // for all color channels
+            double m = pixelB.getIntensity(channel) * (oldX - floorX)
+                + pixelA.getIntensity(channel) * (ceilX - oldX);
+            double n = pixelD.getIntensity(channel) * (oldX - floorX)
+                + pixelC.getIntensity(channel) * (ceilX - oldX);
+            double cp = n * (oldY - floorY) + m * (ceilY - oldY);
+            switch (channel) {
+              case RED:
+                red = (int) cp;
+                break;
+              case GREEN:
+                green = (int) cp;
+                break;
+              case BLUE:
+                blue = (int) cp;
+                break;
+            }
+          }
+          IPixel newPixel = new PixelImpl(red, green, blue);
+
+          newPixels.updateEntry(newPixel, r, c);
+        }
+      }
+    }
+    return new ImageImpl(newPixels);
+  }
+
+  @Override
   public BufferedImage getBufferedImage() throws IllegalArgumentException {
     BufferedImage outputImage;
     try {
@@ -148,8 +202,8 @@ public class ImageImpl implements IImage {
   /**
    * Finds the closest seed to the pixel at the given location.
    *
-   * @param row the pixel's row position.
-   * @param col the pixel's column position.
+   * @param row   the pixel's row position.
+   * @param col   the pixel's column position.
    * @param seeds the list of seeds to find the closest one to.
    * @return the closest seed.
    */

@@ -1,5 +1,6 @@
 package cs3500.controller.commands.textcommands;
 
+import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.operation.Greyscale;
 import cs3500.model.operation.IOperation;
@@ -35,7 +36,7 @@ public class ApplyCommand extends AIMECommand {
   private final Map<String, IOperation> operations = this.initOperationsMap();
 
   @Override
-  public void handleArgs(Scanner lineScan, IMultiLayerModel mdl, IMEView vw)
+  public void handleArgs(Scanner lineScan, IMultiLayerExtraOperations mdl, IMEView vw)
       throws IllegalArgumentException, IllegalStateException {
     ArrayList<IOperation> toApply = new ArrayList<>();
 
@@ -106,7 +107,7 @@ public class ApplyCommand extends AIMECommand {
   /**
    * Utility method to convert a {@link List} to an Array,
    * in order to more efficiently handle the Array signature of a varargs method,
-   * in particular {@link ApplyCommand#handleArgs(Scanner, IMultiLayerModel, IMEView)}.
+   * in particular {@link AIMECommand#handleArgs(Scanner, IMultiLayerExtraOperations, IMEView)}.
    *
    * @param operations the {@link List} of operations to convert to an Array
    * @return the {@link List} of operations, converted to an Array

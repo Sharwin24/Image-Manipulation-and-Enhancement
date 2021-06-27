@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * A mock model to test inputs from the controller.
  */
-public class MockMultiLayerModel implements IMockMultiLayerModel {
+public class MockMultiLayerModel implements IMultiLayerExtraOperations {
 
   private final StringBuilder log;
 
@@ -47,11 +47,6 @@ public class MockMultiLayerModel implements IMockMultiLayerModel {
   }
 
   @Override
-  public String getLog() {
-    return this.log.toString();
-  }
-
-  @Override
   public void toggleInvisible(int layerIndex) throws IllegalArgumentException {
     log.append("toggled visibility of layer " + layerIndex + "\n");
   }
@@ -82,6 +77,12 @@ public class MockMultiLayerModel implements IMockMultiLayerModel {
   }
 
   @Override
+  public ILayer getCurrentLayer() {
+    log.append("Get current layer");
+    return null;
+  }
+
+  @Override
   public void mosaic(int seeds) {
     log.append("mosaiced with " + seeds + " seeds");
   }
@@ -104,5 +105,10 @@ public class MockMultiLayerModel implements IMockMultiLayerModel {
   @Override
   public void save() {
     log.append("saved current image to history" + "\n");
+  }
+
+  @Override
+  public void setImage(IImage newImage) {
+    log.append("Set image with image" + newImage.toString());
   }
 }
