@@ -721,11 +721,15 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 
     @Override
     public void execute() {
-      mdl.toggleInvisible(layerNum);
-      if (mdl.getLayers().get(layerNum).isInvisible()) {
-        System.out.println("Layer " + layerNum + " is invisible");
-      } else {
-        System.out.println("Layer " + layerNum + " is visible");
+      try {
+        mdl.toggleInvisible(layerNum);
+        if (mdl.getLayers().get(layerNum).isInvisible()) {
+          System.out.println("Layer " + layerNum + " is invisible");
+        } else {
+          System.out.println("Layer " + layerNum + " is visible");
+        }
+      } catch (IllegalArgumentException e) {
+        System.out.println("Visibility Toggle Failed: " + e.getMessage());
       }
 
     }
@@ -1260,6 +1264,9 @@ public class IMEFrame extends JFrame implements ActionListener, ItemListener,
 //
 //  }
 
+  /**
+   * Command to navigate to the github page.
+   */
   private class ViewGitHubCommand implements IGUICommand {
 
     @Override
