@@ -11,9 +11,11 @@ import cs3500.controller.commands.guicommands.CustomNoiseCommand;
 import cs3500.controller.commands.guicommands.DeleteLayerCommand;
 import cs3500.controller.commands.guicommands.DeleteLayerWithIndexCommand;
 import cs3500.controller.commands.guicommands.DownScaleCommand;
+import cs3500.controller.commands.guicommands.ExportAllCommand;
 import cs3500.controller.commands.guicommands.ExportOneCommand;
 import cs3500.controller.commands.guicommands.GUIMosaicCommand;
 import cs3500.controller.commands.guicommands.IGUICommand;
+import cs3500.controller.commands.guicommands.ImportAllCommand;
 import cs3500.controller.commands.guicommands.ImportOneCommand;
 import cs3500.controller.commands.guicommands.LoadScriptCommand;
 import cs3500.controller.commands.guicommands.NewLayerCommand;
@@ -670,7 +672,8 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     JCheckBox layerCB = new JCheckBox("visible?", true);
     layerCB.setBackground(this.defaultTheme.getPrimary());
     layerCB.setOpaque(false);
-    actionsMap.putIfAbsent("visible " + layerNum, new VisibleLayerCommand(this.model, this, layerNum));
+    actionsMap
+        .putIfAbsent("visible " + layerNum, new VisibleLayerCommand(this.model, this, layerNum));
     layerCB.setActionCommand("visible " + layerNum);
     layerCB.addItemListener(this);
     // Delete Button
@@ -728,6 +731,8 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     actionsMap.putIfAbsent("retro theme", new ThemeCommand(model, this, RETRO_THEME));
     actionsMap.putIfAbsent("swap", new SwapLayersCommand(model, this));
     actionsMap.putIfAbsent("github", new ViewGitHubCommand(model, this));
+    actionsMap.putIfAbsent("import all", new ImportAllCommand(model, this));
+    actionsMap.putIfAbsent("export all", new ExportAllCommand(model, this));
 
     return actionsMap;
   }
