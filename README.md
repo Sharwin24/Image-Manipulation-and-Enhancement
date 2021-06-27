@@ -1,9 +1,10 @@
 # Table of contents
+
 1. [Design Summary](#design-section)
 2. [How to use the Program](#help-section)
 
-
 ## Design Summary <a name="design-section"></a>
+
 # Image-Manipulation-and-Enhancement
 
 <p>This program serves as an image editing tool for photographers, artists, and personal use. 
@@ -50,7 +51,7 @@ operations using the <code>IOperation</code> interface, and in order to implemen
 an extension of the <code>IOperation</code> is all that's needed. Thus, the model can remain
 unchanged while new operations are added.
 
-### The <code>IMultiLayerModel</code> package
+### The <code>IMultiLayerModel</code> interface
 
 The <code>IMultiLayerModel</code> interface is an extension of the
 <code>IStateTrackingIMEModel</code> interface. It also offers the ability to maintain multiple
@@ -58,10 +59,22 @@ layers for a group of images to be edited separately. The interface offers metho
 image, to add/remove/swap and get layers. It also provides functionality to set the current working
 layer.
 
+### The <code>IMultiLayerExtraOperations</code> interface
+
+An extension of the <code>IMultiLayerModel</code> interface. Offers the same utility as the <code>
+IMultiLayerModel</code> interface in addition to the functionality of being able to apply a mosaic
+and downscale operation to an image in the model. The downscale operations applies to all layers in
+the <code>IMultiLayerModel</code> model.
+
 ### The <code>MultiLayerModelImpl</code> class
 
 The implementation of the MultiLayerModel interface. This class implements the interface's methods
 and offers its use to the user.
+
+### The <code>MockMultiLayerModel</code> class
+
+A mock model for testing the <code>MultiLayerModelImpl</code> implementation. Utilizes a log to
+track all method calls within the mock.
 
 ## The <code>Matrix</code> package
 
@@ -85,7 +98,7 @@ col)</code>, etc.
 Our implementation of a Matrix with a generic type. The class offers methods to build a Matrix in
 multiple ways with its constructors.
 
-## The <code>fileformat</code> package
+## The <code>Fileformat</code> package
 
 ### The <code>IFileFormat</code> interface
 
@@ -127,7 +140,7 @@ Matrix of pixels or a nested Arraylist of pixels. The class also offers methods 
 properties of the Image such as <code>copy()</code>, <code>equals()</code>,
 <code>getPixelArray()</code>, etc.
 
-## The <code>operation</code> package
+## The <code>Operation</code> package
 
 ### The <code>IOperation</code> interface
 
@@ -281,103 +294,170 @@ in succession utilizing a list of given <code>IOperation</code>.
 Command for setting the current layer given a layer index.
 
 ### The <code>DeleteCommand</code> class
+
 Command for deleting a layer given a layer index.
+
 ### The <code>ImportCommand</code> class
-Command for importing an image. Extends the <code>APortCommand</code> abstract class to gain 
-access to the <code>IFileFormat</code> HashMap. 
+
+Command for importing an image. Extends the <code>APortCommand</code> abstract class to gain access
+to the <code>IFileFormat</code> HashMap.
+
 ### The <code>ExportCommand</code> class
-Command for exporting an image. Extends the <code>APortCommand</code> abstract class to gain
-access to the <code>IFileFormat</code> HashMap.
+
+Command for exporting an image. Extends the <code>APortCommand</code> abstract class to gain access
+to the <code>IFileFormat</code> HashMap.
+
 ### The <code>NewLayerCommand</code> class
+
 Command for creating a new layer with an empty image at first.
+
 ### The <code>ProgrammaticImageCommand</code> class
-Command for creating a Programmatic Image given parameters for the size and type of image. 
-Offers the creation of: checkerboard, pure noise, black and white noise, and rainbow noise images.
+
+Command for creating a Programmatic Image given parameters for the size and type of image. Offers
+the creation of: checkerboard, pure noise, black and white noise, and rainbow noise images.
+
 ### The <code>UndoCommand</code> class
-Command for Undoing an operation to an image. Utilizes a stack structure for Undo/Redo History, 
+
+Command for Undoing an operation to an image. Utilizes a stack structure for Undo/Redo History,
 which only allows Undoing/Redoing after a single operation.
+
 ### The <code>RedoCommand</code> class
-Command for Redoing an operation to an image. Utilizes a stack structure for Undo/Redo History, 
+
+Command for Redoing an operation to an image. Utilizes a stack structure for Undo/Redo History,
 which only allows Undoing/Redoing after a single operation.
+
 ### The <code>SaveCommand</code> class
+
 Command for saving an image and pushing it's state to the Undo history.
+
 ### The <code>SwapCommand</code> class
+
 Command for swapping two layers given the two layer indices.
+
 ### The <code>VisibilityCommand</code> class
+
 Command for toggling the Visibility of a layer given a layer index.
+
 ## The <code>GUI Commands</code> package
 
 ### The <code>IGUICommand</code> interface
-Interface for all GUI Command classes to extend. Provides the <code>execute()</code> method for 
-each command class to implement with their respective execution.
+
+Interface for all GUI Command classes to extend. Provides the <code>execute()</code> method for each
+command class to implement with their respective execution.
+
 ### The <code>AGUICommand</code> abstract class
-An abstract class for <code>IGUICommand</code>. Offers the construction of the 
-<code>MultiLayer</code> model and the <code>GUIView</code> frame for each command to utilize in 
+
+An abstract class for <code>IGUICommand</code>. Offers the construction of the
+<code>MultiLayer</code> model and the <code>GUIView</code> frame for each command to utilize in
 their executions.
 
 ### The <code>ThemeCommand</code> class
-Command for setting a new color theme to the GUI. Prompts the user to select a 
+
+Command for setting a new color theme to the GUI. Prompts the user to select a
 <code>GUITheme</code> to switch to.
 
 ### The <code>ANoiseCommand</code> abstract class
-Abstract class for all Noise images to be constructed and output to the GUI given a specific set 
-of colors gathered from user input or by the user selecting a specific noise image such as 
-RainbowNoise etc.
+
+Abstract class for all Noise images to be constructed and output to the GUI given a specific set of
+colors gathered from user input or by the user selecting a specific noise image such as RainbowNoise
+etc.
 
 ### The <code>BWNoiseCommand</code> class
-Extends the <code>ANoiseCommand</code> abstract class, and provides the abstract class the 
-colors required to create a black and white noise image.
+
+Extends the <code>ANoiseCommand</code> abstract class, and provides the abstract class the colors
+required to create a black and white noise image.
+
 ### The <code>PureNoiseCommand</code> class
-Extends the <code>ANoiseCommand</code> abstract class, and provides the abstract class the
-colors required to create a pure noise image.
+
+Extends the <code>ANoiseCommand</code> abstract class, and provides the abstract class the colors
+required to create a pure noise image.
+
 ### The <code>RainbowNoiseCommand</code> class
-Extends the <code>ANoiseCommand</code> abstract class, and provides the abstract class the
-colors required to create a rainbow noise image.
+
+Extends the <code>ANoiseCommand</code> abstract class, and provides the abstract class the colors
+required to create a rainbow noise image.
+
 ### The <code>CustomNoiseCommand</code> class
-Extends the <code>ANoiseCommand</code> abstract class, and prompts the user to select any number 
-of colors using a <code>ColorChooser</code> to create a noise image with the selected colors.
-###The <code>CheckerBoardCommand</code> class
-Command for drawing a Checkerboard programmatic image by prompting the user for the size of the 
+
+Extends the <code>ANoiseCommand</code> abstract class, and prompts the user to select any number of
+colors using a <code>ColorChooser</code> to create a noise image with the selected colors.
+
+### The <code>CheckerBoardCommand</code> class
+
+Command for drawing a Checkerboard programmatic image by prompting the user for the size of the
 image and of the squares.
+
 ### The <code>GUIMosaicCommand</code> class
-Command for creating a Mosaic image of the current image by prompting the user for the number of 
+
+Command for creating a Mosaic image of the current image by prompting the user for the number of
 seeds to use.
+
 ### The <code>DownScaleCommand</code> class
+
 Command for downscaling all the layers. Prompts the user to enter a new size to downscale to.
+
 ### The <code>CurrentLayerCommand</code> class
-Command for setting a layer as the current one. Prompts the user for enter a specific layer 
-index to set the current layer to.
+
+Command for setting a layer as the current one. Prompts the user for enter a specific layer index to
+set the current layer to.
+
 ### The <code>CurrentLayerWithIndexCommand</code> class
+
 Command for setting a layer as the current one by pressing the layer button.
+
 ### The <code>DeleteLayerCommand</code> class
+
 Command for deleting a layer. Prompts the user to enter a specific layer index to delete.
+
 ### The <code>DeleteLayerWithIndexCommand</code> class
+
 Command for deleting a layer by pressing the delete button for a specific layer.
+
 ### The <code>VisibleLayerCommand</code> class
+
 Command for setting the selected layer as visible/invisible using the GUI checkbox.
+
 ### The <code>SwapLayersCommand</code> class
+
 Command for swapping two layers, prompts the user to enter the two layer indices to swap.
+
 ### The <code>ImportOneCommand</code> class
-Command to import an image to the current selected layer. Prompts the user to select a file 
-through a file explorer.
+
+Command to import an image to the current selected layer. Prompts the user to select a file through
+a file explorer.
+
 ### The <code>ExportOneCommand</code> class
-Command to export the image on the current selected layer. Prompts the user to select a 
-directory and path through a file explorer.
+
+Command to export the image on the current selected layer. Prompts the user to select a directory
+and path through a file explorer.
+
 ### The <code>LoadScriptCommand</code> class
-Command to load a script to the script panel. Prompts the user to select a file through a file 
+
+Command to load a script to the script panel. Prompts the user to select a file through a file
 explorer.
+
 ### The <code>RunScriptCommand</code> class
+
 Command to run the script written in the script panel.
+
 ### The <code>OperationCommand</code> class
+
 Command to apply a given <code>IOperation</code> to the current selected image.
+
 ### The <code>UndoCommand</code> class
-Command to Undo the last <code>IOperation</code> applied to the image. Undoing is only possible 
+
+Command to Undo the last <code>IOperation</code> applied to the image. Undoing is only possible
 after a single operation.
+
 ### The <code>RedoCommand</code> class
+
 Command to Redo the last <code>IOperation</code> applied to the image. Redoing is only possible
 after an Undo has been made on a single operation.
+
 ### The <code>ViewGitHubCommand</code> class
+
 Command to send user to the GitHub webpage.
+
 ## The <code>Utility</code> class
 
 A class with helpful methods to be utilized throughout the program. Includes many methods to
@@ -412,16 +492,15 @@ The class diagram for the project, depicting the extensions and class implementa
 view. The diagram also shows the methods that each class contains.
 ![UMLDiagram](https://github.com/Sharwin24/Image-Manipulation-and-Enhancement/blob/main/res/IME-UML.png)
 
-
-
-
-
 ## How to use the Program <a name="help-section"></a>
+
 # USEME Table of Contents
+
 1. [How to use the GUI](#gui)
 2. [How to write scripts](#scripts)
 
 ## How to use the GUI <a name="gui"></a>
+
 <p>In the <code>GUIController</code> and <code>GUIView</code> classes, support is added for a 
 Graphical User Interface (GUI) that supports all of the functionality of the model, as well as some 
 extra features. Almost all functionality is exposed through dropdown menus, while some functionality
@@ -516,7 +595,6 @@ menu item. If you did, hello! Nice to see you here.</li>
 </ul>
  </li>
  </ul></p>
-
 
 ## How to write scripts <a name="scripts"></a>
 
@@ -824,42 +902,41 @@ to all of those images.</small><br>
 <code>redo</code><i><small>redoes the filters that were just undone</small></i> <br>
 <code>redo</code><i><small>does nothing, there is nothing to redo</small></i> <br>
 
-<code>swap 0 1</code><i><small>swaps layers 0 and 1, swapping the image of rover with the
-black and white noise image</small></i> <br>
-<code>delete 0</code><i><small>deletes layer 0. Now there is only one layer at index 0</small></i> <br>
-<code>delete 0</code><i><small>tries to delete layer 0, will not delete since there must be at
-least one layer.</small></i> <br>
-<code>import JPEG layers res/exampleLayers</code><i><small>imports the images that were just exported
-and deleted, restoring layers 0 and 1 to the black and white noise
-and rover images</small></i> <br>
-<code>delete 0</code><i><small>deletes layer 0. Now there is only one layer at index 0</small></i> <br>
-<code>delete 0</code><i><small>tries to delete layer 0, will not delete since there must be at
-least one layer.</small></i> <br>
+<code>swap 0 1</code><i><small>swaps layers 0 and 1, swapping the image of rover with the black and
+white noise image</small></i> <br>
+<code>delete 0</code><i><small>deletes layer 0. Now there is only one layer at index
+0</small></i> <br>
+<code>delete 0</code><i><small>tries to delete layer 0, will not delete since there must be at least
+one layer.</small></i> <br>
+<code>import JPEG layers res/exampleLayers</code><i><small>imports the images that were just
+exported and deleted, restoring layers 0 and 1 to the black and white noise and rover
+images</small></i> <br>
+<code>delete 0</code><i><small>deletes layer 0. Now there is only one layer at index
+0</small></i> <br>
+<code>delete 0</code><i><small>tries to delete layer 0, will not delete since there must be at least
+one layer.</small></i> <br>
 <code>programmatic rainbownoise 100 100 10</code><i><small>
 sets layer 0 (the only layer) to a rainbow noise image</small></i> <br>
 <code>new</code><i><small>creates a new layer at index 1</small></i> <br>
 <code>current 1</code><i><small>sets the current layer to index 1</small></i> <br>
 <code>programmatic purenoise 100 100 10
-</code><i><small>sets the image at layer 1 to a pure noise image with
-the specified dimensions</small></i> <br>
+</code><i><small>sets the image at layer 1 to a pure noise image with the specified
+dimensions</small></i> <br>
 <code>new
 </code><i><small>creates a new layer at index 2</small></i> <br>
 <code>current 2
 </code><i><small>sets the current layer to the one at index 2, the new layer</small></i> <br>
 <code>programmatic checkerboard 100 100 10
-</code><i><small>sets the image at layer index 2 to
-a programmatically created checkerboard with the given dimensions
-with a square size of 10 pixels. Note that these dimensions match the
-pure noise image contained in layer 1</small></i> <br>
+</code><i><small>sets the image at layer index 2 to a programmatically created checkerboard with the
+given dimensions with a square size of 10 pixels. Note that these dimensions match the pure noise
+image contained in layer 1</small></i> <br>
 <code>save</code><i><small>saves the most recent state to the image history</small></i> <br>
 <code>visibility 1
 </code><i><small>toggles the visibility of layer 1, making it invisible</small></i> <br>
 <code>current 0
-</code><i><small>sets the current layer to layer 0, the rainbow
-noise image</small></i> <br>
+</code><i><small>sets the current layer to layer 0, the rainbow noise image</small></i> <br>
 <code>export PNG res/finalImage-Rover
-</code><i><small>exports the rainbow noise image
-at layer 1 to the specified path.</small></i> <br>
+</code><i><small>exports the rainbow noise image at layer 1 to the specified path.</small></i> <br>
 <li>
 <i><code>ExampleScript2-bogus</code></i></li></li>
 A script to show bad calls to commands that will not be
@@ -877,7 +954,8 @@ get ignored and a sepia filter is a"pplied</i></small><br>
 <code>save -2</code><i><small>-2 is not a valid parameter for the save command, gets ignored
 </i></small><br>
 <code>delete -2</code><i><small>-2 is not a valid layer to be deleted</i></small><br>
-<code>export TXT notGonnaWork.txt</code><i><small>"TXT" is not a supported file format</i></small><br>
+<code>export TXT notGonnaWork.txt</code><i><small>"TXT" is not a supported file
+format</i></small><br>
 <code>import jpeg layers notGonnaWorkShouldveBeenCapitalized</code><i><small>according to the guide,
 "jpeg" should be capitalized as "JPEG"</i></small><br>
 <code>export PPM directoryDoesntExist</code><i><small>
@@ -887,12 +965,12 @@ directory is assumed not to exist and will throw an error</i></small><br>
 </i></small><br>
 <code>undo undo</code><i><small>cannot undo twice if only one operation has been applied
 </i></small><br>
-<code>redo redo redo redo</code><i><small></i>cannot redo
-four times when there is only one undone operation to redo (once)</small><br>
+<code>redo redo redo redo</code><i><small></i>cannot redo four times when there is only one undone
+operation to redo (once)</small><br>
 <code>notACommand</code><i><small>not a valid textual command</i></small><br>
 <code>programmatic programmatic checkerboard 400 400 12</code><i>
-<small>second call to "programmatic" textual command has valid parameters,
-but since only one command is allowed per line, the second instance of
+<small>second call to "programmatic" textual command has valid parameters, but since only one
+command is allowed per line, the second instance of
 "programmatic" is interpreted as the <code>[Integer]</code>
 parameter and gets ignored, since "programmatic" is not an
 <code>[Integer]</code></i></small><br>
