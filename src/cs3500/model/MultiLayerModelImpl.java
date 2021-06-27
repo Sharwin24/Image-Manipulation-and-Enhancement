@@ -1,9 +1,15 @@
 package cs3500.model;
 
+import cs3500.model.channel.EChannelType;
 import cs3500.model.image.IImage;
+import cs3500.model.image.ImageImpl;
 import cs3500.model.layer.ILayer;
 import cs3500.model.layer.Layer;
+import cs3500.model.matrix.IMatrix;
+import cs3500.model.matrix.MatrixImpl;
 import cs3500.model.operation.IOperation;
+import cs3500.model.pixel.IPixel;
+import cs3500.model.pixel.PixelImpl;
 import cs3500.model.programmaticimages.IProgramImage;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +19,7 @@ import java.util.List;
  * A class to represent the Model for an Image processor with multiple layer. Offers functionality
  * to apply operations to different layers and to import/export separate layers.
  */
-public class MultiLayerModelImpl implements IMultiLayerModel {
+public class MultiLayerModelImpl implements IMultiLayerExtraOperations {
 
   // Represent Layers
   // Layer: A stateTracking model to track and edit one image in one layer.
@@ -124,7 +130,7 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   }
 
   @Override
-  public IImage getImage() throws IllegalArgumentException{
+  public IImage getImage() throws IllegalArgumentException {
     if (!this.currentLayer.isInvisible()) {
       return this.currentLayer.getModel().getImage();
     } else {
@@ -192,6 +198,11 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   }
 
   @Override
+  public ILayer getCurrentLayer() {
+    return this.currentLayer;
+  }
+
+  @Override
   public void undo() throws IllegalArgumentException {
     this.currentLayer.getModel().undo();
   }
@@ -209,6 +220,11 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   }
 
   @Override
+  public void setImage(IImage newImage) {
+    this.currentLayer.getModel().setImage(newImage);
+  }
+
+  @Override
   public IMultiLayerModel copy() {
     List<ILayer> layers = new ArrayList<>();
     for (ILayer layer : this.listOfLayers) {
@@ -222,14 +238,14 @@ public class MultiLayerModelImpl implements IMultiLayerModel {
   @Override
   public void mosaic(int numSeeds)
       throws IllegalArgumentException {
-
-    this.currentLayer.getModel().mosaic(numSeeds);
+    this.setImage(this.currentLayer.getModel().getImage().mosaic(numSeeds));
   }
 
   @Override
   public void downscaleLayers(int newHeight, int newWidth) {
     for (ILayer lyr : this.listOfLayers) {
-      lyr.getModel().downscaleLayers(newHeight, newWidth);
+      IImage downscale = lyr.getModel().getImage().downscale(newHeight, newWidth);
+      lyr.getModel().setImage(downscale);
     }
   }
 }

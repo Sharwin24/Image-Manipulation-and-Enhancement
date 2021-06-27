@@ -1,5 +1,7 @@
 package cs3500.model;
 
+import cs3500.model.image.IImage;
+
 /**
  * An extension of the {@link IIMEModel} interface to include methods for keeping track of the state
  * of images and of operations applied to them. Such functionality includes the ability to undo and
@@ -30,5 +32,13 @@ public interface IStateTrackingIMEModel extends IIMEModel {
    * Saves the current state of the image being edited.
    */
   void save();
+
+  /**
+   * Sets the current image to the given image, using a deep copy to avoid immutability.
+   *
+   * @param newImage the image to set the current image to.
+   * @throws IllegalArgumentException if the given image is null.
+   */
+  void setImage(IImage newImage);
 
 }

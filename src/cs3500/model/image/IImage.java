@@ -57,6 +57,14 @@ public interface IImage {
   IImage mosaic(int numSeeds);
 
   /**
+   * Downscales the model's image to the new height and new width.
+   * @param newHeight the new height of the downscaled image.
+   * @param newWidth the new width of the downscaled image.
+   * @throws IllegalArgumentException if the new size is larger or the same as the original.
+   */
+  IImage downscale(int newHeight, int newWidth);
+
+  /**
    * Returns this image as a {@link BufferedImage}.
    *
    * @return a {@link BufferedImage} representing this image.
