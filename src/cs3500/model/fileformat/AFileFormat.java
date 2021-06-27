@@ -47,8 +47,8 @@ public abstract class AFileFormat implements IFileFormat {
     } catch (IOException e) {
       throw new IllegalArgumentException("Failed to read Image");
     }
-    int height = 0;
-    int width = 0;
+    int height;
+    int width;
     try {
       height = image.getHeight();
       width = image.getWidth();

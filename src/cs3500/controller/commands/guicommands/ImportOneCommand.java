@@ -23,7 +23,7 @@ public class ImportOneCommand extends AImportCommand {
 
   @Override
   public void execute() {
-    String path = "";
+    String path;
     try {
       path = this.getAbsolutePathOfFile();
     } catch (IllegalArgumentException e) {
