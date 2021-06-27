@@ -1,12 +1,4 @@
-
-
-
-
-
-
-
-
-# Table of Contents
+# USEME Table of Contents
 1. [How to use the GUI](#gui)
 2. [How to write scripts](#scripts)
 
