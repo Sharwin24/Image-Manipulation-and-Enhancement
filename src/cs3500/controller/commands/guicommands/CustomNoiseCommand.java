@@ -11,14 +11,17 @@ import java.util.List;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 
-public class CustomNoiseCommand extends ANoiseCommand{
+/**
+ * Command for Noise image with user defined colors.
+ */
+public class CustomNoiseCommand extends ANoiseCommand {
 
   /**
-   * Todo
+   * Constructs a Custom Noise Command for the GUI and passes the model and frame.
    *
-   * @param model
-   * @param frame
-   * @throws IllegalArgumentException
+   * @param model the multi-layer model for the GUI to use.
+   * @param frame the JFrame for the GUI to use.
+   * @throws IllegalArgumentException if any arguments are null or invalid.
    */
   public CustomNoiseCommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {
@@ -42,14 +45,14 @@ public class CustomNoiseCommand extends ANoiseCommand{
     int addAnotherColor = JOptionPane.YES_OPTION;
 
     while (addAnotherColor == JOptionPane.YES_OPTION) {
-      addAnotherColor = JOptionPane.showConfirmDialog(frame.inputDialogPanel,
+      addAnotherColor = JOptionPane.showConfirmDialog(frame.getInputDialogPanel(),
           "Would you like to add another color to the noise image to be generated?",
           "Add more colors?",
           JOptionPane.YES_NO_OPTION,
           JOptionPane.QUESTION_MESSAGE);
-      if (addAnotherColor == JOptionPane.YES_OPTION) { // Todo: Getters
+      if (addAnotherColor == JOptionPane.YES_OPTION) {
         Color c = JColorChooser.showDialog(frame, "Choose a color",
-            frame.colorChooserDisplay.getBackground());
+            frame.getColorChooserDisplay().getBackground());
 
         colorsPicked.add(c);
       }
@@ -58,7 +61,7 @@ public class CustomNoiseCommand extends ANoiseCommand{
     IPixel[] colorsPickedArr = new IPixel[colorsPicked.size()];
 
     for (int i = 0; i < colorsPicked.size(); i++) {
-      colorsPickedArr[i] = frame.colorToIPixel(colorsPicked.get(i));
+      colorsPickedArr[i] = GUIView.colorToIPixel(colorsPicked.get(i));
     }
 
     return colorsPickedArr;

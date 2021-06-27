@@ -14,11 +14,11 @@ import java.nio.file.Paths;
 public class LoadScriptCommand extends AGUICommand {
 
   /**
-   * Todo
+   * Constructs a LoadScript Command for the GUI and passes the model and frame.
    *
-   * @param model
-   * @param frame
-   * @throws IllegalArgumentException
+   * @param model the multi-layer model for the GUI to use.
+   * @param frame the JFrame for the GUI to use.
+   * @throws IllegalArgumentException if any arguments are null or invalid.
    */
   public LoadScriptCommand(IMultiLayerExtraOperations model, GUIView frame)
       throws IllegalArgumentException {
@@ -41,7 +41,6 @@ public class LoadScriptCommand extends AGUICommand {
     } catch (IOException e) {
       frame.errorPopup("Unable to read from File at: " + absolutePath, "Unable to read file");
     }
-    frame.scriptArea.setText(scriptInput); // Todo: Getters
-  }
+    frame.getScriptArea().setText(scriptInput);
   }
 }
