@@ -98,7 +98,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
       + "and-Enhancement.git";
 
   // to represent the model--the images to be manipulated
-  private IMultiLayerExtraOperations model;
+  private IMultiLayerExtraOperations model = new MultiLayerModelImpl();
 
   // to represent the scriptable controller embedded in the GUI
   private IMultiLayerIMEController scrptCtrlr;
@@ -184,6 +184,10 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
 
   public JPanel getLayersPanel() {
     return this.layersPanel;
+  }
+
+  public List<JPanel> getAllLayers() {
+    return this.allLayers;
   }
 
   private JPanel inputDialogPanel;
@@ -319,7 +323,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
 
     JMenuItem newLayerItem = new JMenuItem("New layer");
     newLayerItem.setMnemonic(KeyEvent.VK_N);
-    newLayerItem.setActionCommand("new layer");
+    newLayerItem.setActionCommand("new");
     newLayerItem.addActionListener(this);
     editMenu.add(newLayerItem);
 
@@ -670,7 +674,6 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
 
     Map<String, IGUICommand> actionsMap = new HashMap<>();
     GUIView frame = this;
-    IMultiLayerExtraOperations modelal = model;
     actionsMap.putIfAbsent("new", new NewLayerCommand(model, this));
     actionsMap.putIfAbsent("mosaic", new GUIMosaicCommand(model, this));
     actionsMap.putIfAbsent("import one", new ImportOneCommand(model, this));
