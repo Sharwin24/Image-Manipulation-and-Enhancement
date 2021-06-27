@@ -7,6 +7,11 @@ import java.awt.FileDialog;
 import java.awt.Frame;
 import java.util.Map;
 
+/**
+ * Abstract class for importing either one or all layers in a multi-layered image. Helps to reduce
+ * code duplication by caputuring the common operations pertaining to both of the described
+ * operations.
+ */
 public abstract class AImportCommand extends AGUICommand {
 
   protected IFileFormat fileFormat;
