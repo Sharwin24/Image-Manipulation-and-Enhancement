@@ -1,4 +1,12 @@
-# USEME Table of Contents
+
+
+
+
+
+
+
+
+# Table of Contents
 1. [How to use the GUI](#gui)
 2. [How to write scripts](#scripts)
 
@@ -98,6 +106,28 @@ menu item. If you did, hello! Nice to see you here.</li>
  </li>
  </ul></p>
 
+<p>
+The following provides a summary of the other non-menu based features of the GUI:
+<ul>
+<li>
+On the left side of the GUI, there is an area that is titled <i>LAYERS</i>,
+and provides a graphical view of the layers that are being edited. Each layer has a 
+button that can be clicked to switch to that layer. Each layer also has a button
+to delete that layer, as well as a checkbox that makes the image visible when checked,
+and invisible when unchecked. Furthermore, the <i>New Layer</i> and <i>Swap Layers</i>
+buttons can be used to do exactly what they describe, where the swap layers button asks the user to
+input the two layer numbers to be swapped.</li>
+<li> On the right side of the GUI, there is an area entitled <i>Type script here</i>,
+where the user can type a script (see the <i>How to write scripts</i> section of this document for 
+details). The user can draft a script from scratch in this area, then press the 
+<i>Run Script</i> button to run it, or use the <i>Load Script</i> button to 
+load a script file (a .txt file) from any directory in their computer into the scriptable area, then 
+proceed to edit and/or run it. This script must conform to the syntax described in the
+<i>How to write scripts</i> section of this document.</li>
+<li>
+Finally, there is a read-only console area in the bottom of the GUI. This provides 
+helpful messages to the user to update them on the status of operations being performed.</li>
+</ul></p>
 
 ## How to write scripts <a name="scripts"></a>
 
