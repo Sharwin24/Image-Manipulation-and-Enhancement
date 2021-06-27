@@ -3,7 +3,7 @@
 1. [Design Summary](#design-section)
 2. [How to use the Program](#help-section)
 
-## Design Summary <a name="design-section"></a>
+# Design Summary <a name="design-section"></a>
 
 # Image-Manipulation-and-Enhancement
 
@@ -492,7 +492,7 @@ The class diagram for the project, depicting the extensions and class implementa
 view. The diagram also shows the methods that each class contains.
 ![UMLDiagram](https://github.com/Sharwin24/Image-Manipulation-and-Enhancement/blob/main/res/IME-UML.png)
 
-## How to use the Program <a name="help-section"></a>
+# How to use the Program <a name="help-section"></a>
 
 # USEME Table of Contents
 
