@@ -3,6 +3,30 @@ package cs3500.view;
 import cs3500.Utility;
 import cs3500.controller.IMultiLayerIMEController;
 import cs3500.controller.MultiLayerIMEControllerImpl;
+import cs3500.controller.commands.guicommands.BWNoiseCommand;
+import cs3500.controller.commands.guicommands.CheckerBoardCommand;
+import cs3500.controller.commands.guicommands.CurrentLayerCommand;
+import cs3500.controller.commands.guicommands.CurrentLayerWithIndex;
+import cs3500.controller.commands.guicommands.CustomNoiseCommand;
+import cs3500.controller.commands.guicommands.DeleteLayerCommand;
+import cs3500.controller.commands.guicommands.DeleteLayerWithIndexCommand;
+import cs3500.controller.commands.guicommands.DownScaleCommand;
+import cs3500.controller.commands.guicommands.ExportOneCommand;
+import cs3500.controller.commands.guicommands.GUIMosaicCommand;
+import cs3500.controller.commands.guicommands.IGUICommand;
+import cs3500.controller.commands.guicommands.ImportOneCommand;
+import cs3500.controller.commands.guicommands.LoadScriptCommand;
+import cs3500.controller.commands.guicommands.NewLayerCommand;
+import cs3500.controller.commands.guicommands.OperationCommand;
+import cs3500.controller.commands.guicommands.PureNoiseCommand;
+import cs3500.controller.commands.guicommands.RainbowNoiseCommand;
+import cs3500.controller.commands.guicommands.RedoCommand;
+import cs3500.controller.commands.guicommands.RunScriptCommand;
+import cs3500.controller.commands.guicommands.SwapLayersCommand;
+import cs3500.controller.commands.guicommands.ThemeCommand;
+import cs3500.controller.commands.guicommands.UndoCommand;
+import cs3500.controller.commands.guicommands.ViewGitHubCommand;
+import cs3500.controller.commands.guicommands.VisibleLayer;
 import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.IMultiLayerModel;
 import cs3500.model.MultiLayerModelImpl;
@@ -96,7 +120,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
       + "and-Enhancement.git";
 
   // to represent the model--the images to be manipulated
-  private IMultiLayerExtraOperations mdl;
+  private IMultiLayerExtraOperations model;
   // to represent the scriptable controller embedded in the GUI
   public IMultiLayerIMEController scrptCtrlr;
   private JButton runScriptBtn;
@@ -156,7 +180,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   private JLabel imgLabel = new JLabel("");
 
 
-  private JPanel inputDialogPanel;
+  private JPanel inputDialogPanel; // Todo: Getters
 
   private JPanel colorChooserDisplay = new JPanel();
 
@@ -183,13 +207,13 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     // setBackground(defaultTheme.getPrimary());
 
-    this.mdl = new MultiLayerModelImpl();
+    this.model = new MultiLayerModelImpl();
     this.scriptIn = new StringReader("");
     this.out = new StringBuilder();
-    this.txtView = new TextualIMEView(mdl, out);
+    this.txtView = new TextualIMEView(model, out);
     this.scrptCtrlr =
         MultiLayerIMEControllerImpl.controllerBuilder()
-            .model(mdl)
+            .model(model)
             .readable(scriptIn)
             .appendable(out)
             .view(txtView)
@@ -212,7 +236,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~//
     add(mainPanel);
-    new ThemeCommand(defaultTheme).execute();
+    new ThemeCommand(model, this, defaultTheme).execute();
   }
 
   /**
@@ -440,18 +464,6 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     this.helpMenu = new JMenu("Help");
     helpMenu.setMnemonic(KeyEvent.VK_H);
 
-//    JMenuItem aboutItem = new JMenuItem("About");
-//    aboutItem.setMnemonic(KeyEvent.VK_A);
-//    aboutItem.setActionCommand("about");
-//    aboutItem.addActionListener(this);
-//    helpMenu.add(aboutItem);
-//
-//    JMenuItem usemeItem = new JMenuItem("Show USEME");
-//    usemeItem.setMnemonic(KeyEvent.VK_U);
-//    usemeItem.setActionCommand("show useme");
-//    usemeItem.addActionListener(this);
-//    helpMenu.add(usemeItem);
-
     JMenuItem githubItem = new JMenuItem("View GitHub source");
     githubItem.setMnemonic(KeyEvent.VK_G);
     githubItem.setActionCommand("github");
@@ -574,8 +586,8 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
   @Override
   public void renderLayers() {
     allLayers.clear();
-    for (int i = 0; i < mdl.getLayers().size(); i++) {
-      allLayers.add(createLayerRow(i, !mdl.getLayers().get(i).isInvisible()));
+    for (int i = 0; i < model.getLayers().size(); i++) {
+      allLayers.add(createLayerRow(i, !model.getLayers().get(i).isInvisible()));
     }
     layersPanel.removeAll();
     for (JPanel row : allLayers) {
@@ -595,7 +607,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
    * @return a {@link JPanel} with the new layer.
    * @throws IllegalArgumentException if the layer number is invalid.
    */
-  private JPanel createLayerRow(int layerNum, boolean visible) {
+  public JPanel createLayerRow(int layerNum, boolean visible) {
     // Layer Button
     JPanel thisRow = new JPanel();
     thisRow.setLayout(new FlowLayout());
@@ -603,21 +615,22 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     layerBtn.setOpaque(false);
     layerBtn.setBackground(this.defaultTheme.getPrimary());
     actionsMap.putIfAbsent("currentLayerWithIndex " + layerNum,
-        new CurrentLayerWithIndex(layerNum));
+        new CurrentLayerWithIndex(this.model, this, layerNum));
     layerBtn.setActionCommand("currentLayerWithIndex " + layerNum);
     layerBtn.addActionListener(this);
     // Visibility Checkbox
     JCheckBox layerCB = new JCheckBox("visible?", true);
     layerCB.setBackground(this.defaultTheme.getPrimary());
     layerCB.setOpaque(false);
-    actionsMap.putIfAbsent("visible " + layerNum, new VisibleLayer(layerNum));
+    actionsMap.putIfAbsent("visible " + layerNum, new VisibleLayer(this.model, this, layerNum));
     layerCB.setActionCommand("visible " + layerNum);
     layerCB.addItemListener(this);
     // Delete Button
     JButton deleteBtn = new JButton("Delete");
     deleteBtn.setOpaque(false);
     deleteBtn.setBackground(this.defaultTheme.getPrimary());
-    actionsMap.putIfAbsent("delete " + layerNum, new DeleteLayerWithIndexCommand(layerNum));
+    actionsMap.putIfAbsent("delete " + layerNum, new DeleteLayerWithIndexCommand(this.model, this,
+        layerNum));
     deleteBtn.setActionCommand("delete " + layerNum);
     deleteBtn.addActionListener(this);
 
@@ -630,7 +643,6 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
 
   }
 
-
   /**
    * Returns a Hashmap of the string commands to the command objects. Helps to implement the command
    * pattern for all listeners of the supported events in the GUI frame.
@@ -638,50 +650,47 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
    * @return a {@link HashMap} of the commands from a string to their function objects that execute
    * the promised action.
    */
-  private Map<String, IGUICommand> initActionsMap() {
+  public Map<String, IGUICommand> initActionsMap() {
 
     Map<String, IGUICommand> actionsMap = new HashMap<>();
-
-    actionsMap.putIfAbsent("new", new NewLayerCommand());
-    actionsMap.putIfAbsent("mosaic", new GUIMosaicCommand());
-    actionsMap.putIfAbsent("import one", new ImportOneCommand());
-    actionsMap.putIfAbsent("sepia", new OperationCommand(new Sepia()));
-    actionsMap.putIfAbsent("greyscale", new OperationCommand(new Greyscale()));
-    actionsMap.putIfAbsent("sharpen", new OperationCommand(new Sharpening()));
-    actionsMap.putIfAbsent("blur", new OperationCommand(new ImageBlur()));
-    actionsMap.putIfAbsent("downscale", new DownScaleCommand());
-    actionsMap.putIfAbsent("export one", new ExportOneCommand());
-    actionsMap.putIfAbsent("set current layer", new CurrentLayerCommand());
-    actionsMap.putIfAbsent("checkerboard", new CheckerBoardCommand());
-    actionsMap.putIfAbsent("delete", new DeleteLayerCommand());
-    actionsMap.putIfAbsent("bw noise", new BWNoiseCommand());
-    actionsMap.putIfAbsent("rainbow noise", new RainbowNoiseCommand());
-    actionsMap.putIfAbsent("pure noise", new PureNoiseCommand());
-    actionsMap.putIfAbsent("custom noise", new CustomNoiseCommand());
-    actionsMap.putIfAbsent("undo", new UndoCommand());
-    actionsMap.putIfAbsent("redo", new RedoCommand());
-    actionsMap.putIfAbsent("run script", new RunScriptCommand());
-    // actionsMap.putIfAbsent("currentLayerWithIndex", new CurrentLayerWithIndex());
-    actionsMap.putIfAbsent("load script", new LoadScriptCommand());
-    actionsMap.putIfAbsent("light theme", new ThemeCommand(LIGHT_THEME));
-    actionsMap.putIfAbsent("dark theme", new ThemeCommand(DARK_THEME));
-    actionsMap.putIfAbsent("matrix theme", new ThemeCommand(MATRIX_THEME));
-    actionsMap.putIfAbsent("retro theme", new ThemeCommand(RETRO_THEME));
-    actionsMap.putIfAbsent("load script", new LoadScriptCommand());
-    actionsMap.putIfAbsent("swap", new SwapLayersCommand());
-//    actionsMap.putIfAbsent("about", new AboutCommand());
-//    actionsMap.putIfAbsent("show useme", new ShowUSEMECommand());
-    actionsMap.putIfAbsent("github", new ViewGitHubCommand());
+    GUIView frame = this;
+    actionsMap.putIfAbsent("new", new NewLayerCommand(model, frame));
+    actionsMap.putIfAbsent("mosaic", new GUIMosaicCommand(model, frame));
+    actionsMap.putIfAbsent("import one", new ImportOneCommand(model, frame));
+    actionsMap.putIfAbsent("sepia", new OperationCommand(model, frame, new Sepia()));
+    actionsMap.putIfAbsent("greyscale", new OperationCommand(model, frame, new Greyscale()));
+    actionsMap.putIfAbsent("sharpen", new OperationCommand(model, frame, new Sharpening()));
+    actionsMap.putIfAbsent("blur", new OperationCommand(model, frame, new ImageBlur()));
+    actionsMap.putIfAbsent("downscale", new DownScaleCommand(model, frame));
+    actionsMap.putIfAbsent("export one", new ExportOneCommand(model, frame));
+    actionsMap.putIfAbsent("set current layer", new CurrentLayerCommand(model, frame));
+    actionsMap.putIfAbsent("checkerboard", new CheckerBoardCommand(model, frame));
+    actionsMap.putIfAbsent("delete", new DeleteLayerCommand(model, frame));
+    actionsMap.putIfAbsent("bw noise", new BWNoiseCommand(model, frame));
+    actionsMap.putIfAbsent("rainbow noise", new RainbowNoiseCommand(model, frame));
+    actionsMap.putIfAbsent("pure noise", new PureNoiseCommand(model, frame));
+    actionsMap.putIfAbsent("custom noise", new CustomNoiseCommand(model, frame));
+    actionsMap.putIfAbsent("undo", new UndoCommand(model, frame));
+    actionsMap.putIfAbsent("redo", new RedoCommand(model, frame));
+    actionsMap.putIfAbsent("run script", new RunScriptCommand(model, frame));
+    actionsMap.putIfAbsent("load script", new LoadScriptCommand(model, frame));
+    actionsMap.putIfAbsent("light theme", new ThemeCommand(model, frame, LIGHT_THEME));
+    actionsMap.putIfAbsent("dark theme", new ThemeCommand(model, frame, DARK_THEME));
+    actionsMap.putIfAbsent("matrix theme", new ThemeCommand(model, frame, MATRIX_THEME));
+    actionsMap.putIfAbsent("retro theme", new ThemeCommand(model, frame, RETRO_THEME));
+    actionsMap.putIfAbsent("swap", new SwapLayersCommand(model, frame));
+    actionsMap.putIfAbsent("github", new ViewGitHubCommand(model, frame));
 
     return actionsMap;
   }
+
 
   /**
    * Returns a HashMap of the format objects to their string representations.
    *
    * @return a {@link HashMap} of the format strings and objects.
    */
-  private static Map<String, IFileFormat> initFormatsMap() {
+  public static Map<String, IFileFormat> initFormatsMap() {
     final Map<String, IFileFormat> formatsMap = new HashMap<>();
 
     formatsMap.putIfAbsent("jpg", new JPEGFile());
@@ -703,583 +712,13 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
     consoleTxt.append("\n");
   }
 
-
-  /**
-   * <p>An interface for function objects representing a command that the GUI can execute.
-   * Each class implementing this interface has an <code>execute()</code> command that, quite
-   * obviously, just executes that command. Any relevant information that the object needs to
-   * execute that command is passed in that object's constructor.</p>
-   *
-   * <p>This interface is marked <code>private</code> and nested inside of the
-   * {@link GUIView} since it is only to be used to better organize action listeners and the {@link
-   * GUIView#actionPerformed(ActionEvent)} method, and nowhere outside of that class. Having this
-   * class nested inside of the {@link GUIView} class also gives it access to the frame and model
-   * that are to be manipulated by this interface, meaning that we don't have to pass those objects
-   * as parameters, and can instead reference them from within this context.</p>
-   */
-  private interface IGUICommand {
-
-    /**
-     * Executes the GUI command. Mutates the model and GUI accordingly based on the command object.
-     */
-    void execute();
-
-  }
-
-  /**
-   * Action listener to toggle the visibility of a desired layer.
-   */
-  private class VisibleLayer implements IGUICommand {
-
-    private final int layerNum;
-
-    /**
-     * Constructs a VisibleLayer with a given layer index.
-     *
-     * @param layerNum the index of the layer.
-     * @throws IllegalArgumentException if the layer index is invalid.
-     */
-    public VisibleLayer(int layerNum) throws IllegalArgumentException {
-      if (layerNum < 0) {
-        throw new IllegalArgumentException("Layer Number cannot be less than zero");
-      }
-      this.layerNum = layerNum;
-    }
-
-    @Override
-    public void execute() {
-      try {
-        mdl.toggleInvisible(layerNum);
-        setImage();
-        if (mdl.getLayers().get(layerNum).isInvisible()) {
-          write("Layer " + layerNum + " is invisible");
-        } else {
-          write("Layer " + layerNum + " is visible");
-        }
-      } catch (IllegalArgumentException e) {
-        write("Visibility Toggle Failed: " + e.getMessage());
-      }
-
-    }
-  }
-
-  /**
-   * Command for setting the current layer with the layer button.
-   */
-  private class CurrentLayerWithIndex implements IGUICommand {
-
-    private final int layerNum;
-
-    public CurrentLayerWithIndex(int layerNum) throws IllegalArgumentException {
-      if (layerNum < 0) {
-        throw new IllegalArgumentException("Layer Number cannot be less than zero");
-      }
-      this.layerNum = layerNum;
-    }
-
-    @Override
-    public void execute() {
-      mdl.setCurrentLayer(layerNum);
-      write("Layer " + layerNum + " selected");
-      setImage();
-    }
-  }
-
-  /**
-   * Command for creating a new layer.
-   */
-  private class NewLayerCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      mdl.addLayer();
-      allLayers.add(createLayerRow(mdl.getLayers().size() - 1, true));
-      layersPanel.add(allLayers.get(allLayers.size() - 1));
-      renderLayers();
-    }
-  }
-
-  /**
-   * Command for swapping two layers.
-   */
-  private class SwapLayersCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      String layerIndex1 = getDialogInput("Enter the index for the first layer to swap");
-      String layerIndex2 = getDialogInput("Enter the index for the second layer to swap");
-      try {
-        mdl.swapLayers(Integer.parseInt(layerIndex1), Integer.parseInt(layerIndex2));
-        setImage();
-      } catch (IllegalArgumentException e) {
-        write("Swap Failed: " + e.getMessage());
-      }
-    }
-  }
-
-  /**
-   * Class for Importing/Loading an image into the GUI.
-   */
-  private class ImportOneCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      FileDialog dialog = new FileDialog((Frame) null, "Select File");
-      dialog.setMode(FileDialog.LOAD);
-      dialog.setVisible(true);
-      String absolutePath = dialog.getDirectory() + dialog.getFile();
-      // ensure valid fileType
-      IFileFormat fileFormat = null;
-      Map<String, IFileFormat> formats = initFormatsMap();
-      boolean validFileTypeSelected = false;
-      for (String s : formats.keySet()) {
-        if (absolutePath.endsWith(s)) {
-          validFileTypeSelected = true;
-          fileFormat = formats.get(s);
-        }
-      }
-      if (!validFileTypeSelected) {
-        errorPopup("invalid file type selected, try again, specifying either "
-            + ".png, .jpg, or .ppm", "Invalid File Type");
-      }
-
-      mdl.load(fileFormat.importImage(absolutePath));
-      setImage();
-    }
-  }
-
-  /**
-   * Command to apply operations to the GUI's image.
-   */
-  private class OperationCommand implements IGUICommand {
-
-    private final IOperation toApply;
-
-    public OperationCommand(IOperation toApply) {
-      this.toApply = Utility.checkNotNull(toApply, "cannot make an operation command "
-          + "with a null operation");
-    }
-
-    @Override
-    public void execute() {
-      mdl.applyOperations(toApply);
-      setImage();
-      renderLayers();
-    }
-  }
-
-  /**
-   * Command for applying the Mosaic operation to the current image.
-   */
-  private class GUIMosaicCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      String input = getDialogInput("Enter the number of seeds with which to "
-          + "mosaic the image");
-
-      try {
-        int seeds = Integer.parseInt(input);
-        mdl.mosaic(seeds);
-        setImage();
-      } catch (IllegalArgumentException e) {
-        errorPopup("Please try again and "
-                + "enter an integer greater than or equal to 0 for the number of seeds",
-            "Invalid seed number");
-      }
-    }
-  }
-
-  /**
-   * Command for downscaling an image.
-   */
-  private class DownScaleCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      String widthInp = getDialogInput("Enter the new width of the image");
-
-      String heightInp = getDialogInput("Enter the new height of the image");
-
-      try {
-        int height = Integer.parseInt(heightInp);
-        int width = Integer.parseInt(widthInp);
-        mdl.downscaleLayers(height, width);
-        setImage();
-        renderLayers();
-      } catch (IllegalArgumentException e) {
-        errorPopup("Please try again and enter an integer greater than or equal to 0 for the "
-            + "number of seeds", "Invalid number of seeds");
-      }
-
-    }
-  }
-
-  /**
-   * Exports the current image.
-   */
-  private class ExportOneCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      final JFileChooser fChooser = new JFileChooser("");
-      fChooser.setDialogTitle("Choose the location to save the image");
-      int selection = fChooser.showSaveDialog(GUIView.this);
-      if (selection == JFileChooser.APPROVE_OPTION) {
-        File f = fChooser.getSelectedFile();
-        String absPath = f.getAbsolutePath();
-        try {
-          if (!initFormatsMap().containsKey(getFileExtension(absPath))) {
-            ImageIO.write(mdl.getImage().getBufferedImage(), getFileExtension(absPath), f);
-          }
-          absPath += ".png"; // default to save as png
-          ImageIO.write(mdl.getImage().getBufferedImage(), "png", f);
-        } catch (IOException e) {
-          errorPopup("Could not save the specified file", "I/O Error");
-        }
-
-      }
-    }
-  }
-
-  /**
-   * Command for selecting the current layer.
-   */
-  private class CurrentLayerCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      String desiredLayerInp = getDialogInput("Enter the layer you want to switch to");
-      try {
-        int desiredLayer = Integer.parseInt(desiredLayerInp);
-        mdl.setCurrentLayer(desiredLayer);
-      } catch (NumberFormatException e) {
-        errorPopup("Cannot switch to layer: \"" + desiredLayerInp + "\"",
-            "Bad layer number");
-
-      }
-    }
-  }
-
-  /**
-   * Command for creating a checkerboard image.
-   */
-  private class CheckerBoardCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      String widthInp = getDialogInput("Please enter the width of the checkerboard");
-      String heightInp = getDialogInput("Please enter the height of the checkerboard");
-      String unitInp = getDialogInput("Please enter the size of a square in the "
-          + "checkerboard");
-
-      try {
-        int width = Integer.parseInt(widthInp);
-        int height = Integer.parseInt(heightInp);
-        int unit = Integer.parseInt(unitInp);
-
-        mdl.setProgrammaticImage(new Checkerboard(), width, height, unit);
-        setImage();
-      } catch (NumberFormatException e) {
-        errorPopup("Please enter a width height and unit size that are non-negative "
-            + "integers", "Bad dimensions");
-      }
-
-    }
-  }
-
-  /**
-   * Command for a delete button to delete that specific layer.
-   */
-  private class DeleteLayerWithIndexCommand implements IGUICommand {
-
-    private final int layerNum;
-
-    /**
-     * Constructs a DeleteLayerWithIndexCommand with the given layerIndex.
-     *
-     * @param layerNum the index of the layer to delete.
-     */
-    private DeleteLayerWithIndexCommand(int layerNum) {
-      if (layerNum < 0) {
-        throw new IllegalArgumentException("Layer Number cannot be less than zero");
-      }
-      this.layerNum = layerNum;
-    }
-
-
-    @Override
-    public void execute() {
-      try {
-        mdl.deleteLayer(layerNum);
-        allLayers.remove(layerNum);
-        setImage();
-        renderLayers();
-      } catch (IllegalArgumentException e) {
-        write("Delete Failed: " + e.getMessage());
-      }
-    }
-  }
-
-  /**
-   * Command to delete a layer.
-   */
-  private class DeleteLayerCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      String layerToDeleteInp = getDialogInput("Enter the index of the layer to delete");
-      try {
-        int layerToDelete = Integer.parseInt(layerToDeleteInp);
-        mdl.deleteLayer(layerToDelete);
-        allLayers.remove(layerToDelete);
-        layersPanel.remove(layerToDelete);
-        setImage();
-        renderLayers();
-      } catch (IllegalArgumentException e) {
-        errorPopup("Please enter a valid number between 0 and " +
-            (mdl.getLayers().size() - 1), "Bad layer number");
-      }
-    }
-  }
-
-  /**
-   * All Noise Commands follow the same execution with different parameters, which are specified by
-   * each subclass that extends this abstract class.
-   */
-  private abstract class ANoiseCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      String widthInp = getDialogInput("Please enter the width of the noise image");
-      String heightInp = getDialogInput("Please enter the height of the noise image");
-
-      try {
-        int width = Integer.parseInt(widthInp);
-        int height = Integer.parseInt(heightInp);
-
-        mdl.setProgrammaticImage(this.factoryProgrammaticImage(), width, height, 1);
-        setImage();
-      } catch (NumberFormatException e) {
-        errorPopup("Cannot create a noise input with the specified width \""
-            + widthInp + "\" and height \"" + heightInp + "\"", "Bad noise image dimensions");
-      }
-    }
-
-    /**
-     * Returns the subclass programmed Image.
-     */
-    protected abstract IProgramImage factoryProgrammaticImage();
-
-  }
-
-  /**
-   * Command to create a BWNoise image.
-   */
-  private class BWNoiseCommand extends ANoiseCommand {
-
-    @Override
-    protected IProgramImage factoryProgrammaticImage() {
-      return new BWNoise();
-    }
-  }
-
-  /**
-   * Command to create a RainbowNoise image.
-   */
-  private class RainbowNoiseCommand extends ANoiseCommand {
-
-    @Override
-    protected IProgramImage factoryProgrammaticImage() {
-      return new RainbowNoise();
-    }
-  }
-
-  /**
-   * Command to create a PureNoise image.
-   */
-  private class PureNoiseCommand extends ANoiseCommand {
-
-    @Override
-    protected IProgramImage factoryProgrammaticImage() {
-      return new PureNoise();
-    }
-  }
-
-  /**
-   * Command for Noise with custom colors.
-   */
-  private class CustomNoiseCommand extends ANoiseCommand {
-
-    @Override
-    protected IProgramImage factoryProgrammaticImage() {
-      return new Noise(getColorsFromUser());
-    }
-
-    /**
-     * Prompts user to select colors and returns a list of pixels with the color specified.
-     *
-     * @return a list of pixels with each pixel's color being a selected color by the user.
-     */
-    private IPixel[] getColorsFromUser() {
-
-      List<Color> colorsPicked = new ArrayList<>();
-
-      int addAnotherColor = JOptionPane.YES_OPTION;
-
-      while (addAnotherColor == JOptionPane.YES_OPTION) {
-        addAnotherColor = JOptionPane.showConfirmDialog(inputDialogPanel,
-            "Would you like to add another color to the noise image to be generated?",
-            "Add more colors?",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE);
-        if (addAnotherColor == JOptionPane.YES_OPTION) {
-          Color c = JColorChooser.showDialog(GUIView.this, "Choose a color",
-              colorChooserDisplay.getBackground());
-
-          colorsPicked.add(c);
-        }
-      }
-
-      IPixel[] colorsPickedArr = new IPixel[colorsPicked.size()];
-
-      for (int i = 0; i < colorsPicked.size(); i++) {
-        colorsPickedArr[i] = colorToIPixel(colorsPicked.get(i));
-      }
-
-      return colorsPickedArr;
-    }
-  }
-
-  /**
-   * Command to Undo an operation.
-   */
-  private class UndoCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      mdl.undo();
-      setImage();
-    }
-  }
-
-  /**
-   * Command to Redo an operation.
-   */
-  private class RedoCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      mdl.redo();
-      setImage();
-    }
-  }
-
-  /**
-   * Command to run a script written in the script panel.
-   */
-  private class RunScriptCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-      StringReader scriptInput = new StringReader(scriptArea.getText());
-
-      scrptCtrlr = MultiLayerIMEControllerImpl.controllerBuilder().model(mdl)
-          .readable(scriptInput).buildController();
-
-      scrptCtrlr.run();
-      setImage();
-      renderLayers();
-    }
-  }
-
-  /**
-   * Command to load a script and run it.
-   */
-  private class LoadScriptCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-
-      FileDialog dialog = new FileDialog((Frame) null, "Select File");
-      dialog.setMode(FileDialog.LOAD);
-      dialog.setVisible(true);
-      String absolutePath = dialog.getDirectory() + dialog.getFile();
-      if (!absolutePath.endsWith(".txt")) {
-        errorPopup("Invalid file type selected, must be of type: .txt", "Invalid File Type");
-        return;
-      }
-      String scriptInput = "";
-      try {
-        scriptInput = new String(Files.readAllBytes(Paths.get(absolutePath)));
-      } catch (IOException e) {
-        errorPopup("Unable to read from File at: " + absolutePath, "Unable to read file");
-      }
-      scriptArea.setText(scriptInput);
-    }
-  }
-
-  /**
-   * Class to set the GUI's color theme.
-   */
-  private class ThemeCommand implements IGUICommand {
-
-    private final GUITheme theme;
-
-    /**
-     * Constructs a ThemeCommand using a specific GUI theme.
-     *
-     * @param theme the theme to use for the GUI.
-     */
-    public ThemeCommand(final GUITheme theme) {
-      this.theme = Utility.checkNotNull(theme, "cannot create a theme command object "
-          + "with a null theme");
-    }
-
-    @Override
-    public void execute() {
-      mainPanel.setBackground(theme.getPrimary());
-      layersPanel.setBackground(theme.getPrimary());
-      imageScrollPanel.setBackground(theme.getPrimary());
-      //imagePanel.setBackground(theme.getPrimary());
-      consolePanel.setBackground(theme.getPrimary());
-
-      scriptArea.setBackground(theme.getPrimary());
-      scriptArea.setForeground(theme.getAccent());
-
-      menuRibbon.setBackground(theme.getSecondary());
-    }
-  }
-
-  /**
-   * Command to navigate to the github page.
-   */
-  private class ViewGitHubCommand implements IGUICommand {
-
-    @Override
-    public void execute() {
-
-      try {
-        Desktop.getDesktop().browse(new URL(GITHUB_URL).toURI());
-      } catch (URISyntaxException | IOException e) {
-        errorPopup("Could not open up the github URL. Congrats on breaking the "
-            + "program. https://github.com/Sharwin24/Image-Manipulation-and-Enhancement.git is"
-            + " the actual link. Contact us there about this issue", "Bad GitHub URL");
-      }
-
-    }
-
-
-  }
-
-
   /**
    * Returns the file extension for the given fileName.
    *
    * @param fileName the file name to get the extension of.
    * @return a string with the file extension including the dot.
    */
-  private static String getFileExtension(String fileName)
+  public static String getFileExtension(String fileName)
       throws IllegalArgumentException {
     return fileName.substring(fileName.lastIndexOf('.'));
   }
@@ -1289,8 +728,8 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
    */
   public void setImage() {
     try {
-      if (!mdl.getCurrentLayer().isInvisible()) {
-        imgLabel.setIcon(new ImageIcon(mdl.getImage().getBufferedImage()));
+      if (!model.getCurrentLayer().isInvisible()) {
+        imgLabel.setIcon(new ImageIcon(model.getImage().getBufferedImage()));
       } else {
         imgLabel.setIcon(new ImageIcon());
       }
@@ -1322,7 +761,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
    * @return the user's input as a String.
    * @throws IllegalArgumentException if the given input is invalid.
    */
-  private String getDialogInput(String prompt)
+  public String getDialogInput(String prompt)
       throws IllegalArgumentException {
     return JOptionPane.showInputDialog(Utility.checkNotNull(prompt, "cannot create a "
         + "dialog box with no prompt"));
@@ -1334,7 +773,7 @@ public class GUIView extends JFrame implements IMEView, ActionListener, ItemList
    * @param c the color object.
    * @return an {@link IPixel} object with the same value as the given color object.
    */
-  private static IPixel colorToIPixel(Color c) {
+  public static IPixel colorToIPixel(Color c) {
     return new PixelImpl(c.getRed(), c.getGreen(), c.getBlue());
   }
 

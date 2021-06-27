@@ -25,7 +25,7 @@ public class ViewGitHubCommand extends AGUICommand {
   public void execute() {
 
     try {
-      Desktop.getDesktop().browse(new URL(frame.GITHUB_URL).toURI());
+      Desktop.getDesktop().browse(new URL(GUIView.GITHUB_URL).toURI());
     } catch (URISyntaxException | IOException e) {
       frame.errorPopup("Could not open up the github URL. Congrats on breaking the "
           + "program. https://github.com/Sharwin24/Image-Manipulation-and-Enhancement.git is"

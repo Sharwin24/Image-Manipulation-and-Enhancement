@@ -26,7 +26,7 @@ public class ThemeCommand extends AGUICommand {
   }
 
   @Override
-  public void execute() {
+  public void execute() { // Todo: Getters
     frame.mainPanel.setBackground(theme.getPrimary());
     frame.layersPanel.setBackground(theme.getPrimary());
     frame.imageScrollPanel.setBackground(theme.getPrimary());
