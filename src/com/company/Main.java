@@ -27,7 +27,6 @@ public class Main {
    * @param args optional args.
    */
   public static void main(String[] args) {
-
     if (args.length == 0) {
       args = new String[]{"-interactive"}; // in the case of no params, the GUI is opened.
     }
@@ -75,6 +74,7 @@ public class Main {
         break;
       default:
         System.out.println("error");
+
     }
 
 
