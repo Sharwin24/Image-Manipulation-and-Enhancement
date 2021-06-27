@@ -34,14 +34,11 @@ public class Main {
 //        new GUIView());
 ////    ctrlr.run();
 
-    // args = new String[]{"-interactive"};
+     args = new String[]{"-interactive"};
 
     if (args.length == 0) {
       args = new String[]{"-interactive"}; // in the case of no params, the GUI is opened.
-    }
-
-    else {
-
+    } else {
       switch (args[0]) {
         case "-interactive":
           GUIView.setDefaultLookAndFeelDecorated(true);
@@ -58,9 +55,8 @@ public class Main {
               | IllegalAccessException e) {
             throw new IllegalArgumentException("could not open GUI");
           }
-
           break;
-        case "-script": 
+        case "-script":
           System.out.println("script path");
           if (args.length < 2) {
             throw new IllegalArgumentException("no script was passed. Try again and pass a script");
@@ -76,7 +72,7 @@ public class Main {
             scriptCtrlr.run();
 
           } catch (IOException e) {
-            throw new IllegalArgumentException("could not read script from file " +  filePath);
+            throw new IllegalArgumentException("could not read script from file " + filePath);
           }
           break;
         case "-text":
