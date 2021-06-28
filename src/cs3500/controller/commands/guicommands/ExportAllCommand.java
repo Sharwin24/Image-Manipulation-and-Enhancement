@@ -3,14 +3,10 @@ package cs3500.controller.commands.guicommands;
 import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.layer.ILayer;
 import cs3500.view.GUIView;
-import java.awt.DisplayMode;
-import java.awt.FileDialog;
-import java.awt.Frame;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.naming.spi.DirectoryManager;
 import javax.swing.JFileChooser;
 
 /**

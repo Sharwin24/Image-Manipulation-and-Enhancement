@@ -70,7 +70,7 @@ public class Main {
         ctrlrText.run();
         break;
       default:
-        System.out.println("error");
+        System.out.println("error: provide valid command line arguments.");
 
     }
 

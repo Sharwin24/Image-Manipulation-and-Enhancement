@@ -5,7 +5,6 @@ import cs3500.view.GUIView;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.naming.spi.DirectoryManager;
 import javax.swing.JFileChooser;
 
 /**

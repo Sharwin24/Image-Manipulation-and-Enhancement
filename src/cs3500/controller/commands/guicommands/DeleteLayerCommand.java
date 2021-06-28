@@ -24,7 +24,7 @@ public class DeleteLayerCommand extends AGUICommand {
   @Override
   public void execute() {
     String layerToDeleteInp = frame.getDialogInput("Enter the index of the layer to delete");
-    try { // Todo: Getters
+    try {
       int layerToDelete = Integer.parseInt(layerToDeleteInp);
       model.deleteLayer(layerToDelete);
       frame.getAllLayers().remove(layerToDelete);

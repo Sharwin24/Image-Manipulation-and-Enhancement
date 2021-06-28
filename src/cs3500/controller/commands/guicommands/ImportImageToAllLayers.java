@@ -4,6 +4,9 @@ import cs3500.model.IMultiLayerExtraOperations;
 import cs3500.model.layer.ILayer;
 import cs3500.view.GUIView;
 
+/**
+ * Imports one image to every present layer in the multi layer model.
+ */
 public class ImportImageToAllLayers extends AImportCommand {
 
   /**
