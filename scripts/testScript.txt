@@ -1,0 +1,3 @@
+import JPEG src/coffee-resized.jpg
+apply sepia
+export PNG res/scriptedCoffee

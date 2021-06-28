@@ -1,11 +1,11 @@
-import JPEG res/elmo.jpg
+import JPEG elmo.jpg
 new
 apply sepia
 current 1
-import JPEG res/elmo.jpg
+import JPEG elmo.jpg
 mosaic 100
-export PNG mosaicElmo.png
+export PNG mosaicElmo
 current 0
 undo
 apply greyscale
-export JPEG sepiaUndoneThenGreyscaleAppliedElmo.jpg
+export JPEG sepiaUndoneThenGreyscaleAppliedElmo
