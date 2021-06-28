@@ -1,8 +1,8 @@
-import JPEG res/elmo.jpg
+import JPEG elmo.jpg
 new
 apply sepia
 current 1
-import JPEG res/elmo.jpg
+import JPEG elmo.jpg
 mosaic 100
 export PNG mosaicElmo
 current 0
