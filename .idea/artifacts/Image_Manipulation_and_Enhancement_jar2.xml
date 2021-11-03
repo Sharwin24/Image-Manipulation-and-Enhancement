@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Image-Manipulation-and-Enhancement:jar2">
+    <output-path>$PROJECT_DIR$/out/artifacts/Image_Manipulation_and_Enhancement_jar2</output-path>
+    <root id="archive" name="Image-Manipulation-and-Enhancement.jar">
+      <element id="module-output" name="Image-Manipulation-and-Enhancement" />
+    </root>
+  </artifact>
+</component>
